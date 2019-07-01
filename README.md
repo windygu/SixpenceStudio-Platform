@@ -2,8 +2,9 @@
 
 #### Description
 开发平台：
-1、前端平台
-2、后端平台
+1、前端平台: Vue + Element UI
+2、后端平台: C# API
+3、数据库：MS SQL Server
 
 #### Software Architecture
 Software architecture description
