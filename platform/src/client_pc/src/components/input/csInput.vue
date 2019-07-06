@@ -1,7 +1,5 @@
 <template>
-  <el-input
-    
-  ></el-input>
+  <el-input></el-input>
 </template>
 
 <script>
