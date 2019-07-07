@@ -3,11 +3,15 @@
 </template>
 
 <script>
-export default {
+import Input from 'element-ui'
 
+export default {
+  name: 'csInput',
+  props: {
+    ...Input.props
+  }
 }
 </script>
 
 <style>
-
 </style>

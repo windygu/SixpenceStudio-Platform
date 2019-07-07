@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view />
+    <cs-select></cs-select>
   </div>
 </template>
 
