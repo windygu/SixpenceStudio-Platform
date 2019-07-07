@@ -1,2 +1,3 @@
 import csSelect from './csSelect.vue'
-export default csSelect;
+
+export default csSelect
