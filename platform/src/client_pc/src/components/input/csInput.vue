@@ -6,7 +6,7 @@
 import Input from 'element-ui'
 
 export default {
-  name: 'csInput',
+  name: 'cs-input',
   props: {
     ...Input.props
   }

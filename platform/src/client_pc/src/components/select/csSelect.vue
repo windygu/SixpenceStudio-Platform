@@ -7,7 +7,7 @@
 import Select from 'element-ui'
 
 export default {
-  name: 'csSelect',
+  name: 'cs-select',
   props: {
     ...Select.props
   }
