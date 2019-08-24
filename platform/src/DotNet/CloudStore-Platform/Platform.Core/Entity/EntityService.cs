@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Platform.Data.Command;
+using Platform.Core.Command;
 
-namespace Platform.Data.Entity
+namespace Platform.Core.Entity
 {
     public class EntityService<E>
         where E : BaseEntity, new()

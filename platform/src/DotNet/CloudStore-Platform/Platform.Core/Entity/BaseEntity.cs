@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Platform.Data.Entity
+namespace Platform.Core.Entity
 {
+    /// <summary>
+    /// 实体基类
+    /// </summary>
     public abstract class BaseEntity
     {
         #region 构造函数
@@ -52,7 +55,7 @@ namespace Platform.Data.Entity
             {
                 if (_id == null)
                 {
-                    if (Attributes.ContainsKey(EntityName + "Id") && Attributes[EntityName + "Id"] !== null)
+                    if (Attributes.ContainsKey(EntityName + "Id") && Attributes[EntityName + "Id"] != null)
                     {
                         _id = Attributes[EntityName + "Id"].ToString();
                     }
@@ -69,6 +72,9 @@ namespace Platform.Data.Entity
         #endregion
 
         #region 实体数据
+        /// <summary>
+        /// 实体数据
+        /// </summary>
         public Dictionary<string, object> Attributes => _attributes;
 
         private readonly Dictionary<string, object> _attributes = new Dictionary<string, object>();

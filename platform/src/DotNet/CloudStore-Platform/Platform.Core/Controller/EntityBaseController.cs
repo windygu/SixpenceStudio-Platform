@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Platform.Data.Entity;
+using Platform.Core.Entity;
 
-namespace Platform.Data.Controller
+namespace Platform.Core.Controller
 {
     public class EntityBaseController<E, S>
         where E : BaseEntity, new()

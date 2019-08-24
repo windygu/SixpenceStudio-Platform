@@ -2,9 +2,12 @@
 using System.Data;
 using System.Collections.Generic;
 
-namespace Platfrom.SQLDBLib.SQLDB
+namespace Platform.Core.SQLDb
 {
-    public interface ISQLDB
+    /// <summary>
+    /// 数据库行为接口类
+    /// </summary>
+    public interface ISQLDb
     {
         /// <summary>
         /// 初始化数据库连接字符串

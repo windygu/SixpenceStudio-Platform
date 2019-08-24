@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Platform.Data.PersistBroker
+namespace Platform.Core.PersistBroker
 {
     public static class PersistBrokerFactory
     {

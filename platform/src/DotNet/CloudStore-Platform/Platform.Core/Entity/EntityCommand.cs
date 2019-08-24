@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Platform.Data.Entity;
+using Platform.Core.Entity;
 
-namespace Platform.Data.Command
+namespace Platform.Core.Entity
 {
     public class EntityCommand<T> : BaseCommand
         where T : BaseEntity, new()

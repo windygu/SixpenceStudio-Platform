@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Platform.Data.Entity;
+using Platform.Core.Entity;
 
-namespace Platform.Data.PersistBroker
+namespace Platform.Core.PersistBroker
 {
     public interface IPersistBroker
     {
