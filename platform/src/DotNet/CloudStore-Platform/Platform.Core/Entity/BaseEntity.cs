@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Platform.Core.Entity
@@ -7,6 +8,8 @@ namespace Platform.Core.Entity
     /// <summary>
     /// 实体基类
     /// </summary>
+    [DataContract]
+    [Serializable]
     public abstract class BaseEntity
     {
         #region 构造函数
@@ -15,6 +18,12 @@ namespace Platform.Core.Entity
         protected BaseEntity(string EntityName)
         {
             this._entityName = EntityName;
+        }
+
+        protected BaseEntity(string EntityName, string Id)
+        {
+            this._entityName = EntityName;
+            this.Id = Id;
         }
         #endregion
 
@@ -34,6 +43,20 @@ namespace Platform.Core.Entity
             {
                 this._entityName = value;
             }
+        }
+
+        /// <summary>
+        /// 主键属性
+        /// </summary>
+        public PropertyInfo GetKeyProperty()
+        {
+            if (_keyProperty == null)
+            {
+                var type = GetType();
+                _keyProperty = type.GetProperties()
+                    .FirstOrDefault(p => p.IsDefined(typeof(KeyAttributeLogicalNameAttribute), true));
+            }
+            return _keyProperty;
         }
 
         /// <summary>
@@ -104,5 +127,37 @@ namespace Platform.Core.Entity
             _attributes[attributeLogicalName] = value;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// 使用后期绑定的动态实体类
+    /// </summary>
+    [Serializable]
+    public sealed class XrmEntity : BaseEntity
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XrmEntity"/> class.
+        /// </summary>
+        public XrmEntity()
+        { }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="logicalName">实体名称</param>
+        public XrmEntity(string logicalName)
+            : base(logicalName)
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="logicalName">实体名称</param>
+        /// <param name="id">实体id</param>
+        public XrmEntity(string logicalName, string id)
+            : base(logicalName, id)
+        {
+        }
     }
 }

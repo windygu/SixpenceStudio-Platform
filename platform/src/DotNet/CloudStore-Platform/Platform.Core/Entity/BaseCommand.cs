@@ -23,7 +23,5 @@ namespace Platform.Core.Entity
                 this._broker = value;
             }
         }
-
-
     }
 }

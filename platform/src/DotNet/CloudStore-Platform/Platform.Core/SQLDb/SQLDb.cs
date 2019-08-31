@@ -10,6 +10,7 @@ namespace Platform.Core.SQLDb
     {
         private SqlConnection _conn;
         public IDbConnection DbConnection => _conn;
+        public ConnectionState ConnectionState => DbConnection.State;
 
         /// <summary>
         /// 关闭数据库连接
@@ -53,20 +54,31 @@ namespace Platform.Core.SQLDb
         /// <returns></returns>
         public DateTime GetDbDateTime()
         {
+            //应该使用sql方式去获取服务器时间
             return DateTime.Now;
         }
 
+        #region Dapper Query
+        /// <summary>
+        /// 执行数据库的查询(分页行数）
+        /// </summary>
+        public int QueryRecordCount(string sqlText, IDictionary<string, object> paramList = null)
+        {
+            var pagersql = $"select count(*) as RecordCount from ({sqlText} )SOURCEQUERY";
+            return (int)_conn.ExecuteScalar(sqlText, paramList);
+        }
 
         /// <summary>
-        /// 查询数据库
+        /// 查询数据库带参数
         /// </summary>
-        /// <typeparam name="T">返回实体</typeparam>
-        /// <param name="sql">Sql查询语句</param>
+        /// <param name="sql">sql语句</param>
         /// <param name="paramList">参数</param>
-        /// <param name="orderby">OrderBy排序语句</param>
-        /// <param name="pageSize">页大小</param>
-        /// <param name="pageIndex">页数</param>
-        /// <returns>IEnumerable<T>查询数据</returns>
+        /// <returns>查询数据</returns>
+        public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
+        {
+            return _conn.Query<T>(sql, paramList);
+        }
+
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex)
         {
             if (!string.IsNullOrEmpty(orderby))
@@ -81,10 +93,43 @@ namespace Platform.Core.SQLDb
             return _conn.Query<T>(sql, paramList);
         }
 
+        public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount)
+        {
+            if (!string.IsNullOrEmpty(orderby))
+            {
+                sql += $" ORDER BY {orderby}";
+            }
+
+            if (!string.IsNullOrEmpty(pageSize.ToString()) && !string.IsNullOrEmpty(pageIndex.ToString()))
+            {
+                sql += $" LIMIT {pageIndex * pageSize}, {pageSize}";
+            }
+            recordCount = QueryRecordCount(sql, paramList);
+            return _conn.Query<T>(sql, paramList);
+        }
+        #endregion
+
+        #region Dapper Query DataTable
         /// <summary>
-        /// 查询数据库
+        /// 查询数据库，返回DataTable
         /// </summary>
-        /// <param name="sql">Sql查询语句</param>
+        /// <param name="sql">sql语句</param>
+        /// <param name="paramList">参数</param>
+        /// <returns></returns>
+        public DataTable Query(string sql, IDictionary<string, object> paramList = null)
+        {
+            using (SqlDataAdapter adp = new SqlDataAdapter(sql, _conn))
+            {
+                DataSet ds = new DataSet();
+                adp.Fill(ds);
+                return ds.Tables[0];
+            }
+        }
+
+        /// <summary>
+        /// 查询数据库，返回DataTable
+        /// </summary>
+        /// <param name="sql">sql语句</param>
         /// <param name="paramList">参数</param>
         /// <param name="orderby">OrderBy排序语句</param>
         /// <param name="pageSize">页大小</param>
@@ -103,15 +148,15 @@ namespace Platform.Core.SQLDb
             }
 
             DataTable dt = new DataTable();
-            var reader =  _conn.ExecuteReader(sql, paramList);
+            var reader = _conn.ExecuteReader(sql, paramList);
             dt.Load(reader);
             return dt;
         }
 
         /// <summary>
-        /// 查询数据库
+        /// 查询数据库，返回DataTable
         /// </summary>
-        /// <param name="sql">Sql查询语句</param>
+        /// <param name="sql">sql语句</param>
         /// <param name="paramList">参数</param>
         /// <param name="orderby">OrderBy排序语句</param>
         /// <param name="pageSize">页大小</param>
@@ -144,41 +189,78 @@ namespace Platform.Core.SQLDb
             dt.Load(reader);
             return dt;
         }
+        #endregion
 
-        /// <summary>
-        /// 查询数据库
-        /// </summary>
-        /// <typeparam name="T">实体</typeparam>
-        /// <param name="sql">Sql查询语句</param>
-        /// <param name="paramList">参数</param>
-        /// <returns>IEnumerable<T>查询结果</returns>
-        public IEnumerable<T> Select<T>(string sql, IDictionary<string, object> paramList = null)
+        public IDbTransaction BeginTransaction()
         {
-            if (string.IsNullOrEmpty(sql))
-            {
-                return new List<T>();
-            }
-
-            return _conn.Query<T>(sql, paramList);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 查询数据库
-        /// </summary>
-        /// <param name="sql">Sql查询语句</param>
-        /// <param name="paramList">参数</param>
-        /// <returns>DataTable查询结果</returns>
-        public DataTable Select(string sql, IDictionary<string, object> paramList = null)
+        public void BeginTransaction(string id)
         {
-            if (string.IsNullOrEmpty(sql))
+            throw new NotImplementedException();
+        }
+
+        public void BeginTransaction(IList<string> idList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CommitTransaction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Rollback()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetCommandTimeOutSQL(int timeOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetCommandTimeOutProcedure(int timeOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Dapper ExecuteReader
+        public IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList = null)
+        {
+            return _conn.ExecuteReader(sql, paramList);
+        }
+
+        public IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex)
+        {
+            if (!string.IsNullOrEmpty(orderby))
             {
-                return new DataTable();
+                sql += $" ORDER BY {orderby}";
             }
 
-            DataTable dt = new DataTable();
-            var reader = _conn.ExecuteReader(sql, paramList);
-            dt.Load(reader);
-            return dt;
+            if (!string.IsNullOrEmpty(pageSize.ToString()) && !string.IsNullOrEmpty(pageIndex.ToString()))
+            {
+                sql += $" LIMIT {pageIndex * pageSize}, {pageSize}";
+            }
+            return _conn.ExecuteReader(sql, paramList);
         }
+
+        public IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount)
+        {
+            if (!string.IsNullOrEmpty(orderby))
+            {
+                sql += $" ORDER BY {orderby}";
+            }
+
+            if (!string.IsNullOrEmpty(pageSize.ToString()) && !string.IsNullOrEmpty(pageIndex.ToString()))
+            {
+                sql += $" LIMIT {pageIndex * pageSize}, {pageSize}";
+            }
+            recordCount = QueryRecordCount(sql, paramList);
+            return _conn.ExecuteReader(sql, paramList);
+        }
+        #endregion
+
     }
 }

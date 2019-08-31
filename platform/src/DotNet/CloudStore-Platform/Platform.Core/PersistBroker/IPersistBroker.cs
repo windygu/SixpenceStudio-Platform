@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using Platform.Core.Entity;
+using Platform.Core.SQLDb;
 
 namespace Platform.Core.PersistBroker
 {
@@ -59,10 +61,6 @@ namespace Platform.Core.PersistBroker
         /// </summary>
         int DeleteByWhere(string typeName, string where, Dictionary<string, object> paramList = null);
 
-        /// <summary>
-        /// 分派实体记录
-        /// </summary>
-        void Assign(BaseEntity obj);
         #endregion
 
         #region Retrieve
@@ -104,5 +102,10 @@ namespace Platform.Core.PersistBroker
             where T : BaseEntity, new();
 
         #endregion
+
+        /// <summary>
+        /// 获取PersistBroker使用的数据库的驱动类型
+        /// </summary>
+        ISQLDb SqlDb { get; }
     }
 }

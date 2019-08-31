@@ -78,13 +78,7 @@ namespace Platform.Core.SQLDb
         /// <returns>影响的数据库行数</returns>
         int Execute(string sqlText, IDictionary<string, object> paramList = null);
 
-        /// <summary>
-        /// 执行带参数的sql语句，返回DataTable
-        /// </summary>
-        /// <param name="sql">sql语句</param>
-        /// <param name="paramList">sql参数</param>
-        /// <returns>DataTable</returns>
-        DataTable Select(string sql, IDictionary<string, object> paramList = null);
+        DataTable Query(string sql, IDictionary<string, object> paramList = null);
 
         /// <summary>
         /// 执行数据库的查询 (分页）
@@ -121,7 +115,7 @@ namespace Platform.Core.SQLDb
         /// <param name="paramList">参数列表</param>
         /// <param name="commandTimeOutSQL">SQL语句执行的超时时间</param>
         /// <returns>查询结果的对象集合</returns>
-        IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null, int? commandTimeOutSQL = default(int?));
+        IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null);
 
         /// <summary>
         /// 查询数据库数据
@@ -147,22 +141,22 @@ namespace Platform.Core.SQLDb
         /// <param name="recordCount">返回的记录总数</param>
         /// <param name="commandTimeOutSQL">SQL语句执行的超时时间</param>
         /// <returns>查询结果的对象集合</returns>
-        IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount, int? commandTimeOutSQL = default(int?));
+        IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount);
 
         /// <summary>
         /// 执行查询，返回DataReader
         /// </summary>
-        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList = null, int? commandTimeOutSQL = null);
+        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList = null);
 
         /// <summary>
         /// 执行查询，返回DataReader
         /// </summary>
-        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, int? commandTimeOutSQL = default(int?));
+        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex);
 
         /// <summary>
         /// 执行查询，返回DataReader
         /// </summary>
-        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount, int? commandTimeOutSQL = default(int?));
+        IDataReader ExecuteReader(string sql, IDictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount);
 
 
     }
