@@ -75,24 +75,39 @@ namespace Platform.Core.PersistBroker
         #endregion
 
         #region RetrieveMultiple
+        /// <summary>
+        /// 根据查询条件查询实体的对象列表(使用Dapper的版本）
+        /// </summary>
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList = null)
             where T : BaseEntity, new()
         {
-            throw new NotImplementedException();
+            using (var reader = _sqlDb.ExecuteReader(sql, paramList))
+            {
+                return DataReader2Obj<T>(reader);
+            }
         }
 
+        /// <summary>
+        /// 根据查询条件查询实体的对象列表 (分页查询）
+        /// </summary>
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex)
             where T : BaseEntity, new()
         {
-            throw new NotImplementedException();
+            using (var reader = _sqlDb.ExecuteReader(sql, paramList, orderby, pageSize, pageIndex))
+            {
+                return DataReader2Obj<T>(reader);
+            }
         }
 
+        /// <summary>
+        /// 根据查询条件查询实体的对象列表 (分页查询）
+        /// </summary>
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount)
           where T : BaseEntity, new()
         {
-            using (var reader = _sqlDb.ExecuteReader(sql, paramList, orderby, pageSize, pageIndex))
+            using (var reader = _sqlDb.ExecuteReader(sql, paramList, orderby, pageSize, pageIndex, out recordCount))
             {
-                return ParseDataReader2Entity<T>(reader);
+                return DataReader2Obj<T>(reader);
             }
         }
 
@@ -101,12 +116,7 @@ namespace Platform.Core.PersistBroker
         /// </summary>
         private IList<BaseEntity> RetrieveMultiple(string typeName, string sql, Dictionary<string, object> paramList)
         {
-            using (var reader = _sqlDb.ExecuteReader(sql, paramList))
-            {
-                var type = ServiceObjectFactory.GetTypeOfEntityByName(typeName);
-                return ParseDataReader2Entity(reader, type);
-            }
-
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -246,7 +256,126 @@ namespace Platform.Core.PersistBroker
         }
         #endregion
 
+        #region 创建的实体对象
+        /// <summary>  
+        /// DataReader转换为obj list  
+        /// </summary>  
+        /// <typeparam name="T">泛型</typeparam>  
+        /// <param name="rdr">datareader</param>  
+        /// <returns>返回泛型类型</returns>  
+        private static IList<T> DataReader2Obj<T>(IDataReader rdr)
+        {
+            IList<T> list = new List<T>();
 
+            while (rdr.Read())
+            {
+                T t = System.Activator.CreateInstance<T>();
+                Type obj = t.GetType();
+                // 循环字段  
+                for (int i = 0; i < rdr.FieldCount; i++)
+                {
+                    object tempValue = null;
+
+                    if (rdr.IsDBNull(i))
+                    {
+
+                        string typeFullName = obj.GetProperty(rdr.GetName(i)).PropertyType.FullName;
+                        tempValue = GetDBNullValue(typeFullName);
+
+                    }
+                    else
+                    {
+                        tempValue = rdr.GetValue(i);
+
+                    }
+
+                    obj.GetProperty(rdr.GetName(i)).SetValue(t, tempValue, null);
+
+                }
+
+                list.Add(t);
+
+            }
+            return list;
+        }
+
+        /// <summary>  
+        /// DataReader转换为obj  
+        /// </summary>  
+        /// <typeparam name="T">泛型</typeparam>  
+        /// <param name="rdr">datareader</param>  
+        /// <returns>返回泛型类型</returns>  
+        private static object DataReaderToObj<T>(IDataReader rdr)
+        {
+            T t = System.Activator.CreateInstance<T>();
+            Type obj = t.GetType();
+
+            if (rdr.Read())
+            {
+                // 循环字段  
+                for (int i = 0; i < rdr.FieldCount; i++)
+                {
+                    object tempValue = null;
+
+                    if (rdr.IsDBNull(i))
+                    {
+
+                        string typeFullName = obj.GetProperty(rdr.GetName(i)).PropertyType.FullName;
+                        tempValue = GetDBNullValue(typeFullName);
+
+                    }
+                    else
+                    {
+                        tempValue = rdr.GetValue(i);
+
+                    }
+
+                    obj.GetProperty(rdr.GetName(i)).SetValue(t, tempValue, null);
+
+                }
+                return t;
+            }
+            else
+                return null;
+
+        }
+
+
+        /// <summary>  
+        /// 返回值为DBnull的默认值  
+        /// </summary>  
+        /// <param name="typeFullName">数据类型的全称，类如：system.int32</param>  
+        /// <returns>返回的默认值</returns>  
+        private static object GetDBNullValue(string typeFullName)
+        {
+
+            typeFullName = typeFullName.ToLower();
+
+            if (typeFullName == typeof(String).FullName)
+            {
+                return String.Empty;
+            }
+            if (typeFullName == typeof(Int32).FullName)
+            {
+                return 0;
+            }
+            if (typeFullName == typeof(DateTime).FullName)
+            {
+                return Convert.ToDateTime("0000-00-00 00:00:00");
+            }
+            if (typeFullName == typeof(Boolean).FullName)
+            {
+                return false;
+            }
+            if (typeFullName == typeof(int).FullName)
+            {
+                return 0;
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 
     public sealed class EntityObjectMapper
