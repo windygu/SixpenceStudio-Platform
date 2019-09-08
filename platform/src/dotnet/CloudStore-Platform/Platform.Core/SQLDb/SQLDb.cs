@@ -55,7 +55,8 @@ namespace Platform.Core.SQLDb
         public DateTime GetDbDateTime()
         {
             //应该使用sql方式去获取服务器时间
-            return DateTime.Now;
+            var result = _conn.ExecuteScalar("select now()");
+            return (DateTime)result;
         }
 
         #region Dapper Query

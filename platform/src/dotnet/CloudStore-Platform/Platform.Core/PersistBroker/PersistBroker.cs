@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using Platform.Core.Entity;
+using Platform.Core.SQLDb;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using Platform.Core.Entity;
-using Platform.Core.SQLDb;
 
 namespace Platform.Core.PersistBroker
 {

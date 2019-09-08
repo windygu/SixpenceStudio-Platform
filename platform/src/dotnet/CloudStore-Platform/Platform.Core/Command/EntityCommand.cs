@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Platform.Core.Entity;
+﻿using Platform.Core.Entity;
 using Platform.Core.PersistBroker;
+using System.Collections.Generic;
 
 namespace Platform.Core.Command
 {
@@ -46,7 +44,11 @@ namespace Platform.Core.Command
 
             if (searchList != null && searchList.Count != 0)
             {
-
+                sql += " WHERE 1=1 ";
+                foreach (var item in searchList)
+                {
+                    sql += $" AND {item.Key} = {item.Value} ";
+                }
             }
 
             return Broker.RetrieveMultiple<T>(sql, paramList, !string.IsNullOrEmpty(orderby) ? orderby : view.OrderBy, pageSize, pageIndex, out recordCount);

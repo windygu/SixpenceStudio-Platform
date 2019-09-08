@@ -2,40 +2,46 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Platform.Core.Entity;
+using Platform.Core.Service;
+using Platform.Core.Controller;
+using Platform.Core.Command;
+using Platform.Core.PersistBroker;
+using System.Linq;
 
 namespace Platform.Core
 {
-    class test
+    public class TestController : EntityBaseController<TestModel, TestService>
     {
-
+        
     }
 
-    public class Product
+    public class TestService : EntityService<TestModel>
     {
-        readonly string name;
-        public string Name
+        public TestService()
         {
-            get { return name; }
+            _cmd = new EntityCommand<TestModel>();
         }
 
-        readonly decimal price;
-        public decimal Price
+        public TestService(IPersistBroker broker)
         {
-            get { return price; }
+            _cmd = new EntityCommand<TestModel>(broker);
         }
 
-        public Product(string name, decimal price)
+        public List<TestModel> GetNameByAge(int age)
         {
-            this.name = name;
-            this.price = price;
+            string sql = "select * from test where age = " + age;
+            return _cmd.Broker.Query<TestModel>(sql).ToList();
         }
+    }
 
-        public static List<Product> GetList()
-        {
-            return new List<Product>()
-            {
-                new Product(name: "bread", price: 24)
-            };
-        }
+    public class TestModel : BaseEntity
+    {
+        public string _name;
+        public string Name => _name;
+
+        public int _age;
+        public int Age => _age;
+
     }
 }
