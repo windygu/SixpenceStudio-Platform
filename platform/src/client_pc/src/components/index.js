@@ -1,9 +1,11 @@
 import csSelect from './select'
 import csInput from './input'
+import login from './login'
 
 const components = [
   csSelect,
-  csInput
+  csInput,
+  login
 ]
 
 const install = function (Vue) {
@@ -12,7 +14,7 @@ const install = function (Vue) {
 }
 
 export default {
-  install,
   csSelect,
-  csInput
+  csInput,
+  login
 }
