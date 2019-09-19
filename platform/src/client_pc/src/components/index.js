@@ -1,20 +1,17 @@
-import csSelect from './select'
-import csInput from './input'
-import login from './login'
+import csSelect from './select.vue'
+import csInput from './input.vue'
+import login from './login.vue'
+import { Object } from 'core-js'
 
-const components = [
-  csSelect,
-  csInput,
-  login
-]
-
-const install = function (Vue) {
-  if (install.installed) return
-  components.map(component => Vue.component(component.name, component))
-}
-
-export default {
+const components = {
   csSelect,
   csInput,
   login
 }
+
+export default components
+
+// 注册组件
+Object.keys(components).forEach(name => {
+  Vue.component(name, components[name])
+})

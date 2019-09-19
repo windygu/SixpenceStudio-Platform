@@ -1,5 +1,8 @@
 <template>
-  <el-form ref="form" :model="form" label-width="80px" style="width:400px">
+  <el-form ref="form" :model="form" label-width="80px" class="login">
+    <span class="header">
+      {{header}}
+    </span>
     <el-form-item label="账号">
       <el-input v-model="form.account"></el-input>
     </el-form-item>
@@ -15,6 +18,12 @@
 <script>
 export default {
   name: 'login',
+  props: {
+    header: {
+      type: String,
+      default: 'Sign In'
+    }
+  },
   data () {
     return {
       form: {
@@ -42,4 +51,15 @@ export default {
 </script>
 
 <style>
+.header {
+  width: 100%;
+  font-size: 40px;
+  bottom: 10px;
+  position: relative;
+}
+.login {
+  width: 400px;
+  height: 300px;
+  text-align: center;
+}
 </style>
