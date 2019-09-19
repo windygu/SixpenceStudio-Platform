@@ -7,9 +7,11 @@ import router from './router'
 import ElementUI from 'element-ui'
 // 引入 element-ui css
 import 'element-ui/lib/theme-chalk/index.css'
+import $ from 'jquery'
 
 // 第三方组件需要use
 Vue.use(ElementUI)
+Vue.use($)
 
 Vue.config.productionTip = false
 
