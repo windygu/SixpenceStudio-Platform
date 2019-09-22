@@ -44,13 +44,13 @@ export default {
       return errorMsg;
     },
     signIn () {
-      alert(`账号：${this.form.account}, 密码：${this.form.password}`)
+      alert(`账号：${this.form.account}, 密码：${this.form.password}`);
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .header {
   width: 100%;
   font-size: 40px;
