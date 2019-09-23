@@ -1,7 +1,7 @@
-import login from './login'
+import spLogin from './spLogin'
 
 const components = [
-  { name: login.name, component: login }
+  { name: spLogin.name, component: spLogin }
 ]
 
 const install = _Vue => {

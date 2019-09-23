@@ -1,7 +1,7 @@
 // 引入vue和router组件
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '../components/login'
+import spLogin from '../components/spLogin'
 
 // 三方组件需要use
 Vue.use(Router)
@@ -10,6 +10,6 @@ Vue.use(Router)
 export default new Router({
   routes: [{
     path: '/login',
-    component: login
+    component: spLogin
   }]
 })

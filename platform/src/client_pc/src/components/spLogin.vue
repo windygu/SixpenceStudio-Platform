@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'spLogin',
   props: {
     header: {
       type: String,
