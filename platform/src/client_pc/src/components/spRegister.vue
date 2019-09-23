@@ -63,8 +63,11 @@ export default {
             else if(this.form.password != this.form.re_password){
                 errorMsg = '前后密码不一致！';
             }
+            else{
+                errorMsg = '注册成功！';
+            }
             alert(errorMsg);
-        },
+        }
         
     }
 }
