@@ -1,9 +1,9 @@
 {
-  "name": "client_pc",
+  "name": "sixpence.platform.pc.vue",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Carl Du",
-  "private": true,
+  "description": "A Vue.js components store",
+  "author": "carldu",
+  "private": false,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
