@@ -3,12 +3,14 @@
     <span class="header">
       {{header}}
     </span>
+    <div v-for="(item, index) in this.attributes">
+      <el-form-item label="{}"></el-form-item>
+    </div>
     <el-form-item label="昵称：" for="name">
       <el-input v-model="form.name" id="name"></el-input>
     </el-form-item>
     <el-form-item label="邮箱：" for="email">
       <el-input type="email" v-model="form.email" id="email"></el-input>
-
     </el-form-item>
     <el-form-item label="密码：" for="psw">
       <el-input type="password" v-model="form.password" id="psw"></el-input>
@@ -29,6 +31,10 @@ export default {
     header: {
       type: String,
       default: 'Sign Up'
+    },
+    attributes: {
+      type: Array,
+      default: [{ name: '昵称', type: 'text' }, { name: '邮箱', type: 'email' }, { name: '密码', type: 'password' }]
     }
   },
   data () {
