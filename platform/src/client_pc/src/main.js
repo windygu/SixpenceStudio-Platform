@@ -7,12 +7,10 @@ import router from './router';
 import elementUI from 'element-ui';
 // 引入 element-ui css
 import 'element-ui/lib/theme-chalk/index.css';
-import $ from 'jquery';
 import install from './components';
 
 // 第三方组件需要use
 Vue.use(elementUI)
-Vue.use($)
 Vue.use(install);
 
 Vue.config.productionTip = false

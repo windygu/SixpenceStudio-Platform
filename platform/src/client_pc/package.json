@@ -12,9 +12,10 @@
   },
   "dependencies": {
     "element-ui": "^2.10.1",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-	"jquery": "^3.4.1"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
