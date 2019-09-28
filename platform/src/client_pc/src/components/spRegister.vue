@@ -4,7 +4,7 @@
       {{header}}
     </span>
     <el-form-item prop="name">
-      <el-input v-model="regform.name" placeholder="姓名"></el-input>
+      <el-input v-model="regform.name" placeholder="昵称"></el-input>
     </el-form-item>
     <el-form-item prop="email">
       <el-input v-model="regform.email" placeholder="邮箱"></el-input>
@@ -33,8 +33,16 @@ export default {
     }
   },
   data () {
+    let reg = /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]{6,12}$/
+    var validatePwd = (rule, value, callback) => {
+      if (!reg.test(value)) {
+        callback(new Error('请重新尝试“字母+数字”的6-12位组合!'));
+      } else {
+        callback();
+      }
+    }
     var validateComfirmPwd = (rule, value, callback) => {
-      if (this.regform.password !== value || this.regform.secPassword !== value) {
+      if (this.regform.password !== value) {
         callback(new Error('两次密码不一致'));
       } else {
         callback();
@@ -49,9 +57,9 @@ export default {
       },
       rules: {
         name: [{
-          required: true, message: '请输入姓名', trigger: 'blur'
+          required: true, message: '请输入昵称', trigger: 'blur'
         }, {
-          min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'
+          min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur'
         }],
         email: [{
           required: true, message: '请输入邮箱', trigger: 'blur'
@@ -61,7 +69,7 @@ export default {
         password: [{
           required: true, message: '请输入密码', trigger: ['blur', 'change']
         }, {
-          trigger: 'blur', validator: validateComfirmPwd
+          trigger: 'blur', validator: validatePwd
         }],
         secPassword: [{
           required: true, message: '请再次输入密码', trigger: ['blur', 'change']
