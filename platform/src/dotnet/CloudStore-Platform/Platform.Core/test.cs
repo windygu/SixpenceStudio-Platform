@@ -13,7 +13,11 @@ namespace Platform.Core
 {
     public class TestController : EntityBaseController<TestModel, TestService>
     {
-        
+        public List<TestModel> GetNameByAge(int age)
+        {
+            return new TestService().GetNameByAge(age);
+        }
+
     }
 
     public class TestService : EntityService<TestModel>
