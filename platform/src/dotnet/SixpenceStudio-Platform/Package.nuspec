@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Platform.Carl Du</id>
+    <version>1.0.0</version>
+	<title>Platform</title>
+    <authors>Carl Du</authors>
+    <owners>Carl Du</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Platform for dotnet web api</description>
+    <releaseNotes>provide entity's actions and database broker.</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>dotnet webapi platform</tags>
+    <dependencies>
+      <dependency id="SampleDependency" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>
