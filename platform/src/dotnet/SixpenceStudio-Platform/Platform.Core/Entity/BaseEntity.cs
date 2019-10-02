@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -43,20 +45,6 @@ namespace Platform.Core.Entity
             {
                 this._entityName = value;
             }
-        }
-
-        /// <summary>
-        /// 主键属性
-        /// </summary>
-        public PropertyInfo GetKeyProperty()
-        {
-            if (_keyProperty == null)
-            {
-                var type = GetType();
-                _keyProperty = type.GetProperties()
-                    .FirstOrDefault(p => p.IsDefined(typeof(KeyAttributeLogicalNameAttribute), true));
-            }
-            return _keyProperty;
         }
 
         /// <summary>
@@ -135,11 +123,7 @@ namespace Platform.Core.Entity
     [Serializable]
     public sealed class XrmEntity : BaseEntity
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XrmEntity"/> class.
-        /// </summary>
-        public XrmEntity()
-        { }
+        public XrmEntity() { }
 
         /// <summary>
         /// 构造函数
