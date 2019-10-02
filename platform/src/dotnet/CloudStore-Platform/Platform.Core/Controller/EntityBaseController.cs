@@ -7,7 +7,7 @@ using Platform.Core.Service;
 
 namespace Platform.Core.Controller
 {
-    public class EntityBaseController<E, S> : BaseController
+    public class EntityBaseController<E, S> : BaseApiController
         where E : BaseEntity, new()
         where S : EntityService<E>, new() 
     {
