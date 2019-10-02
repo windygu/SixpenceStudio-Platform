@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using Platform.Core.Data;
 
 namespace Platform.Core.Entity
 {
@@ -82,6 +83,27 @@ namespace Platform.Core.Entity
         }
         #endregion
 
+        #region 主键属性
+        /// <summary>
+        /// 主键属性
+        /// </summary>
+        private PropertyInfo _keyProperty;
+
+        /// <summary>
+        /// 主键属性
+        /// </summary>
+        public PropertyInfo GetKeyProperty()
+        {
+            if (_keyProperty == null)
+            {
+                var type = GetType();
+                _keyProperty = type.GetProperties()
+                    .FirstOrDefault(p => p.IsDefined(typeof(KeyAttributeLogicalNameAttribute), true));
+            }
+            return _keyProperty;
+        }
+        #endregion
+
         #region 实体数据
         /// <summary>
         /// 实体数据
@@ -114,6 +136,7 @@ namespace Platform.Core.Entity
         {
             _attributes[attributeLogicalName] = value;
         }
+
         #endregion
     }
 
@@ -143,5 +166,6 @@ namespace Platform.Core.Entity
             : base(logicalName, id)
         {
         }
+
     }
 }
