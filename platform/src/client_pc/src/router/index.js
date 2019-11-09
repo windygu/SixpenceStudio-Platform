@@ -1,8 +1,8 @@
 // 引入vue和router组件
 import Vue from 'vue'
 import Router from 'vue-router'
-import spLogin from '../components/spLogin'
-import spRegister from '../components/spRegister'
+import login from '../components/login'
+import register from '../components/register'
 
 // 三方组件需要use
 Vue.use(Router)
@@ -11,9 +11,9 @@ Vue.use(Router)
 export default new Router({
   routes: [{
     path: '/login',
-    component: spLogin
+    component: login
   }, {
     path: '/register',
-    component: spRegister
+    component: register
   }]
-})
+});
