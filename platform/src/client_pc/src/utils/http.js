@@ -39,3 +39,16 @@ export function get(url, config) {
       });
   });
 }
+
+export function post(url, data, config) {
+  return new Promise(function(resolve, reject) {
+    axios
+      .post(url, data, config)
+      .then(function(res) {
+        resolve(_handleSuccess(res));
+      })
+      .catch(function(err) {
+        reject(_handleError(err));
+      });
+  });
+}
