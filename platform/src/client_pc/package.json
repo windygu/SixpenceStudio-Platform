@@ -1,6 +1,6 @@
 {
   "name": "sixpence.platform.pc.vue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Vue.js components store",
   "author": "carldu",
   "private": false,
@@ -11,12 +11,12 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "element-ui": "^2.10.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "axios": "^0.19.0"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
