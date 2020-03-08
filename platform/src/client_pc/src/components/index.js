@@ -1,12 +1,7 @@
-import login from './login'
+import register from './register'
 
 const components = [
-  { name: login.name, component: login }
+  { name: register.name, component: register }
 ]
 
-const install = _Vue => {
-  // 注册组件
-  components.forEach(item => _Vue.component(item.name, item.component));
-};
-
-export default install;
+export default components;
