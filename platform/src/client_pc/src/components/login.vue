@@ -1,9 +1,7 @@
 <template>
   <el-form ref="form" :model="data" :rules="rules" label-width="100px" class="login">
     <el-form-item class="header">
-      <span>
-        {{header}}
-      </span>
+      <span>{{header}}</span>
     </el-form-item>
     <el-form-item prop="account">
       <el-input v-model="data.account" placeholder="邮箱或者手机号"></el-input>
@@ -26,7 +24,7 @@ export default {
       default: 'Sign In'
     }
   },
-  data () {
+  data() {
     return {
       data: {
         account: '',
@@ -40,22 +38,24 @@ export default {
     }
   },
   methods: {
-    signIn () {
-      this.loading = true;
+    signIn() {
+      this.loading = true
       try {
         this.$refs.form.validate(valid => {
           if (valid) {
             setTimeout(() => {
-              this.$message.success(`账号：${this.data.account}, 密码：${this.data.password}`);
-              this.loading = false;
-            }, 300);
+              this.$message.success(
+                `账号：${this.data.account}, 密码：${this.data.password}`
+              )
+              this.loading = false
+            }, 300)
           } else {
-            this.loading = false;
+            this.loading = false
           }
-        });
+        })
       } catch (error) {
-        this.$message.error(error);
-        this.loading = false;
+        this.$message.error(error)
+        this.loading = false
       }
     }
   }
