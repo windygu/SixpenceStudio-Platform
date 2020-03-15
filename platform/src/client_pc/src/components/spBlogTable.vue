@@ -7,8 +7,8 @@
       <el-table-column prop="name" label="作者" width="120"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button @click="goReadonly(scope.row)" type="text" size="small">查看</el-button>
+          <el-button @click="goEdit(scope.row)" type="text" size="small">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -22,11 +22,18 @@ export default {
     data: { type: Array, default: () => [] }
   },
   methods: {
-    handleClick(row) {
+    goReadonly(row) {
       if (!sp.isNullOrEmpty(row.Id)) {
         this.$router.push(`/blog?id=${row.Id}`);
       } else {
         this.$message.error('查看失败');
+      }
+    },
+    goEdit(row) {
+      if (!sp.isNullOrEmpty(row.Id)) {
+        this.$router.push(`/blogEdit?id=${row.Id}`);
+      } else {
+        this.$message.error('编辑失败');
       }
     }
   }
