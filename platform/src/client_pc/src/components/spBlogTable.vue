@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     handleClick(row) {
-      if (sp.isNullOrEmpty(row.Id)) {
-        this.$router.push(`/blog?id${row.Id}`);
+      if (!sp.isNullOrEmpty(row.Id)) {
+        this.$router.push(`/blog?id=${row.Id}`);
       } else {
         this.$message.error('查看失败');
       }
