@@ -1,8 +1,6 @@
 <template>
   <sp-header>
-    <div v-for="(button, index) in buttons" :key="index">
-      <el-button :icon="button.icon" @click="handleClick(button)">{{ button.text }}</el-button>
-    </div>
+    <el-button v-for="(button, index) in buttons" :key="index" :icon="button.icon" @click="handleClick(button)">{{ button.text }}</el-button>
   </sp-header>
 </template>
 
@@ -19,9 +17,11 @@ export default {
     }
   },
   components: { spHeader },
-  handleClick(button) {
-    if (button.operate && typeof button.operate === 'function') {
-      button.operate();
+  methods: {
+    handleClick(button) {
+      if (button.operate && typeof button.operate === 'function') {
+        button.operate();
+      }
     }
   }
 };
