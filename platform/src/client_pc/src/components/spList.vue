@@ -1,0 +1,101 @@
+<template>
+  <div>
+    <sp-header>
+      <sp-button-list :buttons="buttons"></sp-button-list>
+    </sp-header>
+    <sp-table ref="list" :fetchData="fetchData" :columns="columns" @link-click="handleClick"></sp-table>
+    <el-dialog title="编辑" :visible.sync="editVisible" width="50%">
+      <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'sp-list',
+  props: {
+    // 操作按钮
+    operations: {
+      type: Array,
+      default: () => []
+    },
+    // 控制器
+    controllerName: {
+      type: String
+    },
+    // 列
+    columns: {
+      type: Array,
+      default: () => []
+    },
+    // 编辑页组件
+    editComponent: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      normalOperations: [
+        { name: 'new', icon: 'el-icon-plus', operate: this.createData },
+        { name: 'delete', icon: 'el-icon-delete', operate: this.deleteData }
+      ],
+      editVisible: false,
+      relatedAttr: null,
+      selections: []
+    };
+  },
+  computed: {
+    buttons() {
+      return this.normalOperations.filter(item => this.operations.includes(item.name));
+    }
+  },
+  methods: {
+    loadData() {
+      this.$refs.list.loadData();
+    },
+    async fetchData() {
+      return sp.get(`api/${this.controllerName}/getdatalist`);
+    },
+    handleClick(row) {
+      this.relatedAttr = {
+        id: row.Id
+      };
+      this.editVisible = true;
+    },
+    createData() {
+      this.relatedAttr = {};
+      this.editVisible = true;
+    },
+    deleteData() {
+      if (!this.selections || this.selections.length === 0) {
+        this.$message.warning('请选择一项，再进行删除');
+        return;
+      }
+      this.$confirm('此操作将永久删除该菜单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          const ids = this.selections.map(item => {
+            return item.Id;
+          });
+          sp.post(`api/${this.controllerName}/DeleteData`, ids).then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+    }
+  }
+};
+</script>
+
+<style></style>

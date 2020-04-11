@@ -8,12 +8,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import components from './components';
 
 // 第三方组件需要use
-Vue.use(elementUI)
-Vue.use(components)
+Vue.use(elementUI);
+Vue.use(components);
 
 Vue.prototype.$message = elementUI.Message;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
@@ -21,4 +21,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});
