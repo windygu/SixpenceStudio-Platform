@@ -21,4 +21,7 @@ if (!sp.isNullOrEmpty(localStorage.getItem('baseUrl'))) {
   axios.defaults.baseURL = localStorage.getItem('baseUrl');
 }
 
+import edit from './src/mixins/edit';
+export { edit };
+
 export default API;

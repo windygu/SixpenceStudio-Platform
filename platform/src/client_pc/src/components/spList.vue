@@ -4,7 +4,7 @@
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
     <sp-table ref="list" :fetchData="fetchData" :columns="columns" @link-click="handleClick"></sp-table>
-    <el-dialog title="编辑" :visible.sync="editVisible" width="50%">
+    <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%">
       <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
     </el-dialog>
   </div>
@@ -31,6 +31,11 @@ export default {
     // 编辑页组件
     editComponent: {
       type: Object
+    },
+    // 编辑页标题
+    editTitle: {
+      type: String,
+      default: '编辑'
     }
   },
   data() {
