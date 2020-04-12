@@ -21,6 +21,11 @@ if (!sp.isNullOrEmpty(localStorage.getItem('baseUrl'))) {
   axios.defaults.baseURL = localStorage.getItem('baseUrl');
 }
 
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = 'BasicAuth ' + localStorage.getItem('Token');
+  return config;
+});
+
 import edit from './src/mixins/edit';
 export { edit };
 

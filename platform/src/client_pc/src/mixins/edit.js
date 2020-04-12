@@ -25,11 +25,17 @@ export default {
       }
     },
     saveData() {
+      if (this.preSave && typeof this.preSave === 'function') {
+        this.preSave();
+      }
       const operateName = sp.isNullOrEmpty(this.Id) ? 'CreateData' : 'UpdateData';
       if (sp.isNullOrEmpty(this.Id)) {
         this.data.Id = sp.newUUID();
       }
       sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(() => {
+        if (this.postSave && typeof this.postSave === 'function') {
+          this.postSave();
+        }
         this.$emit('close');
         this.$emit('load-data');
         this.$message.success('添加成功');
