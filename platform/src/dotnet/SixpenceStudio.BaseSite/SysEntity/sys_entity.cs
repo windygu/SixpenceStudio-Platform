@@ -5,101 +5,50 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.SysMenu
+namespace SixpenceStudio.BaseSite.SysEntity
 {
-    public partial class sys_menu : BaseEntity
+    public partial class sys_entity : BaseEntity
     {
         #region 构造函数
-        public sys_menu()
+        public sys_entity()
         {
-            this.EntityName = "sys_menu";
+            this.EntityName = "sys_entity";
         }
         #endregion
 
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_menuid;
+        private string _sys_entityid;
         [DataMember]
-        public string sys_menuId
+        public string sys_entityId
         {
             get
             {
-                return this._sys_menuid;
+                return this._sys_entityid;
             }
             set
             {
-                this._sys_menuid = value;
-                SetAttributeValue("sys_menuId", value);
+                this._sys_entityid = value;
+                SetAttributeValue("sys_entityId", value);
             }
         }
 
         /// <summary>
-        /// 上级菜单
+        /// 编码
         /// </summary>
-        private string _parentid;
+        private string _code;
         [DataMember]
-        public string parentid
+        public string code
         {
             get
             {
-                return this._parentid;
+                return _code;
             }
             set
             {
-                this._parentid = value;
-                SetAttributeValue("parentid", value);
-            }
-        }
-
-        /// <summary>
-        /// 上级菜单
-        /// </summary>
-        private string _parentidname;
-        [DataMember]
-        public string parentIdName
-        {
-            get
-            {
-                return this._parentidname;
-            }
-            set
-            {
-                this._parentidname = value;
-                SetAttributeValue("parentidname", value);
-            }
-        }
-
-        /// <summary>
-        /// 路由地址
-        /// </summary>
-        private string _router;
-        [DataMember]
-        public string router
-        {
-            get
-            {
-                return this._router;
-            }
-            set
-            {
-                this._router = value;
-                SetAttributeValue("Router", value);
-            }
-        }
-
-        private int _menu_index;
-        [DataMember]
-        public int menu_Index
-        {
-            get
-            {
-                return this._menu_index;
-            }
-            set
-            {
-                this._menu_index = value;
-                SetAttributeValue("Menu_Index", value);
+                _code = value;
+                SetAttributeValue("code", value);
             }
         }
 
@@ -210,6 +159,5 @@ namespace SixpenceStudio.BaseSite.SysMenu
                 SetAttributeValue("ModifiedOn", value);
             }
         }
-
     }
 }

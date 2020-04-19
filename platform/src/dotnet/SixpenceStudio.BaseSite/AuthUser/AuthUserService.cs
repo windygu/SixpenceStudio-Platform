@@ -7,6 +7,7 @@ using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using System.Web.Security;
 using SixpenceStudio.Platform.Utils;
+using System.Web.Services;
 
 namespace SixpenceStudio.BaseSite.AuthUser
 {
@@ -46,8 +47,17 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(0, code, DateTime.Now,
                             DateTime.Now.AddHours(12), true, string.Format("{0}&{1}", code, pwd),
                             FormsAuthentication.FormsCookiePath);
+
+            #region 保存用户登录 Cookie
+            var cookie = new HttpCookie("LoginUser");
+            cookie.Values.Add("UserId", code);
+            cookie.Expires = DateTime.Now.AddDays(1);
+            cookie.Path = "/";
+            HttpContext.Current.Response.Cookies.Add(cookie);
+            #endregion
+
             // 返回登录结果、用户信息、用户验证票据信息
-            var oUser = new LoginResponse { result = true, UserName = code, Password = pwd, Ticket = FormsAuthentication.Encrypt(ticket) };
+            var oUser = new LoginResponse { result = true, UserName = code, Ticket = FormsAuthentication.Encrypt(ticket) };
             return oUser;
         }
     }

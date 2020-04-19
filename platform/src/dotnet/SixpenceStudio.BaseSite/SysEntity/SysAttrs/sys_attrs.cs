@@ -5,101 +5,141 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.SysMenu
+namespace SixpenceStudio.BaseSite.SysEntity.SysAttrs
 {
-    public partial class sys_menu : BaseEntity
+    public class sys_attrs : BaseEntity
     {
         #region 构造函数
-        public sys_menu()
+        public sys_attrs()
         {
-            this.EntityName = "sys_menu";
+            this.EntityName = "sys_attrs";
         }
         #endregion
 
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_menuid;
+        private string _sys_attrsid;
         [DataMember]
-        public string sys_menuId
+        public string sys_attrsId
         {
             get
             {
-                return this._sys_menuid;
+                return this._sys_attrsid;
             }
             set
             {
-                this._sys_menuid = value;
-                SetAttributeValue("sys_menuId", value);
+                this._sys_attrsid = value;
+                SetAttributeValue("sys_attrsId", value);
+            }
+        }
+
+
+        /// <summary>
+        /// 编码
+        /// </summary>
+        private string _code;
+        [DataMember]
+        public string code
+        {
+            get
+            {
+                return _code;
+            }
+            set
+            {
+                _code = value;
+                SetAttributeValue("code", value);
             }
         }
 
         /// <summary>
-        /// 上级菜单
+        /// 实体id
         /// </summary>
-        private string _parentid;
+        private string _entityid;
         [DataMember]
-        public string parentid
+        public string entityid
         {
             get
             {
-                return this._parentid;
+                return _entityid;
             }
             set
             {
-                this._parentid = value;
-                SetAttributeValue("parentid", value);
+                _entityid = value;
+                SetAttributeValue("entityid", value);
             }
         }
 
         /// <summary>
-        /// 上级菜单
+        /// 实体名
         /// </summary>
-        private string _parentidname;
+        private string _entityidname;
         [DataMember]
-        public string parentIdName
+        public string entityidname
         {
             get
             {
-                return this._parentidname;
+                return _entityidname;
             }
             set
             {
-                this._parentidname = value;
-                SetAttributeValue("parentidname", value);
+                _entityidname = value;
+                SetAttributeValue("entityidname", value);
             }
         }
 
         /// <summary>
-        /// 路由地址
+        /// 字段类型
         /// </summary>
-        private string _router;
+        private string _attr_type;
         [DataMember]
-        public string router
+        public string attr_type
         {
             get
             {
-                return this._router;
+                return _attr_type;
             }
             set
             {
-                this._router = value;
-                SetAttributeValue("Router", value);
+                _attr_type = value;
+                SetAttributeValue("attr_type", value);
             }
         }
 
-        private int _menu_index;
+        /// <summary>
+        /// 字段长度
+        /// </summary>
+        private int? _attr_length;
         [DataMember]
-        public int menu_Index
+        public int? attr_length
         {
             get
             {
-                return this._menu_index;
+                return _attr_length;
             }
             set
             {
-                this._menu_index = value;
-                SetAttributeValue("Menu_Index", value);
+                _attr_length = value;
+                SetAttributeValue("attr_length", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否必填
+        /// </summary>
+        private int? _isrequire;
+        [DataMember]
+        public int? isrequire
+        {
+            get
+            {
+                return _isrequire;
+            }
+            set
+            {
+                _isrequire = value;
+                SetAttributeValue("isrequire", value);
             }
         }
 
@@ -210,6 +250,5 @@ namespace SixpenceStudio.BaseSite.SysMenu
                 SetAttributeValue("ModifiedOn", value);
             }
         }
-
     }
 }

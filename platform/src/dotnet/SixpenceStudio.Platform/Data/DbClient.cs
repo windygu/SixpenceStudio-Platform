@@ -45,16 +45,27 @@ namespace SixpenceStudio.Platform.Data
         {
             return _conn.Execute(sqlText, paramList);
         }
+        public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
+        {
+            return _conn.ExecuteScalar(sql, paramList);
+        }
+        #endregion
 
+        #region Query
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
             var ret = _conn.Query<T>(sql, paramList);
             return ret;
         }
+        #endregion
 
-        public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
+        #region DataTable
+        public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
-            return _conn.ExecuteScalar(sql, paramList);
+            DataTable dt = new DataTable();
+            var reader = _conn.ExecuteReader(sql, paramList);
+            dt.Load(reader);
+            return dt;
         }
         #endregion
     }

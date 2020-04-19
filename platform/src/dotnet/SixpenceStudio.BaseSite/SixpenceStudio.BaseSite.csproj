@@ -101,6 +101,12 @@
     <Compile Include="AuthUser\auth_user.cs" />
     <Compile Include="AuthUser\LoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysEntity\SysAttrs\SysAttrsController.cs" />
+    <Compile Include="SysEntity\SysAttrs\SysAttrsService.cs" />
+    <Compile Include="SysEntity\SysAttrs\sys_attrs.cs" />
+    <Compile Include="SysEntity\SysEntityController.cs" />
+    <Compile Include="SysEntity\SysEntityService.cs" />
+    <Compile Include="SysEntity\sys_entity.cs" />
     <Compile Include="SysMenu\SysMenuController.cs" />
     <Compile Include="SysMenu\SysMenuService.cs" />
     <Compile Include="SysMenu\sys_menu.cs" />
@@ -126,6 +132,7 @@
       <Name>SixpenceStudio.Platform</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

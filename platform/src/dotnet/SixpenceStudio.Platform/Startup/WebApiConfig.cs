@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.WebHost;
+using System.Web.Routing;
+using System.Web.SessionState;
 using WebApiThrottle;
 
 namespace SixpenceStudio.Platform.Startup
@@ -22,13 +26,27 @@ namespace SixpenceStudio.Platform.Startup
             // Web API 路由
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
+            RouteTable.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-            );
+            ).RouteHandler = new SessionControllerRouteHandler();
+
             app.UseWebApi(config);
 
+        }
+    }
+
+    public class SessionRouteHandler : HttpControllerHandler, IRequiresSessionState
+    {
+        public SessionRouteHandler(RouteData routeData) : base(routeData) { }
+    }
+
+    public class SessionControllerRouteHandler : HttpControllerRouteHandler
+    {
+        protected override IHttpHandler GetHttpHandler(RequestContext requestContext)
+        {
+            return new SessionRouteHandler(requestContext.RouteData);
         }
     }
 }

@@ -103,9 +103,9 @@ namespace SixpenceStudio.BaseSite.AuthUser
         /// <summary>
         /// 创建日期
         /// </summary>
-        private DateTime _createdon;
+        private DateTime? _createdon;
         [DataMember]
-        public DateTime createdOn
+        public DateTime? createdOn
         {
             get
             {
@@ -157,13 +157,13 @@ namespace SixpenceStudio.BaseSite.AuthUser
         /// <summary>
         /// 创建日期
         /// </summary>
-        private DateTime _modifiedon;
+        private DateTime? _modifiedon;
         [DataMember]
-        public DateTime modifiedOn
+        public DateTime? modifiedOn
         {
             get
             {
-                return this._createdon;
+                return this._modifiedon;
             }
             set
             {

@@ -66,11 +66,27 @@ namespace SixpenceStudio.Platform.Command
             {
                 return "";
             }
-            
-            if (t.Attributes.ContainsKey("CreatedBy") && t.GetAttributeValue("CreatedBy") == null)
+
+            var user = this.GetCurrentUser();
+            if (!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null)
             {
-                t.SetAttributeValue("CreatedBy", "");
+                t.SetAttributeValue("CreatedBy", user.userId);
+                t.SetAttributeValue("CreatedByName", user.name);
             }
+            if (!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null)
+            {
+                t.SetAttributeValue("ModifiedBy", user.userId);
+                t.SetAttributeValue("ModifiedByName", user.name);
+            }
+            if (!t.Attributes.ContainsKey("CreatedOn") || t.GetAttributeValue("CreatedOn") == null)
+            {
+                t.SetAttributeValue("CreatedOn", DateTime.Now);
+            }
+            if (!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null)
+            {
+                t.SetAttributeValue("ModifiedOn", DateTime.Now);
+            }
+
             return broker.Create(t);
         }
 
@@ -81,6 +97,25 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="t"></param>
         public void Update<T>(T t) where T : BaseEntity, new()
         {
+            if (string.IsNullOrEmpty(t.Id))
+            {
+                return;
+            }
+            var user = this.GetCurrentUser();
+            if (!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null)
+            {
+                t.SetAttributeValue("CreatedBy", user.userId);
+                t.SetAttributeValue("CreatedByName", user.name);
+            }
+            if (!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null)
+            {
+                t.SetAttributeValue("ModifiedBy", user.userId);
+                t.SetAttributeValue("ModifiedByName", user.name);
+            }
+            if (!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null)
+            {
+                t.SetAttributeValue("ModifiedOn", DateTime.Now);
+            }
             broker.Update(t);
         }
 
@@ -96,11 +131,11 @@ namespace SixpenceStudio.Platform.Command
             var isExist = GetEntity<T>(id) != null;
             if (isExist)
             {
-                broker.Update(t);
+                Update(t);
             }
             else
             {
-                id = broker.Create(t);
+                id = Create(t);
             }
             return id;
         }
