@@ -3,7 +3,14 @@
     <sp-header>
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
-    <sp-table ref="list" :fetchData="fetchData" :columns="columns" @link-click="handleClick"></sp-table>
+    <sp-table
+      ref="list"
+      :fetchData="fetchData"
+      :columns="columns"
+      @link-click="handleClick"
+      :allowSelect="allowSelect"
+      @selection-change="handleSelectionChange"
+    ></sp-table>
     <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%">
       <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
     </el-dialog>
@@ -36,6 +43,11 @@ export default {
     editTitle: {
       type: String,
       default: '编辑'
+    },
+    // 是否可以选择列
+    allowSelect: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -66,6 +78,9 @@ export default {
         id: row.Id
       };
       this.editVisible = true;
+    },
+    handleSelectionChange(val) {
+      this.selections = val;
     },
     createData() {
       this.relatedAttr = {};

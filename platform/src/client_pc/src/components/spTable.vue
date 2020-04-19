@@ -1,5 +1,6 @@
 <template>
-  <el-table ref="table" :data="tableData" style="width: 100%" row-key="Id">
+  <el-table ref="table" :data="tableData" style="width: 100%" row-key="Id" @selection-change="handleSelectionChange">
+    <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
     <el-table-column
       v-for="(column, index) in columns"
       :key="index"
@@ -31,6 +32,10 @@ export default {
     fetchData: {
       type: Function,
       required: true
+    },
+    allowSelect: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -49,6 +54,9 @@ export default {
     },
     handleClick(row) {
       this.$emit('link-click', row);
+    },
+    handleSelectionChange(val) {
+      this.$emit('selection-change', val);
     }
   }
 };
