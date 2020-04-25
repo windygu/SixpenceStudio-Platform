@@ -17,6 +17,11 @@ export default {
       this.loadData();
     }
   },
+  computed: {
+    pageState() {
+      return sp.isNullOrEmpty(this.Id) ? 'create' : 'edit';
+    }
+  },
   methods: {
     async loadData() {
       this.data = await sp.get(`api/${this.controllerName}/GetData?id=${this.Id}`);

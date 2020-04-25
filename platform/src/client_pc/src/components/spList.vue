@@ -101,17 +101,12 @@ export default {
             return item.Id;
           });
           sp.post(`api/${this.controllerName}/DeleteData`, ids).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
+            this.$message.success('删除成功');
+            this.loadData();
           });
         })
         .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
+          this.$message.info('已取消删除');
         });
     }
   }
