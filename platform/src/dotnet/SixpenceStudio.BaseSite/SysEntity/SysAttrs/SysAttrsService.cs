@@ -59,9 +59,9 @@ WHERE entityid = @id AND code = @code;
                     entityidname = entity.name,
                     attr_type = item.Type,
                     attr_length = item.Length,
-                    isrequire = item.IsNotNull ? 0 : 1
+                    isrequire = item.IsNotNull ? 1 : 0
                 };
-                CreateData(attrModel);
+                _cmd.Create(attrModel);
             });
             new SysEntityService().AddSystemAttrs(entity.code, columns);
         }
@@ -73,8 +73,9 @@ WHERE entityid = @id AND code = @code;
         /// <returns></returns>
         public override string CreateData(sys_attrs t)
         {
+            var sql = DDLTemplate.GetAddColumnSql(t.entityCode, new List<Column>() { { new Column() { Code = t.code, Name = t.name, Type = t.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire.Value == 1 } } });
+            _cmd.broker.DbClient.Execute(sql);
             var id = base.CreateData(t);
-
             return id;
         }
 
@@ -90,8 +91,14 @@ WHERE entityid = @id AND code = @code;
             {
                 columns.Add(new Column() { Code = item.code });
             });
-            var sql = DDLTemplate.GetDropColumnSql(new sys_attrs().EntityName, columns);
-            _cmd.broker.DbClient.Execute(sql);
+
+            if (dataList.Count > 0)
+            {
+                var tableName = new SysEntityService().GetData(dataList[0].entityid)?.code;
+                var sql = DDLTemplate.GetDropColumnSql(tableName, columns);
+                _cmd.broker.DbClient.Execute(sql);
+            }
+
             base.DeletelData(ids);
         }
     }

@@ -26,7 +26,7 @@ namespace SixpenceStudio.Platform.Command
             }
         }
 
-        public static (string userId, string name) GetCurrentUser<T>(this EntityCommand<T> cmd)
+        public static (string userId, string code, string name) GetCurrentUser<T>(this EntityCommand<T> cmd)
             where T : BaseEntity, new()
         {
             var broker = new PersistBroker();
@@ -37,9 +37,11 @@ select * from auth_user where code = @code;
             if (dataTable.Rows.Count > 0)
             {
                 var name = dataTable.Rows[0]["name"];
-                return (Userid, name != DBNull.Value ? name.ToString() : "");
+                var code = dataTable.Rows[0]["code"];
+                var userId = dataTable.Rows[0]["userId"];
+                return (userId != DBNull.Value ? userId.ToString() : "", code != DBNull.Value ? code.ToString() : "", name != DBNull.Value ? name.ToString() : "");
             }
-            return (null, null);
+            return (null, null, null);
         }
     }
 }
