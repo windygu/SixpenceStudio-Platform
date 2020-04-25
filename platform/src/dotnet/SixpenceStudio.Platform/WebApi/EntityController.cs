@@ -11,6 +11,7 @@ using System.Web.Http;
 namespace SixpenceStudio.Platform.WebApi
 {
     [Route("api/[controller]/[action]")]
+    [WebApiExceptionFilter]
     public class EntityController<E, S> : ApiController
         where E : BaseEntity, new()
         where S : EntityService<E>, new()

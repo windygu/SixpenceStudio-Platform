@@ -96,6 +96,14 @@ namespace SixpenceStudio.Platform.Data
         IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount)
             where T : BaseEntity, new();
 
+        /// <summary>
+        /// 根据 id 批量查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        IList<T> RetrieveMultiple<T>(IList<string> ids)
+            where T : BaseEntity, new();
         #endregion
     }
 }

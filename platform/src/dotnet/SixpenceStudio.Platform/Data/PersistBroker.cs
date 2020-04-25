@@ -237,5 +237,30 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             return data;
         }
 
+        /// <summary>
+        /// 根据 id 批量查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public IList<T> RetrieveMultiple<T>(IList<string> ids) where T : BaseEntity, new()
+        {
+            var sql = $@"
+SELECT
+	*
+FROM
+	{new T().EntityName}
+WHERE 
+	{new T().EntityName}id IN (@ids)";
+            var parmas = new Dictionary<string, object>();
+            var count = 0;
+            ids.ToList().ForEach(item =>
+            {
+                parmas.Add($"@id{++count}", ids[count - 1]);
+            });
+            sql = sql.Replace("@ids", string.Join(",", parmas.Keys));
+            var data = RetrieveMultiple<T>(sql, parmas);
+            return data;
+        }
     }
 }
