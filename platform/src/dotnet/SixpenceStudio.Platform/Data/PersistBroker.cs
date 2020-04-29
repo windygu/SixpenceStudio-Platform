@@ -125,7 +125,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             int count = 0;
             foreach (var item in entity.Attributes)
             {
-                if (item.Key != "Id")
+                if (item.Key != "Id" && item.Key != entity.EntityName + "Id")
                 {
                     paramList.Add($"@param{count}", item.Value);
                     attributes.Add($"{ item.Key} = @param{count++}");

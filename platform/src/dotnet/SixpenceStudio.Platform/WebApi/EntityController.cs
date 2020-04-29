@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Platform.Entity;
+﻿using Newtonsoft.Json;
+using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Service;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace SixpenceStudio.Platform.WebApi
         where S : EntityService<E>, new()
     {
         [HttpGet]
-        public IList<E> GetDataList()
+        public IList<E> GetDataList(string searchList = "")
         {
-            return new S().GetDataList();
+            return new S().GetDataList(string.IsNullOrEmpty(searchList) ? null : JsonConvert.DeserializeObject<IList<SearchCondition>>(searchList));
         }
 
         [HttpGet]

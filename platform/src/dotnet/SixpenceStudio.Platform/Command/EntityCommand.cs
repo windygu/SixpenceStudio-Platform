@@ -44,6 +44,31 @@ namespace SixpenceStudio.Platform.Command
         }
 
         /// <summary>
+        /// 根据搜索条件查询
+        /// </summary>
+        /// <param name="searchList"></param>
+        /// <returns></returns>
+        public IList<T> GetDataList(IList<SearchCondition> searchList)
+        {
+            var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
+            var where = string.Empty;
+            var paramList = new Dictionary<string, object>();
+
+            if (searchList != null)
+            {
+                var count = 0;
+                foreach (var search in searchList)
+                {
+                    where += $" AND {search.Name} = @params{count}";
+                    paramList.Add($"@params{count++}", search.Value);
+                }
+            }
+
+            var data = broker.RetrieveMultiple<T>(sql + where, paramList);
+            return data;
+        }
+
+        /// <summary>
         /// 获取实体记录
         /// </summary>
         /// <typeparam name="T"></typeparam>

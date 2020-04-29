@@ -10,6 +10,12 @@ namespace SixpenceStudio.Platform.Entity
     {
     }
 
+    public class SearchCondition
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
     /// <summary>
     /// 主键自定义属性
     /// TODO：使用 Plugin 方式做主键唯一性检查

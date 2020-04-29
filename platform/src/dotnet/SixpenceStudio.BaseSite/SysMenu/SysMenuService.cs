@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
+using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Service;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace SixpenceStudio.BaseSite.SysMenu
         }
         #endregion
 
-        public override IList<sys_menu> GetDataList()
+        public override IList<sys_menu> GetDataList(IList<SearchCondition> searchList)
         {
-            var data = base.GetDataList().ToList();
+            var data = base.GetDataList(searchList).ToList();
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
             firstMenu.ForEach(item =>
             {
