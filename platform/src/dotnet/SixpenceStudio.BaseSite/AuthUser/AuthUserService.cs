@@ -60,5 +60,18 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             var oUser = new LoginResponse { result = true, UserName = code, Ticket = FormsAuthentication.Encrypt(ticket) };
             return oUser;
         }
+
+        public void EditPassword(string password)
+        {
+            var sql = $@"
+UPDATE auth_user
+SET password = @password
+WHERE userid = @id;
+";
+            var encryptionPwd = SHAUtils.SHA256Encrypt(password);
+            var user = _cmd.GetCurrentUser();
+            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd } };
+            _cmd.broker.DbClient.Execute(sql, paramList);
+        }
     }
 }

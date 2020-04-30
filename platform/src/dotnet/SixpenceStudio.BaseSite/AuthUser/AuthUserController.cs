@@ -17,5 +17,10 @@ namespace SixpenceStudio.BaseSite.AuthUser
             return new AuthUserService().Login(code, pwd);
         }
 
+        [RequestAuthorize, HttpPost]
+        public void EditPassword([FromBody]string password)
+        {
+            new AuthUserService().EditPassword(password);
+        }
     }
 }

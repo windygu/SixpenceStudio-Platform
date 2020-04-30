@@ -211,5 +211,38 @@ namespace SixpenceStudio.BaseSite.SysMenu
             }
         }
 
+        /// <summary>
+        /// 状态
+        /// </summary>
+        private int? _statecode;
+        [DataMember]
+        public int? stateCode
+        {
+            get
+            {
+                return this._statecode;
+            }
+            set
+            {
+                this._statecode = value;
+                SetAttributeValue("stateCode", value);
+            }
+        }
+
+        private string _statecodename;
+        [DataMember]
+        public string stateCodeName
+        {
+            get
+            {
+                return this._statecodename;
+            }
+            set
+            {
+                this._statecodename = value;
+                SetAttributeValue("stateCodeName", value);
+            }
+        }
+
     }
 }
