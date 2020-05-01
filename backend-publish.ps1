@@ -7,4 +7,4 @@ If (Test-Path platform\build) { Remove-Item -Recurse -Force "platform\build\*.nu
 nuget pack platform\src\dotnet\SixpenceStudio.BaseSite\SixpenceStudio.BaseSite.csproj -Version 1.0.0 -Properties Configuration=Release -OutputDirectory "platform\build"
 nuget pack platform\src\dotnet\SixpenceStudio.Platform\SixpenceStudio.Platform.csproj -Version 1.0.0 -Properties Configuration=Release -OutputDirectory "platform\build"
 
-nuget push platform\build\*.nupkg -Source http://localhost:8003 -ApiKey 9F2E9384-F50A-43FF-8BA9-5D5E981C6561
+nuget push platform\build\*.nupkg -Source http://www.dumiaoxin.top:8001 -ApiKey 9F2E9384-F50A-43FF-8BA9-5D5E981C6561
