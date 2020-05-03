@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sp-header>
+    <sp-header v-if="buttons && buttons.length > 0">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
     <sp-table
