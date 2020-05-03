@@ -116,6 +116,12 @@
     <Compile Include="SysMenu\sys_menu.cs" />
     <Compile Include="SysMenu\sys_menuPartial.cs" />
     <Compile Include="RequestAuthorizeAttribute.cs" />
+    <Compile Include="SysParamGroup\SysParamGroupController.cs" />
+    <Compile Include="SysParamGroup\SysParamGroupService.cs" />
+    <Compile Include="SysParamGroup\SysParams\SysParamController.cs" />
+    <Compile Include="SysParamGroup\SysParams\SysParamService.cs" />
+    <Compile Include="SysParamGroup\SysParams\sys_param.cs" />
+    <Compile Include="SysParamGroup\sys_paramgroup.cs" />
     <Compile Include="UserInfo\UserInfoController.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
@@ -135,9 +141,6 @@
       <Project>{d450a5be-e240-41f7-a948-17eef0d16445}</Project>
       <Name>SixpenceStudio.Platform</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AuthUser\Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
