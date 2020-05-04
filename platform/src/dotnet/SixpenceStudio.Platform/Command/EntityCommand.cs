@@ -48,7 +48,7 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <param name="searchList"></param>
         /// <returns></returns>
-        public IList<T> GetDataList(IList<SearchCondition> searchList)
+        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy = "")
         {
             var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
             var where = string.Empty;
@@ -64,7 +64,17 @@ namespace SixpenceStudio.Platform.Command
                 }
             }
 
-            var data = broker.RetrieveMultiple<T>(sql + where, paramList);
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                orderBy = " ORDER BY " + new T().EntityName + "id";
+            }
+            else
+            {
+                orderBy.Replace("ORDER BY", "");
+                orderBy = " ORDER BY " + orderBy;
+            }
+
+            var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);
             return data;
         }
 

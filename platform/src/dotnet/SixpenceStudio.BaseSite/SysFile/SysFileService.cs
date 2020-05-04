@@ -21,5 +21,15 @@ namespace SixpenceStudio.BaseSite.SysFile
             this._cmd = new EntityCommand<sys_file>(broker);
         }
         #endregion
+
+
+        public sys_file GetDattaByCode(string code)
+        {
+            var sql = @"
+SELECT * FROM sys_file
+WHERE hash_code = @code
+";
+            return _cmd.broker.Retrieve<sys_file>(sql, new Dictionary<string, object>() { { "@code", code } });
+        }
     }
 }

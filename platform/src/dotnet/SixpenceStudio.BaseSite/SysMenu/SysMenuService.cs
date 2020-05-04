@@ -23,7 +23,7 @@ namespace SixpenceStudio.BaseSite.SysMenu
         }
         #endregion
 
-        public override IList<sys_menu> GetDataList(IList<SearchCondition> searchList)
+        public override IList<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy)
         {
             var data = base.GetDataList(searchList).ToList();
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();

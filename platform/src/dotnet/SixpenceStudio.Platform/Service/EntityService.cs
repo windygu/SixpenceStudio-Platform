@@ -27,9 +27,9 @@ namespace SixpenceStudio.Platform.Service
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public virtual IList<T> GetDataList(IList<SearchCondition> searchList)
+        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy = "")
         {
-            return _cmd.GetDataList(searchList);
+            return _cmd.GetDataList(searchList, orderBy);
         }
 
         /// <summary>

@@ -161,6 +161,7 @@
     <Compile Include="Startup\WebApiConfig.cs" />
     <Compile Include="Utils\DecryptAndEncryptHelper.cs" />
     <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\HttpUtils.cs" />
     <Compile Include="Utils\SHAUtils.cs" />
     <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="WebApi\EntityController.cs" />
