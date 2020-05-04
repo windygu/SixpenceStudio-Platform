@@ -137,11 +137,6 @@ namespace SixpenceStudio.Platform.Command
                 return;
             }
             var user = this.GetCurrentUser();
-            if ((!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null) && t.GetType().GetProperty("createdBy") != null)
-            {
-                t.SetAttributeValue("CreatedBy", user.userId);
-                t.SetAttributeValue("CreatedByName", user.name);
-            }
             if ((!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null) && t.GetType().GetProperty("modifiedBy") != null)
             {
                 t.SetAttributeValue("ModifiedBy", user.userId);
