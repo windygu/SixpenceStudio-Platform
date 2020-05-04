@@ -93,21 +93,21 @@ namespace SixpenceStudio.Platform.Command
             }
 
             var user = this.GetCurrentUser();
-            if (!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null)
+            if ((!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null) && t.GetType().GetProperty("createdBy") != null)
             {
                 t.SetAttributeValue("CreatedBy", user.userId);
                 t.SetAttributeValue("CreatedByName", user.name);
             }
-            if (!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null)
+            if ((!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null) && t.GetType().GetProperty("modifiedBy") != null)
             {
                 t.SetAttributeValue("ModifiedBy", user.userId);
                 t.SetAttributeValue("ModifiedByName", user.name);
             }
-            if (!t.Attributes.ContainsKey("CreatedOn") || t.GetAttributeValue("CreatedOn") == null)
+            if ((!t.Attributes.ContainsKey("CreatedOn") || t.GetAttributeValue("CreatedOn") == null) && t.GetType().GetProperty("createdOn") != null)
             {
                 t.SetAttributeValue("CreatedOn", DateTime.Now);
             }
-            if (!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null)
+            if ((!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null) && t.GetType().GetProperty("modifiedOn") != null)
             {
                 t.SetAttributeValue("ModifiedOn", DateTime.Now);
             }
@@ -127,17 +127,17 @@ namespace SixpenceStudio.Platform.Command
                 return;
             }
             var user = this.GetCurrentUser();
-            if (!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null)
+            if ((!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null) && t.GetType().GetProperty("createdBy") != null)
             {
                 t.SetAttributeValue("CreatedBy", user.userId);
                 t.SetAttributeValue("CreatedByName", user.name);
             }
-            if (!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null)
+            if ((!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null) && t.GetType().GetProperty("modifiedBy") != null)
             {
                 t.SetAttributeValue("ModifiedBy", user.userId);
                 t.SetAttributeValue("ModifiedByName", user.name);
             }
-            if (!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null)
+            if ((!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null) && t.GetType().GetProperty("modifiedOn") != null)
             {
                 t.SetAttributeValue("ModifiedOn", DateTime.Now);
             }
