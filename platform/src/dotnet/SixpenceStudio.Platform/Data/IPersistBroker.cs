@@ -73,7 +73,7 @@ namespace SixpenceStudio.Platform.Data
         /// <summary>
         /// 根据查询条件查询实体对象
         /// </summary>
-        T Retrieve<T>(string sql, Dictionary<string, object> paramList)
+        T Retrieve<T>(string sql, Dictionary<string, object> paramList = null)
            where T : BaseEntity, new();
         #endregion
 

@@ -21,6 +21,9 @@ function _handleError(error) {
   let errorMessage;
   if (err.status === 401) {
     errorMessage = '您没有权限访问该资源';
+    setTimeout(() => {
+      location.href = '/#/login';
+    }, 3000);
   } else {
     errorMessage = err.data || err;
   }
