@@ -81,6 +81,37 @@ namespace SixpenceStudio.Platform.Command
             return data;
         }
 
+        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        {
+            var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
+            var where = string.Empty;
+            var paramList = new Dictionary<string, object>();
+
+            if (searchList != null)
+            {
+                var count = 0;
+                foreach (var search in searchList)
+                {
+                    where += $" AND {search.Name} = @params{count}";
+                    paramList.Add($"@params{count++}", search.Value);
+                }
+            }
+
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                orderBy = " ORDER BY " + new T().EntityName + "id";
+            }
+            else
+            {
+                orderBy.Replace("ORDER BY", "");
+                orderBy = " ORDER BY " + orderBy;
+            }
+
+            var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);
+            return data;
+        }
+
+
         /// <summary>
         /// 获取实体记录
         /// </summary>

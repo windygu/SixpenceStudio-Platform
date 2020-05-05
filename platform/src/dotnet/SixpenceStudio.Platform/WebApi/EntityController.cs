@@ -18,6 +18,13 @@ namespace SixpenceStudio.Platform.WebApi
         where S : EntityService<E>, new()
     {
         [HttpGet]
+        public IList<E> GetDataList(string searchList = "", string orderBy = "")
+        {
+            var _searchList = string.IsNullOrEmpty(searchList) ? null : JsonConvert.DeserializeObject<IList<SearchCondition>>(searchList);
+            return new S().GetDataList(_searchList, orderBy);
+        }
+
+        [HttpGet]
         public DataModel<E> GetDataList(string searchList, string orderBy, int pageSize, int pageIndex)
         {
             var _searchList = string.IsNullOrEmpty(searchList) ? null : JsonConvert.DeserializeObject<IList<SearchCondition>>(searchList);

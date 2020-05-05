@@ -23,6 +23,16 @@ namespace SixpenceStudio.Platform.Service
         }
 
         #region 实体表单
+
+        /// <summary>
+        /// 获取所有实体记录
+        /// </summary>
+        /// <returns></returns>
+        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        {
+            return _cmd.GetDataList(searchList, orderBy);
+        }
+
         /// <summary>
         /// 获取所有实体记录
         /// </summary>

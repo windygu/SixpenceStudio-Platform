@@ -23,6 +23,26 @@ namespace SixpenceStudio.BaseSite.SysMenu
         }
         #endregion
 
+        public override IList<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        {
+            var data = base.GetDataList(searchList, orderBy).ToList();
+            var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
+            firstMenu.ForEach(item =>
+            {
+                item.ChildMenus = new List<sys_menu>();
+                data.ForEach(item2 =>
+                {
+                    if (item2.parentid == item.Id)
+                    {
+                        item.ChildMenus.Add(item2);
+                    }
+                });
+                item.ChildMenus = item.ChildMenus.OrderBy(e => e.menu_Index).ToList();
+            });
+            firstMenu = firstMenu.OrderBy(e => e.menu_Index).ToList();
+            return firstMenu;
+        }
+
         public override DataModel<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex)
         {
             var model = base.GetDataList(searchList, orderBy, pageSize, pageIndex);
