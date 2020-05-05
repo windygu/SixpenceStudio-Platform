@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Entity
 {
-    public class DataModel
+    public class DataModel<T>
+        where T : BaseEntity, new()
     {
+        public IList<T> DataList { get; set; }
+        public int RecordCount { get; set; }
     }
 
     /// <summary>

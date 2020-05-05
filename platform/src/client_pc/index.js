@@ -4,6 +4,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './src/libs';
 import components from './src/components';
 import axios from 'axios';
+import edit from './src/mixins/edit';
+import pagination from './src/mixins/pagination';
 
 // 第三方组件需要use
 Vue.use(elementUI);
@@ -26,7 +28,6 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
-import edit from './src/mixins/edit';
-export { edit };
+export { edit, pagination };
 
 export default API;

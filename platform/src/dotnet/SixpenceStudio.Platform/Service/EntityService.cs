@@ -27,9 +27,14 @@ namespace SixpenceStudio.Platform.Service
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy = "")
+        public virtual DataModel<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex)
         {
-            return _cmd.GetDataList(searchList, orderBy);
+            var data = _cmd.GetDataList(searchList, orderBy, pageSize, pageIndex, out var recordCount);
+            return new DataModel<T>()
+            {
+                DataList = data,
+                RecordCount = recordCount
+            };
         }
 
         /// <summary>

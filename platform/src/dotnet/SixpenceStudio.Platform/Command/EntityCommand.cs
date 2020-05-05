@@ -48,7 +48,7 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <param name="searchList"></param>
         /// <returns></returns>
-        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy = "")
+        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount)
         {
             var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
             var where = string.Empty;
@@ -74,6 +74,9 @@ namespace SixpenceStudio.Platform.Command
                 orderBy = " ORDER BY " + orderBy;
             }
 
+            var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table";
+            sql += $" LIMIT {pageSize} OFFSET {(pageIndex - 1) * pageSize}";
+            recordCount = Convert.ToInt32(broker.DbClient.ExecuteScalar(sql, paramList));
             var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);
             return data;
         }
