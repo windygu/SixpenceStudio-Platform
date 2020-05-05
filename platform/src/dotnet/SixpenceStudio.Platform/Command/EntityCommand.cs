@@ -74,9 +74,9 @@ namespace SixpenceStudio.Platform.Command
                 orderBy = " ORDER BY " + orderBy;
             }
 
-            var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table";
+            var recordCountSql = $"SELECT COUNT(1) FROM ({sql + where}) AS table1";
             sql += $" LIMIT {pageSize} OFFSET {(pageIndex - 1) * pageSize}";
-            recordCount = Convert.ToInt32(broker.DbClient.ExecuteScalar(sql, paramList));
+            recordCount = Convert.ToInt32(broker.DbClient.ExecuteScalar(recordCountSql, paramList));
             var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);
             return data;
         }

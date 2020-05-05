@@ -214,7 +214,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
                     sql += $" {orderby}";
             }
 
-            sql += $"LIMIT {pageSize} OFFSET {pageSize * pageIndex}";
+            sql += $" LIMIT {pageSize} OFFSET {pageSize * (pageIndex - 1)}";
             return DbClient.Query<T>(sql, paramList).ToList();
         }
 
@@ -231,8 +231,8 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         /// <returns></returns>
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount) where T : BaseEntity, new()
         {
-            var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table";
-            recordCount = Convert.ToInt32(DbClient.ExecuteScalar(sql, paramList));
+            var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table1";
+            recordCount = Convert.ToInt32(DbClient.ExecuteScalar(recordCountSql, paramList));
             var data = RetrieveMultiple<T>(sql, paramList, orderby, pageSize, pageIndex);
             return data;
         }
