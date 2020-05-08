@@ -14,6 +14,7 @@ namespace SixpenceStudio.BaseSite.DataService.Models
 
     public class ImageInfo
     {
+        public string id { get; set; }
         public string name { get; set; }
         public string path { get; set; }
     }

@@ -16,7 +16,7 @@ namespace SixpenceStudio.BaseSite.DataService
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public ImageInfo UploadImage(HttpPostedFile image, string fileType)
+        public ImageInfo UploadImage(HttpPostedFile image, string fileType, string objectId)
         {
             // 获取文件哈希码，将哈希码作为文件名
             var hash_code = SHAUtils.GetFileSHA1(image.InputStream);
@@ -31,13 +31,20 @@ namespace SixpenceStudio.BaseSite.DataService
             {
                 sys_fileId = id,
                 name = fileName,
+                hash_code = hash_code,
                 file_path = filePath,
-                file_type = fileType
+                file_type = fileType,
             };
+            if (!string.IsNullOrEmpty(objectId))
+            {
+                sysImage.objectId = objectId;
+            }
+
             new SysFileService().CreateData(sysImage);
 
             return new ImageInfo()
             {
+                id = sysImage.sys_fileId,
                 name = sysImage.name,
                 path = $"{FileUtils.FILE_FOLDER}/{sysImage.name}"
             };

@@ -45,7 +45,7 @@ WHERE hash_code = @code
                 var sql = @"
 SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
 ";
-                var result = _cmd.broker.DbClient.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", item } });
+                var result = _cmd.broker.DbClient.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
                 // 只有当前记录拥有该文件则删除
                 if (Convert.ToInt32(result) <= 1)
                 {
