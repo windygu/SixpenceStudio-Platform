@@ -11,4 +11,10 @@ namespace SixpenceStudio.BaseSite.DataService.Models
         public HttpPostedFile file { get; set; }
         public int? size { get; set; }
     }
+
+    public class ImageInfo
+    {
+        public string name { get; set; }
+        public string path { get; set; }
+    }
 }

@@ -23,7 +23,7 @@ function _handleError(error) {
     errorMessage = '您没有权限访问该资源';
     setTimeout(() => {
       location.href = '/#/login';
-    }, 3000);
+    }, 1000);
   } else {
     errorMessage = err.data || err;
   }

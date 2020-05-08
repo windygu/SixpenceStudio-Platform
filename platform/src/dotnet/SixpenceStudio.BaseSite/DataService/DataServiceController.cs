@@ -13,10 +13,10 @@ namespace SixpenceStudio.BaseSite.DataService
     public class DataServiceController : ApiController
     {
         [HttpPost]
-        public string UploadImage()
+        public ImageInfo UploadImage([FromUri]string fileType)
         {
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
-            return new DataService().UploadImage(file);
+            return new DataService().UploadImage(file, fileType);
         }
     }
 }

@@ -83,7 +83,7 @@ WHERE entityid = @id AND code = @code;
         /// 删除实体
         /// </summary>
         /// <param name="ids"></param>
-        public override void DeletelData(List<string> ids)
+        public override void DeleteData(List<string> ids)
         {
             var dataList = _cmd.broker.RetrieveMultiple<sys_attrs>(ids).ToList();
             var columns = new List<Column>();
@@ -99,7 +99,7 @@ WHERE entityid = @id AND code = @code;
                 _cmd.broker.DbClient.Execute(sql);
             }
 
-            base.DeletelData(ids);
+            base.DeleteData(ids);
         }
     }
 }

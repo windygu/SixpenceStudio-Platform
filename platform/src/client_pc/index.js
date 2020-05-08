@@ -19,6 +19,10 @@ const API = {
   install
 };
 
+if (!sp.isNullOrEmpty(localStorage.getItem('uploadUrl'))) {
+  localStorage.setItem('uploadUrl', 'www.dumiaoxin.top');
+}
+
 if (!sp.isNullOrEmpty(localStorage.getItem('baseUrl'))) {
   axios.defaults.baseURL = localStorage.getItem('baseUrl');
 }

@@ -188,5 +188,23 @@ namespace SixpenceStudio.BaseSite.SysFile
             }
         }
 
+        /// <summary>
+        /// 文件类型
+        /// </summary>
+        private string _file_type;
+        [DataMember]
+        public string file_type
+        {
+            get
+            {
+                return this._file_type;
+            }
+            set
+            {
+                this._file_type = value;
+                SetAttributeValue("file_type", value);
+            }
+        }
+
     }
 }

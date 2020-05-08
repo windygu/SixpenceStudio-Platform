@@ -11,36 +11,37 @@ namespace SixpenceStudio.BaseSite.DataService
 {
     public class DataService
     {
-        public string UploadImage(HttpPostedFile image)
+        /// <summary>
+        /// 上传图片
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public ImageInfo UploadImage(HttpPostedFile image, string fileType)
         {
+            // 获取文件哈希码，将哈希码作为文件名
+            var hash_code = SHAUtils.GetFileSHA1(image.InputStream);
             var id = Guid.NewGuid().ToString();
+            var fileName = $"{hash_code}.{image.FileName.GetFileType()}";
+            var filePath = FileUtils.GetLocalStorage() + "\\" + fileName;
+
+            // 保存图片到本地
+            FileUtils.SaveFile(image, filePath);
+
             var sysImage = new sys_file()
             {
                 sys_fileId = id,
-                name = $"{id}.{image.FileName.GetFileType()}",
+                name = fileName,
+                file_path = filePath,
+                file_type = fileType
             };
-            sysImage.file_path = FileUtils.GetLocalStorage() + "\\" + sysImage.name;
-            sysImage.hash_code = SHAUtils.GetFileSHA1(image.InputStream);
+            new SysFileService().CreateData(sysImage);
 
-            #region 根据HASH值判断是否需要保存文件
-
-            #endregion
-            var _file = new SysFileService().GetDattaByCode(sysImage.hash_code);
-            if (_file != null)
+            return new ImageInfo()
             {
-                sysImage.name = _file.name;
-                sysImage.file_path = _file.file_path;
-            }
-            else
-            {
-                image.SaveAs(sysImage.file_path);
-            }
-
-            var result = new SysFileService().CreateData(sysImage);
-            
-            return result;
+                name = sysImage.name,
+                path = $"{FileUtils.FILE_FOLDER}/{sysImage.name}"
+            };
         }
-
 
     }
 }

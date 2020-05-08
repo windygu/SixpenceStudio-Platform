@@ -91,7 +91,7 @@ namespace SixpenceStudio.Platform.Service
         /// 删除记录
         /// </summary>
         /// <param name="ids"></param>
-        public virtual void DeletelData(List<string> ids)
+        public virtual void DeleteData(List<string> ids)
         {
             _cmd.Delete<T>(ids);
         }

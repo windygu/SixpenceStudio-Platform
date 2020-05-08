@@ -52,7 +52,7 @@ namespace SixpenceStudio.Platform.WebApi
         [HttpPost]
         public void DeleteData(List<string> ids)
         {
-            new S().DeletelData(ids);
+            new S().DeleteData(ids);
         }
     }
 }

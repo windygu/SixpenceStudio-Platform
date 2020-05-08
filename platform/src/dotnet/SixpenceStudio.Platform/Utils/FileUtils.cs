@@ -10,6 +10,8 @@ namespace SixpenceStudio.Platform.Utils
 {
     public static class FileUtils
     {
+        public const string FILE_FOLDER = "temp";
+
         /// <summary>
         /// 获取文件类型
         /// </summary>
@@ -33,17 +35,43 @@ namespace SixpenceStudio.Platform.Utils
         public static string GetLocalStorage()
         {
             var strpatj = HttpRuntime.AppDomainAppPath;
-            if (!Directory.Exists(strpatj + "temp"))
-                Directory.CreateDirectory(strpatj + "temp");
-            return strpatj + "temp";
+            if (!Directory.Exists(strpatj + FILE_FOLDER))
+                Directory.CreateDirectory(strpatj + FILE_FOLDER);
+            return strpatj + FILE_FOLDER;
         }
 
-        public static void SaveFile(string name, string path, Stream stream)
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="filePath"></param>
+        public static void SaveFile(HttpPostedFile image, string filePath)
         {
-
-            using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            // 文件已存在
+            if (File.Exists(filePath))
             {
-                stream.CopyTo(fileStream);
+                return;
+            }
+
+            try
+            {
+                image.SaveAs(filePath);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        public static void DeleteFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
             }
         }
     }
