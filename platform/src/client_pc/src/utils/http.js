@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axios';
 import { isNull } from './common';
 
 function _handleSuccess(res) {
@@ -21,9 +21,6 @@ function _handleError(error) {
   let errorMessage;
   if (err.status === 401) {
     errorMessage = '您没有权限访问该资源';
-    setTimeout(() => {
-      location.href = '/#/login';
-    }, 1000);
   } else {
     errorMessage = err.data || err;
   }

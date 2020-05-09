@@ -18,5 +18,11 @@ namespace SixpenceStudio.BaseSite.DataService
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
             return new DataService().UploadImage(file, fileType, objectId);
         }
+
+        [HttpGet]
+        public string Test()
+        {
+            return "Your authorization is right！";
+        }
     }
 }

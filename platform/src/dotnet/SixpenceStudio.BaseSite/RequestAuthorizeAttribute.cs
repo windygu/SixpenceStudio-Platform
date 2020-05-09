@@ -26,16 +26,23 @@ namespace SixpenceStudio.BaseSite
                 // 解密用户ticket,并校验用户名密码是否匹配
                 var encryptTicket = authorization.Parameter;
                 // 验证是否正确用户名密码
-                if (ValidateTicket(encryptTicket))
+                try
                 {
-                    //指定已授权
-                    base.IsAuthorized(actionContext);
-                    // 设置UserId
-                    HttpContext.Current.Session["UserId"] = userId;
+                    if (ValidateTicket(encryptTicket))
+                    {
+                        //指定已授权
+                        base.IsAuthorized(actionContext);
+                        // 设置UserId
+                        HttpContext.Current.Session["UserId"] = userId;
+                    }
+                    else
+                    {
+                        // 返回401
+                        HandleUnauthorizedRequest(actionContext);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    // 返回401
                     HandleUnauthorizedRequest(actionContext);
                 }
             }
