@@ -2,6 +2,8 @@ import axios from './axios';
 import { isNull } from './common';
 
 function _handleSuccess(res) {
+  if (!res) return;
+
   if (!res.data) {
     return res.data;
   }
