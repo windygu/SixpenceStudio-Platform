@@ -9,20 +9,26 @@ using System.Web.Http;
 namespace SixpenceStudio.BaseSite.DataService
 {
     [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter, RequestAuthorize]
+    [WebApiExceptionFilter]
     public class DataServiceController : ApiController
     {
-        [HttpPost]
+        [HttpPost, RequestAuthorize]
         public ImageInfo UploadImage([FromUri]string fileType, [FromUri]string objectId = "")
         {
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
             return new DataService().UploadImage(file, fileType, objectId);
         }
 
-        [HttpGet]
+        [HttpGet, RequestAuthorize]
         public string Test()
         {
             return "Your authorization is right！";
+        }
+
+        [HttpGet]
+        public string GetRandomImage()
+        {
+            return new DataService().GetRandomImage();
         }
     }
 }

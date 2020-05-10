@@ -50,5 +50,15 @@ namespace SixpenceStudio.BaseSite.DataService
             };
         }
 
+        /// <summary>
+        /// 获取随机图片
+        /// </summary>
+        /// <returns></returns>
+        public string GetRandomImage()
+        {
+            var result = HttpUtils.Get("https://api.ixiaowai.cn/api/api.php?return=json");
+            return result;
+        }
+
     }
 }
