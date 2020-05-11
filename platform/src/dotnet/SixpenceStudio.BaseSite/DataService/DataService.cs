@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.BaseSite.AuthUser;
 
 namespace SixpenceStudio.BaseSite.DataService
 {
@@ -60,5 +61,27 @@ namespace SixpenceStudio.BaseSite.DataService
             return result;
         }
 
+        /// <summary>
+        /// 测试是否是合法用户
+        /// </summary>
+        /// <returns></returns>
+        public bool Test()
+        {
+            var authorization = HttpContext.Current.Request.Headers["Authorization"];
+            if (authorization != null)
+            {
+                authorization = authorization.Replace("BasicAuth ", "");
+                try
+                {
+                    var result = new AuthUserService().ValidateTicket(authorization, out var userId);
+                    return result;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
     }
 }

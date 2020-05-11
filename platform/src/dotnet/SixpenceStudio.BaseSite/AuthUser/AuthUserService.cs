@@ -73,5 +73,33 @@ WHERE userid = @id;
             var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd } };
             _cmd.broker.DbClient.Execute(sql, paramList);
         }
+
+
+        /// <summary>
+        /// 检验 Ticket
+        /// </summary>
+        /// <param name="encryptTicket"></param>
+        /// <returns></returns>
+        public bool ValidateTicket(string encryptTicket, out string userId)
+        {
+            // 解密Ticket
+            var strTicket = FormsAuthentication.Decrypt(encryptTicket);
+
+            var user = strTicket.UserData;
+            var expireation = strTicket.Expiration;
+            var expired = strTicket.Expired;
+            var issueDate = strTicket.IssueDate;
+
+            // 从Ticket里面获取用户名和密码
+            var index = user.IndexOf("&");
+            string userStr = user.Substring(0, index);
+            string pwdStr = user.Substring(index + 1);
+
+            userId = userStr;
+
+            var data = GetData(userStr, pwdStr);
+            return data != null && !expired;
+        }
+
     }
 }

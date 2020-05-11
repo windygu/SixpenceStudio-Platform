@@ -19,10 +19,10 @@ namespace SixpenceStudio.BaseSite.DataService
             return new DataService().UploadImage(file, fileType, objectId);
         }
 
-        [HttpGet, RequestAuthorize]
-        public string Test()
+        [HttpGet]
+        public bool Test()
         {
-            return "Your authorization is right！";
+            return new DataService().Test();
         }
 
         [HttpGet]

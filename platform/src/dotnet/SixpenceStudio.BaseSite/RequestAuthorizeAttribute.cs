@@ -28,7 +28,7 @@ namespace SixpenceStudio.BaseSite
                 // 验证是否正确用户名密码
                 try
                 {
-                    if (ValidateTicket(encryptTicket))
+                    if (new AuthUserService().ValidateTicket(encryptTicket, out var userId))
                     {
                         //指定已授权
                         base.IsAuthorized(actionContext);
@@ -54,32 +54,6 @@ namespace SixpenceStudio.BaseSite
                 if (isAnonymous) base.OnAuthorization(actionContext);
                 else HandleUnauthorizedRequest(actionContext);
             }
-        }
-
-        /// <summary>
-        /// 检验 Ticket
-        /// </summary>
-        /// <param name="encryptTicket"></param>
-        /// <returns></returns>
-        private bool ValidateTicket(string encryptTicket)
-        {
-            // 解密Ticket
-            var strTicket = FormsAuthentication.Decrypt(encryptTicket);
-
-            var user = strTicket.UserData;
-            var expireation = strTicket.Expiration;
-            var expired = strTicket.Expired;
-            var issueDate = strTicket.IssueDate;
-
-            // 从Ticket里面获取用户名和密码
-            var index = user.IndexOf("&");
-            string userStr = user.Substring(0, index);
-            string pwdStr = user.Substring(index + 1);
-
-            userId = userStr;
-
-            var data = new AuthUserService().GetData(userStr, pwdStr);
-            return data != null && !expired;
         }
 
     }
