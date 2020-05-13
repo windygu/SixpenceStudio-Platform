@@ -48,6 +48,15 @@ export default {
     allowSelect: {
       type: Boolean,
       default: false
+    },
+    // 标题点击
+    headerClick: {
+      type: Function
+    },
+    // 页面类型
+    type: {
+      type: String,
+      default: 'normal'
     }
   },
   data() {
@@ -62,6 +71,9 @@ export default {
     };
   },
   computed: {
+    isNormal() {
+      return this.type === 'normal';
+    },
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
     }
@@ -74,10 +86,16 @@ export default {
       return sp.get(`api/${this.controllerName}/getdatalist`);
     },
     handleClick(row) {
-      this.relatedAttr = {
-        id: row.Id
-      };
-      this.editVisible = true;
+      if (this.isNormal) {
+        this.relatedAttr = {
+          id: row.Id
+        };
+        this.editVisible = true;
+      } else {
+        if (this.headerClick && typeof this.headerClick === 'function') {
+          this.headerClick(row);
+        }
+      }
     },
     handleSelectionChange(val) {
       this.selections = val;
