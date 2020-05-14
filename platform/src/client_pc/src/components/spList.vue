@@ -59,6 +59,11 @@ export default {
       default: 'normal'
     }
   },
+  mounted() {
+    if (!this.isNormal) {
+      this.$refs.list.pageSize = 5;
+    }
+  },
   data() {
     return {
       normalOperations: [
@@ -130,5 +135,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
