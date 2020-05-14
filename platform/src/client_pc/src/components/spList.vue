@@ -1,16 +1,39 @@
 <template>
-  <div>
+  <div v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
     <sp-header v-if="buttons && buttons.length > 0">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
-    <sp-table
-      ref="list"
-      :fetchData="fetchData"
-      :columns="columns"
-      @link-click="handleClick"
-      :allowSelect="allowSelect"
-      @selection-change="handleSelectionChange"
-    ></sp-table>
+    <el-table ref="table" :data="tableData" style="width: 100%" row-key="Id" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
+      <el-table-column
+        v-for="(column, index) in columns"
+        :key="index"
+        :label="column.label"
+        :prop="column.prop"
+        :width="column.width"
+        :sortable="column.sortable ? 'custom' : false"
+      >
+        <template slot-scope="scope">
+          <span v-if="index == 0">
+            <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row[column.prop] }}</a>
+          </span>
+          <span v-else-if="column.type == 'date'">{{ scope.row[column.prop] | moment('YYYY-MM-DD') }}</span>
+          <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:MM') }}</span>
+          <span v-else>{{ scope.row[column.prop] }}</span>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      @size-change="sizeChange"
+      @current-change="currentPage"
+      :current-page="pageIndex"
+      :page-size="pageSize"
+      :pager-count="pagerCount"
+      :total="total"
+    >
+    </el-pagination>
     <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%">
       <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
     </el-dialog>
@@ -18,8 +41,11 @@
 </template>
 
 <script>
+import pagination from '../mixins/pagination';
+
 export default {
   name: 'sp-list',
+  mixins: [pagination],
   props: {
     // 操作按钮
     operations: {
@@ -57,22 +83,30 @@ export default {
     type: {
       type: String,
       default: 'normal'
+    },
+    // 自定义 API
+    customApi: {
+      type: String,
+      default: ''
     }
   },
-  mounted() {
+  created() {
     if (!this.isNormal) {
-      this.$refs.list.pageSize = 5;
+      this.pageSize = 5;
     }
+    this.loadData();
   },
   data() {
     return {
+      tableData: [],
       normalOperations: [
         { name: 'new', icon: 'el-icon-plus', operate: this.createData },
         { name: 'delete', icon: 'el-icon-delete', operate: this.deleteData }
       ],
       editVisible: false,
       relatedAttr: null,
-      selections: []
+      selections: [],
+      loading: false
     };
   },
   computed: {
@@ -84,11 +118,35 @@ export default {
     }
   },
   methods: {
-    loadData() {
-      this.$refs.list.loadData();
+    currentPage(index) {
+      this.pageIndex = index;
+      this.loadData();
     },
-    async fetchData() {
-      return sp.get(`api/${this.controllerName}/getdatalist`);
+    loadData() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pageSize}&pageIndex=${this.pageIndex}`;
+      if (!sp.isNullOrEmpty(this.customApi)) {
+        url = this.customApi;
+      }
+      try {
+        sp.get(url).then(resp => {
+          if (resp && resp.DataList) {
+            this.tableData = resp.DataList;
+            this.total = resp.RecordCount;
+          } else {
+            this.tableData = resp;
+          }
+        });
+      } catch (error) {
+        this.$message.error(error);
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
     },
     handleClick(row) {
       if (this.isNormal) {
@@ -135,3 +193,14 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+.compute-span {
+  color: #409eff;
+  text-decoration: none;
+}
+.el-pagination {
+  text-align: center;
+  padding-top: 20px;
+}
+</style>
