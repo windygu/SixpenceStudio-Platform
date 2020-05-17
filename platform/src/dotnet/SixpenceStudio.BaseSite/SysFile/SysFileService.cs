@@ -39,20 +39,23 @@ WHERE hash_code = @code
         /// <param name="ids"></param>
         public override void DeleteData(List<string> ids)
         {
-            ids.ForEach(item =>
+            _cmd.broker.ExecuteTransaction(() =>
             {
-                var data = GetData(item);
-                var sql = @"
+                ids.ForEach(item =>
+                {
+                    var data = GetData(item);
+                    var sql = @"
 SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
 ";
-                var result = _cmd.broker.DbClient.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
-                // 只有当前记录拥有该文件则删除
-                if (Convert.ToInt32(result) <= 1)
-                {
-                    FileUtils.DeleteFile(data.file_path);
-                }
+                    var result = _cmd.broker.DbClient.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
+                    // 只有当前记录拥有该文件则删除
+                    if (Convert.ToInt32(result) <= 1)
+                    {
+                        FileUtils.DeleteFile(data.file_path);
+                    }
+                });
+                base.DeleteData(ids);
             });
-            base.DeleteData(ids);
         }
     }
 }

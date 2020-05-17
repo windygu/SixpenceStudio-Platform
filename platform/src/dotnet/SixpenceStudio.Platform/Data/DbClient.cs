@@ -1,44 +1,121 @@
-﻿using System;
+﻿using Dapper;
+using Npgsql;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
 using System.Data;
 using System.Data.Common;
-using System.Collections;
-using Npgsql;
-using System.Configuration;
-using SixpenceStudio.Platform.Utils;
-using SixpenceStudio.Platform.Configs;
 
 namespace SixpenceStudio.Platform.Data
 {
-    public class DbClient : IDbClient
+    internal sealed class DbClient : IDbClient
     {
-        #region 构造函数
-        public DbClient() { }
-        public DbClient(string connectionString)
-        {
-            this.connectionString = connectionString;
-        }
-        #endregion
-
-        /// <summary>
-        /// 数据库连接字符串
-        /// </summary>
-        private readonly string connectionString;
 
         /// <summary>
         /// 数据库连接实例
         /// </summary>
-        private DbConnection _conn
+        private DbConnection _conn;
+        public IDbConnection DbConnection => _conn;
+
+        /// <summary>
+        /// 初始化数据库连接
+        /// </summary>
+        /// <param name="connectinString"></param>
+        public void Initialize(string connectinString)
         {
-            get
+            _conn = new NpgsqlConnection(connectinString);
+        }
+
+        /// <summary>
+        ///获取数据库连接状态 
+        /// </summary>
+        /// <returns></returns>
+        public ConnectionState ConnectionState => _conn.State;
+
+        #region 开启数据库连接
+        //数据库打开、关闭的计数器
+        private int _dbOpenCounter;
+
+        /// <summary>
+        ///打开数据库的连接（如果已经Open，则忽略）
+        /// </summary>
+        public void Open()
+        {
+            //counter = 0代表没有打开过，否则说明已经打开过了，不需要再打开
+            if (_dbOpenCounter++ == 0)
             {
-                return new NpgsqlConnection(connectionString);
+                if (_conn.State != ConnectionState.Open)
+                    _conn.Open();
+            }
+
+        }
+
+        /// <summary>
+        /// 关闭数据库连接
+        /// </summary>
+        public void Close()
+        {
+            //counter先自减1，然后判断是否=0，是的话代表是最后一次关闭
+            if (--_dbOpenCounter == 0)
+            {
+                if (_conn.State != ConnectionState.Closed)
+                {
+                    _conn?.Close();
+                }
             }
         }
+        #endregion
+
+        #region 事务
+
+        private DbTransaction _trans;
+        private int _transCounter;
+
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
+        public IDbTransaction BeginTransaction()
+        {
+            if (_transCounter++ == 0)
+            {
+                _trans = _conn.BeginTransaction();
+            }
+            return _trans;
+        }
+
+        /// <summary>
+        /// 提交数据库的事务
+        /// </summary>
+        public void CommitTransaction()
+        {
+            if (--_transCounter == 0)
+            {
+                _trans?.Commit();
+                _trans?.Dispose();
+                _trans = null;
+            }
+        }
+
+        /// <summary>
+        /// 回滚数据库的事务
+        /// </summary>
+        public void Rollback()
+        {
+            try
+            {
+                if (--_transCounter == 0)
+                {
+                    _trans?.Rollback();
+                    _trans?.Dispose();
+                    _trans = null;
+                }
+            }
+            finally
+            {
+                if (_transCounter == 0)
+                    _trans = null;
+            }
+        }
+        #endregion
 
         #region Execute
         public int Execute(string sqlText, IDictionary<string, object> paramList = null)
@@ -68,17 +145,5 @@ namespace SixpenceStudio.Platform.Data
             return dt;
         }
         #endregion
-    }
-
-    public class DbClientFactory
-    {
-
-        public static DbClient GetDbInstance()
-        {
-            string connectionString = ConfigurationManager.AppSettings["DbConnectrionString"];
-            DecryptAndEncryptHelper helper = new DecryptAndEncryptHelper(ConfigInformation.Key, ConfigInformation.Vector);
-            var decryptionString = helper.Decrypto(connectionString);
-            return new DbClient(decryptionString);
-        }
     }
 }

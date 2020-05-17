@@ -5,18 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SixpenceStudio.Platform.Utils;
+using System.Configuration;
+using SixpenceStudio.Platform.Configs;
 
 namespace SixpenceStudio.Platform.Data
 {
     public class PersistBroker : IPersistBroker
     {
-        public IDbClient DbClient
+        public PersistBroker()
         {
-            get
-            {
-                return DbClientFactory.GetDbInstance();
-            }
+            string connectionString = ConfigurationManager.AppSettings["DbConnectrionString"];
+            DecryptAndEncryptHelper helper = new DecryptAndEncryptHelper(ConfigInformation.Key, ConfigInformation.Vector);
+            var decryptionString = helper.Decrypto(connectionString);
+            _dbClient = new DbClient();
+            _dbClient.Initialize(decryptionString);
         }
+
+        /// <summary>
+        /// 数据库实例
+        /// </summary>
+        private IDbClient _dbClient;
+        public IDbClient DbClient => _dbClient;
 
         #region CRUD
         /// <summary>
@@ -154,7 +163,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         {
             var sql = "DELETE FROM {0} WHERE 1=1 {1}";
             sql = string.Format(sql, string.IsNullOrEmpty(where) ? "" : $" AND {where}");
-            int result = DbClient.Execute(sql, paramList);
+            int result = _dbClient.Execute(sql, paramList);
             return result;
         }
         
@@ -167,7 +176,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         public T Retrieve<T>(string id) where T : BaseEntity, new()
         {
             var sql = $"SELECT * FROM {new T().EntityName} WHERE {new T().EntityName}id =@id";
-            return DbClient.Query<T>(sql, new Dictionary<string, object>() { { "@id", id } }).FirstOrDefault();
+            return _dbClient.Query<T>(sql, new Dictionary<string, object>() { { "@id", id } }).FirstOrDefault();
         }
 
         /// <summary>
@@ -179,7 +188,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         /// <returns></returns>
         public T Retrieve<T>(string sql, Dictionary<string, object> paramList) where T : BaseEntity, new()
         {
-            return DbClient.Query<T>(sql, paramList).FirstOrDefault();
+            return _dbClient.Query<T>(sql, paramList).FirstOrDefault();
         }
 
         /// <summary>
@@ -191,7 +200,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         /// <returns></returns>
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList = null) where T : BaseEntity, new()
         {
-            return DbClient.Query<T>(sql, paramList).ToList();
+            return _dbClient.Query<T>(sql, paramList).ToList();
         }
 
         /// <summary>
@@ -215,7 +224,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             }
 
             sql += $" LIMIT {pageSize} OFFSET {pageSize * (pageIndex - 1)}";
-            return DbClient.Query<T>(sql, paramList).ToList();
+            return _dbClient.Query<T>(sql, paramList).ToList();
         }
 
         /// <summary>
@@ -232,7 +241,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount) where T : BaseEntity, new()
         {
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table1";
-            recordCount = Convert.ToInt32(DbClient.ExecuteScalar(recordCountSql, paramList));
+            recordCount = Convert.ToInt32(_dbClient.ExecuteScalar(recordCountSql, paramList));
             var data = RetrieveMultiple<T>(sql, paramList, orderby, pageSize, pageIndex);
             return data;
         }

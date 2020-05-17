@@ -26,6 +26,7 @@ namespace SixpenceStudio.BaseSite.DataService
             var filePath = FileUtils.GetLocalStorage() + "\\" + fileName;
 
             // 保存图片到本地
+            // TODO：执行失败回滚操作
             FileUtils.SaveFile(image, filePath);
 
             var sysImage = new sys_file()
