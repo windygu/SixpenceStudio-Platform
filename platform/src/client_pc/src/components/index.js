@@ -4,6 +4,8 @@ import spButtonList from './spButtonList';
 import spIcon from './spIcon';
 import spTable from './spTable';
 import spList from './spList';
+import spSection from './spSection';
+import spMenu from './spMenu';
 
 const components = [
   { name: register.name, component: register },
@@ -11,7 +13,9 @@ const components = [
   { name: spButtonList.name, component: spButtonList },
   { name: spIcon.name, component: spIcon },
   { name: spTable.name, component: spTable },
-  { name: spList.name, component: spList }
+  { name: spList.name, component: spList },
+  { name: spSection.name, component: spSection },
+  { name: spMenu.name, component: spMenu }
 ];
 
 export default components;

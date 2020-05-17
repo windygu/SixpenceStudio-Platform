@@ -3,7 +3,7 @@
     <sp-header v-if="buttons && buttons.length > 0">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
-    <el-table ref="table" :data="tableData" style="width: 100%" row-key="Id" @selection-change="handleSelectionChange">
+    <el-table ref="table" :data="tableData" :style="{ 'min-height': minHeight }" row-key="Id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
       <el-table-column
         v-for="(column, index) in columns"
@@ -34,7 +34,7 @@
       :total="total"
     >
     </el-pagination>
-    <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%">
+    <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%" append-to-body>
       <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
     </el-dialog>
   </div>
@@ -79,20 +79,19 @@ export default {
     headerClick: {
       type: Function
     },
-    // 页面类型
-    type: {
-      type: String,
-      default: 'normal'
-    },
     // 自定义 API
     customApi: {
       type: String,
       default: ''
+    },
+    minHeight: {
+      type: String,
+      default: '600px'
     }
   },
   created() {
-    if (!this.isNormal) {
-      this.pageSize = 5;
+    if (this.$attrs['pageSize']) {
+      this.pageSize = this.$attrs['pageSize'];
     }
     this.loadData();
   },
@@ -110,9 +109,6 @@ export default {
     };
   },
   computed: {
-    isNormal() {
-      return this.type === 'normal';
-    },
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
     }
@@ -149,15 +145,13 @@ export default {
       }
     },
     handleClick(row) {
-      if (this.isNormal) {
+      if (this.headerClick && typeof this.headerClick === 'function') {
+        this.headerClick(row);
+      } else {
         this.relatedAttr = {
           id: row.Id
         };
         this.editVisible = true;
-      } else {
-        if (this.headerClick && typeof this.headerClick === 'function') {
-          this.headerClick(row);
-        }
       }
     },
     handleSelectionChange(val) {
