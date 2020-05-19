@@ -31,7 +31,7 @@ namespace SixpenceStudio.Platform.Logging
         { 
             get 
             {
-                return System.Web.HttpContext.Current.Request.RawUrl;
+                return System.Web.HttpContext.Current.Request.Url.ToString();
             }
         }
 

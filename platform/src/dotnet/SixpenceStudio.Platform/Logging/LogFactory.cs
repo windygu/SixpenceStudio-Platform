@@ -19,6 +19,10 @@ namespace SixpenceStudio.Platform.Logging
     {
         public static string FormatDictonary(IDictionary<string, object> paramList)
         {
+            if (paramList == null)
+            {
+                return "\r\n";
+            }
             var list = new List<string>();
             foreach (var item in paramList)
             {

@@ -7,7 +7,7 @@ using System.IO;
 using System.Web.Http;
 
 [assembly: OwinStartup("ProductionConfiguration", typeof(Startup))]
-[assembly: XmlConfigurator(ConfigFile = @"E:\Sixpence Studio\SixpenceStudio-Blog\blog\build\bin\Configs\log4net.config", Watch = true)]
+[assembly: XmlConfigurator(ConfigFile = @"log4net.config", Watch = true)]
 namespace SixpenceStudio.Platform.Startup
 {
     public partial class Startup
