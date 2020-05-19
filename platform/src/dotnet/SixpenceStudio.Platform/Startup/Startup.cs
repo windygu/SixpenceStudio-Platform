@@ -15,7 +15,7 @@ namespace SixpenceStudio.Platform.Startup
         public void Configuration(IAppBuilder app)
         {
             // 加载log配置
-            var file = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\bin\Configs\log4net.config");
+            var file = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config");
             var repository = log4net.LogManager.CreateRepository("NETFrameworkRepository");
             XmlConfigurator.Configure(repository, file);
             XmlConfigurator.ConfigureAndWatch(file);
