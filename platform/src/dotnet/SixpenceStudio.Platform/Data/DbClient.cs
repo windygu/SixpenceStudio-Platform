@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using log4net;
 using Npgsql;
+using SixpenceStudio.Platform.Logging;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -120,10 +122,12 @@ namespace SixpenceStudio.Platform.Data
         #region Execute
         public int Execute(string sqlText, IDictionary<string, object> paramList = null)
         {
+            LogUtils.DebugLog(sqlText + LogUtils.FormatDictonary(paramList));
             return _conn.Execute(sqlText, paramList);
         }
         public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
         {
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             return _conn.ExecuteScalar(sql, paramList);
         }
         #endregion
@@ -131,6 +135,7 @@ namespace SixpenceStudio.Platform.Data
         #region Query
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             var ret = _conn.Query<T>(sql, paramList);
             return ret;
         }
@@ -139,6 +144,7 @@ namespace SixpenceStudio.Platform.Data
         #region DataTable
         public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             DataTable dt = new DataTable();
             var reader = _conn.ExecuteReader(sql, paramList);
             dt.Load(reader);

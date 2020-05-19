@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Service;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Web.Http;
 namespace SixpenceStudio.Platform.WebApi
 {
     [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter]
+    [WebApiExceptionFilter, WebApiTracker]
     public class EntityController<E, S> : ApiController
         where E : BaseEntity, new()
         where S : EntityService<E>, new()
