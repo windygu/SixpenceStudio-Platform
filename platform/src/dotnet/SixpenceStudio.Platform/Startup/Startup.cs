@@ -20,9 +20,6 @@ namespace SixpenceStudio.Platform.Startup
             XmlConfigurator.Configure(repository, file);
             XmlConfigurator.ConfigureAndWatch(file);
 
-            var log = log4net.LogManager.GetLogger("Test");
-            log.Debug("123");
-
             var config = new HttpConfiguration();
 
             app.UseCors(CorsOptions.AllowAll);

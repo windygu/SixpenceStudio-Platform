@@ -13,6 +13,9 @@ namespace SixpenceStudio.BaseSite.AuthUser
 {
     public class AuthUserService : EntityService<auth_user>
     {
+        private readonly string Key = "C0536798-3187-47F3-BF34-95596C9338BA";
+        private readonly string Vector = "33998425-3944-4DDE-B3C4-8CAA1681A1B4";
+
         #region 构造函数
         public AuthUserService()
         {
@@ -30,12 +33,19 @@ namespace SixpenceStudio.BaseSite.AuthUser
             var sql = @"
 SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
-            var encryptionPwd = SHAUtils.SHA256Encrypt(pwd);
-            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
+            var decryptionPwd1 = new DecryptAndEncryptHelper(Key, Vector).Decrypto2(pwd);
+            var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成SHA256散列值
+            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd2 } };
             var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
             return authUser;
         }
 
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="pwd"></param>
+        /// <returns></returns>
         public LoginResponse Login(string code, string pwd)
         {
             var authUser = GetData(code, pwd);
@@ -61,6 +71,10 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             return oUser;
         }
 
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="password"></param>
         public void EditPassword(string password)
         {
             var sql = $@"
@@ -68,9 +82,10 @@ UPDATE auth_user
 SET password = @password
 WHERE userid = @id;
 ";
-            var encryptionPwd = SHAUtils.SHA256Encrypt(password);
+            var decryptionPwd1 = new DecryptAndEncryptHelper(Key, Vector).Decrypto2(password); // 对称解密
+            var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成散列值
             var user = _cmd.GetCurrentUser();
-            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd } };
+            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd2 } };
             _cmd.broker.DbClient.Execute(sql, paramList);
         }
 

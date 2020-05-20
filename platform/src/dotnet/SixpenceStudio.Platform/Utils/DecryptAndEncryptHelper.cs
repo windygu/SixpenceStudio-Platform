@@ -128,5 +128,25 @@ namespace SixpenceStudio.Platform.Utils
             return result;
         }
 
+        /// <summary>
+        /// AES CBC PKCS7 解密
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <returns></returns>
+        public string Decrypto2(string Source)
+        {
+            byte[] bytIn = Convert.FromBase64String(Source);
+            MemoryStream ms = new MemoryStream(bytIn, 0, bytIn.Length);
+            _symmetricAlgorithm.Key = Encoding.UTF8.GetBytes(_key.Substring(0, 32));
+            _symmetricAlgorithm.IV = Encoding.UTF8.GetBytes(_iv.Substring(0, 16));
+            _symmetricAlgorithm.Mode = CipherMode.CBC;
+            _symmetricAlgorithm.Padding = PaddingMode.PKCS7;
+            ICryptoTransform encrypto = _symmetricAlgorithm.CreateDecryptor();
+            CryptoStream cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Read);
+            StreamReader sr = new StreamReader(cs);
+            var result = sr.ReadToEnd();
+            return result;
+        }
+
     }
 }
