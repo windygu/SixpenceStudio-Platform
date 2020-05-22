@@ -1,8 +1,10 @@
 ﻿using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -119,7 +121,8 @@ namespace SixpenceStudio.Platform.Command
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T GetEntity<T>(string id) where T : BaseEntity, new()
+        public T GetEntity<T>(string id)
+            where T : BaseEntity, new()
         {
             return broker.Retrieve<T>(id);
         }
@@ -130,7 +133,8 @@ namespace SixpenceStudio.Platform.Command
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public string Create<T>(T t) where T : BaseEntity, new()
+        public string Create<T>(T t)
+            where T : BaseEntity, new()
         {
             if (string.IsNullOrEmpty(t.Id))
             {
@@ -156,8 +160,20 @@ namespace SixpenceStudio.Platform.Command
             {
                 t.SetAttributeValue("ModifiedOn", DateTime.Now);
             }
-
-            return broker.Create(t);
+            var id = "";
+            broker.ExecuteTransaction(() =>
+            {
+                var context = new Context()
+                {
+                    Broker = broker,
+                    Entity = t,
+                    EntityName = t.EntityName
+                };
+                AssemblyUtils.Execute<IEntityActionPlugin>("PreCreate", new object[] { context });
+                id = broker.Create(t);
+                AssemblyUtils.Execute<IEntityActionPlugin>("PostCreate", new object[] { context });
+            });
+            return id;
         }
 
         /// <summary>
@@ -165,7 +181,8 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
-        public void Update<T>(T t) where T : BaseEntity, new()
+        public void Update<T>(T t)
+            where T : BaseEntity, new()
         {
             if (string.IsNullOrEmpty(t.Id))
             {
@@ -181,7 +198,18 @@ namespace SixpenceStudio.Platform.Command
             {
                 t.SetAttributeValue("ModifiedOn", DateTime.Now);
             }
-            broker.Update(t);
+            broker.ExecuteTransaction(() =>
+            {
+                var context = new Context()
+                {
+                    Broker = broker,
+                    Entity = t,
+                    EntityName = t.EntityName
+                };
+                AssemblyUtils.Execute<IEntityActionPlugin>("PreUpdate", new object[] { context });
+                broker.Update(t);
+                AssemblyUtils.Execute<IEntityActionPlugin>("PostUpdate", new object[] { context });
+            });
         }
 
         /// <summary>
@@ -190,7 +218,8 @@ namespace SixpenceStudio.Platform.Command
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public string CreateOrUpdateData<T>(T t) where T : BaseEntity, new()
+        public string CreateOrUpdateData<T>(T t)
+            where T : BaseEntity, new()
         {
             var id = t.Id;
             var isExist = GetEntity<T>(id) != null;
@@ -210,10 +239,25 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ids"></param>
-        public void Delete<T>(List<string> ids) where T : BaseEntity, new()
+        public void Delete<T>(List<string> ids)
+            where T : BaseEntity, new()
         {
-            ids.ForEach(id => broker.Delete(new T().EntityName, id));
+            broker.ExecuteTransaction(() =>
+            {
+                ids.ForEach(id =>
+                {
+                    var data = broker.Retrieve<T>(id);
+                    var context = new Context()
+                    {
+                        Broker = broker,
+                        Entity = data,
+                        EntityName = data.EntityName
+                    };
+                    AssemblyUtils.Execute<IEntityActionPlugin>("PreDelete", new object[] { context });
+                    broker.Delete(new T().EntityName, id);
+                    AssemblyUtils.Execute<IEntityActionPlugin>("PostDelete", new object[] { context });
+                });
+            });
         }
-
     }
 }

@@ -29,6 +29,17 @@ namespace SixpenceStudio.Platform.Utils
         }
 
         /// <summary>
+        /// 获取文件列表路径
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IList<string> GetFileList(string name)
+        {
+            var fileList = Directory.GetFiles(HttpRuntime.AppDomainAppPath + "\\bin", name, SearchOption.AllDirectories);
+            return fileList;
+        }
+
+        /// <summary>
         /// 获取文件保存路径
         /// </summary>
         /// <returns></returns>
