@@ -25,5 +25,24 @@ namespace SixpenceStudio.BaseSite.UserInfo
         }
         #endregion
 
+        public override IList<EntityView<user_info>> GetViewList()
+        {
+            var sql = @"
+SELECT
+	*
+FROM
+	user_info
+";
+            return new List<EntityView<user_info>>()
+            {
+                new EntityView<user_info>()
+                {
+                    Sql = sql,
+                    OrderBy = default,
+                    ViewId = "59F908EB-A353-4205-ABE4-FA9DB27DD434",
+                    Name = "所有的用户信息"
+                }
+            };
+        }
     }
 }

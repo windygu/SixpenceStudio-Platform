@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Platform.Service;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
@@ -46,13 +47,18 @@ namespace SixpenceStudio.Platform.Command
         }
 
         /// <summary>
-        /// 根据搜索条件查询
+        /// 根据搜索条件分页查询
         /// </summary>
+        /// <param name="view"></param>
         /// <param name="searchList"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="recordCount"></param>
         /// <returns></returns>
-        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount)
+        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount)
         {
-            var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
+            var sql = view.Sql;
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
@@ -66,14 +72,15 @@ namespace SixpenceStudio.Platform.Command
                 }
             }
 
+            // 以ORDERBY的传入参数优先级最高
             if (string.IsNullOrEmpty(orderBy))
             {
-                orderBy = " ORDER BY " + new T().EntityName + "id";
+                orderBy = string.IsNullOrEmpty(view.OrderBy) ? "" : $" ORDER BY {view.OrderBy}";
             }
             else
             {
                 orderBy.Replace("ORDER BY", "");
-                orderBy = " ORDER BY " + orderBy;
+                orderBy = $" ORDER BY {orderBy},{new T().EntityName}id";
             }
 
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql + where}) AS table1";
@@ -84,9 +91,16 @@ namespace SixpenceStudio.Platform.Command
             return data;
         }
 
-        public IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        /// <summary>
+        /// 根据搜索条件查询
+        /// </summary>
+        /// <param name="view">视图</param>
+        /// <param name="searchList">搜索条件</param>
+        /// <param name="orderBy">排序</param>
+        /// <returns></returns>
+        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy)
         {
-            var sql = $"SELECT *  FROM {new T().EntityName} WHERE 1=1";
+            var sql = view.Sql;
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
@@ -102,12 +116,12 @@ namespace SixpenceStudio.Platform.Command
 
             if (string.IsNullOrEmpty(orderBy))
             {
-                orderBy = " ORDER BY " + new T().EntityName + "id";
+                orderBy = string.IsNullOrEmpty(view.OrderBy) ? "" : $" ORDER BY {view.OrderBy}";
             }
             else
             {
                 orderBy.Replace("ORDER BY", "");
-                orderBy = " ORDER BY " + orderBy;
+                orderBy = $" ORDER BY {orderBy},{new T().EntityName}id";
             }
 
             var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);

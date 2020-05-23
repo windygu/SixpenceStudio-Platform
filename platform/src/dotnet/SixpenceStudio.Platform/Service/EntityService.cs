@@ -1,7 +1,9 @@
 ﻿using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SixpenceStudio.Platform.Service
 {
@@ -19,23 +21,42 @@ namespace SixpenceStudio.Platform.Service
         }
 
         #region 实体表单
-
         /// <summary>
-        /// 获取所有实体记录
+        /// 获取视图
         /// </summary>
         /// <returns></returns>
-        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        public virtual IList<EntityView<T>> GetViewList()
         {
-            return _cmd.GetDataList(searchList, orderBy);
+            var sql = $"SELECT * FROM {new T().EntityName} WHERE 1=1";
+            return new List<EntityView<T>>()
+            {
+                new EntityView<T>()
+                {
+                    Sql = sql,
+                    OrderBy = "",
+                    ViewId = ""
+                }
+            };
         }
 
         /// <summary>
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public virtual DataModel<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex)
+        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy, string viewId = "")
         {
-            var data = _cmd.GetDataList(searchList, orderBy, pageSize, pageIndex, out var recordCount);
+            var view = string.IsNullOrEmpty(viewId) ? GetViewList().ToList().FirstOrDefault() : GetViewList().ToList().Find(item => item.ViewId == viewId);
+            return _cmd.GetDataList(view, searchList, orderBy);
+        }
+
+        /// <summary>
+        /// 获取所有实体记录
+        /// </summary>
+        /// <returns></returns>
+        public virtual DataModel<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, string viewId = "")
+        {
+            var view = string.IsNullOrEmpty(viewId) ? GetViewList().ToList().FirstOrDefault() : GetViewList().ToList().Find(item => item.ViewId == viewId);
+            var data = _cmd.GetDataList(view, searchList, orderBy, pageSize, pageIndex, out var recordCount);
             return new DataModel<T>()
             {
                 DataList = data,

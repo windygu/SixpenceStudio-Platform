@@ -157,6 +157,7 @@
     <Compile Include="Data\DbClient.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\DataModel.cs" />
+    <Compile Include="Service\EntityView.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\WebApiMonitorLog.cs" />
     <Compile Include="Logging\WebApiTrackerArribute.cs" />

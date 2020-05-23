@@ -23,9 +23,9 @@ namespace SixpenceStudio.BaseSite.SysMenu
         }
         #endregion
 
-        public override IList<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy)
+        public override IList<sys_menu> GetDataList( IList<SearchCondition> searchList, string orderBy, string viewId = "")
         {
-            var data = base.GetDataList(searchList, orderBy).ToList();
+            var data = base.GetDataList(searchList, orderBy, viewId).ToList();
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
             firstMenu.ForEach(item =>
             {
@@ -43,9 +43,9 @@ namespace SixpenceStudio.BaseSite.SysMenu
             return firstMenu;
         }
 
-        public override DataModel<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex)
+        public override DataModel<sys_menu> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, string viewId = "")
         {
-            var model = base.GetDataList(searchList, orderBy, pageSize, pageIndex);
+            var model = base.GetDataList(searchList, orderBy, pageSize, pageIndex, viewId);
             var data = model.DataList.ToList();
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
             firstMenu.ForEach(item =>
