@@ -105,17 +105,15 @@ namespace SixpenceStudio.Platform.Command
         private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, ref string orderBy, EntityView<T> view)
             where T : BaseEntity, new()
         {
-            if (searchList == null || searchList.Count() == 0)
+            if (searchList != null && searchList.Count() > 0)
             {
-                return;
-            }
-
-            var count = 0;
-            var entityName = new T().EntityName;
-            foreach (var search in searchList)
-            {
-                sql += $" AND {entityName}.{search.Name} = @params{count}";
-                paramList.Add($"@params{count++}", search.Value);
+                var count = 0;
+                var entityName = new T().EntityName;
+                foreach (var search in searchList)
+                {
+                    sql += $" AND {entityName}.{search.Name} = @params{count}";
+                    paramList.Add($"@params{count++}", search.Value);
+                }
             }
 
             // 以ORDERBY的传入参数优先级最高
