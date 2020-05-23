@@ -22,7 +22,7 @@ export default {
   props: {
     menus: {
       type: Array,
-      default: () => [{ name: '首页' }, { name: '归档' }, { name: '友人帐' }, { name: '关于' }]
+      default: () => []
     }
   },
   data() {
