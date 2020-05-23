@@ -4,7 +4,7 @@
       <el-row>
         <el-col>
           <ul class="el-menu sp-menu-list el-menu--horizontal">
-            <li class="el-menu-item" v-for="(item, index) in menus" :key="index" @click="item.click || 'javascript:void(0)'">
+            <li class="el-menu-item" v-for="(item, index) in menus" :key="index" @click="item.click">
               {{ item.name }}
             </li>
             <slot name="menus"></slot>
