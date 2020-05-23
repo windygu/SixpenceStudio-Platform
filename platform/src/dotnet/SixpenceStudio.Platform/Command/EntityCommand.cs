@@ -62,26 +62,7 @@ namespace SixpenceStudio.Platform.Command
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            if (searchList != null)
-            {
-                var count = 0;
-                foreach (var search in searchList)
-                {
-                    where += $" AND {search.Name} = @params{count}";
-                    paramList.Add($"@params{count++}", search.Value);
-                }
-            }
-
-            // 以ORDERBY的传入参数优先级最高
-            if (string.IsNullOrEmpty(orderBy))
-            {
-                orderBy = string.IsNullOrEmpty(view.OrderBy) ? "" : $" ORDER BY {view.OrderBy}";
-            }
-            else
-            {
-                orderBy.Replace("ORDER BY", "");
-                orderBy = $" ORDER BY {orderBy},{new T().EntityName}id";
-            }
+            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view);
 
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql + where}) AS table1";
             sql += (where + orderBy);
@@ -104,16 +85,40 @@ namespace SixpenceStudio.Platform.Command
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            if (searchList != null)
+            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view);
+
+            sql += (where + orderBy);
+
+            var data = broker.RetrieveMultiple<T>(sql, paramList);
+            return data;
+        }
+
+        /// <summary>
+        /// 格式化Sql
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="searchList"></param>
+        /// <param name="paramList"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="view"></param>
+        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, ref string orderBy, EntityView<T> view)
+            where T : BaseEntity, new()
+        {
+            if (searchList == null || searchList.Count() == 0)
             {
-                var count = 0;
-                foreach (var search in searchList)
-                {
-                    where += $" AND {search.Name} = @params{count}";
-                    paramList.Add($"@params{count++}", search.Value);
-                }
+                return;
             }
 
+            var count = 0;
+            var entityName = new T().EntityName;
+            foreach (var search in searchList)
+            {
+                sql += $" AND {entityName}.{search.Name} = @params{count}";
+                paramList.Add($"@params{count++}", search.Value);
+            }
+
+            // 以ORDERBY的传入参数优先级最高
             if (string.IsNullOrEmpty(orderBy))
             {
                 orderBy = string.IsNullOrEmpty(view.OrderBy) ? "" : $" ORDER BY {view.OrderBy}";
@@ -123,9 +128,6 @@ namespace SixpenceStudio.Platform.Command
                 orderBy.Replace("ORDER BY", "");
                 orderBy = $" ORDER BY {orderBy},{new T().EntityName}id";
             }
-
-            var data = broker.RetrieveMultiple<T>(sql + where + orderBy, paramList);
-            return data;
         }
 
 
