@@ -8,7 +8,8 @@ export default {
     return {
       Id: '',
       controllerName: '',
-      data: {}
+      data: {},
+      loading: false
     };
   },
   created() {
@@ -24,14 +25,29 @@ export default {
   },
   methods: {
     async loadData() {
-      this.data = await sp.get(`api/${this.controllerName}/GetData?id=${this.Id}`);
-      if (this.loadComplete && typeof this.loadComplete === 'function') {
-        this.loadComplete();
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      try {
+        this.data = await sp.get(`api/${this.controllerName}/GetData?id=${this.Id}`);
+        if (this.loadComplete && typeof this.loadComplete === 'function') {
+          await this.loadComplete();
+        }
+      } catch (error) {
+        this.$message.error(error);
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
       }
     },
-    saveData() {
+    async saveData() {
       if (this.preSave && typeof this.preSave === 'function') {
-        this.preSave();
+        const result = await this.preSave();
+        if (!result) {
+          return;
+        }
       }
       this.$refs.form.validate(valid => {
         if (valid) {

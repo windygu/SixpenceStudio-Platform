@@ -118,7 +118,7 @@ export default {
       this.pageIndex = index;
       this.loadData();
     },
-    loadData() {
+    async loadData() {
       if (this.loading) {
         return;
       }
@@ -128,14 +128,13 @@ export default {
         url = this.customApi;
       }
       try {
-        sp.get(url).then(resp => {
-          if (resp && resp.DataList) {
-            this.tableData = resp.DataList;
-            this.total = resp.RecordCount;
-          } else {
-            this.tableData = resp;
-          }
-        });
+        const resp = await sp.get(url);
+        if (resp && resp.DataList) {
+          this.tableData = resp.DataList;
+          this.total = resp.RecordCount;
+        } else {
+          this.tableData = resp;
+        }
       } catch (error) {
         this.$message.error(error);
       } finally {

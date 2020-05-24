@@ -10,3 +10,15 @@ export function isNull(value) {
 export function isNullOrEmpty(value) {
   return isNull(value) || value.trim().length === 0;
 }
+
+export function getUser() {
+  return localStorage.getItem('UserId');
+}
+
+export function getBaseUrl() {
+  let url = localStorage.getItem('baseUrl');
+  if (!isNullOrEmpty(url)) {
+    return url.charAt(url.length - 1) === '/' ? url : url + '/';
+  }
+  return localStorage.getItem('baseUrl');
+}
