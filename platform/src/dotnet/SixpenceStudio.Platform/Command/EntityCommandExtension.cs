@@ -38,7 +38,7 @@ select * from auth_user where code = @code;
             {
                 var name = dataTable.Rows[0]["name"];
                 var code = dataTable.Rows[0]["code"];
-                var userId = dataTable.Rows[0]["userId"];
+                var userId = dataTable.Rows[0]["user_infoid"];
                 return (userId != DBNull.Value ? userId.ToString() : "", code != DBNull.Value ? code.ToString() : "", name != DBNull.Value ? name.ToString() : "");
             }
             return (null, null, null);

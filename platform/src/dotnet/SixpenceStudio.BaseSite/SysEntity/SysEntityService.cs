@@ -59,7 +59,7 @@ WHERE
         public void AddSystemAttrs(string tableName, List<Column> columns)
         {
             var sql = DDLTemplate.GetAddColumnSql(tableName, columns);
-            _cmd.broker.DbClient.Execute(sql);
+            _cmd.broker.Execute(sql);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ WHERE
         /// <param name="tableName"></param>
         public void CreateTable(string tableName)
         {
-            _cmd.broker.DbClient.Execute(DDLTemplate.CreateTable(tableName));
+            _cmd.broker.Execute(DDLTemplate.CreateTable(tableName));
         }
     }
 

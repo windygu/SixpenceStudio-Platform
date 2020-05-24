@@ -1,9 +1,6 @@
 ﻿using SixpenceStudio.Platform.Entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace SixpenceStudio.BaseSite.AuthUser
 {
@@ -172,5 +169,22 @@ namespace SixpenceStudio.BaseSite.AuthUser
             }
         }
 
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        private string _user_infoid;
+        [DataMember]
+        public string user_infoid
+        {
+            get
+            {
+                return _user_infoid;
+            }
+            set
+            {
+                _user_infoid = value;
+                SetAttributeValue("user_infoid", value);
+            }
+        }
     }
 }

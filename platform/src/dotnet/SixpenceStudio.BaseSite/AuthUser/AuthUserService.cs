@@ -67,7 +67,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             #endregion
 
             // 返回登录结果、用户信息、用户验证票据信息
-            var oUser = new LoginResponse { result = true, UserName = code, Ticket = FormsAuthentication.Encrypt(ticket) };
+            var oUser = new LoginResponse { result = true, UserName = code, Ticket = FormsAuthentication.Encrypt(ticket), UserId = authUser.user_infoid };
             return oUser;
         }
 
@@ -86,7 +86,7 @@ WHERE userid = @id;
             var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成散列值
             var user = _cmd.GetCurrentUser();
             var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd2 } };
-            _cmd.broker.DbClient.Execute(sql, paramList);
+            _cmd.broker.Execute(sql, paramList);
         }
 
 

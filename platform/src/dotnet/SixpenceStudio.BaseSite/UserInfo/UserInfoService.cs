@@ -38,7 +38,7 @@ FROM
                 new EntityView<user_info>()
                 {
                     Sql = sql,
-                    OrderBy = default,
+                    OrderBy = "name, createdon",
                     ViewId = "59F908EB-A353-4205-ABE4-FA9DB27DD434",
                     Name = "所有的用户信息"
                 }

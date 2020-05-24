@@ -74,5 +74,28 @@ namespace SixpenceStudio.Platform.Data
         {
             return broker.DbClient.Query(sql, paramList);
         }
+
+        /// <summary>
+        /// 执行Sql
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        public static int Execute(this IPersistBroker broker, string sql, IDictionary<string, object> paramList = null)
+        {
+            return broker.DbClient.Execute(sql, paramList);
+        }
+
+        /// <summary>
+        /// 执行Sql返回第一行第一列记录
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
+        public static object ExecuteScalar(this IPersistBroker broker, string sql, IDictionary<string, object> paramList = null)
+        {
+            return broker.DbClient.ExecuteScalar(sql, paramList);
+        }
     }
 }

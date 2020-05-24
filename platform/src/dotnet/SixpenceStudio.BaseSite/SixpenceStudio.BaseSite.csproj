@@ -114,6 +114,7 @@
     <Compile Include="SysEntity\SysEntityController.cs" />
     <Compile Include="SysEntity\SysEntityService.cs" />
     <Compile Include="SysEntity\sys_entity.cs" />
+    <Compile Include="SysFile\SysFileController.cs" />
     <Compile Include="SysFile\SysFileService.cs" />
     <Compile Include="SysFile\sys_file.cs" />
     <Compile Include="SysMenu\SysMenuController.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="SysParamGroup\SysParams\sys_param.cs" />
     <Compile Include="SysParamGroup\sys_paramgroup.cs" />
     <Compile Include="UserInfo\UserInfoController.cs" />
+    <Compile Include="UserInfo\UserInfoPartial.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
   </ItemGroup>

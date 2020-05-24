@@ -49,7 +49,7 @@ namespace SixpenceStudio.Platform.Data
                 paramList.Add("@" + attrName, attr.Value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
-            DbClient.Execute(sql, paramList);
+            this.Execute(sql, paramList);
             return entity.Id;
         }
 
@@ -63,7 +63,7 @@ namespace SixpenceStudio.Platform.Data
         {
             var sql = "DELETE FROM {0} WHERE {1}id = @id";
             sql = string.Format(sql, entityName, entityName);
-            int result = DbClient.Execute(sql, new Dictionary<string, object>() { { "@id", id } });
+            int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", id } });
             return result;
         }
 
@@ -76,7 +76,7 @@ namespace SixpenceStudio.Platform.Data
         {
             var sql = "DELETE FROM {0} WHERE {1}id = @id";
             sql = string.Format(sql, obj.EntityName, obj.EntityName);
-            int result = DbClient.Execute(sql, new Dictionary<string, object>() { { "@id", obj.Id } });
+            int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", obj.Id } });
             return result;
         }
 
@@ -113,7 +113,7 @@ INSERT INTO {0} ({1}) VALUES ({2});
                 paramList.Add($"@param{count++}", item.Value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), string.Join(",", values));
-            DbClient.Execute(sql);
+            this.Execute(sql);
             return entity.Id;
         }
 
@@ -146,7 +146,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             }
             #endregion
             sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), entity.MainKeyName);
-            var result = DbClient.Execute(sql, paramList);
+            var result = this.Execute(sql, paramList);
 
             return result;
         }
@@ -163,7 +163,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         {
             var sql = "DELETE FROM {0} WHERE 1=1 {1}";
             sql = string.Format(sql, string.IsNullOrEmpty(where) ? "" : $" AND {where}");
-            int result = _dbClient.Execute(sql, paramList);
+            int result = this.Execute(sql, paramList);
             return result;
         }
         
@@ -241,7 +241,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         public IList<T> RetrieveMultiple<T>(string sql, Dictionary<string, object> paramList, string orderby, int pageSize, int pageIndex, out int recordCount) where T : BaseEntity, new()
         {
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table1";
-            recordCount = Convert.ToInt32(_dbClient.ExecuteScalar(recordCountSql, paramList));
+            recordCount = Convert.ToInt32(this.ExecuteScalar(recordCountSql, paramList));
             var data = RetrieveMultiple<T>(sql, paramList, orderby, pageSize, pageIndex);
             return data;
         }
