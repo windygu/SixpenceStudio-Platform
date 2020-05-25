@@ -1,21 +1,34 @@
 <template>
-  <svg class="svg-icon" aria-hidden="true">
-    <use :xlink:href="iconName"></use>
-  </svg>
+  <div class="svg-icon" @click="click">
+    <svg :width="size" :height="size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+      <use :xlink:href="'#' + name" :fill="color" />
+    </svg>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'sp-icon',
+  name: 'spIcon',
   props: {
-    iconClass: {
+    name: {
+      type: String
+    },
+    size: {
+      type: [Number, String],
+      default: 14
+    },
+    color: {
       type: String,
-      required: true
+      default: 'currentColor'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
-  computed: {
-    iconName() {
-      return `#icon-${this.iconClass}`;
+  methods: {
+    click(event) {
+      if (!this.disabled) this.$emit('click', event);
     }
   }
 };
@@ -23,9 +36,6 @@ export default {
 
 <style>
 .svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
 }
