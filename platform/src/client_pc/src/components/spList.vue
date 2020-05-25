@@ -1,9 +1,18 @@
 <template>
-  <div v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
+  <div>
     <sp-header v-if="buttons && buttons.length > 0">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
-    <el-table ref="table" :data="tableData" :style="{ 'min-height': minHeight }" row-key="Id" @selection-change="handleSelectionChange">
+    <el-table
+      ref="table"
+      :data="tableData"
+      :style="{ 'min-height': minHeight }"
+      row-key="Id"
+      @selection-change="handleSelectionChange"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+    >
       <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
       <el-table-column
         v-for="(column, index) in columns"
