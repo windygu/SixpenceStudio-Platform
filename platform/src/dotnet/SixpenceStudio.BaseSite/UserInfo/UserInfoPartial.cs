@@ -13,7 +13,7 @@ namespace SixpenceStudio.BaseSite.UserInfo
             {
                 if (!string.IsNullOrEmpty(this.avatar))
                 {
-                    return $"/{FileUtils.FILE_FOLDER}/ " + new SysFileService().GetData(this.avatar).name;
+                    return $"/{FileUtils.FILE_FOLDER}/" + new SysFileService().GetData(this.avatar).name;
                 }
                 return "";
             }
