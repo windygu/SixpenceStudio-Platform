@@ -1,7 +1,9 @@
 <template>
   <div class="sp-section">
-    <h3 class="title">{{ title }}</h3>
-    <el-divider></el-divider>
+    <div class="sp-section-header">
+      <h3 class="title">{{ title }}</h3>
+      <h3 v-if="showMore" @click="more">更多...</h3>
+    </div>
     <div class="content">
       <slot></slot>
     </div>
@@ -15,10 +17,20 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    // 展示更多
+    showMore: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {};
+  },
+  methods: {
+    more() {
+      this.$emit('more');
+    }
   }
 };
 </script>
@@ -27,8 +39,15 @@ export default {
 .sp-section {
   min-width: 300px;
   min-height: 300px;
-  title {
-    font-size: 18px;
+  .sp-section-header {
+    display: flex;
+    line-height: 25px;
+    justify-content: space-between;
+    border-bottom: 1px solid #dcdfe6;
+    margin-bottom: 30px;
+    title {
+      font-size: 18px;
+    }
   }
   content {
     min-height: 300px;
