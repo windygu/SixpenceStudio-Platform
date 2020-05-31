@@ -4,7 +4,7 @@
       <el-row>
         <el-col>
           <ul class="el-menu sp-menu-list el-menu--horizontal">
-            <li class="el-menu-item" v-for="(item, index) in menus" :key="index" @click="item.click">
+            <li class="el-menu-item" v-for="(item, index) in menus" :key="index" @click="menuChange(item)">
               {{ item.name }}
             </li>
             <slot name="menus"></slot>
@@ -27,6 +27,12 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    menuChange(item) {
+      this.$emit('menu-change');
+      item.click();
+    }
   }
 };
 </script>
