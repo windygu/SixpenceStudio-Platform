@@ -38,5 +38,6 @@ export default {
 .svg-icon {
   fill: currentColor;
   overflow: hidden;
+  display: inline;
 }
 </style>
