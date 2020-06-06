@@ -7,9 +7,10 @@ using System.Web.Http;
 
 namespace SixpenceStudio.BaseSite.AuthUser
 {
+    [RequestAuthorize]
     public class AuthUserController : EntityController<auth_user, AuthUserService>
     {
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public LoginResponse Login([FromBody]dynamic request)
         {
             string code = request.code;
@@ -17,7 +18,7 @@ namespace SixpenceStudio.BaseSite.AuthUser
             return new AuthUserService().Login(code, pwd);
         }
 
-        [RequestAuthorize, HttpPost]
+        [HttpPost]
         public void EditPassword([FromBody]string password)
         {
             new AuthUserService().EditPassword(password);

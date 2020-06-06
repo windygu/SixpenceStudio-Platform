@@ -4,7 +4,7 @@ import * as sp from './common';
 axios.defaults.timeout = 20000;
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use(config => {
-  config.headers.Authorization = `BasicAuth ${localStorage.getItem('Token')}`;
+  config.headers.Authorization = `BasicAuth ${localStorage.getItem('Token') || ''}`;
   return config;
 });
 
