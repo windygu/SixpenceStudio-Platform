@@ -67,15 +67,16 @@ export default {
               code: this.data.code,
               password: sp.encryptPwd(this.data.password)
             };
+            var that = this;
             sp.post(url, data).then(resp => {
               if (resp.result) {
                 localStorage.setItem('Token', resp.Ticket);
                 localStorage.setItem('UserId', resp.UserId);
-                this.$router.push('admin');
-                this.$store.commit('changeLogin', true);
-                this.$message.success('登录成功');
+                that.$router.push('admin');
+                that.$store.commit('changeLogin', true);
+                that.$message.success('登录成功');
               } else {
-                this.$message.error('账号密码错误');
+                that.$message.error('账号密码错误');
               }
             });
           } catch (error) {

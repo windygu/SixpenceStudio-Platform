@@ -2,6 +2,7 @@ import Vue from 'vue';
 import login from '../module/login'
 import admin from '../module/admin';
 import VueRouter from 'vue-router';
+import store from '../store/store';
 
 Vue.use(VueRouter);
 
@@ -11,10 +12,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(m => m.meta.auth)) {
-    if (this.$store.state.isLogin) {
+    if (store.state.isLogin) {
       next();
     } else {
-      next({ path: '/login' });
+      next({ name: 'login' });
     }
   } else {
     next();
