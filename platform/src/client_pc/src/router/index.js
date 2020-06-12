@@ -1,15 +1,25 @@
-// 引入vue和router组件
-import Vue from 'vue'
-import Router from 'vue-router'
-import register from '../components/register'
+import Vue from 'vue';
+import login from '../module/login'
+import admin from '../module/admin';
+import VueRouter from 'vue-router';
 
-// 三方组件需要use
-Vue.use(Router)
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes: [].concat(login, admin)
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(m => m.meta.auth)) {
+    if (this.$store.state.isLogin) {
+      next();
+    } else {
+      next({ path: '/login' });
+    }
+  } else {
+    next();
+  }
+});
 
 // 路由配置
-export default new Router({
-  routes: [{
-    path: '/register',
-    component: register
-  }]
-});
+export default router;
