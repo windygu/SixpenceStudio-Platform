@@ -72,8 +72,8 @@ export default {
               if (resp.result) {
                 localStorage.setItem('Token', resp.Ticket);
                 localStorage.setItem('UserId', resp.UserId);
-                that.$router.push('admin');
                 that.$store.commit('changeLogin', true);
+                that.$router.push('admin');
                 that.$message.success('登录成功');
               } else {
                 that.$message.error('账号密码错误');

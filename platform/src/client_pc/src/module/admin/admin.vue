@@ -14,7 +14,7 @@
           <el-submenu v-for="(item, index) in menus" :key="index" :index="`${index}`">
             <template slot="title"> <i class="el-icon-menu"></i>{{ item.title }} </template>
             <el-menu-item-group v-for="(item2, index2) in item.subMenu" :key="index2" :title="item2.title">
-              <el-menu-item v-for="(item3, index3) in item2.menus" :index="`/admin/${item3.router}`" :key="index3">
+              <el-menu-item v-for="(item3, index3) in item2.menus" :index="`/admin/blog/${item3.router}`" :key="index3">
                 {{ item3.title }}
               </el-menu-item>
             </el-menu-item-group>
@@ -64,7 +64,7 @@
           </el-dropdown>
         </el-header>
         <el-main>
-          <router-view :key="$route.path + $route.query"></router-view>
+          <router-view :key="$route.path"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -163,7 +163,8 @@ export default {
     },
     logout() {
       this.$message.success('退出成功');
-      localStorage.removeItem('Token');
+      localStorage.removeItem('Token'); // 移除登录Token
+      this.$store.commit('changeLogin', false); // 修改登录状态
       this.$router.replace('/login');
     },
     handleOpen(key) {
