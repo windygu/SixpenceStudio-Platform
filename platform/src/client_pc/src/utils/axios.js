@@ -12,6 +12,9 @@ axios.interceptors.response.use(response => Promise.resolve(response), error => 
   if (error && error.response && error.response.status) {
     switch (error.response.status) {
       case 401:
+        location.href = '/#/index';
+        break;
+      case 403:
         location.href = '/#/login';
         break;
       default:

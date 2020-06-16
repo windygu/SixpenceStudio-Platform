@@ -12,9 +12,11 @@
           active-text-color="#ffd04b"
         >
           <el-submenu v-for="(item, index) in menus" :key="index" :index="`${index}`">
-            <template slot="title"> <i class="el-icon-menu"></i>{{ item.title }} </template>
+            <template slot="title">
+              <i class="el-icon-menu"></i>{{ item.title }}
+            </template>
             <el-menu-item-group v-for="(item2, index2) in item.subMenu" :key="index2" :title="item2.title">
-              <el-menu-item v-for="(item3, index3) in item2.menus" :index="`/admin/blog/${item3.router}`" :key="index3">
+              <el-menu-item v-for="(item3, index3) in item2.menus" :index="`/admin/${item3.router}`" :key="index3">
                 {{ item3.title }}
               </el-menu-item>
             </el-menu-item-group>
