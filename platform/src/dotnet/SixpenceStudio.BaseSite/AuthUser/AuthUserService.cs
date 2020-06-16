@@ -95,7 +95,7 @@ WHERE userid = @id;
         /// </summary>
         /// <param name="encryptTicket"></param>
         /// <returns></returns>
-        public bool ValidateTicket(string encryptTicket, out string userId)
+        public int ValidateTicket(string encryptTicket, out string userId)
         {
             // 解密Ticket
             var strTicket = FormsAuthentication.Decrypt(encryptTicket);
@@ -113,7 +113,18 @@ WHERE userid = @id;
             userId = userStr;
 
             var data = GetData(userStr, pwdStr);
-            return data != null && !expired;
+            if (expired)
+            {
+                return 403;
+            }
+            else if (data == null)
+            {
+                return 401;
+            }
+            else
+            {
+                return 200;
+            }
         }
 
     }

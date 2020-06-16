@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SixpenceStudio.BaseSite.AuthUser;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using System.Web.Security;
 using System.Web.Http.Controllers;
-using SixpenceStudio.BaseSite.UserInfo;
-using SixpenceStudio.BaseSite.AuthUser;
 
 namespace SixpenceStudio.BaseSite
 {
     public class RequestAuthorizeAttribute : AuthorizeAttribute
     {
-        /// <summary>
-        /// 用户 code
-        /// </summary>
-        private string userId;
+        private int status { get; set; } // 登录状态
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // 从http请求的头里面获取身份验证信息，验证是否是请求发起方的ticket
@@ -28,20 +22,18 @@ namespace SixpenceStudio.BaseSite
                 // 验证是否正确用户名密码
                 try
                 {
-                    if (new AuthUserService().ValidateTicket(encryptTicket, out var userId))
+                    status = new AuthUserService().ValidateTicket(encryptTicket, out var userId);
+                    if (status == 200)
                     {
-                        //指定已授权
                         base.IsAuthorized(actionContext);
-                        // 设置UserId
                         HttpContext.Current.Session["UserId"] = userId;
                     }
                     else
                     {
-                        // 返回401
                         HandleUnauthorizedRequest(actionContext);
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
@@ -56,5 +48,20 @@ namespace SixpenceStudio.BaseSite
             }
         }
 
+        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
+        {
+            base.HandleUnauthorizedRequest(actionContext);
+            var response = actionContext.Response ?? new HttpResponseMessage();
+            switch (status)
+            {
+                case 403:
+                    actionContext.Response.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    actionContext.Response.ReasonPhrase = "Token过期";
+                    break;
+                default:
+                    actionContext.Response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
+                    break;
+            }
+        }
     }
 }

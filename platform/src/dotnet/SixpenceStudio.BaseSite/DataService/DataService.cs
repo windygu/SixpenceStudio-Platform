@@ -74,8 +74,7 @@ namespace SixpenceStudio.BaseSite.DataService
                 authorization = authorization.Replace("BasicAuth ", "");
                 try
                 {
-                    var result = new AuthUserService().ValidateTicket(authorization, out var userId);
-                    return result;
+                    return new AuthUserService().ValidateTicket(authorization, out var userId) == 200;
                 }
                 catch (Exception)
                 {
