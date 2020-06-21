@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/job',
+    path: '/admin/job',
     name: 'job',
     component: () => import('./job')
   }

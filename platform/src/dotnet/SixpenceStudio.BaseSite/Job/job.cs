@@ -1,9 +1,6 @@
 ﻿using SixpenceStudio.Platform.Entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace SixpenceStudio.BaseSite.Job
 {
@@ -32,6 +29,76 @@ namespace SixpenceStudio.BaseSite.Job
             }
         }
 
-       
+        /// <summary>
+        /// 执行计划
+        /// </summary>
+        private string _runtime;
+        [DataMember]
+        public string runTime
+        {
+            get
+            {
+                return _runtime;
+            }
+            set
+            {
+                _runtime = value;
+                SetAttributeValue("runTime", value);
+            }
+        }
+
+        /// <summary>
+        /// 上次运行时间
+        /// </summary>
+        private DateTime? _lastRunTime;
+        [DataMember]
+        public DateTime? lastRunTime
+        {
+            get
+            {
+                return _lastRunTime;
+            }
+            set
+            {
+                _lastRunTime = value;
+                SetAttributeValue("lastRunTime", value);
+            }
+        }
+
+        /// <summary>
+        /// 下次运行时间
+        /// </summary>
+        private DateTime? _nextRunTime;
+        [DataMember]
+        public DateTime? nextRunTime
+        {
+            get
+            {
+                return _nextRunTime;
+            }
+            set
+            {
+                _nextRunTime = value;
+                SetAttributeValue("nextRunTime", value);
+            }
+        }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        private string _descprition;
+        [DataMember]
+        public string descprition
+        {
+            get
+            {
+                return _descprition;
+            }
+            set
+            {
+                _descprition = value;
+                SetAttributeValue("descprition", value);
+            }
+        }
     }
 }

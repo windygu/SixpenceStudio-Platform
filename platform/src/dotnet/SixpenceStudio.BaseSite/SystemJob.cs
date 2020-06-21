@@ -19,6 +19,8 @@ namespace SixpenceStudio.BaseSite
 
         public override string CronExperssion => "0 0 12 * * ?";
 
+        public override string Description => "清理系统无效文件及整理日志";
+
         public override void Run()
         {
             var broker = new PersistBroker();

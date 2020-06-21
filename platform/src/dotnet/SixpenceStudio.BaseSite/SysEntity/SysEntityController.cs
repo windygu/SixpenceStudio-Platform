@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace SixpenceStudio.BaseSite.SysEntity
 {
     [RequestAuthorize]
-    public class SysEntityBaseController : EntityBaseController<sys_entity, SysEntityService>
+    public class SysEntityController : EntityBaseController<sys_entity, SysEntityService>
     {
         /// <summary>
         /// 根据实体 id 查询字段

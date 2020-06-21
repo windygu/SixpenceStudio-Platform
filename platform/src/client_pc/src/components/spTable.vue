@@ -19,8 +19,10 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
+      <slot />
     </el-table>
     <el-pagination
+      v-if="pagination"
       background
       layout="prev, pager, next"
       @size-change="sizeChange"

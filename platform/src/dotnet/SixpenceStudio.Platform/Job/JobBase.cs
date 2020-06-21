@@ -16,6 +16,11 @@ namespace SixpenceStudio.Platform.Job
         public abstract string Name { get; }
 
         /// <summary>
+        /// 作业描述
+        /// </summary>
+        public abstract string Description { get; }
+
+        /// <summary>
         /// 调度时间
         /// </summary>
         public abstract string CronExperssion { get; }
