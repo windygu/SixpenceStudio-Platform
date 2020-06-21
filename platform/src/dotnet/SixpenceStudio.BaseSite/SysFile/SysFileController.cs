@@ -7,7 +7,7 @@ using System.Web;
 namespace SixpenceStudio.BaseSite.SysFile
 {
     [RequestAuthorize]
-    public class SysFileController : EntityController<sys_file, SysFileService>
+    public class SysFileController : EntityBaseController<sys_file, SysFileService>
     {
     }
 }

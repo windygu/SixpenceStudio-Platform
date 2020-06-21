@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace SixpenceStudio.BaseSite.SysParamGroup
 {
     [RequestAuthorize]
-    public class SysParamGroupController : EntityController<sys_paramgroup, SysParamGroupService>
+    public class SysParamGroupController : EntityBaseController<sys_paramgroup, SysParamGroupService>
     {
         [HttpGet]
         public IList<SelectModel> GetParams(string code)

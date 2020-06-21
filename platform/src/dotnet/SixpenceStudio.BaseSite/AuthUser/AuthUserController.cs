@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace SixpenceStudio.BaseSite.AuthUser
 {
     [RequestAuthorize]
-    public class AuthUserController : EntityController<auth_user, AuthUserService>
+    public class AuthUserController : EntityBaseController<auth_user, AuthUserService>
     {
         [HttpPost, AllowAnonymous]
         public LoginResponse Login([FromBody]dynamic request)

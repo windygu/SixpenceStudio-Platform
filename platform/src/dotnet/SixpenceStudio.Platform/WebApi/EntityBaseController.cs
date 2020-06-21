@@ -12,9 +12,7 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Platform.WebApi
 {
-    [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter, WebApiTracker]
-    public class EntityController<E, S> : ApiController
+    public class EntityBaseController<E, S> : BaseController
         where E : BaseEntity, new()
         where S : EntityService<E>, new()
     {
