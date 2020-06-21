@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,14 +30,38 @@ namespace SixpenceStudio.Platform.Utils
         }
 
         /// <summary>
+        /// 获取系统路径
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetSystemPath(FolderType type)
+        {
+            var folderPath = HttpRuntime.AppDomainAppPath;
+            switch (type)
+            {
+                case FolderType.bin:
+                    folderPath += "\\bin";
+                    break;
+                case FolderType.log:
+                    folderPath += "\\log";
+                    break;
+                case FolderType.logArchive:
+                    folderPath += "\\log\\Archive";
+                    break;
+                default:
+                    break;
+            }
+            return folderPath;
+        }
+
+        /// <summary>
         /// 获取文件列表路径
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IList<string> GetFileList(string name)
+        public static IList<string> GetFileList(string name, FolderType type = FolderType.bin)
         {
-            var fileList = Directory.GetFiles(HttpRuntime.AppDomainAppPath + "\\bin", name, SearchOption.AllDirectories);
-            return fileList;
+            return Directory.GetFiles(GetSystemPath(type), name, SearchOption.AllDirectories);
         }
 
         /// <summary>
@@ -85,5 +110,29 @@ namespace SixpenceStudio.Platform.Utils
                 File.Delete(filePath);
             }
         }
+
+        /// <summary>
+        /// 移动文件
+        /// </summary>
+        /// <param name="files">文件列表</param>
+        /// <param name="targetFolder">目标文件夹</param>
+        public static void MoveFiles(List<string> files, string targetFolder)
+        {
+            files.ForEach(item =>
+            {
+                FileInfo fileInfo = new FileInfo(item);
+                fileInfo.MoveTo(Path.Combine(targetFolder, fileInfo.Name));
+            });
+        }
+    }
+
+    public enum FolderType
+    {
+        [Description("dll目录")]
+        bin,
+        [Description("日志目录")]
+        log,
+        [Description("日志归档目录")]
+        logArchive
     }
 }
