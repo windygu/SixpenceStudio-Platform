@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
@@ -158,6 +161,9 @@
     <Compile Include="Data\DbClient.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\DataModel.cs" />
+    <Compile Include="Job\JobBase.cs" />
+    <Compile Include="Job\JobHelpers.cs" />
+    <Compile Include="Job\SystemJob.cs" />
     <Compile Include="Service\EntityView.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\WebApiMonitorLog.cs" />

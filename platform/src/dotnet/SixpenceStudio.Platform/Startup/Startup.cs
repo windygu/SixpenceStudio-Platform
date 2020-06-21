@@ -25,6 +25,8 @@ namespace SixpenceStudio.Platform.Startup
             app.UseCors(CorsOptions.AllowAll);
 
             WebApiConfig.Register(app, config);
+
+            Job.JobHelpers.Register();
         }
     }
 }
