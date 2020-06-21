@@ -7,6 +7,10 @@ namespace SixpenceStudio.Platform.Job
 {
     public class JobHelpers
     {
+        // 创建scheduler的引用
+        static StdSchedulerFactory schedFact = new StdSchedulerFactory();
+        static IScheduler sched = schedFact.GetScheduler().Result;
+
         /// <summary>
         /// 任务调度的使用过程
         /// </summary>
@@ -14,26 +18,46 @@ namespace SixpenceStudio.Platform.Job
         private async static Task Run<T>(string cronExperssion)
             where T : IJob
         {
-            // 1.创建scheduler的引用
-            var schedFact = new StdSchedulerFactory();
-            var sched = await schedFact.GetScheduler();
             await sched.Start();
 
-            // 3.创建 job
+            // 创建 Job
             var job = JobBuilder.Create<T>()
                 .Build();
 
-            // 4.创建 trigger
+            // 创建 trigger
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()
                 .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
                 .Build();
 
-            // 5.使用trigger规划执行任务job
+            // 使用 trigger 规划执行任务 job
             await sched.ScheduleJob(job, trigger);
         }
 
         private async static Task Run2(Type type, string cronExperssion)
+        {
+            await sched.Start();
+
+            // 创建 job
+            var job = JobBuilder.Create(type)
+                .Build();
+
+            // 创建 trigger
+            ITrigger trigger = TriggerBuilder.Create()
+                .StartNow()
+                .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
+                .Build();
+
+            // 使用trigger规划执行任务job
+            await sched.ScheduleJob(job, trigger);
+        }
+
+        /// <summary>
+        /// 手动执行
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private async static Task RunManually(Type type)
         {
             // 1.创建scheduler的引用
             var schedFact = new StdSchedulerFactory();
@@ -47,7 +71,6 @@ namespace SixpenceStudio.Platform.Job
             // 4.创建 trigger
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
                 .Build();
 
             // 5.使用trigger规划执行任务job
@@ -69,6 +92,28 @@ namespace SixpenceStudio.Platform.Job
                     Run2(item, cron);
                 }
             }
+        }
+
+        /// <summary>
+        /// 手动执行一次任务
+        /// </summary>
+        /// <param name="name"></param>
+        public async static void StartJob(string name)
+        {
+            var types = Utils.AssemblyUtils.GetTypes<IJob>("SixpenceStudio*.dll");
+            foreach (var item in types)
+            {
+                if (!item.IsAbstract)
+                {
+                    var obj = Activator.CreateInstance(item);
+                    var _name = item.GetProperty("Name").GetValue(obj)?.ToString();
+                    if (string.Equals(name, _name))
+                    {
+                        await RunManually(item);
+                    }
+                }
+            }
+
         }
     }
 }
