@@ -16,8 +16,8 @@ export default {
       controllerName: 'job',
       columns: [
         { prop: 'name', label: '名称' },
-        { prop: 'lastRuntime', label: '上次运行时间' },
-        { prop: 'nextRuntime', label: '下次运行时间' },
+        { prop: 'lastRunTime', label: '上次运行时间', type: 'datetime' },
+        { prop: 'nextRunTime', label: '下次运行时间', type: 'datetime' },
         { prop: 'runTime', label: '执行计划' },
         { prop: 'description', label: '描述' }
       ]

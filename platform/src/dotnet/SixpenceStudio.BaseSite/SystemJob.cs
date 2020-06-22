@@ -21,9 +21,8 @@ namespace SixpenceStudio.BaseSite
 
         public override string Description => "清理系统无效文件及整理日志";
 
-        public override void Run()
+        public override void Run(IPersistBroker broker)
         {
-            var broker = new PersistBroker();
             DeletePictures(broker);
             ArchiveLog();
         }
@@ -53,9 +52,9 @@ WHERE
         /// </summary>
         private void ArchiveLog()
         {
-            var fileList = FileUtils.GetFileList("*debug.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
+            var fileList = FileUtils.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
             var targetPath = FileUtils.GetSystemPath(FolderType.logArchive);
-            if (Directory.Exists(targetPath))
+            if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
             }

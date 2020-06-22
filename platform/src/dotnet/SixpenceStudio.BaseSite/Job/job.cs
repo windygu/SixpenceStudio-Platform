@@ -86,18 +86,18 @@ namespace SixpenceStudio.BaseSite.Job
         /// <summary>
         /// 描述
         /// </summary>
-        private string _descprition;
+        private string _description;
         [DataMember]
-        public string descprition
+        public string description
         {
             get
             {
-                return _descprition;
+                return _description;
             }
             set
             {
-                _descprition = value;
-                SetAttributeValue("descprition", value);
+                _description = value;
+                SetAttributeValue("description", value);
             }
         }
     }

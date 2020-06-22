@@ -28,7 +28,7 @@ namespace SixpenceStudio.Platform.Job
         /// <summary>
         /// 任务
         /// </summary>
-        public abstract void Run();
+        public abstract void Run(IPersistBroker broker);
 
         /// <summary>
         /// 任务执行
@@ -39,7 +39,10 @@ namespace SixpenceStudio.Platform.Job
         {
             return Task.Factory.StartNew(() =>
             {
-                Run();
+                var broker = new PersistBroker();
+                Run(broker);
+                 var paramList = new Dictionary<string, object>() { { "@time", DateTime.Now }, { "@name", Name } };
+                broker.Execute("UPDATE job SET lastruntime = @time WHERE name = @name", paramList);
             });
         }
     }
