@@ -30,7 +30,7 @@ namespace SixpenceStudio.Platform.Logging
                 list.Add(str);
 
             }
-            return "\r\n" + string.Join("\r\n", list);
+            return "\r\n" + string.Join("\r\n", list) + "\r\n";
         }
 
         public static void InfoLog(object msg)

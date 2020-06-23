@@ -115,5 +115,32 @@ namespace SixpenceStudio.Platform.Job
             }
 
         }
+
+        /// <summary>
+        /// 停止Job
+        /// </summary>
+        public static void PauseJob()
+        {
+            sched.PauseAll();
+        }
+
+        /// <summary>
+        /// 继续
+        /// </summary>
+        public static void Continue()
+        {
+            sched.ResumeAll();
+        }
+
+        /// <summary>
+        /// 服务停止
+        /// </summary>
+        public static void StopJob()
+        {
+            if (!sched.IsShutdown)
+            {
+                sched.Shutdown();
+            }
+        }
     }
 }

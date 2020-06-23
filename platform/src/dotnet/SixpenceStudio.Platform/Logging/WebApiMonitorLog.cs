@@ -42,12 +42,8 @@ namespace SixpenceStudio.Platform.Logging
         /// <returns></returns>
         public string GetLoginfo()
         {
-            string Msg = "WebApi: {0}\r\n开始时间:{1}\r\n结束时间:{2}\r\n总 时 间:{3}ms\r\n";
-            return string.Format(Msg,
-                Url,
-                ExecuteStartTime,
-                ExecuteEndTime,
-                (ExecuteEndTime - ExecuteStartTime).TotalMilliseconds);
+            string Msg = "WebApi: {0}\r\n";
+            return string.Format(Msg, Url);
         }
 
         /// <summary>
