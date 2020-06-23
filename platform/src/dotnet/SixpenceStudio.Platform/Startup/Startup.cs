@@ -17,6 +17,7 @@ namespace SixpenceStudio.Platform.Startup
             // 加载log配置
             var file = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config");
             var repository = log4net.LogManager.CreateRepository("NETFrameworkRepository");
+            Quartz.Logging.LogProvider.IsDisabled = true;
             XmlConfigurator.Configure(repository, file);
             XmlConfigurator.ConfigureAndWatch(file);
 
