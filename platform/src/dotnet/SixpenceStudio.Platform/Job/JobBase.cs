@@ -40,12 +40,12 @@ namespace SixpenceStudio.Platform.Job
         {
             return Task.Factory.StartNew(() =>
             {
-                LogUtils.DebugLog($"Job{Name}开始执行");
+                LogUtils.DebugLog($"Job{Name}开始执行\r\n");
                 var broker = new PersistBroker();
                 Run(broker);
                  var paramList = new Dictionary<string, object>() { { "@time", DateTime.Now }, { "@name", Name } };
                 broker.Execute("UPDATE job SET lastruntime = @time WHERE name = @name", paramList);
-                LogUtils.DebugLog($"Job{Name}执行结束");
+                LogUtils.DebugLog($"Job{Name}执行结束\r\n");
             });
         }
     }
