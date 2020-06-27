@@ -33,7 +33,7 @@ FROM
             var customFilter = new List<string>() { "name" };
             return new List<EntityView<sys_paramgroup>>()
             {
-                new EntityView<sys_paramgroup()
+                new EntityView<sys_paramgroup>()
                 {
                     Sql = sql,
                     CustomFilter = customFilter,

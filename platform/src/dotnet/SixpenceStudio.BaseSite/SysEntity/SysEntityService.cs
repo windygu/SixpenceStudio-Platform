@@ -34,7 +34,7 @@ FROM
             var customFilter = new List<string>() { "name" };
             return new List<EntityView<sys_entity>>()
             {
-                new EntityView<sys_entity()
+                new EntityView<sys_entity>()
                 {
                     Sql = sql,
                     CustomFilter = customFilter,
