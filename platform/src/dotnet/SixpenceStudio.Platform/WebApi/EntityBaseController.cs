@@ -17,17 +17,17 @@ namespace SixpenceStudio.Platform.WebApi
         }
 
         [HttpGet]
-        public virtual IList<E> GetDataList(string searchList = "", string orderBy = "", string viewId = "")
+        public virtual IList<E> GetDataList(string searchList = "", string orderBy = "", string viewId = "", string searchValue = "")
         {
             var _searchList = string.IsNullOrEmpty(searchList) ? null : JsonConvert.DeserializeObject<IList<SearchCondition>>(searchList);
-            return new S().GetDataList(_searchList, orderBy, viewId);
+            return new S().GetDataList(_searchList, orderBy, viewId, searchValue);
         }
 
         [HttpGet]
-        public virtual DataModel<E> GetDataList(string searchList, string orderBy, int pageSize, int pageIndex, string viewId = "")
+        public virtual DataModel<E> GetDataList(string searchList, string orderBy, int pageSize, int pageIndex, string viewId = "", string searchValue = "")
         {
             var _searchList = string.IsNullOrEmpty(searchList) ? null : JsonConvert.DeserializeObject<IList<SearchCondition>>(searchList);
-            return new S().GetDataList(_searchList, orderBy, pageSize, pageIndex, viewId);
+            return new S().GetDataList(_searchList, orderBy, pageSize, pageIndex, viewId, searchValue);
         }
 
         [HttpGet]

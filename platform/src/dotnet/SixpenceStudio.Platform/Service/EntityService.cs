@@ -43,7 +43,7 @@ namespace SixpenceStudio.Platform.Service
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy, string viewId = "")
+        public virtual IList<T> GetDataList(IList<SearchCondition> searchList, string orderBy, string viewId = "", string searchValue = "")
         {
             var view = string.IsNullOrEmpty(viewId) ? GetViewList().ToList().FirstOrDefault() : GetViewList().ToList().Find(item => item.ViewId == viewId);
             return _cmd.GetDataList(view, searchList, orderBy);
@@ -53,10 +53,10 @@ namespace SixpenceStudio.Platform.Service
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public virtual DataModel<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, string viewId = "")
+        public virtual DataModel<T> GetDataList(IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, string viewId = "", string searchValue = "")
         {
             var view = string.IsNullOrEmpty(viewId) ? GetViewList().ToList().FirstOrDefault() : GetViewList().ToList().Find(item => item.ViewId == viewId);
-            var data = _cmd.GetDataList(view, searchList, orderBy, pageSize, pageIndex, out var recordCount);
+            var data = _cmd.GetDataList(view, searchList, orderBy, pageSize, pageIndex, out var recordCount, searchValue);
             return new DataModel<T>()
             {
                 DataList = data,

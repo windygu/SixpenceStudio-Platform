@@ -1,51 +1,63 @@
 <template>
   <div>
-    <sp-header v-if="buttons && buttons.length > 0">
-      <sp-button-list :buttons="buttons"></sp-button-list>
-    </sp-header>
-    <el-table
-      ref="table"
-      :data="tableData"
-      :style="{ 'min-height': minHeight }"
-      row-key="Id"
-      @selection-change="handleSelectionChange"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-    >
-      <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
-      <el-table-column
-        v-for="(column, index) in columns"
-        :key="index"
-        :label="column.label"
-        :prop="column.prop"
-        :width="column.width"
-        :sortable="column.sortable ? 'custom' : false"
+    <slot name="header">
+      <sp-header v-if="buttons && buttons.length > 0">
+        <sp-button-list :buttons="buttons" @search-change="loadData"></sp-button-list>
+      </sp-header>
+    </slot>
+    <slot name="body">
+      <el-table
+        ref="table"
+        :data="tableData"
+        :style="{ 'min-height': minHeight }"
+        row-key="Id"
+        @selection-change="handleSelectionChange"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
       >
-        <template slot-scope="scope">
-          <span v-if="index == 0">
-            <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row[column.prop] }}</a>
-          </span>
-          <span v-else-if="column.type == 'date'">{{ scope.row[column.prop] | moment('YYYY-MM-DD') }}</span>
-          <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:mm') }}</span>
-          <span v-else>{{ scope.row[column.prop] }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      @size-change="sizeChange"
-      @current-change="currentPage"
-      :current-page="pageIndex"
-      :page-size="pageSize"
-      :pager-count="pagerCount"
-      :total="total"
-    >
-    </el-pagination>
-    <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%" append-to-body>
-      <component v-if="editVisible" :is="editComponent" @close="editVisible = false" :related-attr="relatedAttr" @load-data="loadData()"></component>
-    </el-dialog>
+        <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
+        <el-table-column
+          v-for="(column, index) in columns"
+          :key="index"
+          :label="column.label"
+          :prop="column.prop"
+          :width="column.width"
+          :sortable="column.sortable ? 'custom' : false"
+        >
+          <template slot-scope="scope">
+            <span v-if="index == 0">
+              <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row[column.prop] }}</a>
+            </span>
+            <span v-else-if="column.type == 'date'">{{ scope.row[column.prop] | moment('YYYY-MM-DD') }}</span>
+            <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:mm') }}</span>
+            <span v-else>{{ scope.row[column.prop] }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @size-change="sizeChange"
+        @current-change="currentPage"
+        :current-page="pageIndex"
+        :page-size="pageSize"
+        :pager-count="pagerCount"
+        :total="total"
+      >
+      </el-pagination>
+    </slot>
+    <slot name="edit">
+      <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%" append-to-body>
+        <component
+          v-if="editVisible"
+          :is="editComponent"
+          @close="editVisible = false"
+          :related-attr="relatedAttr"
+          @load-data="loadData()"
+        ></component>
+      </el-dialog>
+    </slot>
   </div>
 </template>
 
@@ -102,24 +114,33 @@ export default {
     if (this.$attrs['pageSize']) {
       this.pageSize = this.$attrs['pageSize'];
     }
-    this.loadData();
+  },
+  mounted() {
+    if (!this.isLoad) {
+      this.loadData();
+    }
   },
   data() {
     return {
       tableData: [],
       normalOperations: [
         { name: 'new', icon: 'el-icon-plus', operate: this.createData },
-        { name: 'delete', icon: 'el-icon-delete', operate: this.deleteData }
+        { name: 'delete', icon: 'el-icon-delete', operate: this.deleteData },
+        { name: 'search' }
       ],
       editVisible: false,
       relatedAttr: null,
       selections: [],
-      loading: false
+      loading: false,
+      searchValue: ''
     };
   },
   computed: {
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
+    },
+    isLoad() {
+      return !!this.$slots.body;
     }
   },
   methods: {
@@ -127,12 +148,15 @@ export default {
       this.pageIndex = index;
       this.loadData();
     },
-    async loadData() {
+    async loadData(value = '') {
+      if (this.searchValue !== value) {
+        this.searchValue = value;
+      }
       if (this.loading) {
         return;
       }
       this.loading = true;
-      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pageSize}&pageIndex=${this.pageIndex}`;
+      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pageSize}&pageIndex=${this.pageIndex}&searchValue=${this.searchValue}`;
       if (!sp.isNullOrEmpty(this.customApi)) {
         url = this.customApi;
       }

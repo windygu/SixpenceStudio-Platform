@@ -11,6 +11,7 @@ namespace SixpenceStudio.Platform.Service
         where T : BaseEntity, new()
     {
         public string Name { get; set; }
+        public IList<string> CustomFilter { get; set; }
         public string ViewId { get; set; }
         public string Sql { get; set; }
         public string OrderBy { get; set; }

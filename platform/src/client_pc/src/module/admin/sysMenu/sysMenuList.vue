@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <sp-header>
+  <sp-list ref="list" :controllerName="controllerName">
+    <sp-header slot="header">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
     <el-table
@@ -11,6 +11,7 @@
       :tree-props="{ children: 'ChildMenus', hasChildren: 'hasChildren' }"
       default-expand-all
       row-key="Id"
+      slot="body"
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column label="菜单名">
@@ -29,7 +30,7 @@
       </el-table-column>
       <el-table-column prop="stateCodeName" label="状态"></el-table-column>
     </el-table>
-    <el-dialog title="编辑" :visible.sync="editVisible" width="50%">
+    <el-dialog slot="edit" title="编辑" :visible.sync="editVisible" width="50%">
       <component
         v-if="editVisible"
         :is="editComponent"
@@ -38,7 +39,7 @@
         @load-data="$emit('load-data')"
       ></component>
     </el-dialog>
-  </div>
+  </sp-list>
 </template>
 
 <script>

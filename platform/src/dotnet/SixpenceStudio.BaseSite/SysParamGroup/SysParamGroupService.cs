@@ -22,6 +22,28 @@ namespace SixpenceStudio.BaseSite.SysParamGroup
         }
         #endregion
 
+        public override IList<EntityView<sys_paramgroup>> GetViewList()
+        {
+            var sql = @"
+SELECT
+	*
+FROM
+	sys_paramgroup
+";
+            var customFilter = new List<string>() { "name" };
+            return new List<EntityView<sys_paramgroup>>()
+            {
+                new EntityView<sys_paramgroup()
+                {
+                    Sql = sql,
+                    CustomFilter = customFilter,
+                    OrderBy = "name, createdon",
+                    ViewId = "457CA7F7-BE57-4934-9434-3234EAF68E14",
+                    Name = "所有的选项集"
+                }
+            };
+        }
+
         public IList<SelectModel> GetParams(string code)
         {
             var sql = @"

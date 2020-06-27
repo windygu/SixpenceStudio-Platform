@@ -23,6 +23,28 @@ namespace SixpenceStudio.BaseSite.SysEntity
         }
         #endregion
 
+        public override IList<EntityView<sys_entity>> GetViewList()
+        {
+            var sql = @"
+SELECT
+	*
+FROM
+	sys_entity
+";
+            var customFilter = new List<string>() { "name" };
+            return new List<EntityView<sys_entity>>()
+            {
+                new EntityView<sys_entity()
+                {
+                    Sql = sql,
+                    CustomFilter = customFilter,
+                    OrderBy = "name, createdon",
+                    ViewId = "FBEC5163-587B-437E-995F-1DC97229C906",
+                    Name = "所有的实体"
+                }
+            };
+        }
+
         /// <summary>
         /// 根据实体 id 查询字段
         /// </summary>

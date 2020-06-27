@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       controllerName: 'SysParamGroup',
-      operations: ['new', 'delete'],
+      operations: ['new', 'delete', 'search'],
       columns: [
         { prop: 'name', label: '名称' },
         { prop: 'code', label: '编码' },

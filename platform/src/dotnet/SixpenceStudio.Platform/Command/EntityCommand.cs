@@ -55,14 +55,15 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <param name="recordCount"></param>
+        /// <param name="searchValue"></param>
         /// <returns></returns>
-        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount)
+        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount, string searchValue = "")
         {
             var sql = view.Sql;
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view);
+            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view, searchValue);
 
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql + where}) AS table1";
             sql += (where + orderBy);
@@ -79,13 +80,13 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="searchList">搜索条件</param>
         /// <param name="orderBy">排序</param>
         /// <returns></returns>
-        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy)
+        public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, string searchValue = "")
         {
             var sql = view.Sql;
             var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view);
+            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view, searchValue);
 
             sql += (where + orderBy);
 
@@ -102,18 +103,34 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="paramList"></param>
         /// <param name="orderBy"></param>
         /// <param name="view"></param>
-        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, ref string orderBy, EntityView<T> view)
+        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, ref string orderBy, EntityView<T> view, string searchValue)
             where T : BaseEntity, new()
         {
+            var entityName = new T().EntityName;
+            var count = 0;
+
+            if (!string.IsNullOrEmpty(searchValue) && view.CustomFilter != null)
+            {
+                foreach (var item in view.CustomFilter)
+                {
+                    sql += $" AND {entityName}.{item} LIKE @params{count}";
+                    paramList.Add($"@params{count++}", $"%{searchValue}%");
+                }
+            }
+
             if (searchList != null && searchList.Count() > 0)
             {
-                var count = 0;
-                var entityName = new T().EntityName;
                 foreach (var search in searchList)
                 {
                     sql += $" AND {entityName}.{search.Name} = @params{count}";
                     paramList.Add($"@params{count++}", search.Value);
                 }
+            }
+
+            var index = sql.IndexOf("where", StringComparison.CurrentCultureIgnoreCase);
+            if (index == -1)
+            {
+                sql = " WHERE 1=1 " + sql;
             }
 
             // 以ORDERBY的传入参数优先级最高
