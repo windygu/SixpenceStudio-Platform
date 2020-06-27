@@ -104,6 +104,12 @@ namespace SixpenceStudio.Platform.Command
             var entityName = new T().EntityName;
             var count = 0;
 
+            var index = sql.IndexOf("where", StringComparison.CurrentCultureIgnoreCase);
+            if (index == -1)
+            {
+                sql += " WHERE 1=1 ";
+            }
+
             if (!string.IsNullOrEmpty(searchValue) && view.CustomFilter != null)
             {
                 foreach (var item in view.CustomFilter)
@@ -120,12 +126,6 @@ namespace SixpenceStudio.Platform.Command
                     sql += $" AND {entityName}.{search.Name} = @params{count}";
                     paramList.Add($"@params{count++}", search.Value);
                 }
-            }
-
-            var index = sql.IndexOf("where", StringComparison.CurrentCultureIgnoreCase);
-            if (index == -1)
-            {
-                sql = " WHERE 1=1 " + sql;
             }
 
             // 以ORDERBY的传入参数优先级最高

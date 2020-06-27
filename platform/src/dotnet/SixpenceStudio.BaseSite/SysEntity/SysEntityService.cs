@@ -70,8 +70,14 @@ WHERE
         /// <returns></returns>
         public override string CreateData(sys_entity t)
         {
-            CreateTable(t.code);
-            return base.CreateData(t);
+            var id = "";
+            t.name = "名称";
+            _cmd.broker.ExecuteTransaction(() =>
+            {
+                CreateTable(t.code);
+                id = base.CreateData(t);
+            });
+            return id;
         }
 
         /// <summary>
@@ -163,7 +169,8 @@ ALTER TABLE {tableName}
             var sql = $@"
 CREATE TABLE {tableName}
 (
-{tableName}id VARCHAR(100) PRIMARY KEY
+{tableName}id VARCHAR(100) PRIMARY KEY,
+name VARCHAR(100)
 )
 ";
             return sql;

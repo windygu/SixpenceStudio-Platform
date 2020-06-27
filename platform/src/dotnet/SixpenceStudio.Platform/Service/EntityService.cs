@@ -21,6 +21,7 @@ namespace SixpenceStudio.Platform.Service
         }
 
         #region 实体表单
+
         /// <summary>
         /// 获取视图
         /// </summary>
@@ -33,6 +34,7 @@ namespace SixpenceStudio.Platform.Service
                 new EntityView<T>()
                 {
                     Sql = sql,
+                    CustomFilter = new List<string>() { "name" }, // name 是每个实体必须要添加字段
                     OrderBy = "",
                     ViewId = ""
                 }
