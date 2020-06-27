@@ -60,13 +60,11 @@ namespace SixpenceStudio.Platform.Command
         public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount, string searchValue = "")
         {
             var sql = view.Sql;
-            var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view, searchValue);
+            GetSql<T>(ref sql, searchList, ref paramList, orderBy, view, searchValue);
 
-            var recordCountSql = $"SELECT COUNT(1) FROM ({sql + where}) AS table1";
-            sql += (where + orderBy);
+            var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table1";
             sql += $" LIMIT {pageSize} OFFSET {(pageIndex - 1) * pageSize}";
             recordCount = Convert.ToInt32(broker.ExecuteScalar(recordCountSql, paramList));
             var data = broker.RetrieveMultiple<T>(sql, paramList);
@@ -83,12 +81,9 @@ namespace SixpenceStudio.Platform.Command
         public IList<T> GetDataList(EntityView<T> view, IList<SearchCondition> searchList, string orderBy, string searchValue = "")
         {
             var sql = view.Sql;
-            var where = string.Empty;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref where, searchList, ref paramList, ref orderBy, view, searchValue);
-
-            sql += (where + orderBy);
+            GetSql<T>(ref sql, searchList, ref paramList, orderBy, view, searchValue);
 
             var data = broker.RetrieveMultiple<T>(sql, paramList);
             return data;
@@ -103,7 +98,7 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="paramList"></param>
         /// <param name="orderBy"></param>
         /// <param name="view"></param>
-        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, ref string orderBy, EntityView<T> view, string searchValue)
+        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, string orderBy, EntityView<T> view, string searchValue)
             where T : BaseEntity, new()
         {
             var entityName = new T().EntityName;
@@ -143,6 +138,8 @@ namespace SixpenceStudio.Platform.Command
                 orderBy.Replace("ORDER BY", "");
                 orderBy = $" ORDER BY {orderBy},{new T().EntityName}id";
             }
+
+            sql += orderBy;
         }
 
 
