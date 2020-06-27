@@ -15,7 +15,7 @@
             <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row[column.prop] }}</a>
           </span>
           <span v-else-if="column.type == 'date'">{{ scope.row[column.prop] | moment('YYYY-MM-DD') }}</span>
-          <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:MM') }}</span>
+          <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:mm') }}</span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>

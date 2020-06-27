@@ -48,10 +48,7 @@ export default {
     return {
       controllerName: 'SysMenu',
       tableData: [],
-      buttons: [
-        { icon: 'el-icon-plus', text: '', operate: this.createData },
-        { icon: 'el-icon-delete', text: '', operate: this.deleteData }
-      ],
+      buttons: [{ icon: 'el-icon-plus', text: '', operate: this.createData }, { icon: 'el-icon-delete', text: '', operate: this.deleteData }],
       editComponent: () => import('./sysMenuEdit'),
       editVisible: false,
       selections: [],
@@ -70,7 +67,7 @@ export default {
     },
     formatDate(value) {
       if (!sp.isNullOrEmpty(value)) {
-        return this.$moment(value).format('YYYY-MM-DD HH:MM');
+        return this.$moment(value).format('YYYY-MM-DD HH:mm');
       }
       return '';
     },
