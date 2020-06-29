@@ -110,6 +110,9 @@
     <Compile Include="Job\JobController.cs" />
     <Compile Include="Job\JobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysConfig\SysConfigController.cs" />
+    <Compile Include="SysConfig\SysConfigService.cs" />
+    <Compile Include="SysConfig\sys_config.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsController.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsPartial.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsService.cs" />
