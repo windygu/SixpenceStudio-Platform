@@ -1,9 +1,10 @@
-import Vue from 'vue';
 import login from '../module/login'
 import admin from '../module/admin';
 import notFound from '../module/404';
-import VueRouter from 'vue-router';
 import store from '../store/store';
+
+const Vue = require('vue');
+const VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 

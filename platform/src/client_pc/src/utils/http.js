@@ -1,5 +1,36 @@
-import axios from './axios';
-import { isNull } from './common';
+import * as sp from './common';
+
+const axios = require('axios');
+
+axios.defaults.timeout = 20000;
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = `BasicAuth ${localStorage.getItem('Token') || ''}`;
+  return config;
+});
+
+axios.interceptors.response.use(response => Promise.resolve(response), error => {
+  if (error && error.response && error.response.status) {
+    switch (error.response.status) {
+      case 401:
+        location.href = '/#/index';
+        break;
+      case 403:
+        location.href = '/#/login';
+        break;
+      default:
+        break;
+    }
+    return Promise.reject(error);
+  }
+});
+
+const baseUrl = localStorage.getItem('baseUrl');
+if (sp.isNullOrEmpty(baseUrl)) {
+  localStorage.setItem('baseUrl', window.location.origin);
+} else {
+  axios.defaults.baseURL = baseUrl;
+}
 
 function _handleSuccess(res) {
   if (!res) return;
@@ -10,7 +41,7 @@ function _handleSuccess(res) {
 
   if (res.data.ErrorCode === 0) {
     return res.data.Data || res.data;
-  } else if (!isNull(res.data.ErrorCode) && !isNull(res.data.Message)) {
+  } else if (!sp.isNull(res.data.ErrorCode) && !sp.isNull(res.data.Message)) {
     return Promise.reject(new Error(res.data.Message));
   } else {
     return res.data;
