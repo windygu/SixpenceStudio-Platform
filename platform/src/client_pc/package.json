@@ -1,6 +1,6 @@
 {
   "name": "sixpence.platform.pc.vue",
-  "version": "1.0.63",
+  "version": "1.0.65",
   "description": "A Vue.js components store",
   "author": "carldu",
   "private": false,
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "less": "^3.10.3",
-    "less-loader": "^5.0.0"
+    "less-loader": "^5.0.0",
+    "uuidjs": "^4.2.5"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
