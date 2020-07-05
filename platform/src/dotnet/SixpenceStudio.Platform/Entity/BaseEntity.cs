@@ -86,6 +86,16 @@ namespace SixpenceStudio.Platform.Entity
 
         public Dictionary<string, object> Attributes => _attributes;
 
+        /// <summary>
+        /// 索引器
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public object this[string key]
+        {
+            get => GetAttributeValue(key);
+            set => SetAttributeValue(key, value);
+        }
 
         #region Methods
         /// <summary>
