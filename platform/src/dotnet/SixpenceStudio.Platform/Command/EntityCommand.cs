@@ -197,9 +197,9 @@ namespace SixpenceStudio.Platform.Command
                     Entity = t,
                     EntityName = t.EntityName
                 };
-                AssemblyUtils.Execute<IEntityActionPlugin>("PreCreate", new object[] { context });
+                AssemblyUtils.Execute<IEntityActionPlugin>("PreCreate", new object[] { context }, t.EntityName);
                 id = broker.Create(t);
-                AssemblyUtils.Execute<IEntityActionPlugin>("PostCreate", new object[] { context });
+                AssemblyUtils.Execute<IEntityActionPlugin>("PostCreate", new object[] { context }, t.EntityName);
             });
             return id;
         }
@@ -234,9 +234,9 @@ namespace SixpenceStudio.Platform.Command
                     Entity = t,
                     EntityName = t.EntityName
                 };
-                AssemblyUtils.Execute<IEntityActionPlugin>("PreUpdate", new object[] { context });
+                AssemblyUtils.Execute<IEntityActionPlugin>("PreUpdate", new object[] { context }, t.EntityName);
                 broker.Update(t);
-                AssemblyUtils.Execute<IEntityActionPlugin>("PostUpdate", new object[] { context });
+                AssemblyUtils.Execute<IEntityActionPlugin>("PostUpdate", new object[] { context }, t.EntityName);
             });
         }
 
@@ -281,9 +281,9 @@ namespace SixpenceStudio.Platform.Command
                         Entity = data,
                         EntityName = data.EntityName
                     };
-                    AssemblyUtils.Execute<IEntityActionPlugin>("PreDelete", new object[] { context });
+                    AssemblyUtils.Execute<IEntityActionPlugin>("PreDelete", new object[] { context }, data.EntityName);
                     broker.Delete(new T().EntityName, id);
-                    AssemblyUtils.Execute<IEntityActionPlugin>("PostDelete", new object[] { context });
+                    AssemblyUtils.Execute<IEntityActionPlugin>("PostDelete", new object[] { context }, data.EntityName);
                 });
             });
         }

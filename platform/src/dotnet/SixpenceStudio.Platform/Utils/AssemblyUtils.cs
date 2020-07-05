@@ -58,14 +58,18 @@ namespace SixpenceStudio.Platform.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="methodName">方法名</param>
         /// <param name="param">方法参数</param>
-        public static void Execute<T>(string methodName, object[] param)
+        public static void Execute<T>(string methodName, object[] param, string className = "")
         {
             var types = GetTypes<T>("SixpenceStudio*.dll");
             foreach (var item in types)
             {
-                var obj = Activator.CreateInstance(item);
-                var mi = item.GetMethod(methodName);
-                mi.Invoke(obj, param);
+                // 筛选类名（TestPlugin)
+                if (!string.IsNullOrEmpty(className) && item.Name.Contains(className, StringComparison.OrdinalIgnoreCase))
+                {
+                    var obj = Activator.CreateInstance(item);
+                    var mi = item.GetMethod(methodName);
+                    mi.Invoke(obj, param);
+                }
             }
         }
 
