@@ -5,6 +5,7 @@ using SixpenceStudio.Platform.Logging;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 
 namespace SixpenceStudio.Platform.Data
 {
@@ -120,13 +121,15 @@ namespace SixpenceStudio.Platform.Data
         #endregion
 
         #region Execute
-        public int Execute(string sqlText, IDictionary<string, object> paramList = null)
+        public int Execute(string sql, IDictionary<string, object> paramList = null)
         {
-            LogUtils.DebugLog(sqlText + LogUtils.FormatDictonary(paramList));
-            return _conn.Execute(sqlText, paramList);
+            sql = ConvertSqlToDialectSql(sql, paramList);
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
+            return _conn.Execute(sql, paramList);
         }
         public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
         {
+            sql = ConvertSqlToDialectSql(sql, paramList);
             LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             return _conn.ExecuteScalar(sql, paramList);
         }
@@ -135,6 +138,7 @@ namespace SixpenceStudio.Platform.Data
         #region Query
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
+            sql = ConvertSqlToDialectSql(sql, paramList);
             LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             var ret = _conn.Query<T>(sql, paramList);
             return ret;
@@ -144,6 +148,7 @@ namespace SixpenceStudio.Platform.Data
         #region DataTable
         public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
+            sql = ConvertSqlToDialectSql(sql, paramList);
             LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
             DataTable dt = new DataTable();
             var reader = _conn.ExecuteReader(sql, paramList);
@@ -151,5 +156,57 @@ namespace SixpenceStudio.Platform.Data
             return dt;
         }
         #endregion
+
+        public string ConvertSqlToDialectSql(string sql, IDictionary<string, object> paramsList)
+        {
+            if (paramsList == null || paramsList.Count == 0)
+            {
+                return sql;
+            }
+            if (sql.Contains("in@"))
+            {
+                var toRemovedParamNameList = new Dictionary<string, Dictionary<string, object>>();
+                var paramValueNullList = new List<string>(); // 记录传入的InList参数的Value如果为空或者没有值的特殊情况
+
+                foreach (var paramName in paramsList.Keys)
+                {
+                    if (!paramName.ToLower().StartsWith("in")) continue;
+                    var paramValue = paramsList[paramName]?.ToString();
+                    if (string.IsNullOrWhiteSpace(paramValue))
+                    {
+                        paramValueNullList.Add(paramName);
+                        continue;
+                    }
+
+                    toRemovedParamNameList.Add(paramName, new Dictionary<string, object>());
+                    var inListValues = paramValue.Split(',');
+                    for (var i = 0; i < inListValues.Length; i++)
+                    {
+                        toRemovedParamNameList[paramName].Add(paramName.Substring(2, paramName.Length - 2) + i, inListValues[i]);
+                    }
+                }
+
+                foreach (var paramNameRemoved in toRemovedParamNameList.Keys)
+                {
+                    paramsList.Remove(paramNameRemoved);
+                    foreach (var paramNameAdd in toRemovedParamNameList[paramNameRemoved].Keys)
+                    {
+                        paramsList.Add(paramNameAdd, toRemovedParamNameList[paramNameRemoved][paramNameAdd]);
+                    }
+
+                    var newParamNames = toRemovedParamNameList[paramNameRemoved].Keys.Aggregate((l, n) => l + "," + n);
+                    sql = sql.Replace(paramNameRemoved, newParamNames);
+                }
+
+                foreach (var paramValueNullName in paramValueNullList)
+                {
+                    paramsList.Remove(paramValueNullName);
+                    sql = sql.Replace(paramValueNullName, "null");
+                }
+
+                return sql;
+            }
+            return sql;
+        }
     }
 }

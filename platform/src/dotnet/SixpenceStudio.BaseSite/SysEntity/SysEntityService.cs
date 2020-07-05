@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.BaseSite.SysEntity.SysAttrs;
+﻿using SixpenceStudio.BaseSite.SysEntity.Models;
+using SixpenceStudio.BaseSite.SysEntity.SysAttrs;
 using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
@@ -71,11 +72,23 @@ WHERE
         public override string CreateData(sys_entity t)
         {
             var id = "";
-            t.name = "名称";
             _cmd.broker.ExecuteTransaction(() =>
             {
-                CreateTable(t.code);
+                _cmd.broker.Execute(DDLTemplate.CreateTable(t.code));
                 id = base.CreateData(t);
+                var sys_attr = new sys_attrs()
+                {
+                    sys_attrsId = Guid.NewGuid().ToString(),
+                    name = "名称",
+                    attr_length = 100,
+                    attr_type = "varchar",
+                    code = "name",
+                    entityCode = t.code,
+                    entityid = t.Id,
+                    entityidname = t.name,
+                    isrequire = 0
+                };
+                new SysAttrsService(_cmd.broker).CreateData(sys_attr);
             });
             return id;
         }
@@ -91,103 +104,25 @@ WHERE
         }
 
         /// <summary>
-        /// 创建表
+        /// 删除实体
         /// </summary>
-        /// <param name="tableName"></param>
-        public void CreateTable(string tableName)
+        /// <param name="ids"></param>
+        public override void DeleteData(List<string> ids)
         {
-            _cmd.broker.Execute(DDLTemplate.CreateTable(tableName));
+            _cmd.broker.ExecuteTransaction(() =>
+            {
+                var dataList = _cmd.broker.RetrieveMultiple<sys_entity>(ids).ToList();
+                base.DeleteData(ids); // 删除实体
+                var sql = @"
+DELETE FROM sys_attrs WHERE entityid IN (in@ids);
+";
+                _cmd.broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", string.Join(",", ids) } }); // 删除级联字段
+                dataList.ForEach(data =>
+                {
+                    _cmd.broker.Execute(DDLTemplate.DropTable(data.name));
+                });
+            });
         }
     }
-
-    #region DDL语句模板
-    public static class DDLTemplate
-    {
-        /// <summary>
-        /// 返回类型与长度DDL格式语句
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        private static string handleColumnType(string type, int length)
-        {
-            var longType = new List<string>() { "varchar", "nvarchar", "int" };
-            if (longType.Contains(type?.ToLower()))
-            {
-                return $"{type}({length})";
-            }
-            return $"{type}";
-        }
-
-        /// <summary>
-        /// 获取添加字段 Sql
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="columns"></param>
-        /// <returns></returns>
-        public static string GetAddColumnSql(string tableName, List<Column> columns)
-        {
-            var sql = $@"
-ALTER TABLE {tableName}
-";
-            var count = 0;
-            foreach (var item in columns)
-            {
-                var itemSql = $"ADD {item.Code} {handleColumnType(item.Type, item.Length)} {(item.IsNotNull ? " NOT NULL" : "")} {(++count == columns.Count ? ";" : ",")}";
-                sql += itemSql;
-            }
-            return sql;
-        }
-
-        /// <summary>
-        /// 获取删除字段 Sql
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="columns"></param>
-        /// <returns></returns>
-        public static string GetDropColumnSql(string tableName, List<Column> columns)
-        {
-            var sql = $@"
-ALTER TABLE {tableName}
-";
-            var count = 0;
-            foreach (var item in columns)
-            {
-                var itemSql = $"DROP COLUMN {item.Code} {(++count == columns.Count ? ";" : ",")}";
-                sql += itemSql;
-            }
-            return sql;
-        }
-
-        /// <summary>
-        /// 创建表
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        public static string CreateTable(string tableName)
-        {
-            var sql = $@"
-CREATE TABLE {tableName}
-(
-{tableName}id VARCHAR(100) PRIMARY KEY,
-name VARCHAR(100)
-)
-";
-            return sql;
-        }
-    }
-    public class Column
-    {
-        public string Code { get; set; }
-
-        public string Name { get; set; }
-
-        public string Type { get; set; }
-
-        public int Length { get; set; }
-
-        public bool IsNotNull { get; set; }
-    }
-    #endregion
 
 }

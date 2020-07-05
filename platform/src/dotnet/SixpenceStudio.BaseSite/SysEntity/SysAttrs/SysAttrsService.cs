@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Platform;
+﻿using SixpenceStudio.BaseSite.SysEntity.Models;
+using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
@@ -40,7 +41,7 @@ namespace SixpenceStudio.BaseSite.SysEntity.SysAttrs
             };
             _cmd.broker.ExecuteTransaction(() =>
             {
-                var entity = new SysEntityService().GetData(id);
+                var entity = new SysEntityService(_cmd.broker).GetData(id);
                 columns.ForEach(item =>
                 {
                     var sql = @"
@@ -65,7 +66,7 @@ WHERE entityid = @id AND code = @code;
                     };
                     _cmd.Create(attrModel);
                 });
-                new SysEntityService().AddSystemAttrs(entity.code, columns);
+                new SysEntityService(_cmd.broker).AddSystemAttrs(entity.code, columns);
             });
         }
 
@@ -77,12 +78,13 @@ WHERE entityid = @id AND code = @code;
         public override string CreateData(sys_attrs t)
         {
             var id = default(string);
-            var sql = DDLTemplate.GetAddColumnSql(t.entityCode, new List<Column>() { { new Column() { Code = t.code, Name = t.name, Type = t.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire.Value == 1 } } });
+            var columns = new List<Column>() { { new Column() { Code = t?.code, Name = t?.name, Type = t?.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire.Value == 1 } } };
+            var sql = DDLTemplate.GetAddColumnSql(t.entityCode, columns);
 
             _cmd.broker.ExecuteTransaction(() =>
             {
                 id = base.CreateData(t);
-                _cmd.broker.Execute(sql); // DDL 语句是无法回滚的
+                _cmd.broker.Execute(sql);
             });
 
             return id;
@@ -104,10 +106,10 @@ WHERE entityid = @id AND code = @code;
                 });
 
                 base.DeleteData(ids);
-                // DDL 语句最后执行
+
                 if (dataList.Count > 0)
                 {
-                    var tableName = new SysEntityService().GetData(dataList[0].entityid)?.code;
+                    var tableName = new SysEntityService(_cmd.broker).GetData(dataList[0].entityid)?.code;
                     var sql = DDLTemplate.GetDropColumnSql(tableName, columns);
                     _cmd.broker.Execute(sql);
                 }

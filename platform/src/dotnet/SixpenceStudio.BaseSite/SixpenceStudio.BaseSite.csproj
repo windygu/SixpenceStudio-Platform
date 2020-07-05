@@ -113,6 +113,8 @@
     <Compile Include="SysConfig\SysConfigController.cs" />
     <Compile Include="SysConfig\SysConfigService.cs" />
     <Compile Include="SysConfig\sys_config.cs" />
+    <Compile Include="SysEntity\DDLTemplate.cs" />
+    <Compile Include="SysEntity\Models\Column.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsController.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsPartial.cs" />
     <Compile Include="SysEntity\SysAttrs\SysAttrsService.cs" />
