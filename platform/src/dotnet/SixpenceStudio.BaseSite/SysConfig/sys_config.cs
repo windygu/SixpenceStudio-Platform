@@ -55,7 +55,7 @@ namespace SixpenceStudio.BaseSite.SysConfig
         {
             get
             {
-                return this.value;
+                return this._value;
             }
             set
             {
