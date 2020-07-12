@@ -49,6 +49,12 @@ namespace SixpenceStudio.Platform.WebApi
         }
 
         [HttpPost]
+        public string CreateOrUpdateData(E entity)
+        {
+            return new S().CreateOrUpdateData(entity);
+        }
+
+        [HttpPost]
         public void DeleteData(List<string> ids)
         {
             new S().DeleteData(ids);

@@ -7,13 +7,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysConfig
 {
+    [EntityName("sys_config")]
     public partial class sys_config : BaseEntity
     {
-        public sys_config()
-        {
-            this.EntityName = "sys_config";
-        }
-
         /// <summary>
         /// 实体id
         /// </summary>

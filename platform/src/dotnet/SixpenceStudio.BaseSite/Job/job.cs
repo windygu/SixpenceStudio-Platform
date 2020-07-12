@@ -4,13 +4,9 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.BaseSite.Job
 {
+    [EntityName("job")]
     public class job : BaseEntity
     {
-        public job()
-        {
-            this.EntityName = "job"; 
-        }
-
         /// <summary>
         /// 实体id
         /// </summary>

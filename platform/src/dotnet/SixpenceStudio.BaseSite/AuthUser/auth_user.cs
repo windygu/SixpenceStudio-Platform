@@ -4,15 +4,9 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.BaseSite.AuthUser
 {
+    [EntityName("auth_user")]
     public partial class auth_user : BaseEntity
     {
-        #region 构造函数
-        public auth_user()
-        {
-            this.EntityName = "auth_user";
-        }
-        #endregion
-
         /// <summary>
         /// 实体id
         /// </summary>

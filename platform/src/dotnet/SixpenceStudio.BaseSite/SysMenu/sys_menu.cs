@@ -7,15 +7,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysMenu
 {
+    [EntityName("sys_menu")]
     public partial class sys_menu : BaseEntity
     {
-        #region 构造函数
-        public sys_menu()
-        {
-            this.EntityName = "sys_menu";
-        }
-        #endregion
-
         /// <summary>
         /// 实体id
         /// </summary>

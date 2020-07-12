@@ -4,13 +4,9 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.BaseSite.UserInfo
 {
+    [EntityName("user_info")]
     public partial class user_info : BaseEntity
     {
-        public user_info()
-        {
-            this.EntityName = "user_info";
-        }
-
         /// <summary>
         /// 用户id
         /// </summary>

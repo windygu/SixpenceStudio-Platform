@@ -7,15 +7,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysEntity
 {
+    [EntityName("sys_entity")]
     public partial class sys_entity : BaseEntity
     {
-        #region 构造函数
-        public sys_entity()
-        {
-            this.EntityName = "sys_entity";
-        }
-        #endregion
-
         /// <summary>
         /// 实体id
         /// </summary>

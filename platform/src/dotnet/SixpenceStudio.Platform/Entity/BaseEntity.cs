@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Quartz.Impl.AdoJobStore;
+using Quartz.Util;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,6 +14,7 @@ namespace SixpenceStudio.Platform.Entity
     [Serializable]
     public abstract class BaseEntity
     {
+        private static readonly ConcurrentDictionary<string, string> _entityNameCache = new ConcurrentDictionary<string, string>();
         public BaseEntity() { }
         public BaseEntity(string entityName) { this._entityName = entityName; }
 
@@ -22,6 +26,19 @@ namespace SixpenceStudio.Platform.Entity
         {
             get
             {
+                if (string.IsNullOrEmpty(_entityName))
+                {
+                    var type = GetType();
+                    _entityName = _entityNameCache.GetOrAdd(type.FullName, (key) =>
+                    {
+                        var attr = Attribute.GetCustomAttribute(type, typeof(EntityNameAttribute)) as EntityNameAttribute;
+                        if (attr == null)
+                        {
+                            throw new SixpenceStudio.Platform.SpException("获取实体名失败，请检查是否定义实体名", "");
+                        }
+                        return attr.Name;
+                    });
+                }
                 return _entityName;
             }
             set

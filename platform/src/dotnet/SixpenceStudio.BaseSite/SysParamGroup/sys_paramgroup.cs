@@ -7,15 +7,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysParamGroup
 {
+    [EntityName("sys_paramGroup")]
     public partial class sys_paramgroup : BaseEntity
     {
-        #region 构造函数
-        public sys_paramgroup()
-        {
-            this.EntityName = "sys_paramGroup";
-        }
-        #endregion
-
         /// <summary>
         /// 主键
         /// </summary>

@@ -7,13 +7,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysFile
 {
+    [EntityName("sys_file")]
     public class sys_file : BaseEntity
     {
-        public sys_file()
-        {
-            this.EntityName = "sys_file";
-        }
-
         private string _sys_fileid;
         [DataMember]
         public string sys_fileId
