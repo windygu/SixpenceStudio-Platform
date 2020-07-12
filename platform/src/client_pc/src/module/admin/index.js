@@ -9,7 +9,6 @@ export default [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('./admin'),
     children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig),
     meta: { auth: true } // 需要检验
   }

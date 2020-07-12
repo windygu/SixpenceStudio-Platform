@@ -51,12 +51,7 @@
             <i class="el-icon-back"></i>
             返回首页
           </el-link>
-          <el-dropdown @command="handleClick" class="header-dropdown">
-            <el-button @click="writeBlog" type="primary">写博客<i class="el-icon-arrow-down el-icon--right"></i> </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="writeIdea">想法</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <slot name="custom-area"></slot>
           <el-dropdown @command="handleClick" class="header-dropdown">
             <el-avatar :src="imageUrl" class="home-header-avatar"></el-avatar>
             <el-dropdown-menu slot="dropdown" placement="bottom-end">
