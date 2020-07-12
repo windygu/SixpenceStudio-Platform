@@ -129,16 +129,6 @@ export default {
         cmd();
       }
     },
-    writeBlog() {
-      this.$router.push({
-        name: 'blogEdit'
-      });
-    },
-    writeIdea() {
-      this.$router.push({
-        name: 'idea'
-      });
-    },
     editPassword() {
       this.editVisible = true;
     },
