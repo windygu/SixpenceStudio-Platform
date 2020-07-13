@@ -29,6 +29,24 @@ namespace SixpenceStudio.BaseSite.SysConfig
         }
 
         /// <summary>
+        /// 编码
+        /// </summary>
+        private string _code;
+        [DataMember]
+        public string code
+        {
+            get
+            {
+                return this._code;
+            }
+            set
+            {
+                this._code = value;
+                SetAttributeValue("code", value);
+            }
+        }
+
+        /// <summary>
         /// 描述
         /// </summary>
         private string _description;
