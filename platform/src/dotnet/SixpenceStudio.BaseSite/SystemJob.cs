@@ -40,7 +40,7 @@ FROM
 	sys_file 
 WHERE
 	objectid IS NULL 
-	AND file_type = 'blog_content'
+	AND (file_type = 'blog_content' OR file_type = 'blog_surface')
 ";
             var dataList = broker.RetrieveMultiple<sys_file>(sql);
             var ids = dataList.Select(item => item.Id).ToList();
