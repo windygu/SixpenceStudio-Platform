@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.BaseSite.SysFile;
+﻿using SixpenceStudio.BaseSite.SysConfig.Config;
+using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Job;
 using SixpenceStudio.Platform.Utils;
@@ -59,6 +60,36 @@ WHERE
                 Directory.CreateDirectory(targetPath);
             }
             FileUtils.MoveFiles(fileList, targetPath);
+            DeleteLog();
+
+        }
+
+        /// <summary>
+        /// 删除归档里的log
+        /// </summary>
+        private void DeleteLog()
+        {
+            var days = ConfigUtils.GetValue<BackupLogConfig>()?.ToString();
+            var path = FileUtils.GetSystemPath(FolderType.logArchive);
+            var files = FileUtils.GetFileList(path);
+            var logNameList = new List<string>();
+
+            // 需要保留的log
+            for (int i = 0; i < Convert.ToInt32(days); i++)
+            {
+                logNameList.Add(DateTime.Now.AddDays(-i).ToString("yyyyMMdd") + " debug.log");
+                logNameList.Add(DateTime.Now.AddDays(-i).ToString("yyyyMMdd") + " error.log");
+            }
+
+            // 删除不需要保留的log
+            for (int i = 0; i < files.Count; i++)
+            {
+                var file = files[i];
+                if (!logNameList.Contains(file))
+                {
+                    FileUtils.DeleteFile(file);
+                }
+            }
         }
     }
 }

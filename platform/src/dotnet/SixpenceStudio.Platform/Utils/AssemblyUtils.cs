@@ -7,6 +7,8 @@ namespace SixpenceStudio.Platform.Utils
 {
     public class AssemblyUtils
     {
+        private const string SIXPENCE_LIBS = "SixpenceStudio*.dll";
+
         /// <summary>
         /// 获取所有Assembly实例
         /// </summary>
@@ -29,8 +31,13 @@ namespace SixpenceStudio.Platform.Utils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IList<Type> GetTypes<T>(string name)
+        public static IList<Type> GetTypes<T>(string name = "")
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = SIXPENCE_LIBS;
+            }
+
             var assmeblies = GetAssemblies(name);
             var list = new List<Type>();
             assmeblies.ToList().ForEach(assembly =>
