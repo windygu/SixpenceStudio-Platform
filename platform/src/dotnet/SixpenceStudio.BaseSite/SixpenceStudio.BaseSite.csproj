@@ -103,6 +103,8 @@
     <Compile Include="AuthUser\AuthUserService.cs" />
     <Compile Include="AuthUser\auth_user.cs" />
     <Compile Include="AuthUser\LoginResponse.cs" />
+    <Compile Include="SysConfig\Config\BackupLogConfig.cs" />
+    <Compile Include="SysConfig\Config\BaseConfig.cs" />
     <Compile Include="DataService\DataService.cs" />
     <Compile Include="DataService\DataServiceController.cs" />
     <Compile Include="DataService\Models\file.cs" />
