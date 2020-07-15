@@ -2,6 +2,7 @@
 using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Job;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
@@ -53,15 +54,21 @@ WHERE
         /// </summary>
         private void ArchiveLog()
         {
-            var fileList = FileUtils.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
-            var targetPath = FileUtils.GetSystemPath(FolderType.logArchive);
-            if (!Directory.Exists(targetPath))
+            try
             {
-                Directory.CreateDirectory(targetPath);
+                var fileList = FileUtils.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
+                var targetPath = FileUtils.GetSystemPath(FolderType.logArchive);
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+                FileUtils.MoveFiles(fileList, targetPath);
+                DeleteLog();
             }
-            FileUtils.MoveFiles(fileList, targetPath);
-            DeleteLog();
-
+            catch (Exception e)
+            {
+                LogUtils.ErrorLog("日志归档出现异常", e);
+            }
         }
 
         /// <summary>
@@ -69,9 +76,8 @@ WHERE
         /// </summary>
         private void DeleteLog()
         {
-            var days = ConfigUtils.GetValue<BackupLogConfig>()?.ToString();
-            var path = FileUtils.GetSystemPath(FolderType.logArchive);
-            var files = FileUtils.GetFileList(path);
+            var days = new BackupLogConfig().GetValue();
+            var files = FileUtils.GetFileList("*.log", FolderType.logArchive);
             var logNameList = new List<string>();
 
             // 需要保留的log

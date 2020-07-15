@@ -61,7 +61,12 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static IList<string> GetFileList(string name, FolderType type = FolderType.bin)
         {
-            return Directory.GetFiles(GetSystemPath(type), name, SearchOption.AllDirectories);
+            var path = GetSystemPath(type);
+            if (!Directory.Exists(path))
+            {
+                return new List<string>();
+            }
+            return Directory.GetFiles(path, name, SearchOption.AllDirectories);
         }
 
         /// <summary>

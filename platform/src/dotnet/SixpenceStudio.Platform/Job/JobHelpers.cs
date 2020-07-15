@@ -100,7 +100,7 @@ namespace SixpenceStudio.Platform.Job
         /// <param name="name"></param>
         public async static void StartJob(string name)
         {
-            var types = Utils.AssemblyUtils.GetTypes<IJob>("SixpenceStudio*.dll");
+            var types = Utils.AssemblyUtils.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)

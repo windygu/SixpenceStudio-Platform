@@ -54,28 +54,4 @@ select * from sys_config where code = @code;
             return data.value;
         }
     }
-
-    /// <summary>
-    /// Config Util
-    /// </summary>
-    public static class ConfigUtils
-    {
-        /// <summary>
-        /// Get Config Value
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static object GetValue<T>()
-            where T : BaseConfig
-        {
-            var type = AssemblyUtils.GetTypes<T>()?.FirstOrDefault();
-            if (type != null)
-            {
-                var config = Activator.CreateInstance(type) as BaseConfig;
-                return config.GetValue();
-            }
-            return null;
-        }
-
-    }
 }
