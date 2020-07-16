@@ -198,12 +198,10 @@ export default {
         this.$message.warning('请选择一项，再进行删除');
         return;
       }
-      this.$confirm('此操作将永久删除该菜单, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
+      this.$confirm({
+        title: '是否删除',
+        content: '此操作将永久删除该菜单, 是否继续?',
+        onOk() {
           const ids = this.selections.map(item => {
             return item.Id;
           });
@@ -211,10 +209,11 @@ export default {
             this.$message.success('删除成功');
             this.loadData();
           });
-        })
-        .catch(() => {
+        },
+        onCancel() {
           this.$message.info('已取消删除');
-        });
+        }
+      });
     }
   }
 };

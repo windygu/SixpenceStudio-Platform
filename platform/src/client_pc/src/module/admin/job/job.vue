@@ -28,12 +28,10 @@ export default {
       return sp.get(`api/${this.controllerName}/GetDataList`).then(resp => resp);
     },
     start(row) {
-      this.$confirm('是否确认运行该作业?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
+      this.$confirm({
+        title: '提示',
+        content: '是否确认运行该作业?',
+        onOk() {
           sp.get(`api/${this.controllerName}/StartJob?name=${row.name}`)
             .then(() => {
               this.$message.success('执行成功');
@@ -42,10 +40,8 @@ export default {
               this.$message.error(error);
               return Promise.reject;
             });
-        })
-        .catch(() => {
-          this.$message.info('已取消');
-        });
+        }
+      });
     }
   }
 };

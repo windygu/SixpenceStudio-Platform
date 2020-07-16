@@ -57,19 +57,20 @@ export default {
       if (this.loading) {
         return;
       }
-      this.$confirm('确定要提交表单吗？')
-        .then(() => {
+      this.$confirm({
+        title: '提示',
+        content: '确定要提交表单吗？',
+        onOk() {
           this.loading = true;
           this.saveData();
           done();
-        })
-        .catch(() => {})
-        .finally(() => {
-          // 动画关闭需要一定的时间
-          setTimeout(() => {
-            this.loading = false;
-          }, 400);
-        });
+        }
+      }).finally(() => {
+        // 动画关闭需要一定的时间
+        setTimeout(() => {
+          this.loading = false;
+        }, 400);
+      });
     },
     cancelForm() {
       this.drawer = false;

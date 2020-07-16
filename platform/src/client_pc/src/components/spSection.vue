@@ -1,13 +1,15 @@
 <template>
-  <div class="sp-section">
-    <div class="sp-section-header">
-      <h3 class="title">{{ title }}</h3>
-      <h3 v-if="showMore" @click="more">更多...</h3>
+  <a-spin :spinning="loading" :delay="500">
+    <div class="sp-section">
+      <div class="sp-section-header">
+        <h3 class="title">{{ title }}</h3>
+        <h3 v-if="showMore" @click="more">更多...</h3>
+      </div>
+      <div class="content">
+        <slot></slot>
+      </div>
     </div>
-    <div class="content">
-      <slot></slot>
-    </div>
-  </div>
+  </a-spin>
 </template>
 
 <script>
@@ -20,6 +22,10 @@ export default {
     },
     // 展示更多
     showMore: {
+      type: Boolean,
+      default: false
+    },
+    loading: {
       type: Boolean,
       default: false
     }

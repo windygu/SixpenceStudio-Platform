@@ -1,10 +1,16 @@
 <template>
   <sp-header>
     <template v-for="(button, index) in buttons">
-      <el-input v-if="button.name === 'search'" v-model="searchValue" placeholder="请输入内容" @change="change" v-bind:key="index">
-        <el-button slot="append" icon="el-icon-search" @click="change"></el-button>
-      </el-input>
-      <el-button v-else :icon="button.icon" @click="handleClick(button)" v-bind:key="index">{{ button.text }}</el-button>
+      <a-input-search
+        v-if="button.name === 'search'"
+        placeholder="请输入内容"
+        style="width: 200px;"
+        @click="change"
+        @change="change"
+        @search="onSearch"
+        v-bind:key="index"
+      />
+      <a-button v-else :icon="button.icon" @click="handleClick(button)" v-bind:key="index" style="margin-right:10px">{{ button.text }}</a-button>
     </template>
   </sp-header>
 </template>
@@ -39,10 +45,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less" scoped>
-/deep/ .el-input-group {
-  width: auto;
-  padding-left: 10px;
-}
-</style>

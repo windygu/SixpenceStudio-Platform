@@ -77,12 +77,10 @@ export default {
   },
   methods: {
     addSystemAttrs() {
-      this.$confirm('是否要添加系统字段?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
+      this.$confirm({
+        title: '提示',
+        content: '是否要添加系统字段?',
+        onOk() {
           sp.post('api/SysAttrs/AddSystemAttrs', `=${this.Id}`)
             .then(() => {
               this.loadData();
@@ -92,10 +90,8 @@ export default {
               this.$message.error(error);
               return Promise.reject;
             });
-        })
-        .catch(() => {
-          this.$message.info('已取消');
-        });
+        }
+      });
     },
     handleClose() {
       this.editVisible = false;
