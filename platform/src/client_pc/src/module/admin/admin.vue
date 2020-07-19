@@ -1,71 +1,31 @@
 <template>
-  <el-container class="home">
-    <el-container class="home_wrapper">
-      <el-aside width="200px" class="menu">
-        <el-menu
-          :default-active="$route.path"
-          :default-openeds="defaultOpenedsArray"
-          @open="handleOpen"
-          router
-          background-color="#6750d7"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-        >
-          <el-submenu v-for="(item, index) in menus" :key="index" :index="`${index}`">
-            <template slot="title">
-              <i class="el-icon-menu"></i>{{ item.title }}
-            </template>
-            <el-menu-item-group v-for="(item2, index2) in item.subMenu" :key="index2" :title="item2.title">
-              <el-menu-item v-for="(item3, index3) in item2.menus" :index="`/admin/${item3.router}`" :key="index3">
-                {{ item3.title }}
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
-      <el-dialog title="修改密码" :visible.sync="editVisible" width="40%">
-        <el-form ref="form" :model="data" label-width="100px" :rules="rules">
-          <el-row>
-            <el-col>
-              <el-form-item label="密码" prop="password">
-                <el-input v-model="data.password" placeholder="请输入新密码" show-password></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-form-item label="确认密码" prop="password2">
-                <el-input v-model="data.password2" placeholder="请再次输入密码" show-password></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editVisible = false">取 消</el-button>
-          <el-button type="primary" @click="savePassword">确 定</el-button>
-        </span>
-      </el-dialog>
-      <el-container>
-        <el-header class="home-header">
-          <el-link type="primary" @click="goHome" style="float: left;">
-            <i class="el-icon-back"></i>
-            返回首页
-          </el-link>
-          <slot name="custom-area"></slot>
-          <el-dropdown @command="handleClick" class="header-dropdown">
-            <el-avatar :src="imageUrl" class="home-header-avatar"></el-avatar>
-            <el-dropdown-menu slot="dropdown" placement="bottom-end">
-              <el-dropdown-item :command="editPassword">修改密码</el-dropdown-item>
-              <el-dropdown-item :command="logout">退出</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-header>
-        <el-main>
+  <a-layout class="layout-home">
+    <a-layout-sider breakpoint="lg" collapsed-width="0">
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
+        <a-sub-menu v-for="(item, index) in menus" :key="index">
+          <span slot="title">
+            <a-icon type="setting" /><span>{{ item.title }}</span>
+          </span>
+          <a-menu-item v-for="item2 in item.subMenu[0].menus" :key="`/admin/${item2.router}`" @click="handleClick">
+            {{ item2.title }}
+          </a-menu-item>
+        </a-sub-menu>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header :style="{ background: '#fff', padding: '0 20px 0 0', textAlign: 'right' }">
+        <a-avatar icon="user" />
+      </a-layout-header>
+      <a-layout-content :style="{ margin: '24px 16px 0' }">
+        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
           <router-view :key="$route.path"></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
-  </el-container>
+        </div>
+      </a-layout-content>
+      <a-layout-footer style="textAlign: center">
+        Created by Du Miaoxin 2020
+      </a-layout-footer>
+    </a-layout>
+  </a-layout>
 </template>
 
 <script>
@@ -75,7 +35,6 @@ export default {
     return {
       menus: [],
       defaultOpenedsArray: [],
-      editVisible: false,
       data: {},
       rules: {
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -124,86 +83,24 @@ export default {
         });
       });
     },
-    handleClick(cmd) {
-      if (cmd && typeof cmd === 'function') {
-        cmd();
+    handleClick({ item, key, keyPath }) {
+      if (sp.isNullOrEmpty(keyPath[0])) {
+        this.$message.error('发生错误，请检查菜单地址是否正确！');
+        return;
       }
-    },
-    editPassword() {
-      this.editVisible = true;
-    },
-    savePassword() {
-      this.$refs.form.validate(resp => {
-        if (resp) {
-          if (this.data.password !== this.data.password2) {
-            this.$message.error('两次密码不一致');
-          } else {
-            sp.post('api/AuthUser/EditPassword', `=${sp.encryptPwd(this.data.password)}`).then(() => {
-              this.$message.success('修改密码成功');
-              this.editVisible = false;
-            });
-          }
-        } else {
-          this.$message.error('请检查表单必填项');
-        }
-      });
+      this.$router.push({ path: keyPath[0] });
     },
     logout() {
       this.$message.success('退出成功');
       localStorage.removeItem('Token'); // 移除登录Token
       this.$store.commit('changeLogin', false); // 修改登录状态
       this.$router.replace('/login');
-    },
-    handleOpen(key) {
-      this.defaultOpenedsArray.push(key);
     }
   }
 };
 </script>
 
 <style lang="less">
-.home {
-  height: 100%;
-  .home-header {
-    margin: 0 20px;
-    text-align: right;
-    font-size: 12px;
-    background-color: #fff;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-  .home-header-avatar {
-    margin-top: 10px;
-  }
-  .header {
-    text-align: right;
-    font-size: 12px;
-    background-color: #fff;
-    padding: 0 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: 1px solid #ebeef5;
-  }
-  .header-dropdown {
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 20px;
-  }
-  .home_wrapper {
-    .menu {
-      background-color: #6750d7;
-    }
-  }
-}
-.el-header {
-  background-color: #b3c0d1;
-  color: #333;
-  line-height: 60px;
-}
-
-.el-aside {
-  color: #333;
-}
 body,
 html {
   margin: 0px;
@@ -212,7 +109,7 @@ html {
 }
 </style>
 <style lang="less" scoped>
-.el-container {
-  background-color: #edeef2;
+.layout-home {
+  height: 100%;
 }
 </style>

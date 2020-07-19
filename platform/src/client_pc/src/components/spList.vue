@@ -124,8 +124,8 @@ export default {
     return {
       tableData: [],
       normalOperations: [
-        { name: 'new', icon: 'el-icon-plus', operate: this.createData },
-        { name: 'delete', icon: 'el-icon-delete', operate: this.deleteData },
+        { name: 'new', icon: 'plus', operate: this.createData },
+        { name: 'delete', icon: 'delete', operate: this.deleteData },
         { name: 'search' }
       ],
       editVisible: false,

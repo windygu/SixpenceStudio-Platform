@@ -17,5 +17,6 @@ export default {
 .header {
   line-height: 60px;
   height: 60px;
+  text-align: right;
 }
 </style>
