@@ -80,7 +80,7 @@ export default {
       this.$confirm({
         title: '提示',
         content: '是否要添加系统字段?',
-        onOk() {
+        ok() {
           sp.post('api/SysAttrs/AddSystemAttrs', `=${this.Id}`)
             .then(() => {
               this.loadData();
@@ -90,6 +90,9 @@ export default {
               this.$message.error(error);
               return Promise.reject;
             });
+        },
+        cancel() {
+          this.$message.info('已取消');
         }
       });
     },

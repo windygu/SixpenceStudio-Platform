@@ -31,7 +31,7 @@ export default {
       this.$confirm({
         title: '提示',
         content: '是否确认运行该作业?',
-        onOk() {
+        ok() {
           sp.get(`api/${this.controllerName}/StartJob?name=${row.name}`)
             .then(() => {
               this.$message.success('执行成功');
@@ -40,6 +40,9 @@ export default {
               this.$message.error(error);
               return Promise.reject;
             });
+        },
+        cancel() {
+          this.$message.info('已取消');
         }
       });
     }

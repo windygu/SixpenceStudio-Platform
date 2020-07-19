@@ -201,7 +201,7 @@ export default {
       this.$confirm({
         title: '是否删除',
         content: '此操作将永久删除该菜单, 是否继续?',
-        onOk() {
+        ok() {
           const ids = this.selections.map(item => {
             return item.Id;
           });
@@ -210,7 +210,7 @@ export default {
             this.loadData();
           });
         },
-        onCancel() {
+        cancel() {
           this.$message.info('已取消删除');
         }
       });

@@ -60,10 +60,13 @@ export default {
       this.$confirm({
         title: '提示',
         content: '确定要提交表单吗？',
-        onOk() {
+        ok() {
           this.loading = true;
           this.saveData();
           done();
+        },
+        cancel() {
+          this.$message.info('已取消');
         }
       }).finally(() => {
         // 动画关闭需要一定的时间
