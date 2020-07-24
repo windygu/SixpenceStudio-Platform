@@ -29,15 +29,15 @@ namespace SixpenceStudio.BaseSite.SysMenu
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
             firstMenu.ForEach(item =>
             {
-                item.ChildMenus = new List<sys_menu>();
+                item.children = new List<sys_menu>();
                 data.ForEach(item2 =>
                 {
                     if (item2.parentid == item.Id)
                     {
-                        item.ChildMenus.Add(item2);
+                        item.children.Add(item2);
                     }
                 });
-                item.ChildMenus = item.ChildMenus.OrderBy(e => e.menu_Index).ToList();
+                item.children = item.children.OrderBy(e => e.menu_Index).ToList();
             });
             firstMenu = firstMenu.OrderBy(e => e.menu_Index).ToList();
             return firstMenu;
@@ -50,15 +50,15 @@ namespace SixpenceStudio.BaseSite.SysMenu
             var firstMenu = data.Where(e => string.IsNullOrEmpty(e.parentid)).ToList();
             firstMenu.ForEach(item =>
             {
-                item.ChildMenus = new List<sys_menu>();
+                item.children = new List<sys_menu>();
                 data.ForEach(item2 =>
                 {
                     if (item2.parentid == item.Id)
                     {
-                        item.ChildMenus.Add(item2);
+                        item.children.Add(item2);
                     }
                 });
-                item.ChildMenus = item.ChildMenus.OrderBy(e => e.menu_Index).ToList();
+                item.children = item.children.OrderBy(e => e.menu_Index).ToList();
             });
             firstMenu = firstMenu.OrderBy(e => e.menu_Index).ToList();
             return new DataModel<sys_menu>() { 

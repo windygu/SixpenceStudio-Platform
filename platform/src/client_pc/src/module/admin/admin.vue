@@ -14,10 +14,11 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header :style="{ background: '#fff', padding: '0 20px 0 0', textAlign: 'right' }">
+        <slot></slot>
         <a-avatar icon="user" />
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
-        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+        <div :style="{ background: '#fff', minHeight: '360px' }">
           <router-view :key="$route.path"></router-view>
         </div>
       </a-layout-content>
@@ -73,8 +74,8 @@ export default {
             router: e.router,
             subMenu: [{ title: '', menus: [] }]
           };
-          if (e.ChildMenus && e.ChildMenus.length > 0) {
-            menu.subMenu[0].menus = e.ChildMenus.map(item => ({
+          if (e.children && e.children.length > 0) {
+            menu.subMenu[0].menus = e.children.map(item => ({
               title: item.name,
               router: item.router
             }));

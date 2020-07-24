@@ -9,6 +9,6 @@ namespace SixpenceStudio.BaseSite.SysMenu
     public partial class sys_menu
     {
         [DataMember]
-        public IList<sys_menu> ChildMenus { get; set; }
+        public IList<sys_menu> children { get; set; }
     }
 }

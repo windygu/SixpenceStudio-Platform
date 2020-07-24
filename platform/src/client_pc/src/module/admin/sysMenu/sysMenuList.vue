@@ -1,76 +1,91 @@
 <template>
-  <sp-list ref="list" :controllerName="controllerName">
+  <div>
     <sp-header slot="header">
       <sp-button-list :buttons="buttons"></sp-button-list>
     </sp-header>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-      :tree-props="{ children: 'ChildMenus', hasChildren: 'hasChildren' }"
-      default-expand-all
-      row-key="Id"
-      slot="body"
-    >
-      <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="菜单名">
-        <template slot-scope="scope">
-          <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row.name }}</a>
-        </template>
-      </el-table-column>
-      <el-table-column prop="router" label="路由"></el-table-column>
-      <el-table-column prop="createdByName" label="创建人"></el-table-column>
-      <el-table-column label="创建日期" width="200">
-        <template slot-scope="scope">{{ formatDate(scope.row.createdOn) }}</template>
-      </el-table-column>
-      <el-table-column prop="modifiedByName" label="最后修改人"></el-table-column>
-      <el-table-column label="最后修改日期" width="200">
-        <template slot-scope="scope">{{ formatDate(scope.row.modifiedOn) }}</template>
-      </el-table-column>
-      <el-table-column prop="stateCodeName" label="状态"></el-table-column>
-    </el-table>
-    <el-dialog slot="edit" title="编辑" :visible.sync="editVisible" width="50%">
-      <component
-        v-if="editVisible"
-        :is="editComponent"
-        @close="editVisible = false"
-        :related-attr="relatedAttr"
-        @load-data="$emit('load-data')"
-      ></component>
-    </el-dialog>
-  </sp-list>
+    <a-table :columns="columns" :data-source="data" :loading="loading">
+      <a slot="name" slot-scope="text, record" @click="handleClick(record)">{{ text }}</a>
+      <span slot="createdOn" slot-scope="createdOn">{{ createdOn | moment('YYYY-MM-DD HH:mm') }}</span>
+      <span slot="modifiedOn" slot-scope="modifiedOn">{{ modifiedOn | moment('YYYY-MM-DD HH:mm') }}</span>
+    </a-table>
+    <a-modal v-model="editVisible" title="编辑" @ok="save">
+      <component ref="edit" v-if="editVisible" :is="editComponent" :related-attr="relatedAttr"></component>
+    </a-modal>
+  </div>
 </template>
 
 <script>
+const columns = [
+  {
+    title: '菜单名',
+    dataIndex: 'name',
+    scopedSlots: { customRender: 'name' }
+  },
+  {
+    title: '路由',
+    dataIndex: 'router'
+  },
+  {
+    title: '创建人',
+    dataIndex: 'createdByName'
+  },
+  {
+    title: '创建日期',
+    dataIndex: 'createdOn',
+    scopedSlots: { customRender: 'createdOn' }
+  },
+  {
+    title: '最后修改人',
+    dataIndex: 'modifiedByName'
+  },
+  {
+    title: '最后修改日期',
+    dataIndex: 'modifiedOn',
+    scopedSlots: { customRender: 'modifiedOn' }
+  },
+  {
+    title: '状态',
+    dataIndex: 'stateCodeName'
+  }
+];
+
 export default {
   name: 'sysMenuList',
   data() {
     return {
       controllerName: 'SysMenu',
-      tableData: [],
-      buttons: [{ icon: 'el-icon-plus', text: '', operate: this.createData }, { icon: 'el-icon-delete', text: '', operate: this.deleteData }],
+      data: [],
+      buttons: [{ icon: 'plus', text: '', operate: this.createData }, { icon: 'delete', text: '', operate: this.deleteData }],
       editComponent: () => import('./sysMenuEdit'),
       editVisible: false,
-      selections: [],
-      relatedAttr: null
+      relatedAttr: null,
+      columns,
+      loading: false
     };
   },
   created() {
-    this.$on('load-data', this.loadData);
-    this.$emit('load-data');
+    this.loadData();
   },
   methods: {
     loadData() {
-      sp.get('api/sysmenu/GetDataList').then(resp => {
-        this.tableData = resp;
-      });
-    },
-    formatDate(value) {
-      if (!sp.isNullOrEmpty(value)) {
-        return this.$moment(value).format('YYYY-MM-DD HH:mm');
+      if (this.loading) {
+        return;
       }
-      return '';
+      this.loading = true;
+      sp.get('api/sysmenu/GetDataList')
+        .then(resp => {
+          this.data = resp;
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        });
+    },
+    save() {
+      this.$refs.edit.confirm();
+      this.editVisible = false;
+      this.loadData();
     },
     handleClick(row) {
       this.relatedAttr = {
@@ -90,7 +105,7 @@ export default {
       this.$confirm({
         title: '提示',
         content: '此操作将永久删除该菜单, 是否继续?',
-        ok() {
+        onOk: () => {
           const ids = this.selections.map(item => {
             return item.Id;
           });
@@ -101,22 +116,10 @@ export default {
             });
           });
         },
-        cancel() {
+        onCancel: () => {
           this.$message.info('已取消');
         }
       });
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.selections = val;
     }
   }
 };

@@ -24,24 +24,13 @@
         <el-form-item label="状态">
           <el-select v-model="data.stateCode" placeholder="请选择状态">
             <el-option
-              v-for="(item, index) in [
-                { name: '启用', value: 1 },
-                { name: '禁用', value: 0 }
-              ]"
+              v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]"
               :key="index"
               :label="item.name"
               :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col style="text-align:right">
-        <span class="dialog-footer">
-          <el-button @click="$emit('close')">取 消</el-button>
-          <el-button type="primary" @click="confirm">确 定</el-button>
-        </span>
       </el-col>
     </el-row>
   </el-form>
@@ -92,8 +81,6 @@ export default {
         this.data.Id = sp.newUUID();
       }
       sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(() => {
-        this.$emit('close');
-        this.$emit('load-data');
         this.$message.success('添加成功');
       });
     }

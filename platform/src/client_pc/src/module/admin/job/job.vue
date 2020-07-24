@@ -1,27 +1,53 @@
 <template>
-  <sp-table :columns="columns" :fetchData="fetchData" :pagination="false">
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button size="mini" type="success" @click="start(scope.row)">运行</el-button>
-      </template>
-    </el-table-column>
-  </sp-table>
+  <a-table :columns="columns" :data-source="data">
+    <span slot="action" slot-scope="text, record">
+      <a-button type="primary" @click="start(record)">运行</a-button>
+    </span>
+  </a-table>
 </template>
 
 <script>
+const columns = [
+  {
+    title: '名称',
+    dataIndex: 'name'
+  },
+  {
+    title: '上次运行时间',
+    dataIndex: 'lastRunTime'
+  },
+  {
+    title: '下次运行时间',
+    dataIndex: 'nextRunTime'
+  },
+  {
+    title: '执行计划',
+    dataIndex: 'runTime'
+  },
+  {
+    title: '描述',
+    dataIndex: 'description'
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    scopedSlots: { customRender: 'action' }
+  }
+];
+
 export default {
   name: 'job',
   data() {
     return {
-      controllerName: 'job',
-      columns: [
-        { prop: 'name', label: '名称' },
-        { prop: 'lastRunTime', label: '上次运行时间', type: 'datetime' },
-        { prop: 'nextRunTime', label: '下次运行时间', type: 'datetime' },
-        { prop: 'runTime', label: '执行计划' },
-        { prop: 'description', label: '描述' }
-      ]
+      columns,
+      data: [],
+      controllerName: 'job'
     };
+  },
+  created() {
+    this.fetchData().then(resp => {
+      this.data = resp;
+    });
   },
   methods: {
     fetchData() {
@@ -31,7 +57,7 @@ export default {
       this.$confirm({
         title: '提示',
         content: '是否确认运行该作业?',
-        ok() {
+        onOk: () => {
           sp.get(`api/${this.controllerName}/StartJob?name=${row.name}`)
             .then(() => {
               this.$message.success('执行成功');
@@ -41,7 +67,7 @@ export default {
               return Promise.reject;
             });
         },
-        cancel() {
+        onCancel: () => {
           this.$message.info('已取消');
         }
       });
