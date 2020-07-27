@@ -1,72 +1,51 @@
 <template>
   <div>
+    <!-- 按钮组 -->
     <slot name="header">
       <sp-header v-if="buttons && buttons.length > 0">
         <sp-button-list :buttons="buttons" @search-change="loadData"></sp-button-list>
       </sp-header>
     </slot>
+    <!-- 按钮组 -->
+
+    <!-- 表格 -->
     <slot name="body">
-      <el-table
-        ref="table"
-        :data="tableData"
-        :style="{ 'min-height': minHeight }"
-        row-key="Id"
-        @selection-change="handleSelectionChange"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        element-loading-spinner="el-icon-loading"
+      <a-table
+        :columns="aColumns"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="pagination"
+        @change="handleTableChange"
+        :row-selection="rowSelection"
       >
-        <el-table-column type="selection" width="55" v-if="allowSelect"></el-table-column>
-        <el-table-column
-          v-for="(column, index) in columns"
-          :key="index"
-          :label="column.label"
-          :prop="column.prop"
-          :width="column.width"
-          :sortable="column.sortable ? 'custom' : false"
-        >
-          <template slot-scope="scope">
-            <span v-if="index == 0">
-              <a class="compute-span" href="javascript:;" @click.stop.prevent="handleClick(scope.row)">{{ scope.row[column.prop] }}</a>
-            </span>
-            <span v-else-if="column.type == 'date'">{{ scope.row[column.prop] | moment('YYYY-MM-DD') }}</span>
-            <span v-else-if="column.type == 'datetime'">{{ scope.row[column.prop] | moment('YYYY-MM-DD HH:mm') }}</span>
-            <span v-else>{{ scope.row[column.prop] }}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        @size-change="sizeChange"
-        @current-change="currentPage"
-        :current-page="pageIndex"
-        :page-size="pageSize"
-        :pager-count="pagerCount"
-        :total="total"
-      >
-      </el-pagination>
+        <a :slot="firstColumn" slot-scope="text, record" @click="handleClick(record)">{{ text }}</a>
+        <template v-for="item in dateColumns" :slot="item.prop" slot-scope="text">
+          <span :key="item.prop">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
+        </template>
+      </a-table>
     </slot>
+    <!-- 表格 -->
+
+    <!-- 编辑页 -->
     <slot name="edit">
-      <el-dialog :title="editTitle" :visible.sync="editVisible" width="60%" append-to-body>
+      <a-modal v-model="editVisible" :title="editTitle" @ok="save" width="60%" okText="确认" cancelText="取消">
         <component
+          ref="edit"
           v-if="editVisible"
           :is="editComponent"
-          @close="editVisible = false"
           :related-attr="relatedAttr"
-          @load-data="loadData()"
+          @close="editVisible = false"
+          @load-data="loadData"
         ></component>
-      </el-dialog>
+      </a-modal>
     </slot>
+    <!-- 编辑页 -->
   </div>
 </template>
 
 <script>
-import pagination from '../mixins/pagination';
-
 export default {
   name: 'sp-list',
-  mixins: [pagination],
   props: {
     // 操作按钮
     operations: {
@@ -104,20 +83,6 @@ export default {
     customApi: {
       type: String,
       default: ''
-    },
-    minHeight: {
-      type: String,
-      default: '600px'
-    }
-  },
-  created() {
-    if (this.$attrs['pageSize']) {
-      this.pageSize = this.$attrs['pageSize'];
-    }
-  },
-  mounted() {
-    if (!this.isLoad) {
-      this.loadData();
     }
   },
   data() {
@@ -128,26 +93,83 @@ export default {
         { name: 'delete', icon: 'delete', operate: this.deleteData },
         { name: 'search' }
       ],
+      pagination: {
+        current: 1,
+        total: 0,
+        pageSize: 10,
+        showSizeChanger: true,
+        showTotal: total => `共有 ${total} 条数据`
+      },
       editVisible: false,
       relatedAttr: null,
-      selections: [],
       loading: false,
-      searchValue: ''
+      searchValue: '',
+      selectionIds: [],
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          this.selectionIds = selectedRows.map(item => item.Id);
+        }
+      }
     };
   },
+  mounted() {
+    // 标准表格则加载
+    if (!this.$slots.body) {
+      this.loadData();
+    }
+  },
   computed: {
+    // a-table 列转换
+    aColumns() {
+      return this.columns.map((item, index) => {
+        const column = {
+          title: item.label,
+          dataIndex: item.prop
+        };
+        // 特殊列和首列需自定义列渲染
+        if (item.type === 'datetime' || index === 0) {
+          column.scopedSlots = {
+            customRender: item.prop
+          };
+        }
+        return column;
+      });
+    },
+    // 首列列名
+    firstColumn() {
+      if (this.columns && this.columns.length > 0) {
+        return this.columns[0].prop;
+      }
+      return '';
+    },
+    // 时间类型的列
+    dateColumns() {
+      return this.columns.filter(item => item.type === 'datetime');
+    },
+    // 操作按钮
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
-    },
-    isLoad() {
-      return !!this.$slots.body;
     }
   },
   methods: {
-    currentPage(index) {
-      this.pageIndex = index;
+    // 分页加载
+    handleTableChange(pagination) {
+      this.pagination.current = pagination.current;
+      this.pagination.pageSize = pagination.pageSize;
       this.loadData();
     },
+    // 编辑
+    handleClick(row) {
+      if (this.headerClick && typeof this.headerClick === 'function') {
+        this.headerClick();
+        return;
+      }
+      this.relatedAttr = {
+        id: row.Id
+      };
+      this.editVisible = true;
+    },
+    // 加载数据
     async loadData(value = '') {
       if (this.searchValue !== value) {
         this.searchValue = value;
@@ -156,7 +178,7 @@ export default {
         return;
       }
       this.loading = true;
-      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pageSize}&pageIndex=${this.pageIndex}&searchValue=${this.searchValue}`;
+      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pagination.pageSize}&pageIndex=${this.pagination.current}&searchValue=${this.searchValue}`;
       if (!sp.isNullOrEmpty(this.customApi)) {
         url = this.customApi;
       }
@@ -164,7 +186,7 @@ export default {
         const resp = await sp.get(url);
         if (resp && resp.DataList) {
           this.tableData = resp.DataList;
-          this.total = resp.RecordCount;
+          this.pagination.total = resp.RecordCount;
         } else {
           this.tableData = resp;
         }
@@ -176,33 +198,32 @@ export default {
         }, 200);
       }
     },
-    handleClick(row) {
-      if (this.headerClick && typeof this.headerClick === 'function') {
-        this.headerClick(row);
+    // 编辑保存
+    save() {
+      if (this.$refs.edit) {
+        this.$refs.edit.saveData();
       } else {
-        this.relatedAttr = {
-          id: row.Id
-        };
-        this.editVisible = true;
+        this.$message.error('保存失败');
       }
     },
-    handleSelectionChange(val) {
-      this.selections = val;
-    },
+    // 创建数据
     createData() {
       this.relatedAttr = {};
       this.editVisible = true;
     },
+    // 删除数据
     deleteData() {
-      if (!this.selections || this.selections.length === 0) {
+      if (!this.selectionIds || this.selectionIds.length === 0) {
         this.$message.warning('请选择一项，再进行删除');
         return;
       }
       this.$confirm({
         title: '是否删除',
         content: '此操作将永久删除该菜单, 是否继续?',
-        ok() {
-          const ids = this.selections.map(item => {
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          const ids = this.selectionIds.map(item => {
             return item.Id;
           });
           sp.post(`api/${this.controllerName}/DeleteData`, ids).then(() => {
@@ -210,7 +231,7 @@ export default {
             this.loadData();
           });
         },
-        cancel() {
+        onCancel: () => {
           this.$message.info('已取消删除');
         }
       });
@@ -218,14 +239,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less" scoped>
-.compute-span {
-  color: #409eff;
-  text-decoration: none;
-}
-.el-pagination {
-  text-align: center;
-  padding-top: 20px;
-}
-</style>

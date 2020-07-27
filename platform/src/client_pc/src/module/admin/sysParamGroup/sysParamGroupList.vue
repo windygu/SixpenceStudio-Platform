@@ -6,7 +6,6 @@
       :headerClick="headerClick"
       :operations="operations"
       :editComponent="editComponent"
-      allow-select
     ></sp-list>
     <template v-if="drawer">
       <el-drawer ref="drawer" title="编辑" :visible.sync="drawer" :direction="direction" size="60%" :before-close="handleClose">

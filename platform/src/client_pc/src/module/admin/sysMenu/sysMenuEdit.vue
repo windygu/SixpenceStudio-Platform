@@ -1,39 +1,36 @@
 <template>
-  <el-form ref="form" :model="data" label-width="80px">
-    <el-row>
-      <el-col :span="12">
-        <el-form-item label="菜单名称">
-          <el-input v-model="data.name"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="路由">
-          <el-input v-model="data.router"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="12">
-        <el-form-item label="上级菜单">
-          <el-select v-model="data.parentid" placeholder="请选择上级菜单">
-            <el-option v-for="(item, index) in selectData" :key="index" :label="item.name" :value="item.Id"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="状态">
-          <el-select v-model="data.stateCode" placeholder="请选择状态">
-            <el-option
-              v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]"
-              :key="index"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+  <a-form-model ref="form" :model="data">
+    <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-model-item label="菜单名称">
+          <a-input v-model="data.name"></a-input>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-item label="路由">
+          <a-input v-model="data.router"></a-input>
+        </a-form-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-model-item label="上级菜单">
+          <a-select v-model="data.parentid" placeholder="请选择上级菜单">
+            <a-select-option v-for="(item, index) in selectData" :key="index" :value="item.Id">{{ item.name }}</a-select-option>
+          </a-select>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-model-item label="状态">
+          <a-select v-model="data.stateCode" placeholder="请选择状态">
+            <a-select-option v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
+              item.name
+            }}</a-select-option>
+          </a-select>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
+  </a-form-model>
 </template>
 
 <script>
@@ -87,5 +84,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

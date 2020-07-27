@@ -61,7 +61,7 @@ export default {
             }
             this.$emit('close');
             this.$emit('load-data');
-            this.$message.success('添加成功');
+            this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
           });
         } else {
           this.$message.error('请检查表单必填项');

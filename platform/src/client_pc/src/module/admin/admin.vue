@@ -22,9 +22,6 @@
           <router-view :key="$route.path"></router-view>
         </div>
       </a-layout-content>
-      <a-layout-footer style="textAlign: center">
-        Created by Du Miaoxin 2020
-      </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
