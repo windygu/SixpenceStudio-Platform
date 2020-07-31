@@ -1,45 +1,45 @@
 <template>
-  <el-form ref="form" :model="data" label-width="80px" :rules="rules">
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="data.name"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="编码" prop="code">
-          <el-input v-model="data.code"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="类型" prop="attr_type">
-          <el-select v-model="data.attr_type" placeholder="请选择">
-            <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label="长度">
-          <el-input v-model="data.attr_length" type="number"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="必填">
-          <el-checkbox v-model="data.isrequire2"></el-checkbox>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col style="text-align: right;">
+  <a-form-model ref="form" :model="data" :rules="rules">
+    <a-row :gutter="24">
+      <a-col :span="8">
+        <a-form-model-item label="名称" prop="name">
+          <a-input v-model="data.name"></a-input>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-model-item label="编码" prop="code">
+          <a-input v-model="data.code"></a-input>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-model-item label="类型" prop="attr_type">
+          <a-select v-model="data.attr_type" placeholder="请选择">
+            <a-select-option v-for="item in typeOptions" :key="item.value" :value="item.value">{{ item.label }}</a-select-option>
+          </a-select>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
+    <a-row :gutter="24">
+      <a-col :span="8">
+        <a-form-model-item label="长度">
+          <a-input v-model="data.attr_length" type="number"></a-input>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="8">
+        <a-form-model-item label="必填">
+          <a-switch @change="data.isrequire2 = !data.isrequire2"></a-switch>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col style="text-align: right;">
         <span class="dialog-footer">
-          <el-button @click="$emit('close')">取 消</el-button>
-          <el-button type="primary" @click="saveData">确 定</el-button>
+          <a-button @click="$emit('close')">取 消</a-button>
+          <a-button type="primary" @click="saveData">确 定</a-button>
         </span>
-      </el-col>
-    </el-row>
-  </el-form>
+      </a-col>
+    </a-row>
+  </a-form-model>
 </template>
 
 <script>

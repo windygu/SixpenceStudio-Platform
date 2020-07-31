@@ -1,21 +1,20 @@
 <template>
-  <el-form ref="form" :model="data" label-width="80px" :rules="rules">
-    <el-row>
-      <el-col :span="12">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="data.name"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="编码" prop="code">
-          <el-input v-model="data.code"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
+  <a-form-model ref="form" :model="data" label-width="80px" :rules="rules">
+    <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-model-item label="名称" prop="name">
+          <a-input v-model="data.name"></a-input>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-model-item label="编码" prop="code">
+          <a-input v-model="data.code"></a-input>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
     <template v-if="pageState == 'edit'">
-      <el-divider content-position="left">字段</el-divider>
-      <el-button size="mini" type="primary" style="margin-left: 20px;" @click="editVisible = true">新增</el-button>
-      <el-button size="mini" type="primary" style="margin-left: 20px;" @click="addSystemAttrs">添加系统字段</el-button>
+      <a-button size="mini" type="primary" style="margin-left: 20px;" @click="editVisible = true">新增</a-button>
+      <a-button size="mini" type="primary" style="margin-left: 20px;" @click="addSystemAttrs">添加系统字段</a-button>
       <el-table :data="attrs" style="width: 100%; padding: 0 20px 40px 20px;">
         <el-table-column label="名称" prop="name"> </el-table-column>
         <el-table-column label="编码" prop="code"> </el-table-column>
@@ -33,18 +32,10 @@
         </el-table-column>
       </el-table>
     </template>
-    <el-row>
-      <el-col style="text-align: right;">
-        <span class="dialog-footer">
-          <el-button @click="$emit('close')">取 消</el-button>
-          <el-button type="primary" @click="saveData">确 定</el-button>
-        </span>
-      </el-col>
-    </el-row>
-    <el-dialog title="编辑" :visible.sync="editVisible" width="60%" append-to-body>
+    <a-modal title="编辑" v-model="editVisible" width="60%">
       <sys-attrs-edit :parent="parentObj" @close="handleClose"></sys-attrs-edit>
-    </el-dialog>
-  </el-form>
+    </a-modal>
+  </a-form-model>
 </template>
 
 <script>

@@ -1,20 +1,24 @@
 <template>
   <div class="background" :style="{ 'background-image': `url(${imageUrl})` }">
     <div class="login">
-      <el-form ref="form" :model="data" :rules="rules" class="login__wrapper">
-        <el-form-item>
+      <a-form-model ref="form" :model="data" :rules="rules" class="login__wrapper">
+        <a-form-model-item>
           <span class="header">{{ header }}</span>
-        </el-form-item>
-        <el-form-item prop="code">
-          <el-input v-model="data.code" placeholder="邮箱或者手机号"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="data.password" placeholder="密码" @keyup.enter.native="signIn" show-password></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width: 100%;" type="primary" @click="signIn" :loading="loading">登录</el-button>
-        </el-form-item>
-      </el-form>
+        </a-form-model-item>
+        <a-form-model-item prop="code">
+          <a-input v-model="data.code" placeholder="邮箱或者手机号">
+            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-model-item>
+        <a-form-model-item prop="password">
+          <a-input type="password" v-model="data.password" placeholder="密码" @keyup.enter.native="signIn">
+            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-button style="width: 100%;" type="primary" @click="signIn" :loading="loading">登录</a-button>
+        </a-form-model-item>
+      </a-form-model>
     </div>
   </div>
 </template>
@@ -59,10 +63,9 @@ export default {
     async signIn() {
       this.loading = true;
       try {
-        const valid = await this.$refs.form.validate();
-        if (valid) {
-          const url = 'api/AuthUser/login';
-          try {
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            const url = 'api/AuthUser/login';
             const data = {
               code: this.data.code,
               password: sp.encryptPwd(this.data.password)
@@ -79,16 +82,10 @@ export default {
                 that.$message.error('账号密码错误');
               }
             });
-          } catch (error) {
-            this.$message.error(error);
-          } finally {
-            this.loading = false;
           }
-        } else {
-          this.loading = false;
-        }
+        });
       } catch (error) {
-        this.$message.error('请检查必填项');
+        this.$message.error(error);
       } finally {
         this.loading = false;
       }
@@ -118,6 +115,7 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
+    padding: 0 20px;
     .header {
       line-height: 60px;
       font-size: 40px;

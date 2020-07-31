@@ -1,16 +1,16 @@
 <template>
   <div class="sp-menu-header">
     <div class="sp-menu-header-wrapper">
-      <el-row>
-        <el-col>
+      <a-row>
+        <a-col>
           <ul class="el-menu sp-menu-list el-menu--horizontal">
             <li class="el-menu-item" v-for="(item, index) in menus" :key="index" @click="menuChange(item)">
               {{ item.name }}
             </li>
             <slot name="menus"></slot>
           </ul>
-        </el-col>
-      </el-row>
+        </a-col>
+      </a-row>
     </div>
     <slot></slot>
   </div>

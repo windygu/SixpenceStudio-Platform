@@ -1,26 +1,22 @@
 <template>
-  <el-dialog title="修改密码" :visible.sync="editVisible" width="40%">
-    <el-form ref="form" :model="data" label-width="100px" :rules="rules">
-      <el-row>
-        <el-col>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="data.password" placeholder="请输入新密码" show-password></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <el-form-item label="确认密码" prop="password2">
-            <el-input v-model="data.password2" placeholder="请再次输入密码" show-password></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="editVisible = false">取 消</el-button>
-      <el-button type="primary" @click="savePassword">确 定</el-button>
-    </span>
-  </el-dialog>
+  <a-modal title="修改密码" v-model="editVisible" width="40%" ok-text="确认" cancel-text="取消" @ok="savePassword">
+    <a-form-model ref="form" :model="data" label-width="100px" :rules="rules">
+      <a-row>
+        <a-col>
+          <a-form-model-item label="密码" prop="password">
+            <a-input v-model="data.password" placeholder="请输入新密码" show-password></a-input>
+          </a-form-model-item>
+        </a-col>
+      </a-row>
+      <a-row>
+        <a-col>
+          <a-form-item label="确认密码" prop="password2">
+            <a-input v-model="data.password2" placeholder="请再次输入密码" show-password></a-input>
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form-model>
+  </a-modal>
 </template>
 
 <script>

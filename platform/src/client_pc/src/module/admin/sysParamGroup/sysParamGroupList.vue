@@ -1,25 +1,5 @@
 <template>
-  <div>
-    <sp-list
-      :controllerName="controllerName"
-      :columns="columns"
-      :headerClick="headerClick"
-      :operations="operations"
-      :editComponent="editComponent"
-    ></sp-list>
-    <template v-if="drawer">
-      <el-drawer ref="drawer" title="编辑" :visible.sync="drawer" :direction="direction" size="60%" :before-close="handleClose">
-        <sys-param-group-edit ref="groupEdit" :related-attr="relatedAttr" isGrid></sys-param-group-edit>
-        <sys-param-list style="padding:10px" :related-attr="relatedAttr" :pageSize="10"></sys-param-list>
-        <div style="display: flex">
-          <el-button @click="cancelForm" style="flex: 1">取 消</el-button>
-          <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading" style="flex: 1">{{
-            loading ? '提交中 ...' : '确 定'
-          }}</el-button>
-        </div>
-      </el-drawer>
-    </template>
-  </div>
+  <sp-list :controllerName="controllerName" :columns="columns" :operations="operations" :editComponent="editComponent"></sp-list>
 </template>
 
 <script>
@@ -42,48 +22,9 @@ export default {
         { prop: 'modifiedOn', label: '最后修改日期', type: 'datetime' }
       ],
       editComponent: sysParamGroupEdit,
-      direction: 'rtl',
-      drawer: false,
       relatedAttr: {},
       loading: false
     };
-  },
-  methods: {
-    saveData() {
-      this.$refs.groupEdit.saveData();
-    },
-    handleClose(done) {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm({
-        title: '提示',
-        content: '确定要提交表单吗？',
-        ok() {
-          this.loading = true;
-          this.saveData();
-          done();
-        },
-        cancel() {
-          this.$message.info('已取消');
-        }
-      }).finally(() => {
-        // 动画关闭需要一定的时间
-        setTimeout(() => {
-          this.loading = false;
-        }, 400);
-      });
-    },
-    cancelForm() {
-      this.drawer = false;
-    },
-    headerClick(row) {
-      this.relatedAttr = {
-        id: row.Id,
-        name: row.name
-      };
-      this.drawer = true;
-    }
   }
 };
 </script>
