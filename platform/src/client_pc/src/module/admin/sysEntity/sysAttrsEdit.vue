@@ -31,14 +31,6 @@
         </a-form-model-item>
       </a-col>
     </a-row>
-    <a-row>
-      <a-col style="text-align: right;">
-        <span class="dialog-footer">
-          <a-button @click="$emit('close')">取 消</a-button>
-          <a-button type="primary" @click="saveData">确 定</a-button>
-        </span>
-      </a-col>
-    </a-row>
   </a-form-model>
 </template>
 
@@ -97,6 +89,10 @@ export default {
   },
   methods: {
     saveData() {
+      if (this.data.attr_type !== 'timestamp' && this.data.attr_length === 0) {
+        this.$message.error('字段长度必须大于0');
+        return;
+      }
       if (sp.isNullOrEmpty(this.Id)) {
         this.data.Id = sp.newUUID();
       }

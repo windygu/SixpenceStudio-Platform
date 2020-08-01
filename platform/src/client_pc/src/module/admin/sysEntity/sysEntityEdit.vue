@@ -13,27 +13,17 @@
       </a-col>
     </a-row>
     <template v-if="pageState == 'edit'">
-      <a-button size="mini" type="primary" style="margin-left: 20px;" @click="editVisible = true">新增</a-button>
-      <a-button size="mini" type="primary" style="margin-left: 20px;" @click="addSystemAttrs">添加系统字段</a-button>
-      <el-table :data="attrs" style="width: 100%; padding: 0 20px 40px 20px;">
-        <el-table-column label="名称" prop="name"> </el-table-column>
-        <el-table-column label="编码" prop="code"> </el-table-column>
-        <el-table-column label="类型" prop="attr_type"> </el-table-column>
-        <el-table-column label="长度" prop="attr_length"> </el-table-column>
-        <el-table-column label="必填" prop="isrequire">
-          <template slot-scope="scope">
-            <span>{{ scope.row.isrequire === 0 ? '否' : '是' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <a-button type="primary" @click="editVisible = true">新增</a-button>
+      <a-button type="primary" style="margin-left: 20px;" @click="addSystemAttrs">添加系统字段</a-button>
+      <a-table :columns="columns" :data-source="attrs" style="padding-top:20px">
+        <span slot="isrequire" slot-scope="text">{{ text == '1' ? '是' : '否' }}</span>
+        <span slot="action" slot-scope="text, record">
+          <a-button size="small" type="danger" @click="handleDelete(record)">删除</a-button>
+        </span>
+      </a-table>
     </template>
-    <a-modal title="编辑" v-model="editVisible" width="60%">
-      <sys-attrs-edit :parent="parentObj" @close="handleClose"></sys-attrs-edit>
+    <a-modal title="编辑" v-model="editVisible" width="60%" @ok="saveAttr" okText="确认" cancelText="取消">
+      <sys-attrs-edit ref="attrEdit" :parent="parentObj" @close="handleClose"></sys-attrs-edit>
     </a-modal>
   </a-form-model>
 </template>
@@ -42,6 +32,40 @@
 import edit from '../../../mixins/edit';
 import sysAttrsEdit from './sysAttrsEdit';
 
+const columns = [
+  {
+    title: '名称',
+    dataIndex: 'name'
+  },
+  {
+    title: '编码',
+    dataIndex: 'code'
+  },
+  {
+    title: '类型',
+    dataIndex: 'attr_type'
+  },
+  {
+    title: '长度',
+    dataIndex: 'attr_length'
+  },
+  {
+    title: '描述',
+    dataIndex: 'description'
+  },
+  {
+    title: '必填',
+    dataIndex: 'isrequire',
+    scopedSlots: {
+      customRender: 'isrequire'
+    }
+  },
+  {
+    title: '操作',
+    key: 'action',
+    scopedSlots: { customRender: 'action' }
+  }
+];
 export default {
   name: 'sysEntityEdit',
   components: { sysAttrsEdit },
@@ -54,7 +78,8 @@ export default {
       rules: {
         name: [{ required: true, message: '请输入实体名', trigger: 'blur' }],
         code: [{ required: true, message: '请输入编码', trigger: 'blur' }]
-      }
+      },
+      columns
     };
   },
   computed: {
@@ -91,12 +116,15 @@ export default {
       this.editVisible = false;
       this.loadAttrs();
     },
-    handleDelete(index, row) {
+    handleDelete(row) {
       const id = row.sys_attrsId;
       sp.post('api/SysAttrs/DeleteData', [id]).then(resp => {
         this.$message.success('删除成功');
         this.loadAttrs();
       });
+    },
+    saveAttr() {
+      this.$refs.attrEdit.saveData();
     },
     loadComplete() {
       this.loadAttrs();

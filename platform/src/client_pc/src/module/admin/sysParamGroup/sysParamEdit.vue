@@ -19,13 +19,8 @@
 import edit from '../../../mixins/edit';
 
 export default {
-  props: {
-    relatedAttr: {
-      type: Object
-    }
-  },
   inject: ['parentId'],
-  name: 'sysParamEdit',
+  name: 'sys-param-edit',
   mixins: [edit],
   data() {
     return {

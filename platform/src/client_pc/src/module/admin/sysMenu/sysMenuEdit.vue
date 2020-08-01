@@ -22,11 +22,11 @@
       </a-col>
       <a-col :span="12">
         <a-form-model-item label="状态">
-          <a-select v-model="data.stateCode" placeholder="请选择状态">
-            <a-select-option v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
+          <a-radio-group v-model="data.stateCode" @change="handleStateCodeChange">
+            <a-radio v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
               item.name
-            }}</a-select-option>
-          </a-select>
+            }}</a-radio>
+          </a-radio-group>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -60,13 +60,17 @@ export default {
     this.getSelectData();
   },
   watch: {
-    'data.stateCode': {
-      handler() {
-        this.data.stateCodeName = this.data.stateCode === 1 ? '启用' : '禁用';
+    'data.parentid': {
+      handler(id) {
+        const obj = this.selectData.find(item => item.Id === id);
+        this.data.parentIdName = obj.name;
       }
     }
   },
   methods: {
+    handleStateCodeChange(val) {
+      this.data.stateCodeName = this.data.stateCode === 1 ? '启用' : '禁用';
+    },
     getSelectData() {
       sp.get(`api/${this.controllerName}/GetFirstMenu`).then(resp => {
         this.selectData = resp;

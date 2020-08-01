@@ -8,7 +8,7 @@
       <span slot="createdOn" slot-scope="createdOn">{{ createdOn | moment('YYYY-MM-DD HH:mm') }}</span>
       <span slot="modifiedOn" slot-scope="modifiedOn">{{ modifiedOn | moment('YYYY-MM-DD HH:mm') }}</span>
     </a-table>
-    <a-modal v-model="editVisible" title="编辑" @ok="save" width="60%">
+    <a-modal v-model="editVisible" title="编辑" @ok="save" width="60%" okText="确认" cancelText="取消">
       <component ref="edit" v-if="editVisible" :is="editComponent" :related-attr="relatedAttr"></component>
     </a-modal>
   </div>

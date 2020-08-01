@@ -178,10 +178,14 @@ export default {
         return;
       }
       this.loading = true;
-      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=${this.pagination.pageSize}&pageIndex=${this.pagination.current}&searchValue=${this.searchValue}`;
+      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=$pageSize&pageIndex=$pageIndex&searchValue=$searchValue`;
       if (!sp.isNullOrEmpty(this.customApi)) {
         url = this.customApi;
       }
+      url = url
+        .replace('$pageIndex', this.pagination.current)
+        .replace('$pageSize', this.pagination.pageSize)
+        .replace('$searchValue', this.searchValue);
       try {
         const resp = await sp.get(url);
         if (resp && resp.DataList) {

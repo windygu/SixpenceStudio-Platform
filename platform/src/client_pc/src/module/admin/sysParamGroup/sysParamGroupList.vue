@@ -21,9 +21,7 @@ export default {
         { prop: 'modifiedByName', label: '最后修改人' },
         { prop: 'modifiedOn', label: '最后修改日期', type: 'datetime' }
       ],
-      editComponent: sysParamGroupEdit,
-      relatedAttr: {},
-      loading: false
+      editComponent: sysParamGroupEdit
     };
   }
 };

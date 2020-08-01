@@ -29,7 +29,7 @@ const columns = [
     dataIndex: 'description'
   },
   {
-    title: 'Action',
+    title: '操作',
     key: 'action',
     scopedSlots: { customRender: 'action' }
   }

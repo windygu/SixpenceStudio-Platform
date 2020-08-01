@@ -20,11 +20,11 @@
       </a-col>
       <a-col :span="12">
         <a-form-model-item label="性别">
-          <a-select v-model="data.gender" @change="handleChangeGender">
-            <a-select-option v-for="(item, index) in [{ name: '男', value: 0 }, { name: '女', value: 1 }]" :key="index" :value="item.value">{{
+          <a-radio-group v-model="data.gender" @change="handleChangeGender">
+            <a-radio v-for="(item, index) in [{ name: '男', value: 0 }, { name: '女', value: 1 }]" :key="index" :value="item.value">{{
               item.name
-            }}</a-select-option>
-          </a-select>
+            }}</a-radio>
+          </a-radio-group>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -34,11 +34,11 @@
           <a-input v-model="data.mailbox"></a-input>
         </a-form-model-item>
       </a-col>
-      <el-col :span="12">
+      <a-col :span="12">
         <a-form-model-item label="手机号码">
           <a-input v-model="data.cellphone"></a-input>
         </a-form-model-item>
-      </el-col>
+      </a-col>
     </a-row>
     <a-row :gutter="24">
       <a-col>
@@ -50,11 +50,11 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="状态">
-          <a-select v-model="data.stateCode" placeholder="请选择状态" @change="handleChange">
-            <a-select-option v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
+          <a-radio-group v-model="data.stateCode" @change="handleStateCodeChange">
+            <a-radio v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
               item.name
-            }}</a-select-option>
-          </a-select>
+            }}</a-radio>
+          </a-radio-group>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -106,11 +106,11 @@ export default {
     }
   },
   methods: {
-    handleChange(val) {
-      this.data.stateCodeName = val === 1 ? '启用' : '禁用';
-    },
     handleChangeGender(val) {
-      this.data.genderName = val === 0 ? '男' : '女';
+      this.data.genderName = this.data.gender === 0 ? '男' : '女';
+    },
+    handleStateCodeChange(val) {
+      this.data.stateCodeName = this.data.stateCode === 1 ? '启用' : '禁用';
     },
     handleAvatarChange(file) {
       if (file) {

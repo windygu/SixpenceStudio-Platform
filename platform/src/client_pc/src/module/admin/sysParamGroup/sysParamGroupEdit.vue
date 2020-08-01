@@ -12,14 +12,21 @@
         </a-form-model-item>
       </a-col>
     </a-row>
+    <a-row>
+      <a-col>
+        <sys-param-list :relatedAttr="relatedAttrs"></sys-param-list>
+      </a-col>
+    </a-row>
   </a-form-model>
 </template>
 
 <script>
 import edit from '../../../mixins/edit';
+import sysParamList from './sysParamList';
 
 export default {
   name: 'sysParamGroupEdit',
+  components: { sysParamList },
   props: {
     isGrid: {
       type: Boolean,
@@ -35,6 +42,14 @@ export default {
         code: [{ required: true, message: '请再次编码', trigger: 'Null' }]
       }
     };
+  },
+  computed: {
+    relatedAttrs() {
+      return {
+        id: this.Id,
+        name: this.data.name
+      };
+    }
   }
 };
 </script>

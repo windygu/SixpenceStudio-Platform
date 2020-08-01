@@ -1,11 +1,11 @@
 <template>
   <sp-list
     ref="list"
-    :customApi="customApi"
     :controllerName="controllerName"
     :operations="operations"
     :columns="columns"
     :editComponent="editComponent"
+    :customApi="customApi"
     v-bind="$attrs"
     v-on="$listeners"
   ></sp-list>
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       controllerName: 'SysParam',
-      operations: ['new', 'delete'],
+      operations: ['new', 'delete', 'search'],
       columns: [
         { prop: 'name', label: '名称' },
         { prop: 'code', label: '编码' },
@@ -42,36 +42,18 @@ export default {
     };
   },
   computed: {
-    parentId() {
-      if (this.relatedAttr && this.relatedAttr.id) {
-        return this.relatedAttr.id;
-      } else {
-        return '';
-      }
-    },
     searchList() {
-      if (!sp.isNullOrEmpty(this.parentId)) {
-        return [
-          {
-            Name: 'sys_paramGroupid',
-            Value: this.parentId
-          }
-        ];
-      }
-      return [];
+      return [
+        {
+          Name: 'sys_paramGroupid',
+          Value: (this.relatedAttr || {}).id || ''
+        }
+      ];
     },
     customApi() {
-      const list = this.$refs.list;
-      let pageIndex = 1;
-      let pageSize = 20;
-      if (list) {
-        pageIndex = list.pageIndex;
-        pageSize = list.pageSize;
-      }
-      let url = `api/${this.controllerName}/GetDataList?searchList=${JSON.stringify(
+      return `api/${this.controllerName}/GetDataList?searchList=${JSON.stringify(
         this.searchList
-      )}&orderBy=&pageSize=${pageSize}&pageIndex=${pageIndex}`;
-      return url;
+      )}&orderBy=&pageSize=$pageSize&pageIndex=$pageIndex&searchValue=$searchValue`;
     }
   }
 };
