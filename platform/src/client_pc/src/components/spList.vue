@@ -22,6 +22,11 @@
         <template v-for="item in dateColumns" :slot="item.prop" slot-scope="text">
           <span :key="item.prop">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
         </template>
+        <span v-if="operationColumn" slot="action" slot-scope="text, record">
+          <template v-for="(action, index) in operationColumn.actions">
+            <a-button :size="action.size" type="primary" @click="action.method(record)" :key="index">{{ action.name }}</a-button>
+          </template>
+        </span>
       </a-table>
     </slot>
     <!-- 表格 -->
@@ -83,6 +88,16 @@ export default {
     customApi: {
       type: String,
       default: ''
+    },
+    // 启用分页
+    usePagination: {
+      type: Boolean,
+      default: true
+    },
+    // 启用首列点击
+    useHeaderClick: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -93,13 +108,6 @@ export default {
         { name: 'delete', icon: 'delete', operate: this.deleteData },
         { name: 'search' }
       ],
-      pagination: {
-        current: 1,
-        total: 0,
-        pageSize: 10,
-        showSizeChanger: true,
-        showTotal: total => `共有 ${total} 条数据`
-      },
       editVisible: false,
       relatedAttr: null,
       loading: false,
@@ -124,10 +132,11 @@ export default {
       return this.columns.map((item, index) => {
         const column = {
           title: item.label,
-          dataIndex: item.prop
+          dataIndex: item.prop,
+          key: item.prop
         };
         // 特殊列和首列需自定义列渲染
-        if (item.type === 'datetime' || index === 0) {
+        if (item.type === 'datetime' || item.type === 'actions' || index === 0) {
           column.scopedSlots = {
             customRender: item.prop
           };
@@ -137,7 +146,7 @@ export default {
     },
     // 首列列名
     firstColumn() {
-      if (this.columns && this.columns.length > 0) {
+      if (this.columns && this.columns.length > 0 && this.useHeaderClick) {
         return this.columns[0].prop;
       }
       return '';
@@ -146,9 +155,26 @@ export default {
     dateColumns() {
       return this.columns.filter(item => item.type === 'datetime');
     },
+    // 操作列
+    operationColumn() {
+      return this.columns.find(item => item.type === 'actions');
+    },
     // 操作按钮
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
+    },
+    pagination() {
+      if (!this.usePagination) {
+        return false;
+      } else {
+        return {
+          current: 1,
+          total: 0,
+          pageSize: 10,
+          showSizeChanger: true,
+          showTotal: total => `共有 ${total} 条数据`
+        };
+      }
     }
   },
   methods: {
@@ -194,12 +220,23 @@ export default {
         } else {
           this.tableData = resp;
         }
+        this.setKey(this.tableData);
       } catch (error) {
         this.$message.error(error);
       } finally {
         setTimeout(() => {
           this.loading = false;
         }, 200);
+      }
+    },
+    setKey(table) {
+      if (table && table.length > 0) {
+        table.forEach((item, index) => {
+          item.key = (item || {}).Id || sp.newUUID();
+          if (item.children && item.children.length > 0) {
+            this.setKey(item.children);
+          }
+        });
       }
     },
     // 编辑保存
@@ -227,10 +264,7 @@ export default {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          const ids = this.selectionIds.map(item => {
-            return item.Id;
-          });
-          sp.post(`api/${this.controllerName}/DeleteData`, ids).then(() => {
+          sp.post(`api/${this.controllerName}/DeleteData`, this.selectionIds).then(() => {
             this.$message.success('删除成功');
             this.loadData();
           });

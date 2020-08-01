@@ -15,20 +15,30 @@
     <a-layout>
       <a-layout-header :style="{ background: '#fff', padding: '0 20px 0 0', textAlign: 'right' }">
         <slot></slot>
-        <a-avatar icon="user" />
+        <a-dropdown>
+          <a-menu slot="overlay">
+            <a-menu-item key="1" @click="editPassword">修改密码</a-menu-item>
+            <a-menu-item key="2" @click="logout">退出</a-menu-item>
+          </a-menu>
+          <a-button icon="user" shape="circle"></a-button>
+        </a-dropdown>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
-        <div :style="{ background: '#fff', minHeight: '360px' }">
+        <div :style="{ background: '#fff', minHeight: '800px' }">
           <router-view :key="$route.path"></router-view>
         </div>
       </a-layout-content>
     </a-layout>
+    <edit-password ref="pwd"></edit-password>
   </a-layout>
 </template>
 
 <script>
+import editPassword from './editPasssword/editPassword';
+
 export default {
   name: 'admin',
+  components: { editPassword },
   data() {
     return {
       menus: [],
@@ -87,6 +97,9 @@ export default {
         return;
       }
       this.$router.push({ path: keyPath[0] });
+    },
+    editPassword() {
+      this.$refs.pwd.editVisible = true;
     },
     logout() {
       this.$message.success('退出成功');

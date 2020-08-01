@@ -15,7 +15,7 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="上级菜单">
-          <a-select v-model="data.parentid" placeholder="请选择上级菜单">
+          <a-select v-model="data.parentid" placeholder="请选择上级菜单" @change="handleParentIdChange">
             <a-select-option v-for="(item, index) in selectData" :key="index" :value="item.Id">{{ item.name }}</a-select-option>
           </a-select>
         </a-form-model-item>
@@ -59,15 +59,13 @@ export default {
     }
     this.getSelectData();
   },
-  watch: {
-    'data.parentid': {
-      handler(id) {
-        const obj = this.selectData.find(item => item.Id === id);
+  methods: {
+    handleParentIdChange(val) {
+      const obj = this.selectData.find(item => item.Id === val);
+      if (!sp.isNull(obj)) {
         this.data.parentIdName = obj.name;
       }
-    }
-  },
-  methods: {
+    },
     handleStateCodeChange(val) {
       this.data.stateCodeName = this.data.stateCode === 1 ? '启用' : '禁用';
     },
@@ -76,13 +74,15 @@ export default {
         this.selectData = resp;
       });
     },
-    confirm() {
+    saveData() {
       const operateName = sp.isNullOrEmpty(this.Id) ? 'CreateData' : 'UpdateData';
       if (sp.isNullOrEmpty(this.Id)) {
         this.data.Id = sp.newUUID();
       }
       sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(() => {
-        this.$message.success('添加成功');
+        this.$emit('close');
+        this.$emit('load-data');
+        this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
       });
     }
   }

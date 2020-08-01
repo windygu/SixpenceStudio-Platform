@@ -80,7 +80,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             var sql = $@"
 UPDATE auth_user
 SET password = @password
-WHERE userid = @id;
+WHERE user_infoid = @id;
 ";
             var decryptionPwd1 = new DecryptAndEncryptHelper(Key, Vector).Decrypto2(password); // 对称解密
             var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成散列值
