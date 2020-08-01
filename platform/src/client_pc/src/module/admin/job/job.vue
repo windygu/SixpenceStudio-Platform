@@ -1,5 +1,11 @@
 <template>
   <a-table :columns="columns" :data-source="data">
+    <template slot="lastRunTime" slot-scope="text">
+      <span key="lastRunTime">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
+    </template>
+    <template slot="nextRunTime" slot-scope="text">
+      <span key="nextRunTime">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
+    </template>
     <span slot="action" slot-scope="text, record">
       <a-button type="primary" @click="start(record)">运行</a-button>
     </span>
