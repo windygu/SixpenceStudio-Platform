@@ -123,24 +123,27 @@ namespace SixpenceStudio.Platform.Data
         #region Execute
         public int Execute(string sql, IDictionary<string, object> paramList = null)
         {
-            sql = ConvertSqlToDialectSql(sql, paramList);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
-            return _conn.Execute(sql, paramList);
+            var paramListClone = new Dictionary<string, object>().Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
+            sql = ConvertSqlToDialectSql(sql, paramListClone);
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            return _conn.Execute(sql, paramListClone);
         }
         public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
         {
-            sql = ConvertSqlToDialectSql(sql, paramList);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
-            return _conn.ExecuteScalar(sql, paramList);
+            var paramListClone = new Dictionary<string, object>().Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
+            sql = ConvertSqlToDialectSql(sql, paramListClone);
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            return _conn.ExecuteScalar(sql, paramListClone);
         }
         #endregion
 
         #region Query
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
-            sql = ConvertSqlToDialectSql(sql, paramList);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
-            var ret = _conn.Query<T>(sql, paramList);
+            var paramListClone = new Dictionary<string, object>().Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
+            sql = ConvertSqlToDialectSql(sql, paramListClone);
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            var ret = _conn.Query<T>(sql, paramListClone);
             return ret;
         }
         #endregion
@@ -148,10 +151,11 @@ namespace SixpenceStudio.Platform.Data
         #region DataTable
         public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
-            sql = ConvertSqlToDialectSql(sql, paramList);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramList));
+            var paramListClone = new Dictionary<string, object>().Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
+            sql = ConvertSqlToDialectSql(sql, paramListClone);
+            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
             DataTable dt = new DataTable();
-            var reader = _conn.ExecuteReader(sql, paramList);
+            var reader = _conn.ExecuteReader(sql, paramListClone);
             dt.Load(reader);
             return dt;
         }

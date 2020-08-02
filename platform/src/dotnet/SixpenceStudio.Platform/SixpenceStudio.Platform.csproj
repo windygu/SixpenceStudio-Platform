@@ -154,6 +154,7 @@
     <Compile Include="Command\EntityCommand.cs" />
     <Compile Include="Command\EntityCommandExtension.cs" />
     <Compile Include="Configs\ConfigInformation.cs" />
+    <Compile Include="Data\DialectSql.cs" />
     <Compile Include="Data\IDbClient.cs" />
     <Compile Include="Data\IPersistBroker.cs" />
     <Compile Include="Data\IPersistBrokerExtension.cs" />

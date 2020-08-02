@@ -121,13 +121,16 @@ namespace SixpenceStudio.Platform.Command
                     paramList.Add($"@params{count++}", $"%{searchValue}%");
                 }
             }
-
             if (searchList != null && searchList.Count() > 0)
             {
                 foreach (var search in searchList)
                 {
-                    sql += $" AND {entityName}.{search.Name} = @params{count}";
-                    paramList.Add($"@params{count++}", search.Value);
+                    var searchCondition = DialectSql.GetSearchCondition(search.Type, "params", search.Value, ref count);
+                    sql += $" AND {entityName}.{search.Name} {searchCondition.sql}";
+                    foreach (var item in searchCondition.paramsList)
+                    {
+                        paramList.Add(item.Key, item.Value);
+                    }
                 }
             }
 

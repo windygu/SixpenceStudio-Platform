@@ -2,6 +2,7 @@
   <sp-header>
     <template v-for="(button, index) in buttons">
       <a-input-search v-if="button.name === 'search'" placeholder="请输入内容" style="width: 200px;" @search="onSearch" v-bind:key="index" />
+      <a-button v-else-if="button.name === 'more'" type="link" v-bind:key="index" @click="showMore">{{ moreLabel }}</a-button>
       <a-button v-else :icon="button.icon" @click="handleClick(button)" v-bind:key="index" style="margin-right:10px">{{ button.text }}</a-button>
     </template>
   </sp-header>
@@ -19,8 +20,24 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      more: false,
+      moreLabel: '展开筛选'
+    };
+  },
   components: { spHeader },
   methods: {
+    showMore() {
+      this.more = !this.more;
+      if (this.more) {
+        this.moreLabel = '收起筛选';
+        this.$emit('unfold');
+      } else {
+        this.moreLabel = '展开更多';
+        this.$emit('fold');
+      }
+    },
     handleClick(button) {
       if (button.operate && typeof button.operate === 'function') {
         button.operate();

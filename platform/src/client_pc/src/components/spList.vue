@@ -3,8 +3,11 @@
     <!-- 按钮组 -->
     <slot name="header">
       <sp-header v-if="buttons && buttons.length > 0">
-        <sp-button-list :buttons="buttons" @search-change="loadData"></sp-button-list>
+        <sp-button-list :buttons="buttons" @search-change="loadData" @unfold="showMore = true" @fold="showMore = false"></sp-button-list>
       </sp-header>
+      <div v-if="showMore">
+        <slot name="more" />
+      </div>
     </slot>
     <!-- 按钮组 -->
 
@@ -85,6 +88,11 @@ export default {
       type: String,
       default: ''
     },
+    // 高级搜索条件
+    searchList: {
+      type: Array,
+      default: () => []
+    },
     // 启用分页
     usePagination: {
       type: Boolean,
@@ -102,12 +110,14 @@ export default {
       normalOperations: [
         { name: 'new', icon: 'plus', operate: this.createData },
         { name: 'delete', icon: 'delete', operate: this.deleteData },
-        { name: 'search' }
+        { name: 'search' },
+        { name: 'more' }
       ],
       keyList: ['title'], // 关键字
       editVisible: false,
       relatedAttr: null,
       loading: false,
+      showMore: false,
       searchValue: '',
       selectionIds: [],
       rowSelection: {
@@ -211,7 +221,9 @@ export default {
         return;
       }
       this.loading = true;
-      let url = `api/${this.controllerName}/GetDataList?searchList=&orderBy=&pageSize=$pageSize&pageIndex=$pageIndex&searchValue=$searchValue`;
+      let url = `api/${this.controllerName}/GetDataList?searchList=${JSON.stringify(
+        this.searchList
+      )}&orderBy=&pageSize=$pageSize&pageIndex=$pageIndex&searchValue=$searchValue`;
       if (!sp.isNullOrEmpty(this.customApi)) {
         url = this.customApi;
       }
@@ -257,6 +269,10 @@ export default {
     },
     // 创建数据
     createData() {
+      if (this.headerClick && typeof this.headerClick === 'function') {
+        this.headerClick();
+        return;
+      }
       this.relatedAttr = {};
       this.editVisible = true;
     },
