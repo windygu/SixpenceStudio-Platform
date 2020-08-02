@@ -21,6 +21,7 @@ export default {
       columns: [
         { prop: 'name', label: '菜单名' },
         { prop: 'router', label: '路由' },
+        { prop: 'menu_Index', label: '索引' },
         { prop: 'createdByName', label: '创建人' },
         { prop: 'createdOn', label: '创建日期', type: 'datetime' },
         { prop: 'modifiedByName', label: '最后修改人' },

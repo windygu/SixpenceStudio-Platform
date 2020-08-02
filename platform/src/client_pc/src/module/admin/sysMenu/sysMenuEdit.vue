@@ -14,12 +14,19 @@
     </a-row>
     <a-row :gutter="24">
       <a-col :span="12">
+        <a-form-model-item label="索引">
+          <a-input-number v-model="data.menu_Index" style="width:100%"></a-input-number>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="12">
         <a-form-model-item label="上级菜单">
           <a-select v-model="data.parentid" placeholder="请选择上级菜单" @change="handleParentIdChange">
             <a-select-option v-for="(item, index) in selectData" :key="index" :value="item.Id">{{ item.name }}</a-select-option>
           </a-select>
         </a-form-model-item>
       </a-col>
+    </a-row>
+    <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="状态">
           <a-radio-group v-model="data.stateCode" @change="handleStateCodeChange">
