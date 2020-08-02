@@ -35,6 +35,8 @@ export default {
       this.$confirm({
         title: '提示',
         content: '是否确认运行该作业?',
+        okText: '确认',
+        cancelText: '取消',
         onOk: () => {
           sp.get(`api/${this.controllerName}/StartJob?name=${row.name}`)
             .then(() => {

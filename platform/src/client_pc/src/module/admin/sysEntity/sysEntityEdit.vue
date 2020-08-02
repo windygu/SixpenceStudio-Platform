@@ -96,6 +96,8 @@ export default {
       this.$confirm({
         title: '提示',
         content: '是否要添加系统字段?',
+        okText: '确认',
+        cancelText: '取消',
         ok() {
           sp.post('api/SysAttrs/AddSystemAttrs', `=${this.Id}`)
             .then(() => {

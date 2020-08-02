@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/404',
+    path: '*',
     name: '404',
     component: () => import('./404')
   }

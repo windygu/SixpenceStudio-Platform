@@ -14,7 +14,7 @@
         :columns="aColumns"
         :data-source="tableData"
         :loading="loading"
-        :pagination="pagination"
+        :pagination="myPagination"
         @change="handleTableChange"
         :row-selection="rowSelection"
       >
@@ -59,7 +59,8 @@ export default {
     },
     // 控制器
     controllerName: {
-      type: String
+      type: String,
+      required: true
     },
     // 列
     columns: {
@@ -74,11 +75,6 @@ export default {
     editTitle: {
       type: String,
       default: '编辑'
-    },
-    // 是否可以选择列
-    allowSelect: {
-      type: Boolean,
-      default: false
     },
     // 标题点击
     headerClick: {
@@ -108,6 +104,7 @@ export default {
         { name: 'delete', icon: 'delete', operate: this.deleteData },
         { name: 'search' }
       ],
+      keyList: ['title'], // 关键字
       editVisible: false,
       relatedAttr: null,
       loading: false,
@@ -117,6 +114,13 @@ export default {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectionIds = selectedRows.map(item => item.Id);
         }
+      },
+      pagination: {
+        current: 1,
+        total: 0,
+        pageSize: 10,
+        showSizeChanger: true,
+        showTotal: total => `共有 ${total} 条数据`
       }
     };
   },
@@ -137,8 +141,14 @@ export default {
         };
         // 特殊列和首列需自定义列渲染
         if (item.type === 'datetime' || item.type === 'actions' || index === 0) {
+          let prop = '';
+          if (this.keyList.includes(item.prop)) {
+            prop = `${item.prop}-0`;
+          } else {
+            prop = item.prop;
+          }
           column.scopedSlots = {
-            customRender: item.prop
+            customRender: prop
           };
         }
         return column;
@@ -147,6 +157,9 @@ export default {
     // 首列列名
     firstColumn() {
       if (this.columns && this.columns.length > 0 && this.useHeaderClick) {
+        if (this.keyList.includes(this.columns[0].prop)) {
+          return `${this.columns[0].prop}-0`;
+        }
         return this.columns[0].prop;
       }
       return '';
@@ -163,17 +176,11 @@ export default {
     buttons() {
       return this.normalOperations.filter(item => this.operations.includes(item.name));
     },
-    pagination() {
+    myPagination() {
       if (!this.usePagination) {
         return false;
       } else {
-        return {
-          current: 1,
-          total: 0,
-          pageSize: 10,
-          showSizeChanger: true,
-          showTotal: total => `共有 ${total} 条数据`
-        };
+        return this.pagination;
       }
     }
   },
@@ -187,7 +194,7 @@ export default {
     // 编辑
     handleClick(row) {
       if (this.headerClick && typeof this.headerClick === 'function') {
-        this.headerClick();
+        this.headerClick(row);
         return;
       }
       this.relatedAttr = {
@@ -216,9 +223,10 @@ export default {
         const resp = await sp.get(url);
         if (resp && resp.DataList) {
           this.tableData = resp.DataList;
-          this.pagination.total = resp.RecordCount;
+          this.$set(this.pagination, 'total', resp.RecordCount);
         } else {
           this.tableData = resp;
+          this.$set(this.pagination, 'total', this.tableData.length);
         }
         this.setKey(this.tableData);
       } catch (error) {
@@ -260,7 +268,7 @@ export default {
       }
       this.$confirm({
         title: '是否删除',
-        content: '此操作将永久删除该菜单, 是否继续?',
+        content: '此操作将永久删除选择项, 是否继续?',
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
