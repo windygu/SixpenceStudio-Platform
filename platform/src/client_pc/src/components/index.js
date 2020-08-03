@@ -6,6 +6,7 @@ import spTable from './spTable';
 import spList from './spList';
 import spSection from './spSection';
 import spMenu from './spMenu';
+import spTag from './spTag';
 
 const components = [
   { name: register.name, component: register },
@@ -15,7 +16,8 @@ const components = [
   { name: spTable.name, component: spTable },
   { name: spList.name, component: spList },
   { name: spSection.name, component: spSection },
-  { name: spMenu.name, component: spMenu }
+  { name: spMenu.name, component: spMenu },
+  { name: spTag.name, component: spTag }
 ];
 
 export default components;

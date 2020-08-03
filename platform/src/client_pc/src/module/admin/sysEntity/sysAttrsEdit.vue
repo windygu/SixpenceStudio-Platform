@@ -73,6 +73,10 @@ export default {
         {
           value: 'bytea',
           label: '二进制'
+        },
+        {
+          value: 'json',
+          label: 'json'
         }
       ],
       rules: {
