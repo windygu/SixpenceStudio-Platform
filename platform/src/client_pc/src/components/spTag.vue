@@ -27,36 +27,23 @@
 <script>
 export default {
   name: 'sp-tag',
-  model: {
-    prop: 'model',
-    event: 'change'
-  },
   props: {
-    model: {
+    tags: {
       type: Array,
       default: () => []
     }
   },
   data() {
     return {
-      tags: [],
       colors: ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'],
       inputVisible: false,
       inputValue: ''
     };
   },
-  watch: {
-    tags: {
-      handler(val) {
-        this.$emit('change', val);
-      },
-      deep: true
-    }
-  },
   methods: {
     handleClose(removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag);
-      this.tags = tags;
+      this.$emit('change', tags);
     },
     showInput() {
       this.inputVisible = true;
@@ -69,12 +56,10 @@ export default {
     },
     handleInputConfirm() {
       const inputValue = this.inputValue;
-      let tags = this.tags;
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        tags = [...tags, inputValue];
+      if (inputValue && this.tags.indexOf(inputValue) === -1) {
+        this.$emit('change', [...this.tags, inputValue]);
       }
       Object.assign(this, {
-        tags,
         inputVisible: false,
         inputValue: ''
       });

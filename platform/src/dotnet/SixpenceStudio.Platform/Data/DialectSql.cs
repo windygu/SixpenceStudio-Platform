@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SixpenceStudio.Platform.Entity;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,21 @@ namespace SixpenceStudio.Platform.Data
                 default:
                     return ("", new Dictionary<string, object>(){ });
             }
+        }
+
+        /// <summary>
+        /// 格式化特殊类型
+        /// </summary>
+        /// <param name="originName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static (string name, object value) GetSpecialValue(string name, object value)
+        {
+            if (value !=null && value is JToken)
+            {
+                return (name + "::json", JsonConvert.SerializeObject(value));
+            }
+            return (name, value);
         }
     }
 }

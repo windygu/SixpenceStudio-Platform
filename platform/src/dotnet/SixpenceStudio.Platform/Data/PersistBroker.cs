@@ -36,17 +36,16 @@ namespace SixpenceStudio.Platform.Data
         public string Create(BaseEntity entity)
         {
             var sql = "INSERT INTO {0}({1}) Values({2})";
-            var attrsSql = string.Empty;
-            var valuesSql = string.Empty;
             var attrs = new List<string>();
             var values = new List<object>();
             var paramList = new Dictionary<string, object>();
             foreach (var attr in entity.Attributes)
             {
                 var attrName = attr.Key == "Id" ? entity.MainKeyName : attr.Key;
+                var keyValue = DialectSql.GetSpecialValue(attrName, attr.Value);
                 attrs.Add(attrName);
-                values.Add("@" + attrName);
-                paramList.Add("@" + attrName, attr.Value);
+                values.Add(keyValue.name);
+                paramList.Add($"@{attrName}", keyValue.value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
             this.Execute(sql, paramList);
@@ -108,9 +107,12 @@ INSERT INTO {0} ({1}) VALUES ({2});
             int count = 0;
             foreach (var item in entity.Attributes)
             {
+                var paramName = $"@param{count}";
+                var keyValue = DialectSql.GetSpecialValue(paramName, item.Value);
                 attributes.Add(item.Key.ToString());
-                values.Add($"@param{count}");
-                paramList.Add($"@param{count++}", item.Value);
+                values.Add(keyValue.name);
+                paramList.Add(paramName, keyValue.value);
+                count++;
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), string.Join(",", values));
             this.Execute(sql);
@@ -136,8 +138,10 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             {
                 if (item.Key != "Id" && item.Key != entity.EntityName + "Id")
                 {
-                    paramList.Add($"@param{count}", item.Value);
-                    attributes.Add($"{ item.Key} = @param{count++}");
+                    var keyValue = DialectSql.GetSpecialValue($"@param{count}", item.Value);
+                    paramList.Add($"@param{count}", keyValue.value);
+                    attributes.Add($"{ item.Key} = {keyValue.name}");
+                    count++;
                 }
                 else
                 {
