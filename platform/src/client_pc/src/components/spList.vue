@@ -22,8 +22,13 @@
         :row-selection="rowSelection"
       >
         <a :slot="firstColumn" slot-scope="text, record" @click="handleClick(record)">{{ text }}</a>
-        <template v-for="item in dateColumns" :slot="item.prop" slot-scope="text">
-          <span :key="item.prop">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
+        <template v-for="item in slotColumns" :slot="item.prop" slot-scope="text">
+          <span :key="item.prop" v-if="item.type === 'datetime'">{{ text | moment('YYYY-MM-DD HH:mm') }}</span>
+          <div :key="item.prop" v-else>
+            <a-tag v-for="(tag, index) in JSON.parse(text)" :key="tag" :color="colors[index % colors.length]">
+              {{ tag }}
+            </a-tag>
+          </div>
         </template>
         <span v-if="operationColumn" slot="action" slot-scope="text, record">
           <template v-for="(action, index) in operationColumn.actions">
@@ -114,6 +119,7 @@ export default {
         { name: 'more' }
       ],
       keyList: ['title'], // 关键字
+      colors: ['pink', 'red', 'orange', 'green', 'cyan', 'blue', 'purple'],
       editVisible: false,
       relatedAttr: null,
       loading: false,
@@ -150,7 +156,7 @@ export default {
           key: item.prop
         };
         // 特殊列和首列需自定义列渲染
-        if (item.type === 'datetime' || item.type === 'actions' || index === 0) {
+        if (item.type === 'datetime' || item.type === 'actions' || item.type === 'tag' || index === 0) {
           let prop = '';
           if (this.keyList.includes(item.prop)) {
             prop = `${item.prop}-0`;
@@ -175,8 +181,8 @@ export default {
       return '';
     },
     // 时间类型的列
-    dateColumns() {
-      return this.columns.filter(item => item.type === 'datetime');
+    slotColumns() {
+      return this.columns.filter(item => item.type === 'datetime' || item.type === 'tag');
     },
     // 操作列
     operationColumn() {
