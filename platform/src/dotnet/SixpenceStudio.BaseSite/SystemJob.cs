@@ -91,7 +91,7 @@ WHERE
             for (int i = 0; i < files.Count; i++)
             {
                 var file = files[i];
-                if (!logNameList.Contains(file))
+                if (!logNameList.Contains(Path.GetFileName(file)))
                 {
                     FileUtils.DeleteFile(file);
                 }

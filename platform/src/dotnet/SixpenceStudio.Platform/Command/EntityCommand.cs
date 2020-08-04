@@ -181,28 +181,16 @@ namespace SixpenceStudio.Platform.Command
                 t.SetAttributeValue("CreatedBy", user.userId);
                 t.SetAttributeValue("CreatedByName", user.name);
             }
-            if ((!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null) && t.GetType().GetProperty("modifiedBy") != null)
-            {
-                t.SetAttributeValue("ModifiedBy", user.userId);
-                t.SetAttributeValue("ModifiedByName", user.name);
-            }
             if ((!t.Attributes.ContainsKey("CreatedOn") || t.GetAttributeValue("CreatedOn") == null) && t.GetType().GetProperty("createdOn") != null)
             {
                 t.SetAttributeValue("CreatedOn", DateTime.Now);
             }
-            if ((!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null) && t.GetType().GetProperty("modifiedOn") != null)
-            {
-                t.SetAttributeValue("ModifiedOn", DateTime.Now);
-            }
+            t.SetAttributeValue("ModifiedBy", user.userId);
+            t.SetAttributeValue("ModifiedByName", user.name);
+            t.SetAttributeValue("ModifiedOn", DateTime.Now);
             var id = "";
             broker.ExecuteTransaction(() =>
             {
-                var context = new Context()
-                {
-                    Broker = broker,
-                    Entity = t,
-                    EntityName = t.EntityName
-                };
                 AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreCreate } }, t.EntityName);
                 id = broker.Create(t);
                 AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostCreate } }, t.EntityName);
@@ -223,23 +211,11 @@ namespace SixpenceStudio.Platform.Command
                 return;
             }
             var user = this.GetCurrentUser();
-            if ((!t.Attributes.ContainsKey("ModifiedBy") || t.GetAttributeValue("ModifiedBy") == null) && t.GetType().GetProperty("modifiedBy") != null)
-            {
-                t.SetAttributeValue("ModifiedBy", user.userId);
-                t.SetAttributeValue("ModifiedByName", user.name);
-            }
-            if ((!t.Attributes.ContainsKey("ModifiedOn") || t.GetAttributeValue("ModifiedOn") == null) && t.GetType().GetProperty("modifiedOn") != null)
-            {
-                t.SetAttributeValue("ModifiedOn", DateTime.Now);
-            }
+            t.SetAttributeValue("ModifiedBy", user.userId);
+            t.SetAttributeValue("ModifiedByName", user.name);
+            t.SetAttributeValue("ModifiedOn", DateTime.Now);
             broker.ExecuteTransaction(() =>
             {
-                var context = new Context()
-                {
-                    Broker = broker,
-                    Entity = t,
-                    EntityName = t.EntityName
-                };
                 AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreUpdate } }, t.EntityName);
                 broker.Update(t);
                 AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostUpdate } }, t.EntityName);
