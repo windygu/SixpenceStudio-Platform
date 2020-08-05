@@ -42,10 +42,10 @@ namespace SixpenceStudio.Platform.Data
             foreach (var attr in entity.Attributes)
             {
                 var attrName = attr.Key == "Id" ? entity.MainKeyName : attr.Key;
-                var keyValue = DialectSql.GetSpecialValue(attrName, attr.Value);
+                var keyValue = DialectSql.GetSpecialValue($"@{attrName}", attr.Value);
                 attrs.Add(attrName);
                 values.Add(keyValue.name);
-                paramList.Add($"@{attrName}", keyValue.value);
+                paramList.Add(keyValue.name, keyValue.value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
             this.Execute(sql, paramList);
