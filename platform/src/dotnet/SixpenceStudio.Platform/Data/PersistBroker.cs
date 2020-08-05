@@ -45,7 +45,7 @@ namespace SixpenceStudio.Platform.Data
                 var keyValue = DialectSql.GetSpecialValue($"@{attrName}", attr.Value);
                 attrs.Add(attrName);
                 values.Add(keyValue.name);
-                paramList.Add(keyValue.name, keyValue.value);
+                paramList.Add(attrName, keyValue.value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
             this.Execute(sql, paramList);
