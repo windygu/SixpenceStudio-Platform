@@ -98,7 +98,7 @@ export default {
         content: '是否要添加系统字段?',
         okText: '确认',
         cancelText: '取消',
-        ok() {
+        onOk: () => {
           sp.post('api/SysAttrs/AddSystemAttrs', `=${this.Id}`)
             .then(() => {
               this.loadData();
@@ -109,7 +109,7 @@ export default {
               return Promise.reject;
             });
         },
-        cancel() {
+        onCancel: () => {
           this.$message.info('已取消');
         }
       });
