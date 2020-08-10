@@ -68,6 +68,7 @@ namespace SixpenceStudio.Platform.Utils
         public static void Execute<T>(string methodName, object[] param, string className = "")
         {
             var types = GetTypes<T>("SixpenceStudio*.dll");
+            className = className.Replace("_", "");
             foreach (var item in types)
             {
                 // 筛选类名（TestPlugin)

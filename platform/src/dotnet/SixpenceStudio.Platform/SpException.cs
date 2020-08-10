@@ -27,10 +27,10 @@ namespace SixpenceStudio.Platform
         private string errorCode;
         public string ErrorCode => errorCode;
 
-        public SpException(string message, string messageId)
+        public SpException(string message, string messageId = "")
         {
             this.message = message;
-            this.messageId = messageId;
+            this.messageId = string.IsNullOrEmpty(messageId) ? Guid.NewGuid().ToString() : messageId;
         }
 
     }
