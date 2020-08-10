@@ -23,5 +23,17 @@ namespace SixpenceStudio.BaseSite.SysConfig
         }
         #endregion
 
+        public object GetValue(string code)
+        {
+            if (!string.IsNullOrEmpty(code))
+            {
+                var sql = @"
+select * from sys_config where code = @code;
+";
+                var data = _cmd.broker.Retrieve<sys_config>(sql, new Dictionary<string, object>() { { "@code", code } });
+                return data?.value;
+            }
+            return "";
+        }
     }
 }
