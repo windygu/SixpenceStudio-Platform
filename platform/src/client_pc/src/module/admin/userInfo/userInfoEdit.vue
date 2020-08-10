@@ -8,7 +8,7 @@
       </a-col>
       <a-col :span="12">
         <a-form-model-item label="编码">
-          <a-input v-model="data.code" disabled></a-input>
+          <a-input v-model="data.code" :disabled="pageState == 'edit'"></a-input>
         </a-form-model-item>
       </a-col>
     </a-row>
