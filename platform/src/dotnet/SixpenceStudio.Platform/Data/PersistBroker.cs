@@ -115,7 +115,7 @@ INSERT INTO {0} ({1}) VALUES ({2});
                 count++;
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), string.Join(",", values));
-            this.Execute(sql);
+            this.Execute(sql, paramList);
             return entity.Id;
         }
 
