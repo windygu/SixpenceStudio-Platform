@@ -31,12 +31,25 @@ namespace SixpenceStudio.Platform.WebApi
             // 这里可以根据项目需要返回到客户端特定的状态码。如果找不到相应的异常，统一返回服务端错误500
             else
             {
-                context.Response = new HttpResponseMessage()
+                // 统一处理报错信息
+                if (context.Exception as SpException == null)
                 {
-                    StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent(context.Exception.Message.Replace(Environment.NewLine, string.Empty)),
-                    ReasonPhrase = context.Exception.Message.Replace(Environment.NewLine, string.Empty),
-                };
+                    context.Response = new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        Content = new StringContent("系统异常，请联系管理员"),
+                        ReasonPhrase = "系统异常，请联系管理员"
+                    };
+                }
+                else
+                {
+                    context.Response = new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        Content = new StringContent(context.Exception.Message.Replace(Environment.NewLine, string.Empty)),
+                        ReasonPhrase = context.Exception.Message.Replace(Environment.NewLine, string.Empty)
+                    };
+                }
             }
 
             base.OnException(context);
