@@ -177,6 +177,7 @@
     <Compile Include="Startup\Startup.cs" />
     <Compile Include="Startup\WebApiConfig.cs" />
     <Compile Include="Utils\AssemblyUtils.cs" />
+    <Compile Include="Utils\CronUtils.cs" />
     <Compile Include="Utils\DecryptAndEncryptHelper.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\HttpUtils.cs" />

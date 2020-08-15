@@ -19,7 +19,7 @@ namespace SixpenceStudio.BaseSite
     {
         public override string Name => "系统作业";
 
-        public override string CronExperssion => "0 0 12 * * ?";
+        public override string CronExperssion => "0 0 4 * * ?";
 
         public override string Description => "清理系统无效文件及整理日志";
 

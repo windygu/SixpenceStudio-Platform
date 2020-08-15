@@ -10,18 +10,13 @@ namespace SixpenceStudio.BaseSite.Job
 {
     public class JobService
     {
-        IPersistBroker broker;
-        public JobService()
-        {
-            this.broker = new PersistBroker();
-        }
-
         /// <summary>
         /// 查询所有的job
         /// </summary>
         /// <returns></returns>
         public IList<job> GetDataList()
         {
+            var broker = new PersistBroker();
             var sql = @"
 SELECT * FROM job
 ";

@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
+using SixpenceStudio.Platform.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -95,10 +96,11 @@ namespace SixpenceStudio.Platform.Job
         }
 
         /// <summary>
-        /// 手动执行一次任务
+        /// 获取Job下次运行时间
         /// </summary>
-        /// <param name="name"></param>
-        public async static void StartJob(string name)
+        /// <param name="jobName"></param>
+        /// <returns></returns>
+        public static string GetJobNextTime(string jobName)
         {
             var types = Utils.AssemblyUtils.GetTypes<IJob>();
             foreach (var item in types)
@@ -106,8 +108,31 @@ namespace SixpenceStudio.Platform.Job
                 if (!item.IsAbstract)
                 {
                     var obj = Activator.CreateInstance(item);
-                    var _name = item.GetProperty("Name").GetValue(obj)?.ToString();
-                    if (string.Equals(name, _name))
+                    var _jobName = item.GetProperty("Name").GetValue(obj)?.ToString();
+                    var _jobCron = item.GetProperty("CronExperssion").GetValue(obj)?.ToString();
+                    if (string.Equals(jobName, _jobName))
+                    {
+                        return CronUtils.GetNextDateTime(_jobCron, DateTime.Now);
+                    }
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 手动执行一次任务
+        /// </summary>
+        /// <param name="name"></param>
+        public async static void StartJob(string jobName)
+        {
+            var types = AssemblyUtils.GetTypes<IJob>();
+            foreach (var item in types)
+            {
+                if (!item.IsAbstract)
+                {
+                    var obj = Activator.CreateInstance(item);
+                    var _jobName = item.GetProperty("Name").GetValue(obj)?.ToString();
+                    if (string.Equals(jobName, _jobName))
                     {
                         await RunManually(item);
                     }

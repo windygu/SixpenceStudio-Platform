@@ -3,8 +3,6 @@ using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Job
@@ -40,12 +38,26 @@ namespace SixpenceStudio.Platform.Job
         {
             return Task.Factory.StartNew(() =>
             {
-                LogUtils.DebugLog($"Job{Name}开始执行\r\n");
+                LogUtils.DebugLog($"作业：{Name} 开始执行\r\n");
+
                 var broker = new PersistBroker();
                 Run(broker);
-                 var paramList = new Dictionary<string, object>() { { "@time", DateTime.Now }, { "@name", Name } };
-                broker.Execute("UPDATE job SET lastruntime = @time WHERE name = @name", paramList);
-                LogUtils.DebugLog($"Job{Name}执行结束\r\n");
+                
+                // 更新下次执行时间
+                var nextTime = JobHelpers.GetJobNextTime(Name);
+                var nextTimeSql = "";
+                var paramList = new Dictionary<string, object>() {
+                    { "@time", DateTime.Now },
+                    { "@name", Name }
+                };
+                if (!string.IsNullOrEmpty(nextTime))
+                {
+                    paramList.Add("@nextTime", Convert.ToDateTime(nextTime));
+                    nextTimeSql = ", nextruntime = @nextTime";
+                }
+
+                broker.Execute($"UPDATE job SET lastruntime = @time {nextTimeSql} WHERE name = @name", paramList);
+                LogUtils.DebugLog($"作业：{Name} 执行结束\r\n");
             });
         }
     }
