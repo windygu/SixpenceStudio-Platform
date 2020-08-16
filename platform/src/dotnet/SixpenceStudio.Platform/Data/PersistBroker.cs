@@ -98,24 +98,17 @@ namespace SixpenceStudio.Platform.Data
         /// <returns></returns>
         public string Save(BaseEntity entity)
         {
-            var sql = @"
-INSERT INTO {0} ({1}) VALUES ({2});
+            var sql = $@"
+SELECT * FROM {entity.EntityName}
+WHERE {entity.EntityName}Id = @id;
 ";
-            var attributes = new List<string>();
-            var values = new List<string>();
-            var paramList = new Dictionary<string, object>();
-            int count = 0;
-            foreach (var item in entity.Attributes)
-            {
-                var paramName = $"@param{count}";
-                var keyValue = DialectSql.GetSpecialValue(paramName, item.Value);
-                attributes.Add(item.Key.ToString());
-                values.Add(keyValue.name);
-                paramList.Add(paramName, keyValue.value);
-                count++;
-            }
-            sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), string.Join(",", values));
-            this.Execute(sql, paramList);
+            var dataList = this.Query(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
+
+            if (dataList != null && dataList.Rows.Count > 0)
+                Update(entity);
+            else
+                Create(entity);
+
             return entity.Id;
         }
 
