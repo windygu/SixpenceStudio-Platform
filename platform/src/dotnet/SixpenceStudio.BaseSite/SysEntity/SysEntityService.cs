@@ -3,10 +3,18 @@ using SixpenceStudio.BaseSite.SysEntity.SysAttrs;
 using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
+using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.DesignerServices;
+using System.Security.Policy;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace SixpenceStudio.BaseSite.SysEntity
 {
@@ -17,7 +25,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
         {
             _cmd = new EntityCommand<sys_entity>();
         }
-        
+
         public SysEntityService(IPersistBroker broker)
         {
             _cmd = new EntityCommand<sys_entity>(broker);
@@ -123,6 +131,87 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
                 });
             });
         }
-    }
 
+        /// <summary>
+        /// 导出实体类
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <returns></returns>
+        public FileInfo Export(string entityId)
+        {
+            var attrs = GetEntityAttrs(entityId);
+            var entity = GetData(entityId);
+            
+            var filePath = $"{FileUtils.GetSystemPath(FolderType.temp)}\\{entity.name}.cs";
+            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write); ;
+            StreamWriter writer = new StreamWriter(fs);
+
+            var attributes = "";
+            foreach (var item in attrs)
+            {
+                if (item.code != entity.code + "id")
+                {
+                    var attribute = $@"
+        /// <summary>
+        /// {item.name}
+        /// </summary>
+        private string _{item.code};
+        [DataMember]
+        public string {item.code}
+        {{
+            get
+            {{
+                return this._{item.code};
+            }}
+            set
+            {{
+                this._{item.code} = value;
+                SetAttributeValue(""{item.code}"", value);
+            }}
+        }}
+
+";
+                    attributes += attribute;
+                }
+            }
+
+            var content = $@"
+using SixpenceStudio.Platform.Entity;
+using System;
+using System.Runtime.Serialization;
+
+
+namespace SixpenceStudio.BaseSite.SysEntity
+{{
+    [EntityName(""{entity.code}"")]
+    public partial class {entity.code} : BaseEntity
+    {{
+        /// <summary>
+        /// 实体id
+        /// </summary>
+        private string _{entity.code}id;
+        [DataMember]
+        public string {entity.code}Id
+        {{
+            get
+            {{
+                return this._{entity.code}id;
+            }}
+            set
+            {{
+                this._{entity.code}id = value;
+                SetAttributeValue(""{entity.code}Id"", value);
+            }}
+        }}
+
+        {attributes}
+    }}
+}}
+";
+            writer.WriteLine(content);
+            writer.Close();
+
+            return new FileInfo(filePath);
+        }
+    }
 }

@@ -48,8 +48,15 @@ namespace SixpenceStudio.Platform.Utils
                 case FolderType.logArchive:
                     folderPath += "\\log\\Archive";
                     break;
+                case FolderType.temp:
+                    folderPath += "\\temp";
+                    break;
                 default:
                     break;
+            }
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
             }
             return folderPath;
         }
@@ -138,6 +145,8 @@ namespace SixpenceStudio.Platform.Utils
         [Description("日志目录")]
         log,
         [Description("日志归档目录")]
-        logArchive
+        logArchive,
+        [Description("临时目录")]
+        temp
     }
 }

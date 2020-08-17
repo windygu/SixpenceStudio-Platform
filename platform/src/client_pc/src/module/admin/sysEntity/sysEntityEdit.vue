@@ -15,6 +15,7 @@
     <template v-if="pageState == 'edit'">
       <a-button type="primary" @click="editVisible = true">新增</a-button>
       <a-button type="primary" style="margin-left: 20px;" @click="addSystemAttrs">添加系统字段</a-button>
+      <a-button type="primary" style="margin-left: 20px" @click="exportData">导出</a-button>
       <a-table :columns="columns" :data-source="attrs" style="padding-top:20px">
         <span slot="isrequire" slot-scope="text">{{ text == '1' ? '是' : '否' }}</span>
         <span slot="action" slot-scope="text, record">
@@ -113,6 +114,9 @@ export default {
           this.$message.info('已取消');
         }
       });
+    },
+    exportData() {
+      sp.get(`api/SysEntity/Export?entityid=${this.Id}`);
     },
     handleClose() {
       this.editVisible = false;
