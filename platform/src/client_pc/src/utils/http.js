@@ -12,7 +12,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   // 处理excel文件
   if (response.headers && (response.headers['content-type'] === 'application/octet-stream')) {
-    downloadUrl(response.config.url)
+    downloadUrl(window.location.origin + response.config.url)
     return Promise.resolve(true);
   }
   return Promise.resolve(response)
