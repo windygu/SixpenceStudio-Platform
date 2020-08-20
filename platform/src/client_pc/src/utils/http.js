@@ -9,7 +9,14 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
-axios.interceptors.response.use(response => Promise.resolve(response), error => {
+axios.interceptors.response.use(response => {
+  // 处理excel文件
+  if (response.headers && (response.headers['content-type'] === 'application/octet-stream')) {
+    downloadUrl(response.config.url)
+    return Promise.resolve(true);
+  }
+  return Promise.resolve(response)
+}, error => {
   if (error && error.response && error.response.status) {
     switch (error.response.status) {
       case 401:
@@ -30,6 +37,17 @@ if (sp.isNullOrEmpty(baseUrl)) {
   localStorage.setItem('baseUrl', window.location.origin);
 } else {
   axios.defaults.baseURL = baseUrl;
+}
+
+// download url
+const downloadUrl = url => {
+  let iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.src = url
+  iframe.onload = function () {
+    document.body.removeChild(iframe)
+  }
+  document.body.appendChild(iframe)
 }
 
 function _handleSuccess(res) {
