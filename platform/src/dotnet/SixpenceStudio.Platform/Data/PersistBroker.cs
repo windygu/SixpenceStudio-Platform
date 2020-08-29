@@ -14,7 +14,7 @@ namespace SixpenceStudio.Platform.Data
     {
         public PersistBroker()
         {
-            string connectionString = ConfigurationManager.AppSettings["DbConnectrionString"];
+            string connectionString = new DbConnectionConfig().GetValue();
             DecryptAndEncryptHelper helper = new DecryptAndEncryptHelper(ConfigInformation.Key, ConfigInformation.Vector);
             var decryptionString = helper.Decrypto(connectionString);
             _dbClient = new DbClient();
