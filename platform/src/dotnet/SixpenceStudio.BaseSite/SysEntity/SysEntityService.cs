@@ -149,7 +149,8 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
             var attributes = "";
             foreach (var item in attrs)
             {
-                if (item.code != entity.code + "id")
+                // 实体id和实体name不需要产生
+                if (item.code != entity.code + "id" && item.code != "name")
                 {
                     var attribute = $@"
         /// <summary>
