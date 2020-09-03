@@ -153,7 +153,11 @@
   <ItemGroup>
     <Compile Include="Command\EntityCommand.cs" />
     <Compile Include="Command\EntityCommandExtension.cs" />
+    <Compile Include="Configs\BaseAppSettingsConfig.cs" />
+    <Compile Include="Configs\ConfigFactory.cs" />
     <Compile Include="Configs\ConfigInformation.cs" />
+    <Compile Include="Configs\ConfigSectionNameAttribute.cs" />
+    <Compile Include="Data\DbConnectionConfig.cs" />
     <Compile Include="Data\DialectSql.cs" />
     <Compile Include="Data\IDbClient.cs" />
     <Compile Include="Data\IPersistBroker.cs" />
