@@ -32,12 +32,12 @@ namespace SixpenceStudio.BaseSite.SysEntity.SysAttrs
         {
             var columns = new List<Column>()
             {
-                { new Column() { Code = "createdby", Name = "创建人", Type = "varchar", Length = 40, IsNotNull = true } },
-                { new Column() { Code = "createdbyname", Name = "创建人", Type = "varchar", Length = 100, IsNotNull = true } },
-                { new Column() { Code = "createdon", Name = "创建日期", Type = "timestamp", IsNotNull = true } },
-                { new Column() { Code = "modifiedby", Name = "修改人", Type = "varchar", Length = 40, IsNotNull = true } },
-                { new Column() { Code = "modifiedbyname", Name = "修改人", Type = "varchar", Length = 100, IsNotNull = true } },
-                { new Column() { Code = "modifiedon", Name = "修改日期", Type = "timestamp", IsNotNull = true } }
+                { new Column() { Code = "createdBy", Name = "创建人", Type = "varchar", Length = 40, IsNotNull = true } },
+                { new Column() { Code = "createdByName", Name = "创建人", Type = "varchar", Length = 100, IsNotNull = true } },
+                { new Column() { Code = "createdOn", Name = "创建日期", Type = "timestamp", IsNotNull = true } },
+                { new Column() { Code = "modifiedBy", Name = "修改人", Type = "varchar", Length = 40, IsNotNull = true } },
+                { new Column() { Code = "modifiedByName", Name = "修改人", Type = "varchar", Length = 100, IsNotNull = true } },
+                { new Column() { Code = "modifiedOn", Name = "修改日期", Type = "timestamp", IsNotNull = true } }
             };
             _cmd.broker.ExecuteTransaction(() =>
             {

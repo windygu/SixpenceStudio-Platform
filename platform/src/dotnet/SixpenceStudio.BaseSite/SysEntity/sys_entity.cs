@@ -60,7 +60,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._createdby = value;
-                SetAttributeValue("CreatedBy", value);
+                SetAttributeValue("createdBy", value);
             }
         }
 
@@ -78,7 +78,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._createdbyname = value;
-                SetAttributeValue("CreatedByName", value);
+                SetAttributeValue("createdByName", value);
             }
         }
 
@@ -96,7 +96,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._createdon = value;
-                SetAttributeValue("CreatedOn", value);
+                SetAttributeValue("createdOn", value);
             }
         }
 
@@ -114,7 +114,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._modifiedby = value;
-                SetAttributeValue("ModifiedBy", value);
+                SetAttributeValue("modifiedBy", value);
             }
         }
 
@@ -132,7 +132,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._modifiedbyname = value;
-                SetAttributeValue("ModifiedByName", value);
+                SetAttributeValue("modifiedByName", value);
             }
         }
 
@@ -150,7 +150,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
             set
             {
                 this._modifiedon = value;
-                SetAttributeValue("ModifiedOn", value);
+                SetAttributeValue("modifiedOn", value);
             }
         }
     }

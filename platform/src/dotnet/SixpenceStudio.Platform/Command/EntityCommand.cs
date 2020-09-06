@@ -176,18 +176,18 @@ namespace SixpenceStudio.Platform.Command
             }
 
             var user = this.GetCurrentUser();
-            if ((!t.Attributes.ContainsKey("CreatedBy") || t.GetAttributeValue("CreatedBy") == null) && t.GetType().GetProperty("createdBy") != null)
+            if ((!t.Attributes.ContainsKey("createdBy") || t.GetAttributeValue("createdBy") == null) && t.GetType().GetProperty("createdBy") != null)
             {
-                t.SetAttributeValue("CreatedBy", user.userId);
-                t.SetAttributeValue("CreatedByName", user.name);
+                t.SetAttributeValue("createdBy", user.userId);
+                t.SetAttributeValue("createdByName", user.name);
             }
-            if ((!t.Attributes.ContainsKey("CreatedOn") || t.GetAttributeValue("CreatedOn") == null) && t.GetType().GetProperty("createdOn") != null)
+            if ((!t.Attributes.ContainsKey("createdOn") || t.GetAttributeValue("createdOn") == null) && t.GetType().GetProperty("createdOn") != null)
             {
-                t.SetAttributeValue("CreatedOn", DateTime.Now);
+                t.SetAttributeValue("createdOn", DateTime.Now);
             }
-            t.SetAttributeValue("ModifiedBy", user.userId);
-            t.SetAttributeValue("ModifiedByName", user.name);
-            t.SetAttributeValue("ModifiedOn", DateTime.Now);
+            t.SetAttributeValue("modifiedBy", user.userId);
+            t.SetAttributeValue("modifiedByName", user.name);
+            t.SetAttributeValue("modifiedOn", DateTime.Now);
             var id = "";
             broker.ExecuteTransaction(() =>
             {
@@ -211,9 +211,9 @@ namespace SixpenceStudio.Platform.Command
                 return;
             }
             var user = this.GetCurrentUser();
-            t.SetAttributeValue("ModifiedBy", user.userId);
-            t.SetAttributeValue("ModifiedByName", user.name);
-            t.SetAttributeValue("ModifiedOn", DateTime.Now);
+            t.SetAttributeValue("modifiedBy", user.userId);
+            t.SetAttributeValue("modifiedByName", user.name);
+            t.SetAttributeValue("modifiedOn", DateTime.Now);
             broker.ExecuteTransaction(() =>
             {
                 AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreUpdate } }, t.EntityName);
