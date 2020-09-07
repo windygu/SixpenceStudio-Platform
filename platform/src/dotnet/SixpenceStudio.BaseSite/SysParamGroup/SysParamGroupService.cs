@@ -56,5 +56,17 @@ WHERE sys_paramgroup.code = @code
 ";
             return _cmd.broker.DbClient.Query<SelectModel>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
         }
+
+        public override void DeleteData(List<string> ids)
+        {
+            _cmd.broker.ExecuteTransaction(() =>
+            {
+                var sql = @"
+DELETE FROM sys_param WHERE sys_paramgroupid IN (in@ids)
+";
+                _cmd.broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", ids } });
+                base.DeleteData(ids);
+            });
+        }
     }
 }
