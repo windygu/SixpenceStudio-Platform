@@ -50,7 +50,6 @@ export default {
     line-height: 25px;
     justify-content: space-between;
     border-bottom: 1px solid #dcdfe6;
-    margin-bottom: 30px;
     title {
       font-size: 18px;
     }
