@@ -1,6 +1,6 @@
 {
   "name": "sixpence.platform.pc.vue",
-  "version": "1.0.85",
+  "version": "1.0.87",
   "description": "A Vue.js components store",
   "author": "carldu",
   "private": false,
@@ -11,7 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "crypto-js": "^4.0.0",
+    "jsencrypt": "^3.0.0-rc.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "uuidjs": "^4.2.5"
