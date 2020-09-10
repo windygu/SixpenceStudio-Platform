@@ -13,6 +13,15 @@ namespace SixpenceStudio.BaseSite.DataService
     public class DataService
     {
         /// <summary>
+        /// 获取公钥
+        /// </summary>
+        /// <returns></returns>
+        public string GetPublicKey()
+        {
+            return RSAUtils.GetKey();
+        }
+
+        /// <summary>
         /// 上传图片
         /// </summary>
         /// <param name="image"></param>

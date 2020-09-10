@@ -13,6 +13,16 @@ namespace SixpenceStudio.BaseSite.DataService
     public class DataServiceController : ApiController
     {
         /// <summary>
+        /// 获取公钥
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetPublicKey()
+        {
+            return new DataService().GetPublicKey();
+        }
+
+        /// <summary>
         /// 上传图片
         /// </summary>
         /// <param name="fileType">文件类型</param>
