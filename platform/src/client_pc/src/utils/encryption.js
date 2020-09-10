@@ -1,6 +1,22 @@
-export function encryptPwd(str) {
-  const JSEncrypt = require('jsencrypt');
-  let jse = new JSEncrypt();
-  jse.setPublicKey('C0536798-3187-47F3-BF34-95596C9338BA');
-  return jse.encrypt(str);
+import { JSEncrypt } from 'jsencrypt'
+
+/*
+* 非对称加密
+* @method encryptPwd
+*/
+export function encrypt(str, key) {
+  const jsencrypt = new JSEncrypt();
+  jsencrypt.setPublicKey(key);
+  return jsencrypt.encrypt(str);
+};
+
+/*
+* 非对称解密
+* @method decrypt
+*/
+export function decrypt(msg, privateKey) {
+  let decrypt = new JSEncrypt()
+  decrypt.setPrivateKey(privateKey)
+  var decryptMsg = decrypt.decrypt(msg)
+  return decryptMsg
 };
