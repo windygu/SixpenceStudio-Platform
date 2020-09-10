@@ -28,14 +28,36 @@ namespace SixpenceStudio.BaseSite.AuthUser
         }
         #endregion
 
-        public auth_user GetData(string  code, string pwd)
+        /// <summary>
+        /// 获取用户登录信息
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="pwd">MD5密码</param>
+        /// <returns></returns>
+        public auth_user GetData(string code, string pwd)
         {
             var sql = @"
 SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
-            var decryptionPwd1 = new DecryptAndEncryptHelper(Key, Vector).Decrypto2(pwd);
-            var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成SHA256散列值
-            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd2 } };
+            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", pwd } };
+            var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
+            return authUser;
+        }
+
+        /// <summary>
+        /// 获取用户登录信息
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="pwd"></param>
+        /// <param name="publicKey">公钥</param>
+        /// <returns></returns>
+        public auth_user GetData(string code, string pwd, string publicKey)
+        {
+            var sql = @"
+SELECT * FROM auth_user WHERE code = @code AND password = @password;
+";
+            var encryptionPwd = RSAUtils.Encryption2(pwd, publicKey);
+            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
             var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
             return authUser;
         }
@@ -46,9 +68,9 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
         /// <param name="code"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        public LoginResponse Login(string code, string pwd)
+        public LoginResponse Login(string code, string pwd, string publicKey)
         {
-            var authUser = GetData(code, pwd);
+            var authUser = GetData(code, pwd, publicKey);
             if (authUser == null)
             {
                 return new LoginResponse() { result = false };

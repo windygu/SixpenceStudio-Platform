@@ -15,7 +15,8 @@ namespace SixpenceStudio.BaseSite.AuthUser
         {
             string code = request.code;
             string pwd = request.password;
-            return new AuthUserService().Login(code, pwd);
+            string publicKey = request.publicKey;
+            return new AuthUserService().Login(code, pwd, publicKey);
         }
 
         [HttpPost]
