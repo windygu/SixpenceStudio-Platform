@@ -69,7 +69,7 @@ export default {
             const url = 'api/AuthUser/login';
             const data = {
               code: this.data.code,
-              password: sp.encrypt(this.data.password, key),
+              password: sp.encrypt(sp.md5Encrypt(this.data.password), key),
               publicKey: key
             };
             var that = this;
