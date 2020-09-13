@@ -74,7 +74,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             }
             // 定义票据信息
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(0, code, DateTime.Now,
-                            DateTime.Now.AddHours(12), true, string.Format("{0}&{1}", code, pwd),
+                            DateTime.Now.AddHours(12), true, string.Format("{0}&{1}", code, authUser.password),
                             FormsAuthentication.FormsCookiePath);
 
             #region 保存用户登录 Cookie
