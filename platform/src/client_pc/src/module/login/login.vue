@@ -60,15 +60,17 @@ export default {
         })
         .catch(() => this.$message.error('背景加载失败'));
     },
-    async signIn() {
+    signIn() {
       this.loading = true;
       try {
-        this.$refs.form.validate(valid => {
+        this.$refs.form.validate(async valid => {
           if (valid) {
+            const key = await sp.get('api/DataService/GetPublicKey');
             const url = 'api/AuthUser/login';
             const data = {
               code: this.data.code,
-              password: sp.encryptPwd(this.data.password)
+              password: sp.encrypt(this.data.password, key),
+              publicKey: key
             };
             var that = this;
             sp.post(url, data).then(resp => {

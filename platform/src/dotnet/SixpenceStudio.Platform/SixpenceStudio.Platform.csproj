@@ -186,6 +186,7 @@
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\HttpUtils.cs" />
     <Compile Include="Utils\ImageHelp.cs" />
+    <Compile Include="Utils\RSAUtils.cs" />
     <Compile Include="Utils\SHAUtils.cs" />
     <Compile Include="Utils\StreamUtils.cs" />
     <Compile Include="Utils\StringExtensions.cs" />

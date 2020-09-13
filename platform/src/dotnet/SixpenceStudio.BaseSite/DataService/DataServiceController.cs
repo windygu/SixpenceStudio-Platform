@@ -16,7 +16,7 @@ namespace SixpenceStudio.BaseSite.DataService
         /// 获取公钥
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public string GetPublicKey()
         {
             return new DataService().GetPublicKey();

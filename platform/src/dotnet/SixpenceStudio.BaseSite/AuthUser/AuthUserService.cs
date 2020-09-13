@@ -13,9 +13,6 @@ namespace SixpenceStudio.BaseSite.AuthUser
 {
     public class AuthUserService : EntityService<auth_user>
     {
-        private readonly string Key = "C0536798-3187-47F3-BF34-95596C9338BA";
-        private readonly string Vector = "33998425-3944-4DDE-B3C4-8CAA1681A1B4";
-
         #region 构造函数
         public AuthUserService()
         {
@@ -56,7 +53,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             var sql = @"
 SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
-            var encryptionPwd = RSAUtils.Encryption2(pwd, publicKey);
+            var encryptionPwd = RSAUtils.Decrypt(pwd, publicKey);
             var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
             var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
             return authUser;
@@ -104,10 +101,8 @@ UPDATE auth_user
 SET password = @password
 WHERE user_infoid = @id;
 ";
-            var decryptionPwd1 = new DecryptAndEncryptHelper(Key, Vector).Decrypto2(password); // 对称解密
-            var encryptionPwd2 = SHAUtils.SHA256Encrypt(decryptionPwd1); // 加密成散列值
             var user = _cmd.GetCurrentUser();
-            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", encryptionPwd2 } };
+            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", password } };
             _cmd.broker.Execute(sql, paramList);
         }
 
