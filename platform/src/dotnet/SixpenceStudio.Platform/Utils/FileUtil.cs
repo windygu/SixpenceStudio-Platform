@@ -11,7 +11,8 @@ namespace SixpenceStudio.Platform.Utils
 {
     public static class FileUtil
     {
-        public const string FILE_FOLDER = "temp";
+        public const string FILE_FOLDER = "storage";
+        public const string TEMP_FOLDER = "temp";
 
         /// <summary>
         /// 获取文件类型
