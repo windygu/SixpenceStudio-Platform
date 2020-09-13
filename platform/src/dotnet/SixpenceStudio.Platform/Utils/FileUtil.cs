@@ -52,6 +52,9 @@ namespace SixpenceStudio.Platform.Utils
                 case FolderType.temp:
                     folderPath += "\\temp";
                     break;
+                case FolderType.storage:
+                    folderPath += "\\storage";
+                    break;
                 default:
                     break;
             }
@@ -148,6 +151,8 @@ namespace SixpenceStudio.Platform.Utils
         [Description("日志归档目录")]
         logArchive,
         [Description("临时目录")]
-        temp
+        temp,
+        [Description("文件存储目录")]
+        storage
     }
 }
