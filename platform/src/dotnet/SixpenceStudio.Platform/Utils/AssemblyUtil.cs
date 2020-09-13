@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SixpenceStudio.Platform.Utils
 {
-    public class AssemblyUtils
+    public class AssemblyUtil
     {
         private const string SIXPENCE_LIBS = "SixpenceStudio*.dll";
 
@@ -16,7 +16,7 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static IList<Assembly> GetAssemblies(string name)
         {
-            var fileList = FileUtils.GetFileList(name);
+            var fileList = FileUtil.GetFileList(name);
 
             var assemblyList = new List<Assembly>();
             fileList.ToList().ForEach(item =>

@@ -191,9 +191,9 @@ namespace SixpenceStudio.Platform.Command
             var id = "";
             broker.ExecuteTransaction(() =>
             {
-                AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreCreate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreCreate } }, t.EntityName);
                 id = broker.Create(t);
-                AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostCreate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostCreate } }, t.EntityName);
             });
             return id;
         }
@@ -216,9 +216,9 @@ namespace SixpenceStudio.Platform.Command
             t["modifiedOn"] = DateTime.Now;
             broker.ExecuteTransaction(() =>
             {
-                AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreUpdate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreUpdate } }, t.EntityName);
                 broker.Update(t);
-                AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostUpdate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostUpdate } }, t.EntityName);
             });
         }
 
@@ -257,9 +257,9 @@ namespace SixpenceStudio.Platform.Command
                 ids.ForEach(id =>
                 {
                     var data = broker.Retrieve<T>(id);
-                    AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
+                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
                     broker.Delete(new T().EntityName, id);
-                    AssemblyUtils.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
+                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
                 });
             });
         }

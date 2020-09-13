@@ -53,7 +53,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             var sql = @"
 SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
-            var encryptionPwd = RSAUtils.Decrypt(pwd, publicKey);
+            var encryptionPwd = RSAUtil.Decrypt(pwd, publicKey);
             var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
             var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
             return authUser;

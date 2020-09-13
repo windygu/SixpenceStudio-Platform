@@ -83,7 +83,7 @@ namespace SixpenceStudio.Platform.Job
         /// </summary>
         public static void Register()
         {
-            var types = Utils.AssemblyUtils.GetTypes<IJob>("SixpenceStudio*.dll");
+            var types = Utils.AssemblyUtil.GetTypes<IJob>("SixpenceStudio*.dll");
             foreach (var item in types)
             {
                 if (!item.IsAbstract)
@@ -102,7 +102,7 @@ namespace SixpenceStudio.Platform.Job
         /// <returns></returns>
         public static string GetJobNextTime(string jobName)
         {
-            var types = Utils.AssemblyUtils.GetTypes<IJob>();
+            var types = Utils.AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)
@@ -112,7 +112,7 @@ namespace SixpenceStudio.Platform.Job
                     var _jobCron = item.GetProperty("CronExperssion").GetValue(obj)?.ToString();
                     if (string.Equals(jobName, _jobName))
                     {
-                        return CronUtils.GetNextDateTime(_jobCron, DateTime.Now);
+                        return CronUtil.GetNextDateTime(_jobCron, DateTime.Now);
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace SixpenceStudio.Platform.Job
         /// <param name="name"></param>
         public async static void StartJob(string jobName)
         {
-            var types = AssemblyUtils.GetTypes<IJob>();
+            var types = AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)

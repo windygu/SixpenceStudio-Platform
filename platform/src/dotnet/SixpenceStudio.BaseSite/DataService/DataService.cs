@@ -18,7 +18,7 @@ namespace SixpenceStudio.BaseSite.DataService
         /// <returns></returns>
         public string GetPublicKey()
         {
-            return RSAUtils.GetKey();
+            return RSAUtil.GetKey();
         }
 
         /// <summary>
@@ -29,14 +29,14 @@ namespace SixpenceStudio.BaseSite.DataService
         public ImageInfo UploadImage(HttpPostedFile image, string fileType, string objectId)
         {
             // 获取文件哈希码，将哈希码作为文件名
-            var hash_code = SHAUtils.GetFileSHA1(image.InputStream);
+            var hash_code = SHAUtil.GetFileSHA1(image.InputStream);
             var id = Guid.NewGuid().ToString();
             var fileName = $"{hash_code}.{image.FileName.GetFileType()}";
-            var filePath = FileUtils.GetLocalStorage() + "\\" + fileName;
+            var filePath = FileUtil.GetLocalStorage() + "\\" + fileName;
 
             // 保存图片到本地
             // TODO：执行失败回滚操作
-            FileUtils.SaveFile(image, filePath);
+            FileUtil.SaveFile(image, filePath);
 
             var sysImage = new sys_file()
             {
@@ -57,7 +57,7 @@ namespace SixpenceStudio.BaseSite.DataService
             {
                 id = sysImage.sys_fileId,
                 name = sysImage.name,
-                path = $"{FileUtils.FILE_FOLDER}/{sysImage.name}"
+                path = $"{FileUtil.FILE_FOLDER}/{sysImage.name}"
             };
         }
 
@@ -67,7 +67,7 @@ namespace SixpenceStudio.BaseSite.DataService
         /// <returns></returns>
         public string GetRandomImage()
         {
-            var result = HttpUtils.Get("https://api.ixiaowai.cn/api/api.php?return=json");
+            var result = HttpUtil.Get("https://api.ixiaowai.cn/api/api.php?return=json");
             return result;
         }
 

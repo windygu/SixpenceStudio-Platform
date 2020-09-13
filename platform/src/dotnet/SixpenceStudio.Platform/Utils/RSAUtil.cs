@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Utils
 {
-    public static class RSAUtils
+    public static class RSAUtil
     {
         public static Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 

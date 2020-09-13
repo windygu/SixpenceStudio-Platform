@@ -2,7 +2,7 @@
 
 namespace SixpenceStudio.Platform.Utils
 {
-    public static class StreamUtils
+    public static class StreamUtil
     {
         /// <summary>
         /// 流转文件

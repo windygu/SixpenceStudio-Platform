@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Utils
 {
-    public static class CronUtils
+    public static class CronUtil
     {
         #region 初始化Cron对象
         private static void Seconds(Cron c, string str)

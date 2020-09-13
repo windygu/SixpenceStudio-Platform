@@ -9,7 +9,7 @@ using System.Web;
 
 namespace SixpenceStudio.Platform.Utils
 {
-    public static class FileUtils
+    public static class FileUtil
     {
         public const string FILE_FOLDER = "temp";
 

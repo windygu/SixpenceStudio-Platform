@@ -56,9 +56,9 @@ WHERE
         {
             try
             {
-                var fileList = FileUtils.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
-                var targetPath = FileUtils.GetSystemPath(FolderType.logArchive);
-                FileUtils.MoveFiles(fileList, targetPath);
+                var fileList = FileUtil.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
+                var targetPath = FileUtil.GetSystemPath(FolderType.logArchive);
+                FileUtil.MoveFiles(fileList, targetPath);
                 DeleteLog();
             }
             catch (Exception e)
@@ -73,7 +73,7 @@ WHERE
         private void DeleteLog()
         {
             var days = new BackupLogConfig().GetValue();
-            var files = FileUtils.GetFileList("*.log", FolderType.logArchive);
+            var files = FileUtil.GetFileList("*.log", FolderType.logArchive);
             var logNameList = new List<string>();
 
             // 需要保留的log
@@ -89,7 +89,7 @@ WHERE
                 var file = files[i];
                 if (!logNameList.Contains(Path.GetFileName(file)))
                 {
-                    FileUtils.DeleteFile(file);
+                    FileUtil.DeleteFile(file);
                 }
             }
         }
