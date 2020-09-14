@@ -15,7 +15,7 @@ namespace SixpenceStudio.Platform.Configs
     {
         public abstract string Key { get; }
 
-        public string GetValue()
+        public virtual string GetValue()
         {
             return ConfigurationManager.AppSettings[Key]?.ToString()?.Trim();
         }

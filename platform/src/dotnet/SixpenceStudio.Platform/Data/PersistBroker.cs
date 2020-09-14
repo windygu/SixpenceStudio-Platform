@@ -12,13 +12,14 @@ namespace SixpenceStudio.Platform.Data
 {
     public class PersistBroker : IPersistBroker
     {
-        public PersistBroker()
+        /// <summary>
+        /// Generate Broker
+        /// </summary>
+        /// <param name="readonly">只读</param>
+        public PersistBroker(bool @readonly = false)
         {
-            string connectionString = new DbConnectionConfig().GetValue();
-            DecryptAndEncryptHelper helper = new DecryptAndEncryptHelper(ConfigInformation.Key, ConfigInformation.Vector);
-            var decryptionString = helper.Decrypto(connectionString);
             _dbClient = new DbClient();
-            _dbClient.Initialize(decryptionString);
+            _dbClient.Initialize(@readonly ? new StandByDbConnectionConfig().GetValue() : new DbConnectionConfig().GetValue());
         }
 
         /// <summary>

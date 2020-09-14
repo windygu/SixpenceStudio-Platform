@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Platform.Configs;
+using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,5 +13,19 @@ namespace SixpenceStudio.Platform.Data
     public class DbConnectionConfig : BaseAppSettingsConfig
     {
         public override string Key => "DbConnectrionString";
+
+        public override string GetValue()
+        {
+            return DecryptAndEncryptHelper.AESDecrypt(base.GetValue());
+        }
+    }
+
+    public class StandByDbConnectionConfig : BaseAppSettingsConfig
+    {
+        public override string Key => "StandByDbConnection";
+        public override string GetValue()
+        {
+            return DecryptAndEncryptHelper.AESDecrypt(base.GetValue());
+        }
     }
 }
