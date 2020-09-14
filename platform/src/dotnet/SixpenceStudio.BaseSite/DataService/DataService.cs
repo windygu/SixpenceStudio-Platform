@@ -33,7 +33,7 @@ namespace SixpenceStudio.BaseSite.DataService
             var hash_code = SHAUtil.GetFileSHA1(image.InputStream);
             var id = Guid.NewGuid().ToString();
             var fileName = $"{hash_code}.{image.FileName.GetFileType()}";
-            var filePath = Path.Combine(FileUtil.FILE_FOLDER, fileName);
+            var filePath = Path.Combine(FileUtil.GetLocalStorage(), fileName);
 
             // 保存图片到本地
             // TODO：执行失败回滚操作
