@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// AES加密帮助类（对称加密）
+    /// </summary>
     public static class DecryptAndEncryptHelper
     {
         public const string AESKEY = "p@ssw0rd";

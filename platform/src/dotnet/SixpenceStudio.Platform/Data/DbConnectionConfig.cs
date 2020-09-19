@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Data
 {
+    /// <summary>
+    /// 主库连接配置
+    /// </summary>
     [Description("默认数据库连接节点")]
     public class DbConnectionConfig : BaseAppSettingsConfig
     {
@@ -20,6 +23,9 @@ namespace SixpenceStudio.Platform.Data
         }
     }
 
+    /// <summary>
+    /// 从库连接配置
+    /// </summary>
     public class StandByDbConnectionConfig : BaseAppSettingsConfig
     {
         public override string Key => "StandByDbConnection";

@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// 反射帮助类（SixpenceStudio*.dll）
+    /// </summary>
     public class AssemblyUtil
     {
         private const string SIXPENCE_LIBS = "SixpenceStudio*.dll";

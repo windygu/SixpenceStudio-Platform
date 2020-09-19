@@ -7,32 +7,27 @@ using log4net;
 
 namespace SixpenceStudio.Platform.Logging
 {
+    /// <summary>
+    /// 日志工厂类
+    /// </summary>
     public class LogFactory
     {
+        /// <summary>
+        /// 获取日志实例
+        /// </summary>
+        /// <param name="logName"></param>
+        /// <returns></returns>
         public static ILog GetLogInstance(string logName = "")
         {
             return LogManager.GetLogger(logName);
         }
     }
 
-    public class LogUtils
+    /// <summary>
+    /// 日志帮助类（常用log）
+    /// </summary>
+    public static class LogUtils
     {
-        public static string FormatDictonary(IDictionary<string, object> paramList)
-        {
-            if (paramList == null)
-            {
-                return "\r\n";
-            }
-            var list = new List<string>();
-            foreach (var item in paramList)
-            {
-                var str = $"{item.Key}: {item.Value}";
-                list.Add(str);
-
-            }
-            return "\r\n" + string.Join("\r\n", list) + "\r\n";
-        }
-
         public static void InfoLog(object msg)
         {
             var log = LogFactory.GetLogInstance("Info");

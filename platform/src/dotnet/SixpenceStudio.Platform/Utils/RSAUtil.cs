@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// RSA帮助类（非对称加密）
+    /// </summary>
     public static class RSAUtil
     {
-        public static Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+        private static Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
         /// <summary>
         /// 获取加密所使用的key，RSA算法是一种非对称密码算法，所谓非对称，就是指该算法需要一对密钥，使用其中一个加密，则需要用另一个才能解密。

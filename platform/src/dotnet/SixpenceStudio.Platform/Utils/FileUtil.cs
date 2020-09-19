@@ -9,6 +9,9 @@ using System.Web;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// 文件帮助类
+    /// </summary>
     public static class FileUtil
     {
         public const string FILE_FOLDER = "storage";
@@ -142,6 +145,9 @@ namespace SixpenceStudio.Platform.Utils
         }
     }
 
+    /// <summary>
+    /// 目录类型
+    /// </summary>
     public enum FolderType
     {
         [Description("dll目录")]

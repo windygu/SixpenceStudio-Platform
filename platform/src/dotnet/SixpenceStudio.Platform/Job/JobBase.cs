@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Job
 {
+    /// <summary>
+    /// Job基类（所有Job继承该基类）
+    /// </summary>
     public abstract class JobBase : IJob
     {
         /// <summary>

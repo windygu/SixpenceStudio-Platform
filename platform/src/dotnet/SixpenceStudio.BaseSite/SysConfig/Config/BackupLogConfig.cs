@@ -5,6 +5,9 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.SysConfig.Config
 {
+    /// <summary>
+    /// 备份参数
+    /// </summary>
     public class BackupLogConfig : BaseConfig
     {
         public override string Name => "备份天数";

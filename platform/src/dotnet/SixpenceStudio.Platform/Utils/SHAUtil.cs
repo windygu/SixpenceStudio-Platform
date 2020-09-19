@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// SHA帮助类
+    /// </summary>
     public class SHAUtil
     {
         public static string SHA256Encrypt(string StrIn)

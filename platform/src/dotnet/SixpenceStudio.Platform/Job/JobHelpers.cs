@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Job
 {
+    /// <summary>
+    /// Job帮助类
+    /// </summary>
     public class JobHelpers
     {
         // 创建scheduler的引用

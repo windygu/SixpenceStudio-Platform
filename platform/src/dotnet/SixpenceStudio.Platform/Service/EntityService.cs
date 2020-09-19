@@ -7,11 +7,21 @@ using System.Linq;
 
 namespace SixpenceStudio.Platform.Service
 {
+    /// <summary>
+    /// 实体服务类
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class EntityService<T>
         where T : BaseEntity, new()
     {
+        /// <summary>
+        /// 实体操作
+        /// </summary>
         protected EntityCommand<T> _cmd;
 
+        /// <summary>
+        /// 持久化
+        /// </summary>
         protected IPersistBroker Broker
         {
             get

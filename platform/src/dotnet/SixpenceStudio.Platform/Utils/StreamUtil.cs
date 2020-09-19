@@ -2,6 +2,9 @@
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// 流帮助类
+    /// </summary>
     public static class StreamUtil
     {
         /// <summary>

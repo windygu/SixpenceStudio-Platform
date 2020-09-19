@@ -2,6 +2,7 @@
 using log4net;
 using Npgsql;
 using SixpenceStudio.Platform.Logging;
+using SixpenceStudio.Platform.Utils;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -9,6 +10,9 @@ using System.Linq;
 
 namespace SixpenceStudio.Platform.Data
 {
+    /// <summary>
+    /// 数据库实例
+    /// </summary>
     internal sealed class DbClient : IDbClient
     {
 
@@ -121,6 +125,12 @@ namespace SixpenceStudio.Platform.Data
         #endregion
 
         #region Execute
+        /// <summary>
+        /// 执行SQL语句
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
         public int Execute(string sql, IDictionary<string, object> paramList = null)
         {
             var paramListClone = new Dictionary<string, object>();
@@ -129,9 +139,16 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            LogUtils.DebugLog(sql + paramListClone.ToLogString());
             return _conn.Execute(sql, paramListClone);
         }
+
+        /// <summary>
+        /// 执行SQL语句，并返回第一行第一列
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
         public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
         {
             var paramListClone = new Dictionary<string, object>();
@@ -140,12 +157,19 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            LogUtils.DebugLog(sql + paramListClone.ToLogString());
             return _conn.ExecuteScalar(sql, paramListClone);
         }
         #endregion
 
         #region Query
+        /// <summary>
+        /// 执行SQL语句，并返回查询结果集
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
             var paramListClone = new Dictionary<string, object>();
@@ -154,13 +178,19 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            LogUtils.DebugLog(sql + paramListClone.ToLogString());
             var ret = _conn.Query<T>(sql, paramListClone);
             return ret;
         }
         #endregion
 
         #region DataTable
+        /// <summary>
+        /// 执行SQL语句，并返回查询结果集
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
         public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
             var paramListClone = new Dictionary<string, object>();
@@ -169,7 +199,7 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.DebugLog(sql + LogUtils.FormatDictonary(paramListClone));
+            LogUtils.DebugLog(sql + paramListClone.ToLogString());
             DataTable dt = new DataTable();
             var reader = _conn.ExecuteReader(sql, paramListClone);
             dt.Load(reader);
@@ -177,6 +207,12 @@ namespace SixpenceStudio.Platform.Data
         }
         #endregion
 
+        /// <summary>
+        /// 将SQL转换为本地化SQL
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramsList"></param>
+        /// <returns></returns>
         public string ConvertSqlToDialectSql(string sql, IDictionary<string, object> paramsList)
         {
             if (paramsList == null || paramsList.Count == 0)

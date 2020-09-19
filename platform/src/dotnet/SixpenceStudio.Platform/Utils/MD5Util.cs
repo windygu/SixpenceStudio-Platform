@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Utils
 {
+    /// <summary>
+    /// MD5帮助类（单向加密）
+    /// </summary>
     public static class MD5Util
     {
         /// <summary>
