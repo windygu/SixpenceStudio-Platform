@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.BaseSite", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Platform", "SixpenceStudio.Platform\SixpenceStudio.Platform.csproj", "{D450A5BE-E240-41F7-A948-17EEF0D16445}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SixpenceStudio.Tool", "SixpenceStudio.Tool", "{0D13F201-E039-4218-A7B5-C09ECF410C5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Encryption", "SixpenceStudio.Encryption\SixpenceStudio.Encryption.csproj", "{63B62369-8909-46DA-822D-E96FD2478808}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B62369-8909-46DA-822D-E96FD2478808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B62369-8909-46DA-822D-E96FD2478808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B62369-8909-46DA-822D-E96FD2478808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B62369-8909-46DA-822D-E96FD2478808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{63B62369-8909-46DA-822D-E96FD2478808} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59B4B777-66D7-403A-93FA-8406A336E4B5}
