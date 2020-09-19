@@ -6,14 +6,14 @@ using System.Web;
 namespace SixpenceStudio.BaseSite.SysConfig.Config
 {
     /// <summary>
-    /// 备份参数
+    /// 备份设置
     /// </summary>
-    public class BackupLogConfig : BaseConfig
+    public class BackupLogConfig : ISysConfig
     {
-        public override string Name => "备份天数";
+        public string Name => "备份天数";
 
-        public override object DefaultValue { get => 30; }
+        public object DefaultValue { get => 30; }
 
-        public override string Code => "log_backup_days";
+        public string Code => "log_backup_days";
     }
 }

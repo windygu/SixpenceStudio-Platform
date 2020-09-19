@@ -72,7 +72,7 @@ WHERE
         /// </summary>
         private void DeleteLog()
         {
-            var days = new BackupLogConfig().GetValue();
+            var days = SysConfigFactory.GetValue<BackupLogConfig>();
             var files = FileUtil.GetFileList("*.log", FolderType.logArchive);
             var logNameList = new List<string>();
 
