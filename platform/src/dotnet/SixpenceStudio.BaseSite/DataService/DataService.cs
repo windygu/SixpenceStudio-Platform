@@ -8,7 +8,6 @@ using System.Web;
 using SixpenceStudio.Platform.Utils;
 using SixpenceStudio.BaseSite.AuthUser;
 using System.IO;
-using SixpenceStudio.BaseSite.Storage;
 using SixpenceStudio.BaseSite.SysFile.Minio;
 
 namespace SixpenceStudio.BaseSite.DataService

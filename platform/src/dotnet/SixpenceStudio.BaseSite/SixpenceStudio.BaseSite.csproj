@@ -121,8 +121,6 @@
     <Compile Include="AuthUser\AuthUserService.cs" />
     <Compile Include="AuthUser\auth_user.cs" />
     <Compile Include="AuthUser\LoginResponse.cs" />
-    <Compile Include="Storage\MinIOSection.cs" />
-    <Compile Include="Storage\MinIOService.cs" />
     <Compile Include="SysConfig\Config\BackupLogConfig.cs" />
     <Compile Include="SysConfig\ISysConfig.cs" />
     <Compile Include="DataService\DataService.cs" />
@@ -145,8 +143,9 @@
     <Compile Include="SysEntity\SysEntityController.cs" />
     <Compile Include="SysEntity\SysEntityService.cs" />
     <Compile Include="SysEntity\sys_entity.cs" />
-    <Compile Include="SysFile\Minio\FileUploader.cs" />
     <Compile Include="SysFile\Minio\MinIOSection.cs" />
+    <Compile Include="SysFile\Minio\MinIOService.cs" />
+    <Compile Include="SysFile\Minio\MinIOTask.cs" />
     <Compile Include="SysFile\SysFileController.cs" />
     <Compile Include="SysFile\SysFileService.cs" />
     <Compile Include="SysFile\sys_file.cs" />
