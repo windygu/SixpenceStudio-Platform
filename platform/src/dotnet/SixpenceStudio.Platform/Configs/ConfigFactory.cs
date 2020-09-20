@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Configs
 {
+    /// <summary>
+    /// 配置工厂类（Web.config）
+    /// </summary>
     public static class ConfigFactory
     {
         public const string ConfigFileName = "Web.config";
@@ -22,14 +25,28 @@ namespace SixpenceStudio.Platform.Configs
             }
         }
 
-        public static T GetConfig<T>(string name = "") where T : ConfigurationSection
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T GetConfig<T>(string name = "") where T : ConfigurationSection, new()
         {
             var configMap = new ExeConfigurationFileMap()
             {
                 ExeConfigFilename = ConfigFileFullName
             };
             var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-
+            if (string.IsNullOrEmpty(name))
+            {
+                var type = typeof(T);
+                if (type.IsDefined(typeof(ConfigSectionNameAttribute), true))
+                {
+                    var nameAttribute = (ConfigSectionNameAttribute)type.GetCustomAttributes(typeof(ConfigSectionNameAttribute), true)[0];
+                    name = nameAttribute.Name;
+                }
+            }
             return (T)config.GetSection(name);
         }
     }

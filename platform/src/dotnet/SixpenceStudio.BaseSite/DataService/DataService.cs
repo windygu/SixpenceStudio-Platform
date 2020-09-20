@@ -8,6 +8,7 @@ using System.Web;
 using SixpenceStudio.Platform.Utils;
 using SixpenceStudio.BaseSite.AuthUser;
 using System.IO;
+using SixpenceStudio.BaseSite.Storage;
 
 namespace SixpenceStudio.BaseSite.DataService
 {
@@ -38,6 +39,7 @@ namespace SixpenceStudio.BaseSite.DataService
             // 保存图片到本地
             // TODO：执行失败回滚操作
             FileUtil.SaveFile(image, filePath);
+            MinIOService.UploadFile(filePath, fileName);
 
             var sysImage = new sys_file()
             {
