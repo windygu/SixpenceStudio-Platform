@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.SysConfig.Config
+namespace SixpenceStudio.BaseSite.SysConfig
 {
     /// <summary>
     /// 系统参数工厂类

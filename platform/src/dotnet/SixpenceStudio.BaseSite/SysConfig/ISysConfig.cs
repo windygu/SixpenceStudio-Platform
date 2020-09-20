@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.SysConfig.Config
+namespace SixpenceStudio.BaseSite.SysConfig
 {
     /// <summary>
     /// 系统配置

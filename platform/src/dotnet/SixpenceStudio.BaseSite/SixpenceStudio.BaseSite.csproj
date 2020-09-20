@@ -124,7 +124,7 @@
     <Compile Include="Storage\MinIOSection.cs" />
     <Compile Include="Storage\MinIOService.cs" />
     <Compile Include="SysConfig\Config\BackupLogConfig.cs" />
-    <Compile Include="SysConfig\Config\ISysConfig.cs" />
+    <Compile Include="SysConfig\ISysConfig.cs" />
     <Compile Include="DataService\DataService.cs" />
     <Compile Include="DataService\DataServiceController.cs" />
     <Compile Include="DataService\Models\file.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="Job\JobController.cs" />
     <Compile Include="Job\JobService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SysConfig\Config\SysConfigFactory.cs" />
+    <Compile Include="SysConfig\SysConfigFactory.cs" />
     <Compile Include="SysConfig\SysConfigController.cs" />
     <Compile Include="SysConfig\SysConfigService.cs" />
     <Compile Include="SysConfig\sys_config.cs" />

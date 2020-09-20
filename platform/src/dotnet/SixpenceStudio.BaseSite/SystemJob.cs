@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.BaseSite.SysConfig.Config;
+﻿using SixpenceStudio.BaseSite.SysConfig;
+using SixpenceStudio.BaseSite.SysConfig.Config;
 using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Job;
@@ -72,7 +73,7 @@ WHERE
         /// </summary>
         private void DeleteLog()
         {
-            var days = SysConfigFactory.GetValue<BackupLogConfig>();
+            var days = SysConfigFactory.GetValue<BackupLogSysConfig>();
             var files = FileUtil.GetFileList("*.log", FolderType.logArchive);
             var logNameList = new List<string>();
 

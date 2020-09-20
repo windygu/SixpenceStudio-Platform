@@ -8,7 +8,7 @@ namespace SixpenceStudio.BaseSite.SysConfig.Config
     /// <summary>
     /// 备份设置
     /// </summary>
-    public class BackupLogConfig : ISysConfig
+    public class BackupLogSysConfig : ISysConfig
     {
         public string Name => "备份天数";
 
