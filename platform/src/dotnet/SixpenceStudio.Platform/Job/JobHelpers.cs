@@ -86,7 +86,7 @@ namespace SixpenceStudio.Platform.Job
         /// </summary>
         public static void Register()
         {
-            var types = Utils.AssemblyUtil.GetTypes<IJob>("SixpenceStudio*.dll");
+            var types = AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)
