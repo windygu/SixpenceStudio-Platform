@@ -1,10 +1,9 @@
-﻿using System;
+﻿using SixpenceStudio.Platform.Configs;
+using SixpenceStudio.Platform.Store;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace SixpenceStudio.Platform.Utils
@@ -14,8 +13,22 @@ namespace SixpenceStudio.Platform.Utils
     /// </summary>
     public static class FileUtil
     {
-        public const string FILE_FOLDER = "storage";
-        public const string TEMP_FOLDER = "temp";
+        public static string storage = "";
+        public static string temp = "";
+
+        static FileUtil()
+        {
+            var config = ConfigFactory.GetConfig<StoreSection>();
+            if (config != null)
+            {
+                temp = config.temp;
+                storage = config.storage;
+            }
+            else
+            {
+                throw new SpException("文件存储目录未配置");
+            }
+        }
 
         /// <summary>
         /// 获取文件类型
@@ -53,10 +66,10 @@ namespace SixpenceStudio.Platform.Utils
                     folderPath += "\\log\\Archive";
                     break;
                 case FolderType.temp:
-                    folderPath += "\\temp";
+                    folderPath = temp;
                     break;
                 case FolderType.storage:
-                    folderPath += "\\storage";
+                    folderPath = storage;
                     break;
                 default:
                     break;
@@ -90,9 +103,9 @@ namespace SixpenceStudio.Platform.Utils
         public static string GetLocalStorage()
         {
             var strpatj = HttpRuntime.AppDomainAppPath;
-            if (!Directory.Exists(strpatj + FILE_FOLDER))
-                Directory.CreateDirectory(strpatj + FILE_FOLDER);
-            return strpatj + FILE_FOLDER;
+            if (!Directory.Exists(strpatj + storage))
+                Directory.CreateDirectory(strpatj + storage);
+            return strpatj + storage;
         }
 
         /// <summary>

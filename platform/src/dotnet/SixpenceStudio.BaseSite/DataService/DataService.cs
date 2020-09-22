@@ -60,7 +60,7 @@ namespace SixpenceStudio.BaseSite.DataService
             {
                 id = sysImage.sys_fileId,
                 name = sysImage.name,
-                path = $"{FileUtil.FILE_FOLDER}/{sysImage.name}"
+                path = $"{FileUtil.storage}/{sysImage.name}"
             };
         }
 
