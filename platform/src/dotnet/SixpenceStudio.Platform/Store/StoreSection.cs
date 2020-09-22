@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Store
 {
-    [ConfigSectionName("storage")]
+    [ConfigSectionName("store")]
     public class StoreSection : ConfigurationSection
     {
         [ConfigurationProperty("temp", DefaultValue = "C:\\temp")]
