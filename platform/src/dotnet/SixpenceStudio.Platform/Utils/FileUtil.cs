@@ -51,7 +51,7 @@ namespace SixpenceStudio.Platform.Utils
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static string GetSystemPath(FolderType type)
+        public static string GetSystemPath(FolderType type = FolderType.Default)
         {
             var folderPath = HttpRuntime.AppDomainAppPath;
             switch (type)
@@ -163,6 +163,8 @@ namespace SixpenceStudio.Platform.Utils
     /// </summary>
     public enum FolderType
     {
+        [Description("默认目录")]
+        Default,
         [Description("dll目录")]
         bin,
         [Description("日志目录")]

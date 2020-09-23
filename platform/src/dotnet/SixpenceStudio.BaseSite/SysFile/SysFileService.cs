@@ -1,9 +1,13 @@
 ﻿using SixpenceStudio.Platform.Command;
+using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
+using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -57,5 +61,27 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
                 base.DeleteData(ids);
             });
         }
+
+        public FileInfo GetFile(string objectId)
+        {
+            var sql = @"
+SELECT
+	* 
+FROM
+	sys_file 
+WHERE
+	objectid = @objectid
+LIMIT 1
+";
+            var data = _cmd.broker.Retrieve<sys_file>(sql, new Dictionary<string, object>() { { "@objectid", objectId } });
+            var config = ConfigFactory.GetConfig<StoreSection>();
+            if (data != null && config != null)
+            {
+                var fileInfo = new FileInfo(Path.Combine(config.storage, data.file_path.Substring(data.file_path.LastIndexOf("\\") + 1)));
+                return fileInfo;
+            }
+            return null;
+        }
+
     }
 }
