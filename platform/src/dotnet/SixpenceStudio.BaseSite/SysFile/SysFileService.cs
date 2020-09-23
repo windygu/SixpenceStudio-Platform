@@ -64,16 +64,7 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
 
         public FileInfo GetFile(string objectId)
         {
-            var sql = @"
-SELECT
-	* 
-FROM
-	sys_file 
-WHERE
-	objectid = @objectid
-LIMIT 1
-";
-            var data = _cmd.broker.Retrieve<sys_file>(sql, new Dictionary<string, object>() { { "@objectid", objectId } });
+            var data = GetData(objectId);
             var config = ConfigFactory.GetConfig<StoreSection>();
             if (data != null && config != null)
             {
