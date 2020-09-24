@@ -64,7 +64,8 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
 
         public FileInfo GetFile(string objectId)
         {
-            var data = GetData(objectId);
+            // 根据文件id查不到文件，就根据文件哈希值查找
+            var data = GetData(objectId) ?? _cmd.broker.Retrieve<sys_file>("select * from sys_file where hash_code = @id", new Dictionary<string, object>() { { "@id", objectId } });
             var config = ConfigFactory.GetConfig<StoreSection>();
             if (data != null && config != null)
             {
