@@ -183,6 +183,7 @@
     <Compile Include="Utils\AssemblyUtil.cs" />
     <Compile Include="Utils\CronUtil.cs" />
     <Compile Include="Utils\DecryptAndEncryptHelper.cs" />
+    <Compile Include="Utils\ExceptionUtil.cs" />
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
     <Compile Include="Utils\ImageHelp.cs" />

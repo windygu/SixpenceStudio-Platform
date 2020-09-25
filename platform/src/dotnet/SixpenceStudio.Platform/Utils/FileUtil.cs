@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Platform.Configs;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Store;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,23 @@ namespace SixpenceStudio.Platform.Utils
         static FileUtil()
         {
             var config = ConfigFactory.GetConfig<StoreSection>();
-            if (config != null)
+            ExceptionUtil.CheckBoolean<SpException>(config == null, "文件存储配置信息为空", "CA302515-07E6-455C-88C8-5EE130C486D2");
+            temp = config.temp;
+            storage = config.storage;
+            try
             {
-                temp = config.temp;
-                storage = config.storage;
+                if (!Directory.Exists(temp))
+                {
+                    Directory.CreateDirectory(temp);
+                }
+                if (!Directory.Exists(storage))
+                {
+                    Directory.CreateDirectory(storage);
+                }
             }
-            else
+            catch
             {
-                throw new SpException("文件存储目录未配置");
+                throw new SpException("文件目录初始化失败", "4EC3BE59-CAFB-4FA4-878E-68FFC265487B");
             }
         }
 
@@ -94,18 +104,6 @@ namespace SixpenceStudio.Platform.Utils
                 return new List<string>();
             }
             return Directory.GetFiles(path, name, SearchOption.AllDirectories);
-        }
-
-        /// <summary>
-        /// 获取文件保存路径
-        /// </summary>
-        /// <returns></returns>
-        public static string GetLocalStorage()
-        {
-            var strpatj = HttpRuntime.AppDomainAppPath;
-            if (!Directory.Exists(strpatj + storage))
-                Directory.CreateDirectory(strpatj + storage);
-            return strpatj + storage;
         }
 
         /// <summary>
