@@ -16,6 +16,7 @@ namespace SixpenceStudio.BaseSite.SysFile
             var fileInfo = new SysFileService().GetFile(objectId);
             if (fileInfo != null)
             {
+                HttpContext.Current.Response.BufferOutput = true;
                 HttpContext.Current.Response.Clear();
                 HttpContext.Current.Response.ContentType = "application/octet-stream";
                 HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileInfo.Name);

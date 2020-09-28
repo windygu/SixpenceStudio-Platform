@@ -31,6 +31,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
         public void Export(string entityId)
         {
             var fileInfo = new SysEntityService().Export(entityId);
+            HttpContext.Current.Response.BufferOutput = true;
             HttpContext.Current.Response.Clear();
             HttpContext.Current.Response.ContentType = "application/octet-stream";
             HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileInfo.Name);
