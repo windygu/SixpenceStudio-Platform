@@ -95,7 +95,7 @@ namespace SixpenceStudio.Platform.Utils
             }
             catch (Exception e)
             {
-                throw new SpException("解密异常");
+                throw new SpException(string.Format("解密异常：{0}", e.Message));
             }
             finally
             {

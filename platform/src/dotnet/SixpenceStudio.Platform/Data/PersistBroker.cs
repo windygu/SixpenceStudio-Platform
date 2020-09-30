@@ -10,16 +10,16 @@ using SixpenceStudio.Platform.Configs;
 
 namespace SixpenceStudio.Platform.Data
 {
-    public class PersistBroker : IPersistBroker
+    internal class PersistBroker : IPersistBroker
     {
         /// <summary>
         /// Generate Broker
         /// </summary>
         /// <param name="readonly">只读</param>
-        public PersistBroker(bool @readonly = false)
+        internal PersistBroker(string connectionString)
         {
             _dbClient = new DbClient();
-            _dbClient.Initialize(@readonly ? new StandByDbConnectionConfig().GetValue() : new DbConnectionConfig().GetValue());
+            _dbClient.Initialize(connectionString);
         }
 
         /// <summary>

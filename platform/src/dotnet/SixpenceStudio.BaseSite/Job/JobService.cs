@@ -16,7 +16,7 @@ namespace SixpenceStudio.BaseSite.Job
         /// <returns></returns>
         public IList<job> GetDataList()
         {
-            var broker = new PersistBroker();
+            var broker = PersistBrokerFactory.GetPersistBroker();
             var sql = @"
 SELECT * FROM job
 ";

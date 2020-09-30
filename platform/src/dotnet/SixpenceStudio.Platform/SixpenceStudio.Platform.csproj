@@ -163,6 +163,7 @@
     <Compile Include="Data\IPersistBrokerExtension.cs" />
     <Compile Include="Data\PersistBroker.cs" />
     <Compile Include="Data\DbClient.cs" />
+    <Compile Include="Data\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\DataModel.cs" />
     <Compile Include="Entity\EntityNameAttribute.cs" />

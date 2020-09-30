@@ -14,7 +14,7 @@ namespace SixpenceStudio.BaseSite.SysConfig
         static IPersistBroker broker;
         static SysConfigFactory()
         {
-            broker = new PersistBroker();
+            broker = PersistBrokerFactory.GetPersistBroker();
         }
 
         /// <summary>

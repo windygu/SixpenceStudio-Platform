@@ -29,7 +29,7 @@ namespace SixpenceStudio.Platform.Command
         public static (string userId, string code, string name) GetCurrentUser<T>(this EntityCommand<T> cmd)
             where T : BaseEntity, new()
         {
-            var broker = new PersistBroker();
+            var broker = PersistBrokerFactory.GetPersistBroker();
             var sql = @"
 select * from auth_user where code = @code;
 ";

@@ -17,7 +17,7 @@ namespace SixpenceStudio.Platform.Command
         #region 构造函数
         public EntityCommand()
         {
-            broker = new PersistBroker();
+            broker = PersistBrokerFactory.GetPersistBroker();
         }
         public EntityCommand(IPersistBroker broker)
         {
@@ -30,7 +30,7 @@ namespace SixpenceStudio.Platform.Command
         {
             get
             {
-                return _broker ?? new PersistBroker();
+                return _broker ?? PersistBrokerFactory.GetPersistBroker();
             }
             set
             {
@@ -65,7 +65,7 @@ namespace SixpenceStudio.Platform.Command
             var sql = view.Sql;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref sql, searchList, ref paramList, orderBy, view, searchValue);
+            GetSql(ref sql, searchList, ref paramList, orderBy, view, searchValue);
 
             var recordCountSql = $"SELECT COUNT(1) FROM ({sql}) AS table1";
             sql += $" LIMIT {pageSize} OFFSET {(pageIndex - 1) * pageSize}";
@@ -86,7 +86,7 @@ namespace SixpenceStudio.Platform.Command
             var sql = view.Sql;
             var paramList = new Dictionary<string, object>();
 
-            GetSql<T>(ref sql, searchList, ref paramList, orderBy, view, searchValue);
+            GetSql(ref sql, searchList, ref paramList, orderBy, view, searchValue);
 
             var data = broker.RetrieveMultiple<T>(sql, paramList);
             return data;
@@ -101,8 +101,7 @@ namespace SixpenceStudio.Platform.Command
         /// <param name="paramList"></param>
         /// <param name="orderBy"></param>
         /// <param name="view"></param>
-        private void GetSql<T>(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, string orderBy, EntityView<T> view, string searchValue)
-            where T : BaseEntity, new()
+        private void GetSql(ref string sql, IList<SearchCondition> searchList, ref Dictionary<string, object> paramList, string orderBy, EntityView<T> view, string searchValue)
         {
             var entityName = new T().EntityName;
             var count = 0;
@@ -155,8 +154,7 @@ namespace SixpenceStudio.Platform.Command
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T GetEntity<T>(string id)
-            where T : BaseEntity, new()
+        public T GetEntity(string id)
         {
             return broker.Retrieve<T>(id);
         }
@@ -164,11 +162,9 @@ namespace SixpenceStudio.Platform.Command
         /// <summary>
         /// 创建实体记录
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public string Create<T>(T t)
-            where T : BaseEntity, new()
+        public string Create(T t)
         {
             if (string.IsNullOrEmpty(t.Id))
             {
@@ -203,8 +199,7 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
-        public void Update<T>(T t)
-            where T : BaseEntity, new()
+        public void Update(T t)
         {
             if (string.IsNullOrEmpty(t.Id))
             {
@@ -228,11 +223,10 @@ namespace SixpenceStudio.Platform.Command
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public string CreateOrUpdateData<T>(T t)
-            where T : BaseEntity, new()
+        public string CreateOrUpdateData(T t)
         {
             var id = t.Id;
-            var isExist = GetEntity<T>(id) != null;
+            var isExist = GetEntity(id) != null;
             if (isExist)
             {
                 Update(t);
@@ -249,8 +243,7 @@ namespace SixpenceStudio.Platform.Command
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ids"></param>
-        public void Delete<T>(List<string> ids)
-            where T : BaseEntity, new()
+        public void Delete(List<string> ids)
         {
             broker.ExecuteTransaction(() =>
             {

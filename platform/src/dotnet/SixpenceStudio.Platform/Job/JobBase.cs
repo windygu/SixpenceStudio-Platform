@@ -43,7 +43,7 @@ namespace SixpenceStudio.Platform.Job
             {
                 LogUtils.DebugLog($"作业：{Name} 开始执行\r\n");
 
-                var broker = new PersistBroker();
+                var broker = PersistBrokerFactory.GetPersistBroker();
                 Run(broker);
                 
                 // 更新下次执行时间

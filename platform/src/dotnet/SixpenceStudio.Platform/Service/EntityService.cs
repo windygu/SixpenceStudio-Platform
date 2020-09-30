@@ -83,7 +83,7 @@ namespace SixpenceStudio.Platform.Service
         /// <returns></returns>
         public virtual T GetData(string id)
         {
-            var obj = _cmd.GetEntity<T>(id);
+            var obj = _cmd.GetEntity(id);
             return obj;
         }
 
@@ -122,7 +122,7 @@ namespace SixpenceStudio.Platform.Service
         /// <param name="ids"></param>
         public virtual void DeleteData(List<string> ids)
         {
-            _cmd.Delete<T>(ids);
+            _cmd.Delete(ids);
         }
         #endregion
     }
