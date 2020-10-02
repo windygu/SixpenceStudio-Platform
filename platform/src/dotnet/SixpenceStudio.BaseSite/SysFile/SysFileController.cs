@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Platform.WebApi;
+﻿using SixpenceStudio.BaseSite.SysFile.Minio;
+using SixpenceStudio.Platform.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,10 @@ namespace SixpenceStudio.BaseSite.SysFile
             }
         }
 
+        [HttpGet]
+        public IList<string> GetBucketsList()
+        {
+            return new MinIOService().GetBucketsList();
+        }
     }
 }
