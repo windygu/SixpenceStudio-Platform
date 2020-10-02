@@ -84,7 +84,7 @@ namespace SixpenceStudio.Platform.Job
         /// <summary>
         /// 注册作业
         /// </summary>
-        public static void Register()
+        public async static void Register()
         {
             var types = AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
@@ -93,7 +93,7 @@ namespace SixpenceStudio.Platform.Job
                 {
                     var obj = Activator.CreateInstance(item);
                     var cron = item.GetProperty("CronExperssion").GetValue(obj)?.ToString();
-                    Run2(item, cron);
+                    await Run2(item, cron);
                 }
             }
         }
