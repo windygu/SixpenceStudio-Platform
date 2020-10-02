@@ -127,7 +127,7 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
                 _cmd.broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", string.Join(",", ids) } }); // 删除级联字段
                 dataList.ForEach(data =>
                 {
-                    _cmd.broker.Execute(DDLTemplate.DropTable(data.name));
+                    _cmd.broker.Execute(DDLTemplate.DropTable(data.code));
                 });
             });
         }
