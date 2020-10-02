@@ -12,6 +12,7 @@ using SixpenceStudio.BaseSite.SysFile.Minio;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform;
+using SixpenceStudio.Platform.Logging;
 
 namespace SixpenceStudio.BaseSite.DataService
 {
@@ -42,7 +43,15 @@ namespace SixpenceStudio.BaseSite.DataService
             // 保存图片到本地
             // TODO：执行失败回滚操作
             FileUtil.SaveFile(image, filePath);
-            // new MinIOService().Upload(filePath, fileName);
+
+            try
+            {
+                new MinIOService().Upload(filePath, fileName);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.ErrorLog("Minio上传文件失败：" + ex.Message);
+            }
 
             var sysImage = new sys_file()
             {
