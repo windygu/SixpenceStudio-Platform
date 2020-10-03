@@ -44,14 +44,14 @@ namespace SixpenceStudio.BaseSite.DataService
             // TODO：执行失败回滚操作
             FileUtil.SaveFile(image, filePath);
 
-            try
-            {
-                new MinIOService().Upload(filePath, fileName);
-            }
-            catch (Exception ex)
-            {
-                LogUtils.ErrorLog("Minio上传文件失败：" + ex.Message);
-            }
+            //try
+            //{
+            //    new MinIOService().Upload(Path.Combine(FileUtil.storage, fileName), fileName);
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogUtils.ErrorLog("Minio上传文件失败：" + ex.Message);
+            //}
 
             var sysImage = new sys_file()
             {

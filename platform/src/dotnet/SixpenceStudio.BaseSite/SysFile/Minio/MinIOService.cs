@@ -15,7 +15,8 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
         public MinIOService()
         {
             var config = ConfigFactory.GetConfig<MinIOSection>();
-            minio = new MinioClient(config.endpoint, config.accessKey, config.secretKey);
+            minio = new MinioClient(config.endpoint, config.accessKey, config.secretKey)
+                .WithTimeout(60000);
         }
 
         /// <summary>
