@@ -121,6 +121,10 @@
     <Compile Include="AuthUser\AuthUserService.cs" />
     <Compile Include="AuthUser\auth_user.cs" />
     <Compile Include="AuthUser\LoginResponse.cs" />
+    <Compile Include="OpenApi.cs" />
+    <Compile Include="ShortUrl\ShortenUrl.cs" />
+    <Compile Include="ShortUrl\ShortUrlService.cs" />
+    <Compile Include="ShortUrl\short_url_log.cs" />
     <Compile Include="SysConfig\Config\BackupLogConfig.cs" />
     <Compile Include="SysConfig\ISysConfig.cs" />
     <Compile Include="DataService\DataService.cs" />

@@ -13,12 +13,12 @@ namespace SixpenceStudio.BaseSite.ShortUrl
         #region 构造函数
         public ShortUrlService()
         {
-            this._cmd = new EntityCommand<short_url>();
+            this._cmd = new EntityCommand<short_url_log>();
         }
 
         public ShortUrlService(IPersistBroker broker)
         {
-            this._cmd = new EntityCommand<short_url>(broker)
+            this._cmd = new EntityCommand<short_url_log>(broker);
         }
         #endregion
 
