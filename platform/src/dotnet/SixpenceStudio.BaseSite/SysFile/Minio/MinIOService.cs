@@ -2,6 +2,7 @@
 using Minio.DataModel;
 using SixpenceStudio.Platform.Configs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SixpenceStudio.BaseSite.SysFile.Minio
 {
@@ -14,22 +15,17 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
         public MinIOService()
         {
             var config = ConfigFactory.GetConfig<MinIOSection>();
-            minio = new MinioClient(config.endpoint, config.accessKey, config.secretKey).WithSSL();
+            minio = new MinioClient(config.endpoint, config.accessKey, config.secretKey);
         }
 
         /// <summary>
         /// 返回目录列表
         /// </summary>
         /// <returns></returns>
-        public List<string> GetBucketsList()
+        public IEnumerable<string> GetBucketsList()
         {
-            var getListBucketsTask = minio.ListBucketsAsync();
-            var list = new List<string>();
-            foreach (Bucket bucket in getListBucketsTask.Result.Buckets)
-            {
-                list.Add(bucket.Name + " " + bucket.CreationDateDateTime);
-            }
-            return list;
+            var getListBucketsTask = minio.ListBucketsAsync().Result.Buckets;
+            return getListBucketsTask.Select(item => item.Name);
         }
 
         /// <summary>

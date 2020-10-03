@@ -70,7 +70,7 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
             if (data != null && config != null)
             {
                 var fileInfo = new FileInfo(Path.Combine(config.storage, data.file_path.Substring(data.file_path.LastIndexOf("\\") + 1)));
-                return fileInfo;
+                return fileInfo.Exists ? fileInfo : null;
             }
             return null;
         }

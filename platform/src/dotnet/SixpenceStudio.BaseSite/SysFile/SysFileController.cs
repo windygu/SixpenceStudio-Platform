@@ -27,7 +27,7 @@ namespace SixpenceStudio.BaseSite.SysFile
         }
 
         [HttpGet]
-        public IList<string> GetBucketsList()
+        public IEnumerable<string> GetBucketsList()
         {
             return new MinIOService().GetBucketsList();
         }
