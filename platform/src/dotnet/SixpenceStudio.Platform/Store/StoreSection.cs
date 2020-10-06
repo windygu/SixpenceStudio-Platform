@@ -25,5 +25,12 @@ namespace SixpenceStudio.Platform.Store
             set { this["storage"] = value; }
         }
 
+        [ConfigurationProperty("type", DefaultValue = "SystemStore")]
+        public string type
+        {
+            get { return (string)this["type"]; }
+            set { this["type"] = value; }
+        }
+
     }
 }

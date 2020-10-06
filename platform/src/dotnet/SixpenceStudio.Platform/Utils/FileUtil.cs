@@ -111,7 +111,7 @@ namespace SixpenceStudio.Platform.Utils
         /// </summary>
         /// <param name="image"></param>
         /// <param name="filePath"></param>
-        public static void SaveFile(HttpPostedFile image, string filePath)
+        public static void SaveFile(Stream file, string filePath)
         {
             // 文件已存在
             if (File.Exists(filePath))
@@ -121,7 +121,14 @@ namespace SixpenceStudio.Platform.Utils
 
             try
             {
-                image.SaveAs(filePath);
+                var bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
+                file.Seek(0, SeekOrigin.Begin);
+                var fileStream = new FileStream(filePath, FileMode.Create);
+                var binaryWriter = new BinaryWriter(fileStream);
+                binaryWriter.Write(bytes);
+                binaryWriter.Close();
+                fileStream.Close();
             }
             catch (Exception e)
             {

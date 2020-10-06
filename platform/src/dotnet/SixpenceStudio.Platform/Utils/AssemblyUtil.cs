@@ -19,6 +19,11 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static IList<Assembly> GetAssemblies(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return new List<Assembly>() { Assembly.GetCallingAssembly() };
+            }
+
             var fileList = FileUtil.GetFileList(name);
 
             var assemblyList = new List<Assembly>();
@@ -34,12 +39,9 @@ namespace SixpenceStudio.Platform.Utils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IList<Type> GetTypes<T>(string name = "")
+        public static IList<Type> GetTypes<T>(string name = SIXPENCE_LIBS)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                name = SIXPENCE_LIBS;
-            }
+            if (string.IsNullOrEmpty(name)) return null;
 
             var assmeblies = GetAssemblies(name);
             var list = new List<Type>();
@@ -51,7 +53,7 @@ namespace SixpenceStudio.Platform.Utils
                     var ins = item.GetInterfaces();
                     foreach (var ty in ins)
                     {
-                        if (ty == typeof(T))
+                        if (ty.Name == typeof(T).Name)
                         {
                             list.Add(item);
                         }
@@ -70,7 +72,7 @@ namespace SixpenceStudio.Platform.Utils
         /// <param name="param">方法参数</param>
         public static void Execute<T>(string methodName, object[] param, string className = "")
         {
-            var types = GetTypes<T>("SixpenceStudio*.dll");
+            var types = GetTypes<T>();
             className = className.Replace("_", "");
             foreach (var item in types)
             {
@@ -82,6 +84,15 @@ namespace SixpenceStudio.Platform.Utils
                     mi.Invoke(obj, param);
                 }
             }
+        }
+
+        public static T GetObject<T>(string name)
+            where T : class
+        {
+            var types = GetTypes<T>("SixpenceStudio*.dll");
+            var type = types.Where(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            var obj = (T)Activator.CreateInstance(type);
+            return obj;
         }
 
     }
