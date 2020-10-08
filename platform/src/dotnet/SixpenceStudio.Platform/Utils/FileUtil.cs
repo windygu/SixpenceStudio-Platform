@@ -63,26 +63,34 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static string GetSystemPath(FolderType type = FolderType.Default)
         {
-            var folderPath = HttpRuntime.AppDomainAppPath;
-            switch (type)
+            var folderPath = string.Empty;
+            try
             {
-                case FolderType.bin:
-                    folderPath += "\\bin";
-                    break;
-                case FolderType.log:
-                    folderPath += "\\log";
-                    break;
-                case FolderType.logArchive:
-                    folderPath += "\\log\\Archive";
-                    break;
-                case FolderType.temp:
-                    folderPath = temp;
-                    break;
-                case FolderType.storage:
-                    folderPath = storage;
-                    break;
-                default:
-                    break;
+                folderPath = HttpRuntime.AppDomainAppPath;
+                switch (type)
+                {
+                    case FolderType.bin:
+                        folderPath += "\\bin";
+                        break;
+                    case FolderType.log:
+                        folderPath += "\\log";
+                        break;
+                    case FolderType.logArchive:
+                        folderPath += "\\log\\Archive";
+                        break;
+                    case FolderType.temp:
+                        folderPath = temp;
+                        break;
+                    case FolderType.storage:
+                        folderPath = storage;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch
+            {
+                folderPath = Environment.CurrentDirectory;
             }
             if (!Directory.Exists(folderPath))
             {

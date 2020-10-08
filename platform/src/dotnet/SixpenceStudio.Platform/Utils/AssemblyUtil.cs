@@ -11,26 +11,23 @@ namespace SixpenceStudio.Platform.Utils
     public class AssemblyUtil
     {
         private const string SIXPENCE_LIBS = "SixpenceStudio*.dll";
+        private static readonly IList<Assembly> assemblies;
+
+        static AssemblyUtil()
+        {
+            assemblies = GetAssemblies();
+        }
 
         /// <summary>
         /// 获取所有Assembly实例
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IList<Assembly> GetAssemblies(string name)
+        public static IList<Assembly> GetAssemblies(string name = "")
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return new List<Assembly>() { Assembly.GetCallingAssembly() };
-            }
+            if (string.IsNullOrEmpty(name)) return new List<Assembly>() { Assembly.GetCallingAssembly() };
 
-            var fileList = FileUtil.GetFileList(name);
-
-            var assemblyList = new List<Assembly>();
-            fileList.ToList().ForEach(item =>
-            {
-                assemblyList.Add(Assembly.LoadFile(item));
-            });
+            var assemblyList = FileUtil.GetFileList(name)?.Select(item => Assembly.LoadFile(item))?.ToList();
             return assemblyList;
         }
 
@@ -41,25 +38,9 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static IList<Type> GetTypes<T>(string name = SIXPENCE_LIBS)
         {
-            if (string.IsNullOrEmpty(name)) return null;
-
-            var assmeblies = GetAssemblies(name);
-            var list = new List<Type>();
-            assmeblies.ToList().ForEach(assembly =>
-            {
-                foreach (var item in assembly.GetTypes())
-                {
-                    if (item.IsInterface) continue; // 判断是否是接口
-                    var ins = item.GetInterfaces();
-                    foreach (var ty in ins)
-                    {
-                        if (ty.Name == typeof(T).Name)
-                        {
-                            list.Add(item);
-                        }
-                    }
-                }
-            });
+            var list = (string.IsNullOrEmpty(name) || name.Equals(SIXPENCE_LIBS, StringComparison.OrdinalIgnoreCase) ? assemblies : GetAssemblies(name))
+                .SelectMany(assembly => assembly.GetTypes().Where(item => !item.IsInterface && item.GetInterfaces().Contains(typeof(T))))
+                .ToList();
 
             return list;
         }
@@ -86,10 +67,16 @@ namespace SixpenceStudio.Platform.Utils
             }
         }
 
+        /// <summary>
+        /// 获取继承该接口的特例
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static T GetObject<T>(string name)
             where T : class
         {
-            var types = GetTypes<T>("SixpenceStudio*.dll");
+            var types = GetTypes<T>();
             var type = types.Where(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             var obj = (T)Activator.CreateInstance(type);
             return obj;
