@@ -7,9 +7,9 @@
         </a-form-model-item>
       </a-col>
       <a-col :span="12">
-        <a-form-item label="路由">
+        <a-form-model-item label="路由">
           <a-input v-model="data.router"></a-input>
-        </a-form-item>
+        </a-form-model-item>
       </a-col>
     </a-row>
     <a-row :gutter="24">
@@ -27,6 +27,11 @@
       </a-col>
     </a-row>
     <a-row :gutter="24">
+      <a-col :span="12">
+        <a-form-model-item label="图标">
+          <a-input v-model="data.icon"></a-input>
+        </a-form-model-item>
+      </a-col>
       <a-col :span="12">
         <a-form-model-item label="状态">
           <a-radio-group v-model="data.stateCode" @change="handleStateCodeChange">

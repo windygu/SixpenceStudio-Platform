@@ -238,5 +238,22 @@ namespace SixpenceStudio.BaseSite.SysMenu
             }
         }
 
+        /// <summary>
+        /// 图标
+        /// </summary>
+        private string _icon;
+        [DataMember]
+        public string icon
+        {
+            get
+            {
+                return this._icon;
+            }
+            set
+            {
+                this._icon = value;
+                SetAttributeValue("icon", value);
+            }
+        }
     }
 }

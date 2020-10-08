@@ -4,7 +4,7 @@
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-sub-menu v-for="(item, index) in menus" :key="index">
           <span slot="title">
-            <a-icon type="setting" /><span>{{ item.title }}</span>
+            <a-icon :type="item.icon" /><span>{{ item.title }}</span>
           </span>
           <a-menu-item v-for="item2 in item.subMenu[0].menus" :key="`/admin/${item2.router}`" @click="handleClick">
             {{ item2.title }}
