@@ -79,12 +79,14 @@ export default {
           const menu = {
             title: e.name,
             router: e.router,
-            subMenu: [{ title: '', menus: [] }]
+            subMenu: [{ title: '', menus: [] }],
+            icon: e.icon
           };
           if (e.children && e.children.length > 0) {
             menu.subMenu[0].menus = e.children.map(item => ({
               title: item.name,
-              router: item.router
+              router: item.router,
+              icon: item.icon
             }));
           }
           this.menus.push(menu);
