@@ -10,12 +10,12 @@ namespace SixpenceStudio.Platform.Utils
     /// </summary>
     public class AssemblyUtil
     {
-        private const string SIXPENCE_LIBS = "SixpenceStudio*.dll";
+        private const string SIXPENCE_LIBS = "SixpenceStudio.*.dll";
         private static readonly IList<Assembly> assemblies;
 
         static AssemblyUtil()
         {
-            assemblies = GetAssemblies();
+            assemblies = GetAssemblies(SIXPENCE_LIBS);
         }
 
         /// <summary>
@@ -78,6 +78,10 @@ namespace SixpenceStudio.Platform.Utils
         {
             var types = GetTypes<T>();
             var type = types.Where(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (type == null)
+            {
+                return null;
+            }
             var obj = (T)Activator.CreateInstance(type);
             return obj;
         }

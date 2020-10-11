@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Security.Cryptography;
 using System.Web;
 
 namespace SixpenceStudio.Platform.Utils
@@ -114,12 +115,20 @@ namespace SixpenceStudio.Platform.Utils
             return Directory.GetFiles(path, name, SearchOption.AllDirectories);
         }
 
+        private static byte[] Stream2Byte(Stream stream)
+        {
+            var bytes = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(bytes, 0, bytes.Length);
+            return bytes;
+        }
+
         /// <summary>
         /// 保存文件
         /// </summary>
         /// <param name="image"></param>
         /// <param name="filePath"></param>
-        public static void SaveFile(Stream file, string filePath)
+        public static void SaveFile(Stream stream, string filePath)
         {
             // 文件已存在
             if (File.Exists(filePath))
@@ -127,21 +136,18 @@ namespace SixpenceStudio.Platform.Utils
                 return;
             }
 
+            var fs = new FileStream(filePath, FileMode.Create);
             try
             {
-                var bytes = new byte[file.Length];
-                file.Read(bytes, 0, (int)file.Length);
-                file.Seek(0, SeekOrigin.Begin);
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                var binaryWriter = new BinaryWriter(fileStream);
-                binaryWriter.Write(bytes);
-                binaryWriter.Close();
-                fileStream.Close();
+                var bytes = Stream2Byte(stream);
+                fs.Write(bytes, 0, bytes.Length);
+                fs.Flush();
             }
-            catch (Exception e)
+            finally
             {
-                throw e;
+                fs.Close();
             }
+
         }
 
         /// <summary>

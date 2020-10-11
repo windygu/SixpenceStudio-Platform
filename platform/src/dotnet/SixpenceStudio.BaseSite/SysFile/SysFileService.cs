@@ -1,8 +1,8 @@
-﻿using SixpenceStudio.Platform.Command;
+﻿using SixpenceStudio.Platform.Store;
+using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
-using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
@@ -62,17 +62,14 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
             });
         }
 
-        public FileInfo GetFile(string objectId)
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        /// <param name="objectId"></param>
+        public void Download(string objectId)
         {
-            // 根据文件id查不到文件，就根据文件哈希值查找
-            var data = GetData(objectId) ?? _cmd.broker.Retrieve<sys_file>("select * from sys_file where hash_code = @id", new Dictionary<string, object>() { { "@id", objectId } });
             var config = ConfigFactory.GetConfig<StoreSection>();
-            if (data != null && config != null)
-            {
-                var fileInfo = new FileInfo(Path.Combine(config.storage, data.file_path.Substring(data.file_path.LastIndexOf("\\") + 1)));
-                return fileInfo.Exists ? fileInfo : null;
-            }
-            return null;
+            AssemblyUtil.GetObject<IStoreStrategy>(config?.type).DownLoad(objectId);
         }
 
     }

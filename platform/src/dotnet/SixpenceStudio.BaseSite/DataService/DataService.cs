@@ -1,8 +1,8 @@
 ﻿using SixpenceStudio.BaseSite.AuthUser;
 using SixpenceStudio.BaseSite.DataService.Models;
+using SixpenceStudio.Platform.Store;
 using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Web;
@@ -29,18 +29,16 @@ namespace SixpenceStudio.BaseSite.DataService
         {
             // 获取文件哈希码，将哈希码作为文件名
             var hash_code = SHAUtil.GetFileSHA1(image.InputStream);
-            var id = Guid.NewGuid().ToString();
             var fileName = $"{hash_code}.{image.FileName.GetFileType()}";
-            var filePath = $"\\storage\\{fileName}";
 
             // 保存图片到本地
             // TODO：执行失败回滚操作
             var config = ConfigFactory.GetConfig<StoreSection>();
-            AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(image.InputStream, filePath);
+            AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(image.InputStream, fileName, out var filePath);
 
             var sysImage = new sys_file()
             {
-                sys_fileId = id,
+                sys_fileId = Guid.NewGuid().ToString(),
                 name = fileName,
                 hash_code = hash_code,
                 file_path = filePath,

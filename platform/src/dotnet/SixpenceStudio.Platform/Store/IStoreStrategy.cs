@@ -17,8 +17,17 @@ namespace SixpenceStudio.Platform.Store
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="fileName"></param>
-        void Upload(Stream stream, string fileName);
+        void Upload(Stream stream, string fileName, out string filePath);
 
-        void DownLoad();
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        void DownLoad(string objectId);
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        void Delete(IList<string> fileName);
     }
 }

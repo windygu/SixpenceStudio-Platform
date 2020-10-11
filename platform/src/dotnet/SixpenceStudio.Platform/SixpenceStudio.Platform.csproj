@@ -182,7 +182,6 @@
     <Compile Include="Startup\WebApiConfig.cs" />
     <Compile Include="Store\IStoreStrategy.cs" />
     <Compile Include="Store\StoreSection.cs" />
-    <Compile Include="Store\SystemStore.cs" />
     <Compile Include="Utils\AssemblyUtil.cs" />
     <Compile Include="Utils\CronUtil.cs" />
     <Compile Include="Utils\DecryptAndEncryptHelper.cs" />

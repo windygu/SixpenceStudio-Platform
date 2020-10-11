@@ -14,22 +14,13 @@ namespace SixpenceStudio.BaseSite.SysFile
         [HttpGet, AllowAnonymous]
         public void Download(string objectId)
         {
-            var fileInfo = new SysFileService().GetFile(objectId);
-            if (fileInfo != null)
-            {
-                HttpContext.Current.Response.BufferOutput = true;
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.ContentType = "application/octet-stream";
-                HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileInfo.Name);
-                HttpContext.Current.Response.TransmitFile(fileInfo.FullName);
-                HttpContext.Current.Response.End();
-            }
+            new SysFileService().Download(objectId);
         }
 
         [HttpGet]
         public IEnumerable<string> GetBucketsList()
         {
-            return new MinIOService().GetBucketsList();
+            return new MinIOStore().GetBucketsList();
         }
     }
 }

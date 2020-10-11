@@ -148,10 +148,10 @@
     <Compile Include="SysEntity\SysEntityService.cs" />
     <Compile Include="SysEntity\sys_entity.cs" />
     <Compile Include="SysFile\Minio\MinIOSection.cs" />
-    <Compile Include="SysFile\Minio\MinIOService.cs" />
-    <Compile Include="SysFile\Minio\MinIOTask.cs" />
+    <Compile Include="SysFile\Minio\MinIOStore.cs" />
     <Compile Include="SysFile\SysFileController.cs" />
     <Compile Include="SysFile\SysFileService.cs" />
+    <Compile Include="SysFile\SystemStore.cs" />
     <Compile Include="SysFile\sys_file.cs" />
     <Compile Include="SysMenu\SysMenuController.cs" />
     <Compile Include="SysMenu\SysMenuService.cs" />
