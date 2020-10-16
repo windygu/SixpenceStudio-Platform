@@ -61,7 +61,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <returns></returns>
         public bool CheckSignature(string signature, string timestamp, string nonce, string echostr)
         {
-            string[] arrTmp = { signature, timestamp, nonce, echostr };
+            string[] arrTmp = { _weChat.token, timestamp, nonce };
             Array.Sort(arrTmp);
             var tmpStr = string.Join("", arrTmp);
             tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile(tmpStr, "SHA1").ToLower();
