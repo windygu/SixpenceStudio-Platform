@@ -170,9 +170,10 @@
     <Compile Include="UserInfo\UserInfoPlugin.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
+    <Compile Include="WeChat\WeChat.cs" />
     <Compile Include="WeChat\WeChatApi.cs" />
     <Compile Include="WeChat\WeChatController.cs" />
-    <Compile Include="WeChat\WeChatHttpUtil.cs" />
+    <Compile Include="WeChat\WeChatService.cs" />
     <Compile Include="WeChat\WeChatSection.cs" />
   </ItemGroup>
   <ItemGroup>

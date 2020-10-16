@@ -30,5 +30,12 @@ namespace SixpenceStudio.BaseSite.WeChat
             get { return (string)this["secret"]; }
             set { this["secret"] = value; }
         }
+
+        [ConfigurationProperty("encodingAESKey", DefaultValue = "")]
+        public string encodingAESKey
+        {
+            get { return (string)this["encodingAESKey"]; }
+            set { this["encodingAESKey"] = value; }
+        }
     }
 }
