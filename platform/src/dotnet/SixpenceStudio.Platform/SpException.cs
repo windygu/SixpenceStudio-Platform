@@ -9,6 +9,21 @@ namespace SixpenceStudio.Platform
 {
     public class SpException : ApplicationException
     {
+        #region 构造函数
+        public SpException() { }
+        public SpException(string message)
+        {
+            this.message = message;
+            this.messageId = Guid.NewGuid().ToString();
+        }
+        public SpException(string message, string messageId = "")
+        {
+            this.message = message;
+            this.messageId = string.IsNullOrEmpty(messageId) ? Guid.NewGuid().ToString() : messageId;
+        }
+        #endregion
+
+
         /// <summary>
         /// 错误提示
         /// </summary>
@@ -27,11 +42,6 @@ namespace SixpenceStudio.Platform
         private string errorCode;
         public string ErrorCode => errorCode;
 
-        public SpException(string message, string messageId = "")
-        {
-            this.message = message;
-            this.messageId = string.IsNullOrEmpty(messageId) ? Guid.NewGuid().ToString() : messageId;
-        }
 
     }
 }
