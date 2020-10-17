@@ -156,9 +156,9 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
         /// <summary>
         /// {item.name}
         /// </summary>
-        private string _{item.code};
+        private {item.attr_type.ToCSharpType()} _{item.code};
         [DataMember]
-        public string {item.code}
+        public {item.attr_type.ToCSharpType()} {item.code}
         {{
             get
             {{

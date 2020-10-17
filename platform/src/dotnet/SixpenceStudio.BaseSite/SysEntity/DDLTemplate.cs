@@ -95,5 +95,28 @@ DROP TABLE {tableName};
 ";
             return sql;
         }
+
+        /// <summary>
+        /// 转换成C#类型
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string ToCSharpType(this string type)
+        {
+            switch (type)
+            {
+                case "varchar":
+                case "text":
+                    return "string";
+                case "timestamp":
+                    return "DateTime?";
+                case "INT4":
+                    return "int?";
+                case "json":
+                    return "JToken";
+                default:
+                    return "";
+            }
+        }
     }
 }
