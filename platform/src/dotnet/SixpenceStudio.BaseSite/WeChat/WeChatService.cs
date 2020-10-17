@@ -15,7 +15,7 @@ using System.Web.Security;
 
 namespace SixpenceStudio.BaseSite.WeChat
 {
-    public class WeChatService
+    public static class WeChatService
     {
         private static WeChat _weChat { get; set; }
 
@@ -24,7 +24,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <summary>
         /// 获取access_token
         /// </summary>
-        public string AccessToken
+        public static string AccessToken
         {
             get
             {
@@ -55,7 +55,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <summary>
         /// 刷新Token
         /// </summary>
-        public void RefreshToken()
+        public static void RefreshToken()
         {
             var url = string.Format(WeChatApi.GetAccessToken, _weChat.appid, _weChat.secret);
             var resp = HttpUtil.Get(url);
@@ -74,7 +74,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <param name="nonce"></param>
         /// <param name="echostr"></param>
         /// <returns></returns>
-        public bool CheckSignature(string signature, string timestamp, string nonce, string echostr)
+        public static bool CheckSignature(string signature, string timestamp, string nonce, string echostr)
         {
             string[] arrTmp = { _weChat.token, timestamp, nonce };
             Array.Sort(arrTmp);
@@ -88,7 +88,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// </summary>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        public string GetMaterialType(string typeId)
+        public static string GetMaterialType(string typeId)
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
             var materialType = broker.Retrieve<sys_param>(typeId)?.code;
@@ -102,7 +102,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public string GetWeChatMaterial(string type, int pageIndex, int pageSize)
+        public static string GetWeChatMaterial(string type, int pageIndex, int pageSize)
         {
             var url = string.Format(WeChatApi.GetMaterial, AccessToken);
             var postData = new
@@ -126,7 +126,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public WeChatNewsMaterial GetWeChatNewsMaterial(string type, int pageIndex, int pageSize)
+        public static WeChatNewsMaterial GetWeChatNewsMaterial(string type, int pageIndex, int pageSize)
         {
             var result = GetWeChatMaterial(type, pageIndex, pageSize);
             var materialList = JsonConvert.DeserializeObject<WeChatNewsMaterial>(result);
@@ -150,7 +150,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public WeChatOtherMaterial GetWeChatOtherMaterial(string type, int pageIndex, int pageSize)
+        public static WeChatOtherMaterial GetWeChatOtherMaterial(string type, int pageIndex, int pageSize)
         {
             var result = GetWeChatMaterial(type, pageIndex, pageSize);
             var materialList = JsonConvert.DeserializeObject<WeChatOtherMaterial>(result);

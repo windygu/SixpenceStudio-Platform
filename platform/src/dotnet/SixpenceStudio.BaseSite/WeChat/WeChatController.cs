@@ -20,7 +20,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         [HttpGet]
         public string GetAccessToken()
         {
-            return new WeChatService().AccessToken;
+            return WeChatService.AccessToken;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         [HttpGet]
         public void Get(string signature, string timestamp, string nonce, string echostr)
         {
-            var result = new WeChatService().CheckSignature(signature, timestamp, nonce, echostr);
+            var result = WeChatService.CheckSignature(signature, timestamp, nonce, echostr);
             if (result)
             {
                 HttpContext.Current.Response.Write(echostr);
@@ -51,13 +51,12 @@ namespace SixpenceStudio.BaseSite.WeChat
         [HttpGet]
         public object GetMaterial(string typeId, int pageIndex, int pageSize)
         {
-            var service = new WeChatService();
-            var type = service.GetMaterialType(typeId);
+            var type = WeChatService.GetMaterialType(typeId);
             if (type == MaterialType.news.ToMaterialTypeString())
             {
-                return new WeChatService().GetWeChatNewsMaterial(type, pageIndex, pageSize);
+                return WeChatService.GetWeChatNewsMaterial(type, pageIndex, pageSize);
             }
-            return new WeChatService().GetWeChatOtherMaterial(type, pageIndex, pageSize);
+            return WeChatService.GetWeChatOtherMaterial(type, pageIndex, pageSize);
         }
     }
 }

@@ -77,6 +77,11 @@ namespace SixpenceStudio.BaseSite.WeChat.ResponseModel
         /// 摘要
         /// </summary>
         public string digest { get; set; }
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string content { get; set; }
     }
     #endregion
 
