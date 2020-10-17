@@ -1,4 +1,7 @@
-﻿using SixpenceStudio.Platform.WebApi;
+﻿using SixpenceStudio.BaseSite.SysParams;
+using SixpenceStudio.BaseSite.WeChat.ResponseModel;
+using SixpenceStudio.Platform.Data;
+using SixpenceStudio.Platform.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +20,7 @@ namespace SixpenceStudio.BaseSite.WeChat
         [HttpGet]
         public string GetAccessToken()
         {
-            return new WeChatService().GetAccessToken();
+            return new WeChatService().AccessToken;
         }
 
         /// <summary>
@@ -36,6 +39,25 @@ namespace SixpenceStudio.BaseSite.WeChat
                 HttpContext.Current.Response.Write(echostr);
                 HttpContext.Current.Response.End();
             }
+        }
+
+        /// <summary>
+        /// 获取微信素材
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetMaterial(string typeId, int pageIndex, int pageSize)
+        {
+            var service = new WeChatService();
+            var type = service.GetMaterialType(typeId);
+            if (type == MaterialType.news.ToMaterialTypeString())
+            {
+                return new WeChatService().GetWeChatNewsMaterial(type, pageIndex, pageSize);
+            }
+            return new WeChatService().GetWeChatOtherMaterial(type, pageIndex, pageSize);
         }
     }
 }

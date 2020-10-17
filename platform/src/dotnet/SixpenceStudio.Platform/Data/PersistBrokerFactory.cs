@@ -30,6 +30,15 @@ namespace SixpenceStudio.Platform.Data
                     return null;
             }
         }
+
+        /// <summary>
+        /// 获取只读库
+        /// </summary>
+        /// <returns></returns>
+        public static IPersistBroker GetReadonlyPersistBroker()
+        {
+            return new PersistBroker(new StandByDbConnectionConfig().GetValue());
+        }
     }
 
     public enum DBType

@@ -170,6 +170,7 @@
     <Compile Include="UserInfo\UserInfoPlugin.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
+    <Compile Include="WeChat\ResponseModel\WeChatMaterial.cs" />
     <Compile Include="WeChat\WeChat.cs" />
     <Compile Include="WeChat\WeChatApi.cs" />
     <Compile Include="WeChat\WeChatController.cs" />
@@ -192,9 +193,7 @@
       <Name>SixpenceStudio.Platform</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WeChat\ResponseModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
