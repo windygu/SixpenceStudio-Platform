@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace SixpenceStudio.BaseSite.WeChat
 {
+    [RequestAuthorize]
     public class WeChatController : BaseController
     {
         /// <summary>
