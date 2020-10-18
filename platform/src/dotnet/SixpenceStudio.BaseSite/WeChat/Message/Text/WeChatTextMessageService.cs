@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace SixpenceStudio.BaseSite.WeChat.Message.Text
+{
+    /// <summary>
+    /// 文本消息服务类
+    /// </summary>
+    public class WeChatTextMessageService : IWeChatMessageService<WeChatTextMessage>
+    {
+        public WeChatTextMessageService(WeChatTextMessage xml)
+        {
+            Message = xml;
+        }
+
+        public BaseWeChatMessage Message { get; set; }
+
+        public string MessageTemplate
+        {
+            get
+            {
+                return @"
+<xml>
+    <ToUserName><![CDATA[{0}]]></ToUserName>
+    <FromUserName><![CDATA[{1}]]></FromUserName>
+    <CreateTime>{2}</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[{3}]]></Content>
+</xml>
+";
+            }
+        }
+
+        public void SendMessage()
+        {
+            var responseMessage = string.Empty;
+
+            if (!string.IsNullOrEmpty(Message.EventName) && Message.EventName.Trim() == "subscribe")
+            {
+                responseMessage = @"
+您好，欢迎关注六便士公众号！
+";
+            }
+            else
+            {
+                HttpContext.Current.Response.Write("");
+                HttpContext.Current.Response.End();
+            }
+
+            var res = string.Format(MessageTemplate, Message.ToUserName, Message.FromUserName, DateTime.Now.Ticks, responseMessage);
+            HttpContext.Current.Response.Write(res);
+            HttpContext.Current.Response.End();
+        }
+    }
+}

@@ -167,4 +167,15 @@ namespace SixpenceStudio.BaseSite.WeChat
             return materialList;
         }
     }
+
+    /// <summary>
+    /// 微信开发者参数
+    /// </summary>
+    public class WeChat
+    {
+        public string appid { get; set; }
+        public string token { get; set; }
+        public string secret { get; set; }
+        public string encodingAESKey { get; set; }
+    }
 }
