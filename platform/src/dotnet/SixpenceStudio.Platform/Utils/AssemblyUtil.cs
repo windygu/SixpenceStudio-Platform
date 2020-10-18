@@ -39,7 +39,7 @@ namespace SixpenceStudio.Platform.Utils
         public static IList<Type> GetTypes<T>(string name = SIXPENCE_LIBS)
         {
             var list = (string.IsNullOrEmpty(name) || name.Equals(SIXPENCE_LIBS, StringComparison.OrdinalIgnoreCase) ? assemblies : GetAssemblies(name))
-                .SelectMany(assembly => assembly.GetTypes().Where(item => !item.IsInterface && item.GetInterfaces().Contains(typeof(T))))
+                .SelectMany(assembly => assembly.GetTypes().Where(item => !item.IsInterface && !item.IsAbstract && item.GetInterfaces().Contains(typeof(T))))
                 .ToList();
 
             return list;
@@ -84,6 +84,14 @@ namespace SixpenceStudio.Platform.Utils
             }
             var obj = (T)Activator.CreateInstance(type);
             return obj;
+        }
+
+        public static List<T> GetObjects<T>()
+        {
+            var types = GetTypes<T>()
+                .ToList()
+                .Select(item => (T)Activator.CreateInstance(item));
+            return types.ToList();
         }
 
     }

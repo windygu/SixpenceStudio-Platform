@@ -50,9 +50,8 @@ namespace SixpenceStudio.Platform.Job
 
                 broker.ExecuteTransaction(() =>
                 {
-                    stopWatch.Stop();
+                    
                     Run(broker);
-
                     // 更新下次执行时间
                     var nextTime = JobHelpers.GetJobNextTime(Name);
                     var nextTimeSql = "";
@@ -69,7 +68,7 @@ namespace SixpenceStudio.Platform.Job
 
                     broker.Execute($"UPDATE job SET lastruntime = @time {nextTimeSql} WHERE name = @name", paramList);
                 });
-
+                stopWatch.Stop();
                 LogUtils.DebugLog($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms\r\n");
             });
         }

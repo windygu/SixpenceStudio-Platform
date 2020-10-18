@@ -2,6 +2,7 @@
 using Quartz.Impl;
 using SixpenceStudio.Platform.Utils;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Platform.Job
@@ -38,24 +39,6 @@ namespace SixpenceStudio.Platform.Job
             await sched.ScheduleJob(job, trigger);
         }
 
-        private async static Task Run2(Type type, string cronExperssion)
-        {
-            await sched.Start();
-
-            // 创建 job
-            var job = JobBuilder.Create(type)
-                .Build();
-
-            // 创建 trigger
-            ITrigger trigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
-                .Build();
-
-            // 使用trigger规划执行任务job
-            await sched.ScheduleJob(job, trigger);
-        }
-
         /// <summary>
         /// 手动执行
         /// </summary>
@@ -84,18 +67,31 @@ namespace SixpenceStudio.Platform.Job
         /// <summary>
         /// 注册作业
         /// </summary>
-        public async static void Register()
+        public static void Register()
         {
-            var types = AssemblyUtil.GetTypes<IJob>();
-            foreach (var item in types)
+            var types = AssemblyUtil.GetTypes<IJob>().ToList();
+            types.ForEach(async item =>
             {
-                if (!item.IsAbstract)
+                await sched.Start();
+
+                // 创建 Job
+                var job = JobBuilder.Create(item)
+                    .Build();
+
+                var t = Activator.CreateInstance(item) as JobBase;
+
+                if (!string.IsNullOrEmpty(t.CronExperssion))
                 {
-                    var obj = Activator.CreateInstance(item);
-                    var cron = item.GetProperty("CronExperssion").GetValue(obj)?.ToString();
-                    await Run2(item, cron);
+                    // 创建 trigger
+                    ITrigger trigger = TriggerBuilder.Create()
+                        .StartNow()
+                        .WithSchedule(CronScheduleBuilder.CronSchedule(t.CronExperssion))
+                        .Build();
+
+                    // 使用 trigger 规划执行任务 job
+                    await sched.ScheduleJob(job, trigger);
                 }
-            }
+            });
         }
 
         /// <summary>
