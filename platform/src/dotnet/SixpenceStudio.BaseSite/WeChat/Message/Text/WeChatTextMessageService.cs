@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SixpenceStudio.Platform.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -45,13 +46,12 @@ namespace SixpenceStudio.BaseSite.WeChat.Message.Text
             }
             else
             {
-                HttpContext.Current.Response.Write("");
-                HttpContext.Current.Response.End();
+                responseMessage = "对不起，我不能识别你的命令";
             }
 
             var res = string.Format(MessageTemplate, Message.ToUserName, Message.FromUserName, DateTime.Now.Ticks, responseMessage);
+            LogUtils.DebugLog(@"回复内容：" + res);
             HttpContext.Current.Response.Write(res);
-            HttpContext.Current.Response.End();
         }
     }
 }

@@ -49,20 +49,7 @@ namespace SixpenceStudio.BaseSite.WeChat
             else
             {
                 // 消息接受
-                StreamReader str = new StreamReader(HttpContext.Current.Request.InputStream, Encoding.UTF8);
-                XmlDocument xml = new XmlDocument();
-                xml.Load(str);
-                str.Close();
-                str.Dispose();
-
-                switch (xml.SelectSingleNode("xml").SelectSingleNode("MsgType").InnerText)
-                {
-                    case "text":
-                        new WeChatTextMessageService(new WeChatTextMessage(xml)).SendMessage();
-                        break;
-                    default:
-                        break;
-                }
+                WeChatService.SendMessage(HttpContext.Current.Request.InputStream);
             }
         }
 

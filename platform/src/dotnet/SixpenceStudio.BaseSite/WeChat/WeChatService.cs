@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using SixpenceStudio.BaseSite.SysParams;
+using SixpenceStudio.BaseSite.WeChat.Message.Text;
 using SixpenceStudio.BaseSite.WeChat.ResponseModel;
 using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
@@ -9,9 +10,12 @@ using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Security;
+using System.Xml;
 
 namespace SixpenceStudio.BaseSite.WeChat
 {
@@ -165,6 +169,23 @@ namespace SixpenceStudio.BaseSite.WeChat
                 item.UpdateTime = start.AddMilliseconds(item.update_time * 1000).ToLocalTime().ToString("yyyy-MM-dd HH:mm");
             });
             return materialList;
+        }
+
+        public static void SendMessage(Stream stream)
+        {
+            XmlDocument xml = new XmlDocument();
+            var bytes = StreamUtil.StreamToBytes(stream);
+            var postString = Encoding.UTF8.GetString(bytes);
+            xml.LoadXml(postString);
+
+            switch (xml.SelectSingleNode("xml").SelectSingleNode("MsgType").InnerText)
+            {
+                case "text":
+                     new WeChatTextMessageService(new WeChatTextMessage(xml)).SendMessage();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
