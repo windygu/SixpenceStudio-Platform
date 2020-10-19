@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.WeChat
 {
-    public static class WeChatMaterial
+    public static class WeChatMaterialExtension
     {
 
         /// <summary>

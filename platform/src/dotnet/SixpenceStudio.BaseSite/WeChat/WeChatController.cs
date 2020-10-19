@@ -1,17 +1,12 @@
-﻿using SixpenceStudio.BaseSite.SysParams;
-using SixpenceStudio.BaseSite.WeChat.ResponseModel;
-using SixpenceStudio.Platform.Data;
+﻿using SixpenceStudio.BaseSite.WeChat.Message.Text;
 using SixpenceStudio.Platform.WebApi;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Xml;
-using static SixpenceStudio.BaseSite.WeChat.WeChatMaterial;
+using static SixpenceStudio.BaseSite.WeChat.WeChatMaterialExtension;
 
 namespace SixpenceStudio.BaseSite.WeChat
 {
@@ -63,9 +58,7 @@ namespace SixpenceStudio.BaseSite.WeChat
                 switch (xml.SelectSingleNode("xml").SelectSingleNode("MsgType").InnerText)
                 {
                     case "text":
-                        //var message = new WeChatTextMessage(xml);
-                        //var weChatMessage = new WeChatMessage<WeChatTextMessage>(message);
-                        //weChatMessage.SendMessage();
+                        new WeChatTextMessageService(new WeChatTextMessage(xml)).SendMessage();
                         break;
                     default:
                         break;

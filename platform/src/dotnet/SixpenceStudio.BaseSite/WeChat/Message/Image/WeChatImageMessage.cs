@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 
-namespace SixpenceStudio.BaseSite.WeChat.Message
+namespace SixpenceStudio.BaseSite.WeChat.Message.Image
 {
     /// <summary>
     /// 图片消息
