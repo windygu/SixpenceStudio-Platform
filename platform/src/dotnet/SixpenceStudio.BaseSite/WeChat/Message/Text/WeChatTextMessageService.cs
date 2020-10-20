@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Platform.Logging;
+using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,8 @@ namespace SixpenceStudio.BaseSite.WeChat.Message.Text
 
             var res = string.Format(MessageTemplate, Message.ToUserName, Message.FromUserName, DateTime.Now.Ticks, responseMessage);
             LogUtils.DebugLog(@"回复内容：" + res);
-            HttpContext.Current.Response.Write(res);
+            HttpContext.Current.Response.Write("");
+            HttpContext.Current.Response.End();
         }
     }
 }

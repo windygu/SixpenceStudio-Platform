@@ -18,5 +18,10 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// 获取微信素材
         /// </summary>
         public static string GetMaterial = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}";
+
+        /// <summary>
+        /// 发送微信消息
+        /// </summary>
+        public static string SendMessage = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token={0}";
     }
 }
