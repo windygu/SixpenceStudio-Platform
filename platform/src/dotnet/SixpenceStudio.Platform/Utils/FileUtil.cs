@@ -105,14 +105,14 @@ namespace SixpenceStudio.Platform.Utils
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IList<string> GetFileList(string name, FolderType type = FolderType.bin)
+        public static IList<string> GetFileList(string name, FolderType type = FolderType.bin, SearchOption searchOption = SearchOption.AllDirectories)
         {
             var path = GetSystemPath(type);
             if (!Directory.Exists(path))
             {
                 return new List<string>();
             }
-            return Directory.GetFiles(path, name, SearchOption.AllDirectories);
+            return Directory.GetFiles(path, name, searchOption);
         }
 
         private static byte[] Stream2Byte(Stream stream)

@@ -57,7 +57,7 @@ WHERE
         {
             try
             {
-                var fileList = FileUtil.GetFileList("*.log", FolderType.log).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
+                var fileList = FileUtil.GetFileList("*.log", FolderType.log, SearchOption.TopDirectoryOnly).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
                 var targetPath = FileUtil.GetSystemPath(FolderType.logArchive);
                 FileUtil.MoveFiles(fileList, targetPath);
                 DeleteLog();
