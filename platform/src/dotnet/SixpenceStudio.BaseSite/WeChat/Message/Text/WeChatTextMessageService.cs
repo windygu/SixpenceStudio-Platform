@@ -50,7 +50,8 @@ namespace SixpenceStudio.BaseSite.WeChat.Message.Text
             else
             {
                 // TODO：添加关键词检测
-                responseMessage = "对不起，我不能识别你的命令";
+                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage((Message as WeChatTextMessage).Content);
+                responseMessage = message ?? "对不起，我不能识别你的命令";
             }
 
             var res = string.Format(MessageTemplate, Message.FromUserName, Message.ToUserName, DateTime.Now.Ticks, responseMessage);

@@ -175,6 +175,7 @@
     <Compile Include="WeChat\Message\Image\WeChatImageMessage.cs" />
     <Compile Include="WeChat\Message\Location\WeChatLocationMessage.cs" />
     <Compile Include="WeChat\Message\ShortVideo\WeChatShortVideoMessage.cs" />
+    <Compile Include="WeChat\Message\Text\IWeChatTextKeyWord.cs" />
     <Compile Include="WeChat\Message\Text\WeChatTextMessage.cs" />
     <Compile Include="WeChat\Message\Text\WeChatTextMessageService.cs" />
     <Compile Include="WeChat\Message\Video\WeChatVideoMessage.cs" />
