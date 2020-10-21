@@ -49,7 +49,10 @@ namespace SixpenceStudio.BaseSite.WeChat
             else
             {
                 // 消息接受
-                WeChatService.SendMessage(HttpContext.Current.Request.InputStream);
+                var message = WeChatService.ReplyMessage(HttpContext.Current.Request.InputStream);
+                HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
+                HttpContext.Current.Response.Write(message);
+                HttpContext.Current.Response.End();
             }
         }
 

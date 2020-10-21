@@ -171,7 +171,12 @@ namespace SixpenceStudio.BaseSite.WeChat
             return materialList;
         }
 
-        public static void SendMessage(Stream stream)
+        /// <summary>
+        /// 回复消息
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static string ReplyMessage(Stream stream)
         {
             XmlDocument xml = new XmlDocument();
             var bytes = StreamUtil.StreamToBytes(stream);
@@ -181,10 +186,9 @@ namespace SixpenceStudio.BaseSite.WeChat
             switch (xml.SelectSingleNode("xml").SelectSingleNode("MsgType").InnerText)
             {
                 case "text":
-                     new WeChatTextMessageService(new WeChatTextMessage(xml)).SendMessage();
-                    break;
+                     return new WeChatTextMessageService(new WeChatTextMessage(xml)).GetResponseMessage();
                 default:
-                    break;
+                    return "success";
             }
         }
     }

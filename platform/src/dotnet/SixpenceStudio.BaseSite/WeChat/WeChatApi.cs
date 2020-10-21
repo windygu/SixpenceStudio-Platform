@@ -22,6 +22,6 @@ namespace SixpenceStudio.BaseSite.WeChat
         /// <summary>
         /// 发送微信消息
         /// </summary>
-        public static string SendMessage = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token={0}";
+        public static string SendMessage = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
     }
 }

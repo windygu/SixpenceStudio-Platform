@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SixpenceStudio.BaseSite.WeChat.Message
 {
@@ -20,8 +22,9 @@ namespace SixpenceStudio.BaseSite.WeChat.Message
         string MessageTemplate { get; }
 
         /// <summary>
-        /// 发送消息
+        /// 获取回复消息
         /// </summary>
-        void SendMessage();
+        /// <returns></returns>
+        string GetResponseMessage();
     }
 }
