@@ -17,7 +17,7 @@ namespace SixpenceStudio.Platform.Utils
                 var ex = Activator.CreateInstance(typeof(T), errorMessage) as T;
                 if (ex != null)
                 {
-                    LogUtils.ErrorLog($"{errorId}：{errorMessage}");
+                    LogUtils.Error($"{errorId}：{errorMessage}");
                     throw ex;
                 }
             }

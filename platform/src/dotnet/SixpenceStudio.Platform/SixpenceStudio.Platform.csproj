@@ -170,6 +170,8 @@
     <Compile Include="Entity\KeyAttributesAttribute.cs" />
     <Compile Include="Job\JobBase.cs" />
     <Compile Include="Job\JobHelpers.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogUtils.cs" />
     <Compile Include="Service\EntityView.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\WebApiMonitorLog.cs" />

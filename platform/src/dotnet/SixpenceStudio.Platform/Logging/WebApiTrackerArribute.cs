@@ -52,11 +52,11 @@ namespace SixpenceStudio.Platform.Logging
                 请求【{0}Controller】的【{1}】产生异常：
                 Action参数：{2}
                     ", MonLog.ControllerName, MonLog.ActionName, MonLog.GetCollections(MonLog.ActionParams));
-                LogUtils.ErrorLog(Msg, actionExecutedContext.Exception);
+                LogUtils.Error(Msg, actionExecutedContext.Exception);
             }
             else
             {
-                LogUtils.DebugLog(MonLog.GetLoginfo());
+                LogUtils.Debug(MonLog.GetLoginfo());
             }
         }
     }

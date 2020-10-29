@@ -59,11 +59,11 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
                     await minio.MakeBucketAsync(bucketName);
                 }
                 await minio.PutObjectAsync(bucketName, fileName, stream, stream.Length);
-                LogUtils.DebugLog($"文件{fileName}上传成功");
+                LogUtils.Debug($"文件{fileName}上传成功");
             }
             catch (MinioException e)
             {
-                LogUtils.ErrorLog($"文件{fileName}上传失败", e);
+                LogUtils.Error($"文件{fileName}上传失败", e);
             }
         }
 
@@ -77,7 +77,7 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
             var data = broker.Retrieve<sys_file>("select * from sys_file where hash_code = @id", new Dictionary<string, object>() { { "@id", objectId } });
             try
             {
-                LogUtils.DebugLog("开始下载文件");
+                LogUtils.Debug("开始下载文件");
                 await minio.GetObjectAsync(bucketName, data.name,
                 (stream) =>
                 {
@@ -91,11 +91,11 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
                     HttpContext.Current.Response.BinaryWrite(bytes);
                     HttpContext.Current.Response.End();
                 });
-                LogUtils.DebugLog($"文件{data.name}下载成功");
+                LogUtils.Debug($"文件{data.name}下载成功");
             }
             catch (MinioException e)
             {
-                LogUtils.ErrorLog($"文件{data.name}下载失败", e);
+                LogUtils.Error($"文件{data.name}下载失败", e);
             }
         }
 
