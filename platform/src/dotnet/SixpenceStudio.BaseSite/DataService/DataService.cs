@@ -6,6 +6,7 @@ using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Web;
+using System.Web.Http;
 
 namespace SixpenceStudio.BaseSite.DataService
 {
@@ -25,6 +26,7 @@ namespace SixpenceStudio.BaseSite.DataService
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
+        [HttpPost, RequestAuthorize]
         public ImageInfo UploadImage(HttpPostedFile image, string fileType, string objectId)
         {
             // 获取文件哈希码，将哈希码作为文件名
