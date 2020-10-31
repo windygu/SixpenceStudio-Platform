@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.BaseSite.SysConfig;
+﻿using Minio.DataModel;
+using SixpenceStudio.BaseSite.SysConfig;
 using SixpenceStudio.BaseSite.SysConfig.Config;
 using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform.Data;
@@ -64,7 +65,7 @@ WHERE
             }
             catch (Exception e)
             {
-                LogUtils.ErrorLog("日志归档出现异常", e);
+                LogUtils.Error("日志归档出现异常", e);
             }
         }
 
@@ -80,15 +81,14 @@ WHERE
             // 需要保留的log
             for (int i = 0; i < Convert.ToInt32(days); i++)
             {
-                logNameList.Add(DateTime.Now.AddDays(-i).ToString("yyyyMMdd") + " debug.log");
-                logNameList.Add(DateTime.Now.AddDays(-i).ToString("yyyyMMdd") + " error.log");
+                logNameList.Add(DateTime.Now.AddDays(-i).ToString("yyyyMMdd"));
             }
 
             // 删除不需要保留的log
             for (int i = 0; i < files.Count; i++)
             {
                 var file = files[i];
-                if (!logNameList.Contains(Path.GetFileName(file)))
+                if (logNameList.Count(Item => Path.GetFileName(file).Contains(Item)) == 0)
                 {
                     FileUtil.DeleteFile(file);
                 }

@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using log4net.Repository.Hierarchy;
+using Quartz;
 using Quartz.Impl;
 using SixpenceStudio.Platform.Utils;
 using System;
@@ -67,7 +68,7 @@ namespace SixpenceStudio.Platform.Job
         /// <summary>
         /// 注册作业
         /// </summary>
-        public static void Register()
+        public static void Register(Logging.Logger logger)
         {
             var types = AssemblyUtil.GetTypes<IJob>().ToList();
             types.ForEach(async item =>
@@ -79,6 +80,7 @@ namespace SixpenceStudio.Platform.Job
                     .Build();
 
                 var t = Activator.CreateInstance(item) as JobBase;
+                logger.Info($"创建{t.Name}Job成功");
 
                 if (!string.IsNullOrEmpty(t.CronExperssion))
                 {

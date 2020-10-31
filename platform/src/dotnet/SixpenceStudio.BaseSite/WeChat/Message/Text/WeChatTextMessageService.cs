@@ -55,7 +55,7 @@ namespace SixpenceStudio.BaseSite.WeChat.Message.Text
             }
 
             var res = string.Format(MessageTemplate, Message.FromUserName, Message.ToUserName, DateTime.Now.Ticks, responseMessage);
-            LogUtils.DebugLog(@"回复内容：" + res);
+            LogUtils.Debug(@"回复内容：" + res);
             return res;
         }
     }

@@ -4,6 +4,7 @@ using log4net.Config;
 using log4net.Core;
 using log4net.Filter;
 using log4net.Layout;
+using log4net.Repository;
 using System;
 using System.ComponentModel;
 
@@ -17,12 +18,16 @@ namespace SixpenceStudio.Platform.Logging
         public static Logger GetLogger(string name = "")
         {
             if (string.IsNullOrEmpty(name)) return null;
-            
-            var repository = LogManager.GetRepository(name);
-            if (repository == null)
+
+            ILoggerRepository repository;
+            try
+            {
+                repository = LogManager.GetRepository(name);
+            }
+            catch
             {
                 // Pattern Layout
-                PatternLayout layout = new PatternLayout("[%logger][%date]%message");
+                PatternLayout layout = new PatternLayout("[%logger][%date]%message\r\n");
                 // Level Filter
                 LevelMatchFilter filter = new LevelMatchFilter();
                 filter.LevelToMatch = Level.All;
@@ -40,7 +45,7 @@ namespace SixpenceStudio.Platform.Logging
                 // 文件大小达到上限，新建文件时，文件编号放到文件后缀前面
                 appender.PreserveLogFileNameExtension = true;
                 // 时间模式
-                appender.DatePattern = $"{DateTime.Now.ToString("yyyyMMdd")} {name}.log";
+                appender.DatePattern = $"yyyyMMdd\" {name}.log\"";
                 // 最小锁定模型以允许多个进程可以写入同一个文件
                 appender.LockingModel = new FileAppender.MinimalLock();
                 appender.Name = $"{name}Appender";

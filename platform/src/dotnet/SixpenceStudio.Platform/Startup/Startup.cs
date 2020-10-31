@@ -2,6 +2,7 @@
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Startup;
 using System.IO;
 using System.Web.Http;
@@ -25,9 +26,15 @@ namespace SixpenceStudio.Platform.Startup
 
             app.UseCors(CorsOptions.AllowAll);
 
-            WebApiConfig.Register(app, config);
+            var log = LogFactory.GetLogger("startup");
 
-            Job.JobHelpers.Register();
+            log.Info("正在注册Controller");
+            WebApiConfig.Register(app, config);
+            log.Info("注册API成功");
+
+            log.Info("正在注册Job");
+            Job.JobHelpers.Register(log);
+            log.Info("注册Job成功");
         }
     }
 }
