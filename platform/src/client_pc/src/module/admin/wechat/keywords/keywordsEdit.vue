@@ -27,12 +27,6 @@ export default {
     return {
       controllerName: 'WeChatKeywords'
     };
-  },
-  methods: {
-    preSave() {
-      this.data.reply_content = this.$refs.editor.editor.txt.text();
-      return '';
-    }
   }
 };
 </script>
