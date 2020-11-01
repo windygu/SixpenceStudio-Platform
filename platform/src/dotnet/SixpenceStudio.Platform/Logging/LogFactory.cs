@@ -22,7 +22,7 @@ namespace SixpenceStudio.Platform.Logging
             ILoggerRepository repository;
             try
             {
-                repository = LogManager.GetRepository(name);
+                repository = LogManager.GetRepository($"{name}Repository");
             }
             catch
             {
