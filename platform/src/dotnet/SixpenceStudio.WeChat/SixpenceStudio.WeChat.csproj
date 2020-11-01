@@ -140,6 +140,12 @@
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />
+    <Compile Include="WeChatNews\WeChatNewsController.cs" />
+    <Compile Include="WeChatNews\WeChatNewsService.cs" />
+    <Compile Include="WeChatNews\wechat_news.cs" />
+    <Compile Include="WeChatReply\Keywords\WeChatKeywordsController.cs" />
+    <Compile Include="WeChatReply\Keywords\WeChatKeywordsService.cs" />
+    <Compile Include="WeChatReply\Keywords\wechat_keywords.cs" />
     <Compile Include="WeChatSection.cs" />
     <Compile Include="WeChatService.cs" />
   </ItemGroup>
@@ -157,5 +163,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
