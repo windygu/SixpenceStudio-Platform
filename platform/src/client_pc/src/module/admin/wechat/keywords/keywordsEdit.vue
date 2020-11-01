@@ -10,7 +10,7 @@
     <a-row :gutter="24">
       <a-col :span="24">
         <a-form-model-item label="回复内容">
-          <sp-editor ref="editor" v-model="data.reply_content"></sp-editor>
+          <a-input type="textarea" maxlength="500" rows="10" v-model="data.reply_content"></a-input>
         </a-form-model-item>
       </a-col>
     </a-row>
