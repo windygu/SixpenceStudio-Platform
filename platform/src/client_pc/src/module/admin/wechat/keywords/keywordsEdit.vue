@@ -10,7 +10,7 @@
     <a-row :gutter="24">
       <a-col :span="24">
         <a-form-model-item label="回复内容">
-          <sp-editor v-model="data.reply_content"></sp-editor>
+          <sp-editor ref="editor" v-model="data.reply_content"></sp-editor>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -27,6 +27,12 @@ export default {
     return {
       controllerName: 'WeChatKeywords'
     };
+  },
+  methods: {
+    preSave() {
+      this.data.reply_content = this.$refs.editor.editor.txt.text();
+      return '';
+    }
   }
 };
 </script>
