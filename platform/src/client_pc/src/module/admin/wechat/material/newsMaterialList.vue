@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import keywordsEdit from './keywordsEdit';
+import newsMaterialEdit from './newsMaterialEdit';
 
 export default {
   name: 'materialList',
   data() {
     return {
       controllerName: 'WeChatNews',
-      editComponent: keywordsEdit,
+      editComponent: newsMaterialEdit,
       operations: ['new', 'delete', 'search'],
       columns: [
         { prop: 'name', label: '关键词' },
