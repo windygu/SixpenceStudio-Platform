@@ -15,7 +15,8 @@
     "jsencrypt": "^3.0.0-rc.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
-    "uuidjs": "^4.2.5"
+    "uuidjs": "^4.2.5",
+    "wangeditor": "^4.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
