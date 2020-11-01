@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SixpenceStudio.WeChat
 {
-    public static class WeChatApi
+    internal static class WeChatApi
     {
         public const string BaseUrl = "https://api.weixin.qq.com/";
 

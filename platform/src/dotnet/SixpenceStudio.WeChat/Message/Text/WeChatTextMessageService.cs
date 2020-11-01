@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.WeChat.WeChatReply.Keywords;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,9 +50,24 @@ namespace SixpenceStudio.WeChat.Message.Text
             }
             else
             {
+                var request = (Message as WeChatTextMessage).Content;
                 // TODO：添加关键词检测
-                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage((Message as WeChatTextMessage).Content);
-                responseMessage = message ?? "对不起，我不能识别你的命令";
+                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage(request);
+                // 实现了IWeChatTextKeyWord则以实现类回复
+                if (message != null)
+                {
+                    responseMessage = message;
+                }
+                else
+                {
+                    var reply = new WeChatKeywordsService().GetDataList(request).FirstOrDefault();
+                    responseMessage = reply.reply_content;
+                }
+
+                if (string.IsNullOrEmpty(responseMessage))
+                {
+                    responseMessage = "对不起，我听不懂你在说什么";
+                }
             }
 
             var res = string.Format(MessageTemplate, Message.FromUserName, Message.ToUserName, DateTime.Now.Ticks, responseMessage);

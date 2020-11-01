@@ -1,13 +1,10 @@
-﻿using SixpenceStudio.WeChat.Message.Text;
+﻿using SixpenceStudio.BaseSite;
 using SixpenceStudio.Platform.WebApi;
 using System;
-using System.IO;
 using System.Text;
 using System.Web;
-using System.Xml;
-using static SixpenceStudio.WeChat.WeChatMaterialExtension;
-using SixpenceStudio.BaseSite;
 using System.Web.Http;
+using static SixpenceStudio.WeChat.WeChatMaterialExtension;
 
 namespace SixpenceStudio.WeChat
 {
