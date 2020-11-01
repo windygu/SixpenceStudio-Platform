@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SixpenceStudio.Platform.Data;
+using SixpenceStudio.Platform.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,10 @@ namespace SixpenceStudio.WeChat.Message
     public interface IWeChatMessageService<E>
         where E : BaseWeChatMessage
     {
+        IPersistBroker broker { get; set; }
+
+        Logger logger { get; set; }
+
         /// <summary>
         /// 接收到的消息
         /// </summary>

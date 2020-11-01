@@ -65,7 +65,7 @@ namespace SixpenceStudio.Platform.Logging
             return new Logger(log);
         }
 
-        public static ILog GetLogger(LogType logType)
+        internal static ILog GetLogger(LogType logType)
         {
             switch (logType)
             {

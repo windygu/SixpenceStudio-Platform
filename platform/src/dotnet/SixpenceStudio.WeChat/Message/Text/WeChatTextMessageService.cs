@@ -1,13 +1,9 @@
-﻿using SixpenceStudio.Platform.Logging;
+﻿using SixpenceStudio.Platform.Data;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Utils;
 using SixpenceStudio.WeChat.WeChatReply.Keywords;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Web;
 
 namespace SixpenceStudio.WeChat.Message.Text
 {
@@ -19,6 +15,8 @@ namespace SixpenceStudio.WeChat.Message.Text
         public WeChatTextMessageService(WeChatTextMessage xml)
         {
             Message = xml;
+            broker = PersistBrokerFactory.GetPersistBroker();
+            logger = LogFactory.GetLogger("wechat");
         }
 
         public BaseWeChatMessage Message { get; set; }
@@ -38,29 +36,34 @@ namespace SixpenceStudio.WeChat.Message.Text
 ";
             }
         }
+        public IPersistBroker broker { get; set; }
+        public Logger logger { get; set; }
 
         public string GetResponseMessage()
         {
             var responseMessage = string.Empty;
+            var textMessage = (Message as WeChatTextMessage);
+
             if (!string.IsNullOrEmpty(Message.EventName) && Message.EventName.Trim() == "subscribe")
             {
                 responseMessage = @"
 您好，欢迎关注六便士公众号！
 ";
+                logger.Info($"收到来自{textMessage.FromUserName}的关注");
             }
             else
             {
-                var request = (Message as WeChatTextMessage).Content;
-                // TODO：添加关键词检测
-                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage(request);
+                logger.Info($"收到消息：{textMessage.Content}");
+
                 // 实现了IWeChatTextKeyWord则以实现类回复
+                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage(textMessage.Content);
                 if (message != null)
                 {
                     responseMessage = message;
                 }
                 else
                 {
-                    var reply = new WeChatKeywordsService().GetDataList(request).FirstOrDefault();
+                    var reply = new WeChatKeywordsService(broker).GetDataList(textMessage.Content).FirstOrDefault();
                     responseMessage = reply.reply_content;
                 }
 
@@ -71,7 +74,7 @@ namespace SixpenceStudio.WeChat.Message.Text
             }
 
             var res = string.Format(MessageTemplate, Message.FromUserName, Message.ToUserName, DateTime.Now.Ticks, responseMessage);
-            LogUtils.Debug(@"回复内容：" + res);
+            logger.Info(@"回复内容：" + res);
             return res;
         }
     }
