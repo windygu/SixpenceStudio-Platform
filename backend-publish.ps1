@@ -12,5 +12,6 @@ $newVersion = Read-Host "Enter new version"
 
 nuget pack platform\src\dotnet\SixpenceStudio.BaseSite\SixpenceStudio.BaseSite.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory platform\build
 nuget pack platform\src\dotnet\SixpenceStudio.Platform\SixpenceStudio.Platform.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory platform\build
+nuget pack platform\src\dotnet\SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory platform\build
 
 nuget push platform\build\*.nupkg -Source http://nuget.karldu.cn/nuget -ApiKey 9F2E9384-F50A-43FF-8BA9-5D5E981C6561

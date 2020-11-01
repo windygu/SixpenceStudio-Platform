@@ -1,23 +1,19 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using SixpenceStudio.BaseSite.SysParams;
-using SixpenceStudio.BaseSite.WeChat.Message.Text;
-using SixpenceStudio.BaseSite.WeChat.ResponseModel;
 using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.WeChat.Message.Text;
+using SixpenceStudio.WeChat.ResponseModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Security;
 using System.Xml;
 
-namespace SixpenceStudio.BaseSite.WeChat
+namespace SixpenceStudio.WeChat
 {
     public static class WeChatService
     {

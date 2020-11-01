@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.WeChat.Message
+namespace SixpenceStudio.WeChat.Message
 {
     public interface IWeChatMessageService<E>
         where E : BaseWeChatMessage

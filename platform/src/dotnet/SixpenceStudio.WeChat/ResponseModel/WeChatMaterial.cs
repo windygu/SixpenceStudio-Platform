@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.WeChat.ResponseModel
+namespace SixpenceStudio.WeChat.ResponseModel
 {
     public class BaseWeChatMaterial<T>
         where T : BaseWeChatMaterialItem, new()

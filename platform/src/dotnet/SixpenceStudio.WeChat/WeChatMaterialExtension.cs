@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.WeChat
+namespace SixpenceStudio.WeChat
 {
     public static class WeChatMaterialExtension
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 
-namespace SixpenceStudio.BaseSite.WeChat.Message.Voice
+namespace SixpenceStudio.WeChat.Message.Voice
 {
     /// <summary>
     /// 语音消息

@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.WeChat
+namespace SixpenceStudio.WeChat
 {
     [ConfigSectionName("wechat")]
     public class WeChatSection : ConfigurationSection

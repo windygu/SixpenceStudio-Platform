@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 
-namespace SixpenceStudio.BaseSite.WeChat.Message.Video
+namespace SixpenceStudio.WeChat.Message.Video
 {
     /// <summary>
     /// 微信视频消息

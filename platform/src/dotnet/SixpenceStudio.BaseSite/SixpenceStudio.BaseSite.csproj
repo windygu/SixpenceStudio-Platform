@@ -170,22 +170,6 @@
     <Compile Include="UserInfo\UserInfoPlugin.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
-    <Compile Include="WeChat\Message\BaseWeChatMessage.cs" />
-    <Compile Include="WeChat\Message\IWeChatMessageService.cs" />
-    <Compile Include="WeChat\Message\Image\WeChatImageMessage.cs" />
-    <Compile Include="WeChat\Message\Location\WeChatLocationMessage.cs" />
-    <Compile Include="WeChat\Message\ShortVideo\WeChatShortVideoMessage.cs" />
-    <Compile Include="WeChat\Message\Text\IWeChatTextKeyWord.cs" />
-    <Compile Include="WeChat\Message\Text\WeChatTextMessage.cs" />
-    <Compile Include="WeChat\Message\Text\WeChatTextMessageService.cs" />
-    <Compile Include="WeChat\Message\Video\WeChatVideoMessage.cs" />
-    <Compile Include="WeChat\Message\Voice\WeChatVoiceMessage.cs" />
-    <Compile Include="WeChat\ResponseModel\WeChatMaterial.cs" />
-    <Compile Include="WeChat\WeChatApi.cs" />
-    <Compile Include="WeChat\WeChatController.cs" />
-    <Compile Include="WeChat\WeChatMaterialExtension.cs" />
-    <Compile Include="WeChat\WeChatService.cs" />
-    <Compile Include="WeChat\WeChatSection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

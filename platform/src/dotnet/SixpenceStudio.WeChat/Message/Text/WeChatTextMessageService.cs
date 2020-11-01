@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Web;
 
-namespace SixpenceStudio.BaseSite.WeChat.Message.Text
+namespace SixpenceStudio.WeChat.Message.Text
 {
     /// <summary>
     /// 文本消息服务类

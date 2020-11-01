@@ -1,14 +1,15 @@
-﻿using SixpenceStudio.BaseSite.WeChat.Message.Text;
+﻿using SixpenceStudio.WeChat.Message.Text;
 using SixpenceStudio.Platform.WebApi;
 using System;
 using System.IO;
 using System.Text;
 using System.Web;
-using System.Web.Http;
 using System.Xml;
-using static SixpenceStudio.BaseSite.WeChat.WeChatMaterialExtension;
+using static SixpenceStudio.WeChat.WeChatMaterialExtension;
+using SixpenceStudio.BaseSite;
+using System.Web.Http;
 
-namespace SixpenceStudio.BaseSite.WeChat
+namespace SixpenceStudio.WeChat
 {
     [RequestAuthorize]
     public class WeChatController : BaseController
