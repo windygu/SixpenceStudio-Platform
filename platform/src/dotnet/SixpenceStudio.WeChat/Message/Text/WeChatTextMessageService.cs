@@ -71,6 +71,11 @@ namespace SixpenceStudio.WeChat.Message.Text
                 }
             }
 
+            if (string.IsNullOrWhiteSpace(responseMessage))
+            {
+                return "success";
+            }
+
             var res = string.Format(MessageTemplate, Message.FromUserName, Message.ToUserName, DateTime.Now.Ticks, responseMessage);
             logger.Info(@"回复内容：" + res);
             return res;

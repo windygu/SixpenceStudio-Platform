@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SixpenceStudio.Platform.Logging
 {
      /// <summary>
-    /// 日志帮助类（常用log）
+    /// 日志帮助类（log信息将会输出到 all.log 里）
     /// </summary>
     public static class LogUtils
     {

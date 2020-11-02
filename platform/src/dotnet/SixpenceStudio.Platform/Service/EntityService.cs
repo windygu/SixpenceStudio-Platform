@@ -20,7 +20,7 @@ namespace SixpenceStudio.Platform.Service
         protected EntityCommand<T> _cmd;
 
         /// <summary>
-        /// 持久化
+        /// 数据库持久化
         /// </summary>
         protected IPersistBroker Broker
         {

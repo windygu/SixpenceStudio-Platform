@@ -46,6 +46,8 @@ namespace SixpenceStudio.Platform.Logging
             return string.Format(Msg, Url);
         }
 
+        public Logger Logger { get; set; }
+
         /// <summary>
         /// 获取Action 参数
         /// </summary>
