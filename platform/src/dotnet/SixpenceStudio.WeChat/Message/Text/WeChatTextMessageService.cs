@@ -15,8 +15,6 @@ namespace SixpenceStudio.WeChat.Message.Text
         public WeChatTextMessageService(WeChatTextMessage xml)
         {
             Message = xml;
-            broker = PersistBrokerFactory.GetPersistBroker();
-            logger = LogFactory.GetLogger("wechat");
         }
 
         public BaseWeChatMessage Message { get; set; }
@@ -36,11 +34,11 @@ namespace SixpenceStudio.WeChat.Message.Text
 ";
             }
         }
-        public IPersistBroker broker { get; set; }
-        public Logger logger { get; set; }
 
         public string GetResponseMessage()
         {
+            var broker = PersistBrokerFactory.GetPersistBroker();
+            var logger = LogFactory.GetLogger("wechat");
             var responseMessage = string.Empty;
             var textMessage = (Message as WeChatTextMessage);
 

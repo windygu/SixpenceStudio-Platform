@@ -13,10 +13,6 @@ namespace SixpenceStudio.WeChat.Message
     public interface IWeChatMessageService<E>
         where E : BaseWeChatMessage
     {
-        IPersistBroker broker { get; set; }
-
-        Logger logger { get; set; }
-
         /// <summary>
         /// 接收到的消息
         /// </summary>
