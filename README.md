@@ -3,7 +3,7 @@
 ## Description
 
 该平台基于`.Net`的`ORM`二次封装后端平台，封装操作类型包括基本的 CRUD。Package 均上传至 🌍[Nuget](http://nuget.karldu.cn/)。
-前端使用`Vue`基于`Ant design`二次封装的组件库，组件库已上传至 🌍[NPM](http://karldu.cn:8002/-/web/detail/sixpence.platform.pc.vue)。
+前端使用`Vue`基于`Ant design`二次封装的组件库，组件库已上传至 🌍[NPM](http://npm.karldu.cn/-/web/detail/sixpence.platform.pc.vue)。
 
 ## Backend
 
