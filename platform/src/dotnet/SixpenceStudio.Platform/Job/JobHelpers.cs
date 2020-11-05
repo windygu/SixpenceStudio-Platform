@@ -11,11 +11,17 @@ namespace SixpenceStudio.Platform.Job
     /// <summary>
     /// Job帮助类
     /// </summary>
-    public class JobHelpers
+    public static class JobHelpers
     {
         // 创建scheduler的引用
-        static StdSchedulerFactory schedFact = new StdSchedulerFactory();
-        static IScheduler sched = schedFact.GetScheduler().Result;
+        static StdSchedulerFactory schedFact;
+        static IScheduler sched;
+
+        static JobHelpers()
+        {
+            schedFact = schedFact ?? new StdSchedulerFactory();
+            sched = sched ?? schedFact.GetScheduler().Result;
+        }
 
         /// <summary>
         /// 任务调度的使用过程
@@ -48,8 +54,6 @@ namespace SixpenceStudio.Platform.Job
         private async static Task RunManually(Type type)
         {
             // 1.创建scheduler的引用
-            var schedFact = new StdSchedulerFactory();
-            var sched = await schedFact.GetScheduler();
             await sched.Start();
 
             // 3.创建 job
@@ -70,30 +74,29 @@ namespace SixpenceStudio.Platform.Job
         /// </summary>
         public static void Register(Logging.Logger logger)
         {
-            var types = AssemblyUtil.GetTypes<IJob>().ToList();
-            types.ForEach(async item =>
-            {
-                await sched.Start();
-
-                // 创建 Job
-                var job = JobBuilder.Create(item)
-                    .Build();
-
-                var t = Activator.CreateInstance(item) as JobBase;
-                logger.Info($"创建{t.Name}Job成功");
-
-                if (!string.IsNullOrEmpty(t.CronExperssion))
+            AssemblyUtil.GetTypes<IJob>()
+                .ToList()
+                .ForEach(item =>
                 {
-                    // 创建 trigger
-                    ITrigger trigger = TriggerBuilder.Create()
-                        .StartNow()
-                        .WithSchedule(CronScheduleBuilder.CronSchedule(t.CronExperssion))
-                        .Build();
+                    sched.Start().Wait();
 
-                    // 使用 trigger 规划执行任务 job
-                    await sched.ScheduleJob(job, trigger);
-                }
-            });
+                    // 创建 Job
+                    var job = JobBuilder.Create(item)
+                        .Build();
+                    var t = Activator.CreateInstance(item) as JobBase;
+                    if (!string.IsNullOrEmpty(t.CronExperssion))
+                    {
+                        // 创建 trigger
+                        ITrigger trigger = TriggerBuilder.Create()
+                            .StartNow()
+                            .WithSchedule(CronScheduleBuilder.CronSchedule(t.CronExperssion))
+                            .Build();
+
+                        // 使用 trigger 规划执行任务 job
+                        sched.ScheduleJob(job, trigger).Wait();
+                    }
+                    logger.Info($"创建{t.Name}Job成功");
+                });
         }
 
         /// <summary>
@@ -103,17 +106,15 @@ namespace SixpenceStudio.Platform.Job
         /// <returns></returns>
         public static string GetJobNextTime(string jobName)
         {
-            var types = Utils.AssemblyUtil.GetTypes<IJob>();
+            var types = AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)
                 {
-                    var obj = Activator.CreateInstance(item);
-                    var _jobName = item.GetProperty("Name").GetValue(obj)?.ToString();
-                    var _jobCron = item.GetProperty("CronExperssion").GetValue(obj)?.ToString();
-                    if (string.Equals(jobName, _jobName))
+                    var obj = Activator.CreateInstance(item) as JobBase;
+                    if (string.Equals(jobName, obj.Name))
                     {
-                        return CronUtil.GetNextDateTime(_jobCron, DateTime.Now);
+                        return CronUtil.GetNextDateTime(obj.CronExperssion, DateTime.Now);
                     }
                 }
             }
@@ -124,18 +125,17 @@ namespace SixpenceStudio.Platform.Job
         /// 手动执行一次任务
         /// </summary>
         /// <param name="name"></param>
-        public async static void StartJob(string jobName)
+        public static void StartJob(string name)
         {
             var types = AssemblyUtil.GetTypes<IJob>();
             foreach (var item in types)
             {
                 if (!item.IsAbstract)
                 {
-                    var obj = Activator.CreateInstance(item);
-                    var _jobName = item.GetProperty("Name").GetValue(obj)?.ToString();
-                    if (string.Equals(jobName, _jobName))
+                    var obj = Activator.CreateInstance(item) as JobBase;
+                    if (string.Equals(name, obj.Name))
                     {
-                        await RunManually(item);
+                        RunManually(item).Wait();
                     }
                 }
             }

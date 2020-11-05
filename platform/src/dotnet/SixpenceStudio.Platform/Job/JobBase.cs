@@ -42,7 +42,7 @@ namespace SixpenceStudio.Platform.Job
         {
             return Task.Factory.StartNew(() =>
             {
-                LogUtils.Debug($"作业：{Name} 开始执行\r\n");
+                LogUtils.Debug($"作业：{Name} 开始执行");
 
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
@@ -69,7 +69,7 @@ namespace SixpenceStudio.Platform.Job
                     broker.Execute($"UPDATE job SET lastruntime = @time {nextTimeSql} WHERE name = @name", paramList);
                 });
                 stopWatch.Stop();
-                LogUtils.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms\r\n");
+                LogUtils.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");
             });
         }
     }
