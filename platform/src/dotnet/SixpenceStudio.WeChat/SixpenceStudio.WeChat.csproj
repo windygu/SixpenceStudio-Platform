@@ -125,13 +125,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Message\IWeChatReplyMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Message\BaseWeChatMessage.cs" />
     <Compile Include="Message\Image\WeChatImageMessage.cs" />
     <Compile Include="Message\IWeChatMessageService.cs" />
     <Compile Include="Message\Location\WeChatLocationMessage.cs" />
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
-    <Compile Include="Message\Text\IWeChatTextKeyWord.cs" />
     <Compile Include="Message\Text\WeChatTextMessage.cs" />
     <Compile Include="Message\Text\WeChatTextMessageService.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
@@ -144,6 +144,7 @@
     <Compile Include="WeChatNews\WeChatNewsService.cs" />
     <Compile Include="WeChatNews\wechat_news.cs" />
     <Compile Include="WeChatReply\Focus\WeChatFocusReplyController.cs" />
+    <Compile Include="WeChatReply\Focus\WeChatFocusReplyPlugin.cs" />
     <Compile Include="WeChatReply\Focus\WeChatFocusReplyService.cs" />
     <Compile Include="WeChatReply\Focus\wechat_focus_reply.cs" />
     <Compile Include="WeChatReply\Keywords\WeChatKeywordsController.cs" />
