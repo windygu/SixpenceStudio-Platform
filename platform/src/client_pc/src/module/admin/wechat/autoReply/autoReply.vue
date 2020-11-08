@@ -2,14 +2,20 @@
   <div>
     <a-menu v-model="menu" mode="horizontal">
       <a-menu-item key="keyWords">关键词回复</a-menu-item>
-      <a-menu-item key="forcus">关注回复</a-menu-item>
+      <a-menu-item key="focus">关注回复</a-menu-item>
     </a-menu>
+    <keywords v-show="menu[0] == 'keyWords'"></keywords>
+    <forcus-reply v-show="menus[1] == 'focus'"></forcus-reply>
   </div>
 </template>
 
 <script>
+import keywords from './keywords/keywordsList';
+import focusReply from './focusReply';
+
 export default {
   name: 'autoReply',
+  components: { keywords, focusReply },
   data() {
     return {
       menu: ['keyWords']

@@ -143,6 +143,9 @@
     <Compile Include="WeChatNews\WeChatNewsController.cs" />
     <Compile Include="WeChatNews\WeChatNewsService.cs" />
     <Compile Include="WeChatNews\wechat_news.cs" />
+    <Compile Include="WeChatReply\Focus\WeChatFocusReplyController.cs" />
+    <Compile Include="WeChatReply\Focus\WeChatFocusReplyService.cs" />
+    <Compile Include="WeChatReply\Focus\wechat_focus_reply.cs" />
     <Compile Include="WeChatReply\Keywords\WeChatKeywordsController.cs" />
     <Compile Include="WeChatReply\Keywords\WeChatKeywordsService.cs" />
     <Compile Include="WeChatReply\Keywords\wechat_keywords.cs" />
