@@ -45,7 +45,7 @@ export default {
         this.data.Id = sp.newUUID();
       }
       this.data.content = this.content;
-      sp.post(url)
+      sp.post(url, this.data)
         .then(() => {
           this.$message.success('保存成功');
         })
