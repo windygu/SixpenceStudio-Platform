@@ -1,6 +1,6 @@
 {
   "name": "sixpence.platform.pc.vue",
-  "version": "1.0.109",
+  "version": "1.0.110",
   "description": "Sixpence Studio 的 vue 组件库",
   "author": "carldu",
   "private": false,
