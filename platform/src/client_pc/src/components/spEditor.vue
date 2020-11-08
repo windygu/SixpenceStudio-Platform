@@ -26,6 +26,11 @@ export default {
     disabledMenu: {
       type: Array,
       default: () => []
+    },
+    // 使用功能
+    enableMenu: {
+      type: Array,
+      default: () => []
     }
   },
   model: {
@@ -50,6 +55,9 @@ export default {
     this.editor.config.onchange = html => {
       this.$emit('input', html);
     };
+    if (this.enableMenu) {
+      this.editor.config.menus = this.enableMenu;
+    }
     this.editor.config.menus = this.editor.config.menus.filter(item => !this.disabledMenu.includes(item));
     this.editor.config.uploadImgParamsWithUrl = true;
     this.editor.config.uploadImgHeaders = {

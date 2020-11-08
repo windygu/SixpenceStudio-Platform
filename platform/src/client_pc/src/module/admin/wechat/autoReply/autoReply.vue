@@ -5,7 +5,7 @@
       <a-menu-item key="focus">关注回复</a-menu-item>
     </a-menu>
     <keywords v-show="menu[0] == 'keyWords'"></keywords>
-    <forcus-reply v-show="menus[1] == 'focus'"></forcus-reply>
+    <focus-reply v-show="menu[0] == 'focus'"></focus-reply>
   </div>
 </template>
 
