@@ -27,15 +27,16 @@ export default {
     };
   },
   created() {
-    this.getData();
+    this.getData().then(() => {
+      this.content = this.data.content;
+    });
   },
   methods: {
     onChange(checked) {
-      debugger;
       this.data.checked = checked ? 1 : 0;
     },
     async getData() {
-      return sp.get(`api/${this.controllerName}/GetData`).then(resp => (this.data = resp));
+      return sp.get(`api/${this.controllerName}/GetData`).then(resp => (this.data = resp || {}));
     },
     saveData() {
       const operationName = sp.isNullOrEmpty(this.data.Id) ? 'CreateData' : 'UpdateData';

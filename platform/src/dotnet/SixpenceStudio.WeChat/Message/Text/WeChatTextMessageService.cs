@@ -1,6 +1,7 @@
 ﻿using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.WeChat.WeChatReply.Focus;
 using SixpenceStudio.WeChat.WeChatReply.Keywords;
 using System;
 using System.Linq;
@@ -40,13 +41,14 @@ namespace SixpenceStudio.WeChat.Message.Text
             var broker = PersistBrokerFactory.GetPersistBroker();
             var logger = LogFactory.GetLogger("wechat");
             var responseMessage = string.Empty;
-            var textMessage = (Message as WeChatTextMessage);
+            var textMessage = Message as WeChatTextMessage;
+
+            var messageStrategy = AssemblyUtil.GetObjects<IWeChatReplyMessage>()?.FirstOrDefault();
 
             if (!string.IsNullOrEmpty(Message.EventName) && Message.EventName.Trim() == "subscribe")
             {
-                responseMessage = @"
-您好，欢迎关注六便士公众号！
-";
+                var message = messageStrategy?.GetFocusMessage() ?? new WeChatFocusReplyService().GetData()?.content;
+                responseMessage = string.IsNullOrEmpty(message) ? "感谢您的关注！" : message;
                 logger.Info($"收到来自{textMessage.FromUserName}的关注");
             }
             else
@@ -54,7 +56,7 @@ namespace SixpenceStudio.WeChat.Message.Text
                 logger.Info($"收到消息：{textMessage.Content}");
 
                 // 实现了IWeChatTextKeyWord则以实现类回复
-                var message = AssemblyUtil.GetObjects<IWeChatTextKeyWord>()?.FirstOrDefault()?.GetMessage(textMessage.Content);
+                var message = messageStrategy?.GetKeywordsMessage(textMessage.Content);
                 if (message != null)
                 {
                     responseMessage = message;

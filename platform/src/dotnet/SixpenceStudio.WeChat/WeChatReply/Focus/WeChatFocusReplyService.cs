@@ -47,11 +47,5 @@ select * from wechat_focus_reply where wechat = @wechat
             var data = _cmd.broker.Retrieve<wechat_focus_reply>(sql, new Dictionary<string, object>() { { "@wechat", config.appid } });
             return data;
         }
-
-        public override string CreateData(wechat_focus_reply t)
-        {
-            t.wechat = ConfigFactory.GetConfig<WeChatSection>().appid;
-            return base.CreateData(t);
-        }
     }
 }
