@@ -1,7 +1,7 @@
 {
   "name": "sixpence.platform.pc.vue",
-  "version": "1.0.108",
-  "description": "A Vue.js components store",
+  "version": "1.0.109",
+  "description": "Sixpence Studio 的 vue 组件库",
   "author": "carldu",
   "private": false,
   "scripts": {

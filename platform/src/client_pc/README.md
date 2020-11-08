@@ -1,21 +1,13 @@
 # client_pc
 
-> A Vue.js project
+> Sixpence Studio 的 vue 组件库
 
 ## Build Setup
 
-``` bash
-# install dependencies
-npm install
+```bash
+npm install sixpence.platform.pc.vue
 
-# serve with hot reload at localhost:8080
-npm run dev
+yarn add sixpence.platform.pc.vue
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+pnpm install sixpence.platform.pc.vue
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
