@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Cors, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -125,15 +127,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Message\IWeChatReplyMessage.cs" />
+    <Compile Include="Message\Text\WeChatTextMessage.cs" />
+    <Compile Include="Message\WeChatMessageTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Message\BaseWeChatMessage.cs" />
     <Compile Include="Message\Image\WeChatImageMessage.cs" />
-    <Compile Include="Message\IWeChatMessageService.cs" />
     <Compile Include="Message\Location\WeChatLocationMessage.cs" />
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
-    <Compile Include="Message\Text\WeChatTextMessage.cs" />
-    <Compile Include="Message\Text\WeChatTextMessageService.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
     <Compile Include="ResponseModel\WeChatMaterial.cs" />

@@ -5,8 +5,11 @@ using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.WeChat.Message;
 using SixpenceStudio.WeChat.Message.Text;
 using SixpenceStudio.WeChat.ResponseModel;
+using SixpenceStudio.WeChat.WeChatReply.Focus;
+using SixpenceStudio.WeChat.WeChatReply.Keywords;
 using System;
 using System.IO;
 using System.Text;
@@ -182,7 +185,9 @@ namespace SixpenceStudio.WeChat
             switch (xml.SelectSingleNode("xml").SelectSingleNode("MsgType").InnerText)
             {
                 case "text":
-                     return new WeChatTextMessageService(new WeChatTextMessage(xml)).GetResponseMessage();
+                    return new WeChatKeywordsService().GetReplyMessage(new WeChatTextMessage(xml));
+                case "event":
+                    return new WeChatFocusReplyService().GetReplyMessage(new BaseWeChatMessage(xml));
                 default:
                     return "success";
             }

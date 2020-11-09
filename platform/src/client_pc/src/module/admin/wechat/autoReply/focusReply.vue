@@ -6,7 +6,7 @@
         <a-switch default-checked @change="onChange" style="float:right" />
       </p>
     </slot>
-    <sp-editor v-model="content" :enableMenu="['image', 'video']"></sp-editor>
+    <sp-editor ref="editor" v-model="content" :enableMenu="['image', 'video']"></sp-editor>
     <a-button type="primary" style="margin-top:20px;" @click="saveData">
       保存
     </a-button>
@@ -44,7 +44,7 @@ export default {
       if (operationName === 'CreateData') {
         this.data.Id = sp.newUUID();
       }
-      this.data.content = this.content;
+      this.data.content = this.$refs.editor.editor.txt.text();
       sp.post(url, this.data)
         .then(() => {
           this.$message.success('保存成功');

@@ -10,6 +10,8 @@ Description：微信关键词回复 Service
 using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Service;
+using SixpenceStudio.WeChat.Message;
+using SixpenceStudio.WeChat.Message.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,22 @@ SELECT * FROM wechat_keywords
 WHERE name = @name
 ";
             return _cmd.broker.RetrieveMultiple<wechat_keywords>(sql, new Dictionary<string, object>() { { "@name", requestMesage } });
+        }
+
+        /// <summary>
+        /// 关键词回复
+        /// </summary>
+        /// <param name="requestMsg"></param>
+        /// <returns></returns>
+        public string GetReplyMessage(WeChatTextMessage message)
+        {
+            var responseMsg = GetDataList(message.Content)?.FirstOrDefault()?.reply_content;
+            if (string.IsNullOrEmpty(responseMsg))
+            {
+                responseMsg = "对不起，我听不懂你在说什么";
+            }
+
+            return string.Format(WeChatMessageTemplate.Text, message.FromUserName, message.ToUserName, DateTime.Now.Ticks, responseMsg);
         }
     }
 }

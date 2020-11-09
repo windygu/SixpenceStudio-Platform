@@ -1,12 +1,11 @@
 ﻿using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Service;
+using SixpenceStudio.WeChat.Message;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat.WeChatReply.Focus
 {
@@ -23,6 +22,8 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
             this._cmd = new EntityCommand<wechat_focus_reply>(broker);
         }
         #endregion
+
+        private Logger Logger = LogFactory.GetLogger("wechat");
 
         public void Activate(string id)
         {
@@ -46,6 +47,22 @@ select * from wechat_focus_reply where wechat = @wechat
 ";
             var data = _cmd.broker.Retrieve<wechat_focus_reply>(sql, new Dictionary<string, object>() { { "@wechat", config.appid } });
             return data;
+        }
+
+        /// <summary>
+        /// 获取事件回复
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string GetReplyMessage(BaseWeChatMessage message)
+        {
+            if (!string.IsNullOrEmpty(message.EventName) && message.EventName.Trim() == "subscribe")
+            {
+                var reply = GetData()?.content ?? "感谢您的关注！";
+                Logger.Info($"收到来自{message.FromUserName}的关注");
+                return string.Format(WeChatMessageTemplate.Text, message.FromUserName, message.ToUserName, DateTime.Now.Ticks, reply);
+            }
+            return "";
         }
     }
 }
