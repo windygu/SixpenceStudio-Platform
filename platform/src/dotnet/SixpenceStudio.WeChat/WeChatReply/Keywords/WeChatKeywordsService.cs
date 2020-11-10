@@ -43,7 +43,7 @@ namespace SixpenceStudio.WeChat.WeChatReply.Keywords
         {
             var sql = @"
 SELECT * FROM wechat_keywords
-WHERE name = @name
+WHERE name LIKE CONCAT('%', @name, '%')
 ";
             return _cmd.broker.RetrieveMultiple<wechat_keywords>(sql, new Dictionary<string, object>() { { "@name", requestMesage } });
         }
