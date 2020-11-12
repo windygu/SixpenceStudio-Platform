@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import edit from '@/mixins/edit';
+import edit from '../../../../../mixins/edit';
 
 export default {
   name: 'keywords-edit',
