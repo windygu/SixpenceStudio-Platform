@@ -1,9 +1,12 @@
 <template>
-  <div class="background" :style="{ 'background-image': `url(${imageUrl})` }">
+  <div class="background">
     <div class="login">
       <a-form-model ref="form" :model="data" :rules="rules" class="login__wrapper">
-        <a-form-model-item>
+        <a-form-model-item style="margin:0">
           <span class="header">{{ header }}</span>
+        </a-form-model-item>
+        <a-form-model-item style="margin-bottom: 20px;">
+          <span class="desc">{{ '我想给世界留下有价值的东西' }}</span>
         </a-form-model-item>
         <a-form-model-item prop="code">
           <a-input v-model="data.code" placeholder="邮箱或者手机号">
@@ -14,6 +17,10 @@
           <a-input type="password" v-model="data.password" placeholder="密码" @keyup.enter.native="signIn">
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
+        </a-form-model-item>
+        <a-form-model-item>
+          <a-checkbox :checked="autoSignin" style="float:left">自动登录</a-checkbox>
+          <a href="#/login/forget" class="forget-pwd">忘记密码</a>
         </a-form-model-item>
         <a-form-model-item>
           <a-button style="width: 100%;" type="primary" @click="signIn" :loading="loading">登录</a-button>
@@ -28,7 +35,7 @@ export default {
   name: 'login',
   data() {
     return {
-      header: 'Sign In',
+      header: 'Sixpence Blog',
       data: {
         code: '',
         password: ''
@@ -38,12 +45,11 @@ export default {
         code: [{ required: true, message: '请输入账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
-      imageUrl: ''
+      autoSignin: true
     };
   },
   created() {
     this.test();
-    this.loadBackground();
   },
   methods: {
     test() {
@@ -52,13 +58,6 @@ export default {
           this.$router.push('admin');
         }
       });
-    },
-    loadBackground() {
-      sp.get('api/DataService/GetRandomImage')
-        .then(image => {
-          this.imageUrl = JSON.parse(image).imgurl;
-        })
-        .catch(() => this.$message.error('背景加载失败'));
     },
     signIn() {
       this.loading = true;
@@ -84,6 +83,8 @@ export default {
                 that.$message.error('账号密码错误');
               }
             });
+          } else {
+            this.$message.error('请检查账号密码是否输入');
           }
         });
       } catch (error) {
@@ -101,26 +102,32 @@ export default {
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
+  background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
 }
 .login {
   width: 400px;
   position: absolute;
   left: calc(~'50%' - 200px);
   top: 200px;
-  border: 1px solid #d1d1d1;
-  border-radius: 5%;
-  background: #f7f1f5;
-  filter: alpha(Opacity=60);
-  -moz-opacity: 0.6;
-  opacity: 0.6;
   .login__wrapper {
     width: 100%;
     height: 100%;
     text-align: center;
     padding: 0 20px;
     .header {
-      line-height: 60px;
       font-size: 40px;
+      color: rgba(0, 0, 0, 0.85);
+      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      font-weight: 600;
+      line-height: 60px;
+    }
+    .desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .forget-pwd {
+      float: right;
+      color: #52c41a;
     }
   }
 }
@@ -130,5 +137,11 @@ export default {
 }
 /deep/.el-form-item__content {
   margin: 5px 10px;
+}
+
+/deep/ .ant-row {
+  .ant-form-explain {
+    text-align: left;
+  }
 }
 </style>

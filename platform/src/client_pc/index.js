@@ -13,7 +13,7 @@ Vue.use(moment);
 Vue.prototype.$message = elementUI.Message;
 
 const install = _Vue => {
-  components.forEach(item => Vue.component(item.name, item.component));
+  components.forEach(item => _Vue.component(item.name, item.component));
 };
 
 const API = {

@@ -4,11 +4,9 @@
 
 <script>
 import sysParamGroupEdit from './sysParamGroupEdit';
-import sysParamList from './sysParamList';
 
 export default {
   name: 'sysParamGroupList',
-  components: { sysParamGroupEdit, sysParamList },
   data() {
     return {
       controllerName: 'SysParamGroup',

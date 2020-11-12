@@ -65,7 +65,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       },
       {
-        from: path.resolve(__dirnamem, '../Web.config'),
+        from: path.resolve(__dirname, '../Web.config'),
         to: '../dist/'
       }
     ])

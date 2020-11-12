@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { edit } from 'sixpence.platform.pc.vue';
+import edit from '@/mixins/edit';
 
 export default {
   name: 'newsMaterial-edit',
