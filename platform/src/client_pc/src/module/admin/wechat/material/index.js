@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/admin/newsMaterial',
-    name: 'newsMaterialList',
-    component: () => import('./newsMaterialList')
+    name: 'material',
+    path: '/admin/material',
+    component: () => import('./materialList')
   }
 ];

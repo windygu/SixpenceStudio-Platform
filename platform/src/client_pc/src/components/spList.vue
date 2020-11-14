@@ -40,8 +40,8 @@
     <!-- 表格 -->
 
     <!-- 编辑页 -->
-    <slot name="edit">
-      <a-modal v-model="editVisible" :title="editTitle" @ok="save" width="60%" okText="确认" cancelText="取消">
+    <a-modal v-model="editVisible" :title="editTitle" @ok="save" width="60%" okText="确认" cancelText="取消">
+      <slot name="edit">
         <component
           ref="edit"
           v-if="editVisible"
@@ -50,8 +50,8 @@
           @close="editVisible = false"
           @load-data="loadData"
         ></component>
-      </a-modal>
-    </slot>
+      </slot>
+    </a-modal>
     <!-- 编辑页 -->
   </div>
 </template>
@@ -102,6 +102,10 @@ export default {
     usePagination: {
       type: Boolean,
       default: true
+    },
+    // 处理返回数据
+    handleDataList: {
+      type: Function
     },
     // 启用首列点击
     useHeaderClick: {
@@ -243,7 +247,7 @@ export default {
           this.tableData = resp.DataList;
           this.$set(this.pagination, 'total', resp.RecordCount);
         } else {
-          this.tableData = resp;
+          this.tableData = this.handleDataList ? this.handleDataList(resp) : resp;
           this.$set(this.pagination, 'total', this.tableData.length);
         }
         this.setKey(this.tableData);
@@ -270,7 +274,7 @@ export default {
       if (this.$refs.edit) {
         this.$refs.edit.saveData();
       } else {
-        this.$message.error('保存失败');
+        this.editVisible = false;
       }
     },
     // 创建数据

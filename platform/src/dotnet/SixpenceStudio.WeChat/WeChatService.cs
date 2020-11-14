@@ -87,27 +87,15 @@ namespace SixpenceStudio.WeChat
         }
 
         /// <summary>
-        /// 根据选项集id获取素材类型
-        /// </summary>
-        /// <param name="typeId"></param>
-        /// <returns></returns>
-        public static string GetMaterialType(string typeId)
-        {
-            var broker = PersistBrokerFactory.GetPersistBroker();
-            var materialType = broker.Retrieve<sys_param>(typeId)?.code;
-            return materialType;
-        }
-
-        /// <summary>
         /// 获取图文素材
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="type">素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</param>
+        /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
+        /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
         /// <returns></returns>
         public static string GetWeChatMaterial(string type, int pageIndex, int pageSize)
         {
-            var url = string.Format(WeChatApi.GetMaterial, AccessToken);
+            var url = string.Format(WeChatApi.BatchGetMaterial, AccessToken);
             var postData = new
             {
                 type,
@@ -125,9 +113,9 @@ namespace SixpenceStudio.WeChat
         /// <summary>
         /// 获取图文素材
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="type">素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</param>
+        /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
+        /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
         /// <returns></returns>
         public static WeChatNewsMaterial GetWeChatNewsMaterial(string type, int pageIndex, int pageSize)
         {
@@ -147,7 +135,7 @@ namespace SixpenceStudio.WeChat
         }
 
         /// <summary>
-        /// 获取视频、图片、语音素材
+        /// 分页获取视频、图片、语音素材
         /// </summary>
         /// <param name="type"></param>
         /// <param name="pageIndex"></param>

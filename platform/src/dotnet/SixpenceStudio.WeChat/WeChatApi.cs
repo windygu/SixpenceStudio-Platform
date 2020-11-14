@@ -15,13 +15,18 @@ namespace SixpenceStudio.WeChat
         public static string GetAccessToken = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
 
         /// <summary>
-        /// 获取微信素材
+        /// 批量获取微信素材
         /// </summary>
-        public static string GetMaterial = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}";
+        public static string BatchGetMaterial = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}";
 
         /// <summary>
         /// 发送微信消息
         /// </summary>
-        public static string SendMessage = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+        public static string SendMessage = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={0}";
+
+        /// <summary>
+        /// 获取微信素材
+        /// </summary>
+        public static string GetMaterial = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token={0}";
     }
 }
