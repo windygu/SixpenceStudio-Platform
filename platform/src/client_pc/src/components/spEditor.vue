@@ -55,7 +55,7 @@ export default {
     this.editor.config.onchange = html => {
       this.$emit('input', html);
     };
-    if (this.enableMenu) {
+    if (this.enableMenu && this.enableMenu.length > 0) {
       this.editor.config.menus = this.enableMenu;
     }
     this.editor.config.menus = this.editor.config.menus.filter(item => !this.disabledMenu.includes(item));

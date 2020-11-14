@@ -32,7 +32,7 @@ namespace SixpenceStudio.Platform.Utils
         {
             if (paramList == null)
             {
-                return "\r\n";
+                return "";
             }
             var list = new List<string>();
             foreach (var item in paramList)
@@ -41,7 +41,7 @@ namespace SixpenceStudio.Platform.Utils
                 list.Add(str);
 
             }
-            return "\r\n" + string.Join("\r\n", list) + "\r\n";
+            return "\r\n" + string.Join("\r\n", list);
         }
 
     }
