@@ -23,6 +23,7 @@ Vue.use(install);
 Vue.use(Vuex);
 
 Vue.filter('moment', (data, formatStr) => (sp.isNullOrEmpty(data) ? '' : moment(data).format(formatStr)));
+Vue.prototype.$moment = moment;
 
 Vue.config.productionTip = false;
 
