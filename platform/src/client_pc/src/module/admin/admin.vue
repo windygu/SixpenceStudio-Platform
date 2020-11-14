@@ -48,23 +48,16 @@ export default {
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         password2: [{ required: true, message: '请再次输入密码', trigger: 'blur' }]
       },
-      imageUrl: '' // 头像
+      imageUrl: 'http://karldu.cn//api/SysFile/Download?objectId=13c5929e-cfca-406b-979b-d7a102a7ed10' // 头像
     };
   },
   created() {
-    this.getUserInfo();
     this.getMenu();
   },
   methods: {
     goHome() {
       this.$router.push({
         name: 'home'
-      });
-    },
-    getUserInfo() {
-      return sp.get(`api/UserInfo/GetData?id=${sp.getUser()}`).then(resp => {
-        this.imageUrl = sp.getBaseUrl() + resp.avatarUrl;
-        localStorage.setItem('Avatar', this.imageUrl);
       });
     },
     getMenu() {

@@ -166,7 +166,6 @@
     <Compile Include="SysParamGroup\sys_paramgroup.cs" />
     <Compile Include="SystemJob.cs" />
     <Compile Include="UserInfo\UserInfoController.cs" />
-    <Compile Include="UserInfo\UserInfoPartial.cs" />
     <Compile Include="UserInfo\UserInfoPlugin.cs" />
     <Compile Include="UserInfo\UserInfoService.cs" />
     <Compile Include="UserInfo\user_info.cs" />
