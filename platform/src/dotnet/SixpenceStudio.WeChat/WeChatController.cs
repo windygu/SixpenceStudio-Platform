@@ -53,23 +53,5 @@ namespace SixpenceStudio.WeChat
                 HttpContext.Current.Response.End();
             }
         }
-
-
-        /// <summary>
-        /// 获取微信素材
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public object GetMaterial(string code, int pageIndex, int pageSize)
-        {
-            if (code == MaterialType.news.ToMaterialTypeString())
-            {
-                return WeChatService.GetWeChatNewsMaterial(code, pageIndex, pageSize);
-            }
-            return WeChatService.GetWeChatOtherMaterial(code, pageIndex, pageSize);
-        }
     }
 }

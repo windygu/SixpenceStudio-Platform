@@ -41,7 +41,7 @@ export default {
   components: { materialRead },
   data() {
     return {
-      controllerName: 'WeChat',
+      controllerName: 'WeChatMaterial',
       operations: ['search', 'more'],
       columns: [
         { prop: 'name', label: '名称' },
