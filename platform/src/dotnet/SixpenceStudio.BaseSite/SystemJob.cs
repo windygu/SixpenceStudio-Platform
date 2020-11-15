@@ -25,7 +25,7 @@ namespace SixpenceStudio.BaseSite
 
         public override string Description => "清理系统无效文件及整理日志";
 
-        public override void Run(IPersistBroker broker)
+        public override void Execute(IPersistBroker broker)
         {
             DeletePictures(broker);
             ArchiveLog();

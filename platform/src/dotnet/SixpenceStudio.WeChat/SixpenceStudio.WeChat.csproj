@@ -127,6 +127,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FocusUser\FocusUserModel.cs" />
+    <Compile Include="FocusUser\FocusUserService.cs" />
+    <Compile Include="FocusUser\WeChatUserController.cs" />
+    <Compile Include="FocusUser\WeChatUserService.cs" />
+    <Compile Include="FocusUser\wechat_user.cs" />
     <Compile Include="Material\WeChatMaterialController.cs" />
     <Compile Include="Material\WeChatMaterialService.cs" />
     <Compile Include="Message\Text\WeChatTextMessage.cs" />
@@ -138,7 +143,9 @@
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
-    <Compile Include="ResponseModel\WeChatMaterial.cs" />
+    <Compile Include="Material\WeChatMaterial.cs" />
+    <Compile Include="SyncJobs\SyncFoucsUserJob.cs" />
+    <Compile Include="SyncJobs\SyncNewsMaterialJob.cs" />
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />

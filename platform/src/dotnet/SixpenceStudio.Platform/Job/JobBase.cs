@@ -31,7 +31,7 @@ namespace SixpenceStudio.Platform.Job
         /// <summary>
         /// 任务
         /// </summary>
-        public abstract void Run(IPersistBroker broker);
+        public abstract void Execute(IPersistBroker broker);
 
         /// <summary>
         /// 任务执行
@@ -50,8 +50,8 @@ namespace SixpenceStudio.Platform.Job
 
                 broker.ExecuteTransaction(() =>
                 {
-                    
-                    Run(broker);
+
+                    Execute(broker);
                     // 更新下次执行时间
                     var nextTime = JobHelpers.GetJobNextTime(Name);
                     var nextTimeSql = "";
