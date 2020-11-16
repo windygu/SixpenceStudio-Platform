@@ -60,13 +60,10 @@ namespace SixpenceStudio.WeChat
         /// </summary>
         public static void RefreshToken()
         {
-            var url = string.Format(WeChatApi.GetAccessToken, _weChat.appid, _weChat.secret);
-            var resp = HttpUtil.Get(url);
-            var respJson = JObject.Parse(resp);
+            var result = WeChatApi.GetAccessToken(_weChat.appid, _weChat.secret);
             tokenExpireDatetime = new DateTime();
-            ExceptionUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取微信授权失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
-            _accessToken = respJson.GetValue("access_token").ToString();
-            expireSeconds = Convert.ToInt32(respJson.GetValue("expires_in").ToString());
+            _accessToken = result.AccessToken;
+            expireSeconds = result.Expire;
         }
 
         /// <summary>

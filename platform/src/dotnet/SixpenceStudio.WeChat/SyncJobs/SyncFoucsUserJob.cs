@@ -21,16 +21,16 @@ namespace SixpenceStudio.WeChat.SyncJobs
         public override string CronExperssion => "";
 
         public override void Execute(IPersistBroker broker)
-        {
-            var resp = HttpUtil.Get(string.Format(WeChatApi.GetFocusUserList, WeChatService.AccessToken, ""));
-            var focusUserList = JsonConvert.DeserializeObject<FocusUserListModel>(resp);
+        { 
+            var focusUserService = new FocusUserService();
+            var focusUserList = focusUserService.GetFocusUserList();
+
             var user = broker.Retrieve<user_info>("5B4A52AF-052E-48F0-82BB-108CC834E864");
             if (focusUserList.count > 0)
             {
                 var user_list = new List<OpenId>();
                 focusUserList.data.openid.ForEach(item => user_list.Add(new OpenId() { openid = item, lang = "zh_CN" }));
-                var resp2 = HttpUtil.Post(string.Format(WeChatApi.BatchGetFocusUser, WeChatService.AccessToken), JsonConvert.SerializeObject(new { user_list }));
-                var focusUsers = JsonConvert.DeserializeObject<FocusUsersModel>(resp2);
+                var focusUsers = focusUserService.GetFocusUsers(JsonConvert.SerializeObject(new { user_list }));
                 var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 broker.ExecuteTransaction(() =>
                 {

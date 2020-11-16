@@ -31,19 +31,7 @@ namespace SixpenceStudio.WeChat.Material
         /// <returns></returns>
         public string GetWeChatMaterial(string type, int pageIndex, int pageSize)
         {
-            var url = string.Format(WeChatApi.BatchGetMaterial, WeChatService.AccessToken);
-            var postData = new
-            {
-                type,
-                offset = (pageIndex - 1) * pageSize,
-                count = pageSize
-            };
-            var result = HttpUtil.Post(url, JsonConvert.SerializeObject(postData));
-            var resultJson = JObject.Parse(result);
-
-            ExceptionUtil.CheckBoolean<SpException>(resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0", "获取微信素材失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
-
-            return result;
+            return WeChatApi.BatchGetMaterial(type, pageIndex, pageSize);
         }
 
         /// <summary>
