@@ -78,6 +78,19 @@ namespace SixpenceStudio.WeChat
         }
         #endregion
 
+        #region 新增永久素材
+        private static readonly string AddNewsApi = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={0}";
+        /// <summary>
+        /// 新增永久素材
+        /// </summary>
+        /// <param name="postData">参考： https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html</param>
+        public static void AddNews(string postData)
+        {
+            var url = string.Format(AddNewsApi, WeChatService.AccessToken);
+            HttpUtil.Post(url, postData);
+        }
+        #endregion
+
         #region 获取关注用户列表
         /// <summary>
         /// 获取关注用户列表API
