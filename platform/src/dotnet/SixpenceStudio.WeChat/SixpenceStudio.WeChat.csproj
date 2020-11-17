@@ -144,8 +144,6 @@
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
     <Compile Include="Material\WeChatMaterial.cs" />
-    <Compile Include="SyncJobs\SyncFoucsUserJob.cs" />
-    <Compile Include="SyncJobs\SyncNewsMaterialJob.cs" />
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />
