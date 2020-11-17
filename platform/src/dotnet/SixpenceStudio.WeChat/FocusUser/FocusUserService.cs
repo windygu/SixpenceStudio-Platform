@@ -19,12 +19,22 @@ namespace SixpenceStudio.WeChat.FocusUser
             logger = LogFactory.GetLogger("wechat");
         }
 
+        /// <summary>
+        /// 获取所有关注用户（返回OpenId集合）
+        /// </summary>
+        /// <returns></returns>
         public FocusUserListModel GetFocusUserList()
         {
             var resp = WeChatApi.GetFocusUserList();
-            return JsonConvert.DeserializeObject<FocusUserListModel>(resp);
+            var openIds = JsonConvert.DeserializeObject<FocusUserListModel>(resp);
+            return openIds;
         }
 
+       /// <summary>
+       /// 获取关注用户信息
+       /// </summary>
+       /// <param name="userList">OpenId列表</param>
+       /// <returns></returns>
         public FocusUsersModel GetFocusUsers(string userList)
         {
             var resp2 = WeChatApi.BatchGetFocusUser(JsonConvert.SerializeObject(userList));

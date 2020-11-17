@@ -29,21 +29,9 @@ namespace SixpenceStudio.WeChat.Material
         /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
         /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
         /// <returns></returns>
-        public string GetWeChatMaterial(string type, int pageIndex, int pageSize)
-        {
-            return WeChatApi.BatchGetMaterial(type, pageIndex, pageSize);
-        }
-
-        /// <summary>
-        /// 获取图文素材
-        /// </summary>
-        /// <param name="type">素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</param>
-        /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
-        /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
-        /// <returns></returns>
         public WeChatOtherMaterial GetMaterial(string type, int pageIndex, int pageSize)
         {
-            var result = GetWeChatMaterial(type, pageIndex, pageSize);
+            var result = WeChatApi.BatchGetMaterial(type, pageIndex, pageSize);
             var materialList = JsonConvert.DeserializeObject<WeChatOtherMaterial>(result);
             if (materialList == null || materialList.item == null || materialList.item.Count <= 0)
             {
@@ -66,7 +54,7 @@ namespace SixpenceStudio.WeChat.Material
         /// <returns></returns>
         public WeChatNewsMaterial GetNewsMaterial(int pageIndex, int pageSize)
         {
-            var result = GetWeChatMaterial("news", pageIndex, pageSize);
+            var result = WeChatApi.BatchGetMaterial("news", pageIndex, pageSize);
             var materialList = JsonConvert.DeserializeObject<WeChatNewsMaterial>(result);
             if (materialList == null || materialList.item == null || materialList.item.Count <= 0)
             {
