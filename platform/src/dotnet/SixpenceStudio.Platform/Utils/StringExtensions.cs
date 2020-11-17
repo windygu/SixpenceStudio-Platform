@@ -30,9 +30,9 @@ namespace SixpenceStudio.Platform.Utils
         /// <returns></returns>
         public static string ToLogString(this Dictionary<string, object> paramList)
         {
-            if (paramList == null)
+            if (paramList == null || paramList.Count == 0)
             {
-                return "";
+                return "\r\n";
             }
             var list = new List<string>();
             foreach (var item in paramList)
