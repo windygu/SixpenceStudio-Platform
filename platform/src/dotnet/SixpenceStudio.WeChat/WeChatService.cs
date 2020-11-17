@@ -1,13 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SixpenceStudio.BaseSite.SysParams;
-using SixpenceStudio.Platform;
+﻿using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Utils;
 using SixpenceStudio.WeChat.Message;
 using SixpenceStudio.WeChat.Message.Text;
-using SixpenceStudio.WeChat.ResponseModel;
 using SixpenceStudio.WeChat.WeChatReply.Focus;
 using SixpenceStudio.WeChat.WeChatReply.Keywords;
 using System;
@@ -20,9 +15,13 @@ namespace SixpenceStudio.WeChat
 {
     public static class WeChatService
     {
-        private static WeChat _weChat { get; set; }
-
+        private static string _appid;
+        private static string _token;
+        private static string _secret;
+        private static string _encodingAESKey;
         private static string _accessToken;
+        private static DateTime _tokenExpireDatetime;
+        private static int _expireSeconds = 7200;
 
         /// <summary>
         /// 获取access_token
@@ -31,7 +30,7 @@ namespace SixpenceStudio.WeChat
         {
             get
             {
-                if (string.IsNullOrEmpty(_accessToken) || DateTime.Now > tokenExpireDatetime.AddSeconds(expireSeconds))
+                if (string.IsNullOrEmpty(_accessToken) || DateTime.Now > _tokenExpireDatetime.AddSeconds(_expireSeconds))
                 {
                     RefreshToken();
                 }
@@ -39,20 +38,16 @@ namespace SixpenceStudio.WeChat
             }
         }
 
-        private static DateTime tokenExpireDatetime;
-        private static int expireSeconds = 7200;
+
 
         static WeChatService()
         {
             var config = ConfigFactory.GetConfig<WeChatSection>();
             ExceptionUtil.CheckBoolean<SpException>(config == null, "未找到微信公众号配置", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
-            _weChat = new WeChat()
-            {
-                appid = config.appid,
-                token = config.token,
-                secret = config.secret,
-                encodingAESKey = config.encodingAESKey
-            };
+            _appid = config.appid;
+            _token = config.token;
+            _secret = config.secret;
+            _encodingAESKey = config.encodingAESKey;
         }
 
         /// <summary>
@@ -60,10 +55,10 @@ namespace SixpenceStudio.WeChat
         /// </summary>
         public static void RefreshToken()
         {
-            var result = WeChatApi.GetAccessToken(_weChat.appid, _weChat.secret);
-            tokenExpireDatetime = new DateTime();
+            var result = WeChatApi.GetAccessToken(_appid, _secret);
+            _tokenExpireDatetime = new DateTime();
             _accessToken = result.AccessToken;
-            expireSeconds = result.Expire;
+            _expireSeconds = result.Expire;
         }
 
         /// <summary>
@@ -76,7 +71,7 @@ namespace SixpenceStudio.WeChat
         /// <returns></returns>
         public static bool CheckSignature(string signature, string timestamp, string nonce, string echostr)
         {
-            string[] arrTmp = { _weChat.token, timestamp, nonce };
+            string[] arrTmp = { _token, timestamp, nonce };
             Array.Sort(arrTmp);
             var tmpStr = string.Join("", arrTmp);
             tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile(tmpStr, "SHA1").ToLower();
@@ -105,16 +100,5 @@ namespace SixpenceStudio.WeChat
                     return "success";
             }
         }
-    }
-
-    /// <summary>
-    /// 微信开发者参数
-    /// </summary>
-    public class WeChat
-    {
-        public string appid { get; set; }
-        public string token { get; set; }
-        public string secret { get; set; }
-        public string encodingAESKey { get; set; }
     }
 }

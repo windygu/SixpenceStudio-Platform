@@ -42,7 +42,7 @@ namespace SixpenceStudio.Platform.Logging
         /// <returns></returns>
         public string GetLoginfo()
         {
-            string Msg = "WebApi: {0}\r\n";
+            string Msg = "WebApi: {0}";
             return string.Format(Msg, Url);
         }
 
