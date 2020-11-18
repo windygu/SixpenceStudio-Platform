@@ -143,10 +143,10 @@
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
-    <Compile Include="Material\WeChatMaterial.cs" />
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />
+    <Compile Include="WeChatModel.cs" />
     <Compile Include="WeChatNews\WeChatNewsController.cs" />
     <Compile Include="WeChatNews\WeChatNewsService.cs" />
     <Compile Include="WeChatNews\wechat_news.cs" />

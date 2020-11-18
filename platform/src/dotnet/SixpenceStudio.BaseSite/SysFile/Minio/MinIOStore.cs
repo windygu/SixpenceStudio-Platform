@@ -103,5 +103,10 @@ namespace SixpenceStudio.BaseSite.SysFile.Minio
         {
             throw new NotImplementedException();
         }
+
+        public Stream GetStream(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -202,5 +202,22 @@ namespace SixpenceStudio.BaseSite.SysFile
             }
         }
 
+        /// <summary>
+        /// 类型
+        /// </summary>
+        private string _content_type;
+        [DataMember]
+        public string content_type
+        {
+            get
+            {
+                return this._content_type;
+            }
+            set
+            {
+                this._content_type = value;
+                SetAttributeValue("content_type", value);
+            }
+        }
     }
 }

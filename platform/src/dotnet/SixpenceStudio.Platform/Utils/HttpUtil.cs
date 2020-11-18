@@ -75,6 +75,27 @@ namespace SixpenceStudio.Platform.Utils
         }
 
         /// <summary>
+        /// 上传单个文件
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="uploadFile"></param>
+        /// <returns></returns>
+        public static string Post(string url, UploadFile uploadFile)
+        {
+            var client = new RestSharp.RestClient(url);
+            var req = new RestSharp.RestRequest();
+            req.Method = RestSharp.Method.POST;
+            req.AddFile(uploadFile.Name, uploadFile.Data, uploadFile.Filename, uploadFile.ContentType);
+            var resp = client.Execute(req);
+            if (!resp.IsSuccessful)
+            {
+                throw new SpException("上传文件失败：" + resp.ErrorException.Message);
+            }
+            return resp.Content;
+        }
+
+
+        /// <summary>
         /// POST请求，并可以传入Header信息
         /// </summary>
         /// <param name="url"></param>
@@ -102,6 +123,8 @@ namespace SixpenceStudio.Platform.Utils
             byte[] responseData = webClient.UploadData(url, "POST", sendData);
             return Encoding.UTF8.GetString(responseData);
         }
+
+
         #endregion
 
         #region 异步
@@ -148,5 +171,13 @@ namespace SixpenceStudio.Platform.Utils
 
 
 
+    }
+
+    public class UploadFile
+    {
+        public string Name { get; set; }
+        public byte[] Data { get; set; }
+        public string Filename { get; set; }
+        public string ContentType { get; set; }
     }
 }

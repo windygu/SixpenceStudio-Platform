@@ -32,7 +32,7 @@ namespace SixpenceStudio.BaseSite.DataService
         public ImageInfo UploadImage([FromUri]string fileType, [FromUri]string objectId = "")
         {
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
-            return new DataService().UploadImage(file, fileType, objectId);
+            return new DataService().UploadImage(file, fileType, objectId, file.ContentType);
         }
 
         /// <summary>

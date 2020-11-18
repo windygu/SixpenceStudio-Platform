@@ -1,9 +1,19 @@
-﻿using System;
+﻿#region 类文件描述
+/*********************************************************
+Copyright @ Sixpence Studio All rights reserved. 
+Author   : Karl Du
+Created: 2020/11/18 20:56:58
+Description：WeChatModel
+********************************************************/
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SixpenceStudio.WeChat.ResponseModel
+namespace SixpenceStudio.WeChat
 {
     public class BaseWeChatMaterial<T>
         where T : BaseWeChatMaterialItem, new()
@@ -96,4 +106,16 @@ namespace SixpenceStudio.WeChat.ResponseModel
         public string url { get; set; }
     }
     #endregion
+
+    public class WeChatErrorResponse
+    {
+        public int errcode { get; set; }
+        public string errmsg { get; set; }
+    }
+
+    public class WeChatSuccessUploadResponse
+    {
+        public string media_id { get; set; }
+        public string url { get; set; }
+    }
 }

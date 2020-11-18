@@ -4,6 +4,7 @@ using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -81,13 +82,52 @@ namespace SixpenceStudio.WeChat
         #region 新增永久素材
         private static readonly string AddNewsApi = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={0}";
         /// <summary>
-        /// 新增永久素材
+        /// 新增永久素材API（图文）
         /// </summary>
         /// <param name="postData">参考： https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html</param>
         public static void AddNews(string postData)
         {
             var url = string.Format(AddNewsApi, WeChatService.AccessToken);
             HttpUtil.Post(url, postData);
+        }
+
+        /// <summary>
+        /// 新增永久素材API（音乐、视频、图片）
+        /// </summary>
+        public static readonly string AddMaterialAPi = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
+        /// <summary>
+        /// 新增永久素材（音乐、视频、图片）
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="stream"></param>
+        /// <param name="fileName"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public static string AddMaterial(WeChatMaterialExtension.MaterialType type, Stream stream, string fileName, string contentType = "application/octet-stream")
+        {
+            var url = string.Format(AddMaterialAPi, WeChatService.AccessToken, type.ToMaterialTypeString());
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            // 设置当前流的位置为流的开始
+            stream.Seek(0, SeekOrigin.Begin);
+            var postData = new UploadFile
+            {
+                Name = "media",
+                Filename = fileName,
+                ContentType = contentType,
+                Data = bytes
+            };
+            var result = HttpUtil.Post(url, postData);
+            var resultJson = JObject.Parse(result);
+            if (resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0")
+            {
+                var error = JsonConvert.DeserializeObject<WeChatErrorResponse>(result);
+                throw new SpException("添加素材失败：" + error.errmsg);
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<WeChatSuccessUploadResponse>(result)?.media_id;
+            }
         }
         #endregion
 

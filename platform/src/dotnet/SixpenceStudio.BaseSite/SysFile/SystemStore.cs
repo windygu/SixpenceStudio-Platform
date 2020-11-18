@@ -45,6 +45,25 @@ namespace SixpenceStudio.BaseSite.SysFile
         }
 
         /// <summary>
+        /// 获取文件流
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Stream GetStream(string id)
+        {
+            var broker = PersistBrokerFactory.GetPersistBroker();
+            var data = broker.Retrieve<sys_file>(id);
+            var fileInfo = new FileInfo(Path.Combine(FileUtil.GetSystemPath(FolderType.storage), data.name));
+            if (fileInfo.Exists)
+            {
+                var stream = fileInfo.OpenRead();
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 上传文件
         /// </summary>
         /// <param name="stream"></param>

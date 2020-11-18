@@ -29,5 +29,12 @@ namespace SixpenceStudio.Platform.Store
         /// </summary>
         /// <param name="fileName"></param>
         void Delete(IList<string> fileName);
+
+        /// <summary>
+        /// 获取文件流
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Stream GetStream(string id);
     }
 }
