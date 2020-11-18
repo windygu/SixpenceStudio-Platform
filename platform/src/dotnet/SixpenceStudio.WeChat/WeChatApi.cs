@@ -103,7 +103,7 @@ namespace SixpenceStudio.WeChat
         /// <param name="fileName"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static string AddMaterial(WeChatMaterialExtension.MaterialType type, Stream stream, string fileName, string contentType = "application/octet-stream")
+        public static WeChatSuccessUploadResponse AddMaterial(WeChatMaterialExtension.MaterialType type, Stream stream, string fileName, string contentType = "application/octet-stream")
         {
             var url = string.Format(AddMaterialAPi, WeChatService.AccessToken, type.ToMaterialTypeString());
             byte[] bytes = new byte[stream.Length];
@@ -126,7 +126,7 @@ namespace SixpenceStudio.WeChat
             }
             else
             {
-                return JsonConvert.DeserializeObject<WeChatSuccessUploadResponse>(result)?.media_id;
+                return JsonConvert.DeserializeObject<WeChatSuccessUploadResponse>(result);
             }
         }
         #endregion

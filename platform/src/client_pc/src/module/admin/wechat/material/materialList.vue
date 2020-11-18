@@ -5,8 +5,8 @@
     :operations="operations"
     :columns="columns"
     :customApi="customApi"
-    :handleDataList="handleDataList"
     :headerClick="headerClick"
+    :searchList="searchList"
     :editTitle="'详情'"
   >
     <a-form-model
@@ -54,20 +54,22 @@ export default {
       data: null
     };
   },
-  computed: {
-    customApi() {
-      return `api/${this.controllerName}/GetMaterial?code=${this.searchData.type}&pageIndex=$pageIndex&pageSize=$pageSize`;
-    }
-  },
   created() {
     this.getSysParam();
+  },
+  computed: {
+    searchList() {
+      return [
+        {
+          Name: 'type',
+          Value: this.searchData.type
+        }
+      ];
+    }
   },
   methods: {
     async getSysParam() {
       this.materialList = await sp.get('api/SysParamGroup/GetParams?code=wechat_material_type');
-    },
-    handleDataList(resp) {
-      return !resp ? [] : resp.item.map(item => item);
     },
     headerClick(row) {
       if (row) {

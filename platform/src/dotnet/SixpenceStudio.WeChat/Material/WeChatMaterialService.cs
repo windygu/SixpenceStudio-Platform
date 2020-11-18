@@ -8,20 +8,43 @@ using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Service;
 using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.Platform.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixpenceStudio.Platform.Entity;
 
 namespace SixpenceStudio.WeChat.Material
 {
-    public class WeChatMaterialService : BaseService
+    public class WeChatMaterialService : EntityService<wechat_material>
     {
+        #region 构造函数
         public WeChatMaterialService()
         {
-            broker = PersistBrokerFactory.GetPersistBroker();
-            logger = LogFactory.GetLogger("wechat");
+            _cmd = new EntityCommand<wechat_material>();
+        }
+
+        public WeChatMaterialService(IPersistBroker broker)
+        {
+            _cmd = new EntityCommand<wechat_material>(broker);
+        }
+        #endregion
+
+        public override IList<EntityView<wechat_material>> GetViewList()
+        {
+            var sql = $"SELECT * FROM wechat_material WHERE 1=1";
+            return new List<EntityView<wechat_material>>()
+            {
+                new EntityView<wechat_material>()
+                {
+                    Sql = sql,
+                    CustomFilter = new List<string>() { "name" },
+                    OrderBy = "createdon, name",
+                    ViewId = ""
+                }
+            };
         }
 
         /// <summary>
@@ -60,7 +83,24 @@ namespace SixpenceStudio.WeChat.Material
             var config = ConfigFactory.GetConfig<StoreSection>();
             var stream = AssemblyUtil.GetObject<IStoreStrategy>(config?.type).GetStream(fileId);
             var media = WeChatApi.AddMaterial(type, stream, file.name, file.content_type);
-            return media;
+            var user = _cmd.GetCurrentUser();
+            var material = new wechat_material()
+            {
+                wechat_materialId = Guid.NewGuid().ToString(),
+                media_id = media.media_id,
+                url = media.url,
+                sys_fileid = fileId,
+                name = file.name,
+                type = type.ToMaterialTypeString(),
+                createdBy = user.userId,
+                createdByName = user.name,
+                modifiedBy = user.userId,
+                modifiedByName= user.name,
+                modifiedOn = DateTime.Now,
+                createdOn = DateTime.Now
+            };
+            CreateData(material);
+            return media.media_id;
         }
     }
 }
