@@ -26,7 +26,7 @@ namespace SixpenceStudio.BaseSite.Job
         {
             var sql = @"
 SELECT * FROM job
-ORDER BY name, createdon
+ORDER BY name
 ";
             var dataList = broker.RetrieveMultiple<job>(sql);
             return dataList;
