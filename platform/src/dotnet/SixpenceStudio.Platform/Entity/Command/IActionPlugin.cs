@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Platform.Command
+namespace SixpenceStudio.Platform.Entity
 {
     public interface IEntityActionPlugin
     {
@@ -25,10 +25,10 @@ namespace SixpenceStudio.Platform.Command
         public IPersistBroker Broker { get; set; }
         public BaseEntity Entity { get; set; }
         public string EntityName { get; set; }
-        public  Action Action { get; set; }
+        public EntityAction Action { get; set; }
     }
 
-    public enum Action
+    public enum EntityAction
     {
         [Description("创建前")]
         PreCreate,

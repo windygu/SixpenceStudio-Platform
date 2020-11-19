@@ -7,8 +7,8 @@ Description：
 ********************************************************/
 #endregion
 
-using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Configs;
+using SixpenceStudio.Platform.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +23,8 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
         {
             switch (context.Action)
             {
-                case Platform.Command.Action.PreCreate:
-                case Platform.Command.Action.PreUpdate:
+                case EntityAction.PreCreate:
+                case EntityAction.PreUpdate:
                     var entity = context.Entity;
                     if (entity.GetAttributeValue("checked") == null)
                     {

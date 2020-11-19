@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 
-namespace SixpenceStudio.Platform.Command
+namespace SixpenceStudio.Platform.Entity
 {
     public static class EntityCommandExtension
     {

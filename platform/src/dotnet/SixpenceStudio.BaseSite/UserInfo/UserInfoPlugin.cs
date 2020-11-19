@@ -1,6 +1,5 @@
 ﻿using SixpenceStudio.BaseSite.AuthUser;
 using SixpenceStudio.Platform;
-using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
 using System;
@@ -16,13 +15,13 @@ namespace SixpenceStudio.BaseSite.UserInfo
         {
             switch (context.Action)
             {
-                case Platform.Command.Action.PostCreate:
+                case EntityAction.PostCreate:
                     CreateAuthInfo(context.Entity, context.Broker);
                     break;
-                case Platform.Command.Action.PostUpdate:
+                case EntityAction.PostUpdate:
                     UpdateAuthInfo(context.Entity, context.Broker);
                     break;
-                case Platform.Command.Action.PostDelete:
+                case EntityAction.PostDelete:
                     DeleteAuthInfo(context.Entity, context.Broker);
                     break;
                 default:

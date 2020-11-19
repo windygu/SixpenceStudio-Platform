@@ -11,7 +11,7 @@ namespace SixpenceStudio.Platform.Data
         /// <summary>
         /// 通过lambda表达式的方式执行数据库事务
         /// </summary>
-        public static void ExecuteTransaction(this IPersistBroker broker, Action func)
+        public static void ExecuteTransaction(this IPersistBroker broker, System.Action func)
         {
             try
             {

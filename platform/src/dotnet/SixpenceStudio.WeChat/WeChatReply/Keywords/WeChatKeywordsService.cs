@@ -7,9 +7,8 @@ Description：微信关键词回复 Service
 ********************************************************/
 #endregion
 
-using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Service;
+using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.WeChat.Message;
 using SixpenceStudio.WeChat.Message.Text;
 using System;

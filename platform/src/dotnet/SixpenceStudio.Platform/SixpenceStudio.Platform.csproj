@@ -154,19 +154,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\EntityCommand.cs" />
-    <Compile Include="Command\EntityCommandExtension.cs" />
+    <Compile Include="Entity\Command\EntityCommand.cs" />
+    <Compile Include="Entity\Command\EntityCommandExtension.cs" />
     <Compile Include="Configs\BaseAppSettingsConfig.cs" />
     <Compile Include="Configs\ConfigFactory.cs" />
     <Compile Include="Configs\ConfigSectionNameAttribute.cs" />
     <Compile Include="Data\DbConnectionConfig.cs" />
-    <Compile Include="Data\DialectSql.cs" />
-    <Compile Include="Data\IDbClient.cs" />
-    <Compile Include="Data\IPersistBroker.cs" />
-    <Compile Include="Data\IPersistBrokerExtension.cs" />
-    <Compile Include="Data\PersistBroker.cs" />
-    <Compile Include="Data\DbClient.cs" />
-    <Compile Include="Data\PersistBrokerFactory.cs" />
+    <Compile Include="Data\DBClient\DialectSql.cs" />
+    <Compile Include="Data\DBClient\IDbClient.cs" />
+    <Compile Include="Data\PersistBroker\IPersistBroker.cs" />
+    <Compile Include="Data\PersistBroker\IPersistBrokerExtension.cs" />
+    <Compile Include="Data\PersistBroker\PersistBroker.cs" />
+    <Compile Include="Data\DBClient\DbClient.cs" />
+    <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\DataModel.cs" />
     <Compile Include="Entity\EntityNameAttribute.cs" />
@@ -175,14 +175,14 @@
     <Compile Include="Job\JobHelpers.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogUtils.cs" />
-    <Compile Include="Service\BaseService.cs" />
-    <Compile Include="Service\EntityView.cs" />
+    <Compile Include="Entity\Service\BaseService.cs" />
+    <Compile Include="Entity\Service\EntityView.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\WebApiMonitorLog.cs" />
     <Compile Include="Logging\WebApiTrackerArribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\EntityService.cs" />
-    <Compile Include="Command\IActionPlugin.cs" />
+    <Compile Include="Entity\Service\EntityService.cs" />
+    <Compile Include="Entity\Command\IActionPlugin.cs" />
     <Compile Include="SpException.cs" />
     <Compile Include="Startup\Startup.cs" />
     <Compile Include="Startup\WebApiConfig.cs" />

@@ -1,6 +1,5 @@
 ﻿using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Service;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Platform.Command
+namespace SixpenceStudio.Platform.Entity
 {
     public class EntityCommand<T>
         where T : BaseEntity, new ()
@@ -187,9 +186,9 @@ namespace SixpenceStudio.Platform.Command
             var id = "";
             broker.ExecuteTransaction(() =>
             {
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreCreate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PreCreate } }, t.EntityName);
                 id = broker.Create(t);
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostCreate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PostCreate } }, t.EntityName);
             });
             return id;
         }
@@ -211,9 +210,9 @@ namespace SixpenceStudio.Platform.Command
             t["modifiedOn"] = DateTime.Now;
             broker.ExecuteTransaction(() =>
             {
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PreUpdate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PreUpdate } }, t.EntityName);
                 broker.Update(t);
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = Action.PostUpdate } }, t.EntityName);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PostUpdate } }, t.EntityName);
             });
         }
 
@@ -250,9 +249,9 @@ namespace SixpenceStudio.Platform.Command
                 ids.ForEach(id =>
                 {
                     var data = broker.Retrieve<T>(id);
-                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
+                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = EntityAction.PreDelete } }, data.EntityName);
                     broker.Delete(new T().EntityName, id);
-                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = Action.PreDelete } }, data.EntityName);
+                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = EntityAction.PreDelete } }, data.EntityName);
                 });
             });
         }

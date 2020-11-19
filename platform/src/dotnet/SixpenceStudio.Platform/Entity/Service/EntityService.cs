@@ -1,11 +1,10 @@
-﻿using SixpenceStudio.Platform.Command;
-using SixpenceStudio.Platform.Data;
+﻿using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SixpenceStudio.Platform.Service
+namespace SixpenceStudio.Platform.Entity
 {
     /// <summary>
     /// 实体服务类

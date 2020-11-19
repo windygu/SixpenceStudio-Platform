@@ -1,8 +1,6 @@
 ﻿using SixpenceStudio.Platform.Store;
-using SixpenceStudio.Platform.Command;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Service;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,6 +8,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
+using SixpenceStudio.Platform.Entity;
 
 namespace SixpenceStudio.BaseSite.SysFile
 {
