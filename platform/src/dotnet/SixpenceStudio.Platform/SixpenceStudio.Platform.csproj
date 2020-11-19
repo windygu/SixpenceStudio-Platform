@@ -201,6 +201,7 @@
     <Compile Include="Utils\StreamUtil.cs" />
     <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="WebApi\BaseController.cs" />
+    <Compile Include="WebApi\EntityBase2Controller.cs" />
     <Compile Include="WebApi\EntityBaseController.cs" />
     <Compile Include="WebApi\WebApiExceptionFilterAttribute.cs" />
   </ItemGroup>
