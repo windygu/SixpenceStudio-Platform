@@ -1,8 +1,7 @@
 ﻿using Dapper;
-using log4net;
 using Npgsql;
+using SixpenceStudio.Platform.Extensions;
 using SixpenceStudio.Platform.Logging;
-using SixpenceStudio.Platform.Utils;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;

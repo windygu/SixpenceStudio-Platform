@@ -1,12 +1,8 @@
 ﻿using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Platform.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SixpenceStudio.Platform.Utils;
-using System.Configuration;
-using SixpenceStudio.Platform.Configs;
 
 namespace SixpenceStudio.Platform.Data
 {

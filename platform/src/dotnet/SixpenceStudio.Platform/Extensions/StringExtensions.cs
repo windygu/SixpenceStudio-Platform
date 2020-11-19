@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Platform.Utils
+namespace SixpenceStudio.Platform.Extensions
 {
     /// <summary>
     /// 字符串扩展类
