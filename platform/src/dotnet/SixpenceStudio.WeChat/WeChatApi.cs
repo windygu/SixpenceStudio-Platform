@@ -141,6 +141,32 @@ namespace SixpenceStudio.WeChat
         }
         #endregion
 
+        #region 删除素材
+        /// <summary>
+        /// 删除素材Api
+        /// </summary>
+        public static readonly string DeleteMaterialApi = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token={0}";
+        /// <summary>
+        /// 删除素材
+        /// </summary>
+        /// <param name="mediaId"></param>
+        public static void DeleteMaterial(string mediaId)
+        {
+            var url = string.Format(DeleteMaterialApi, WeChatService.AccessToken);
+            var postData = new
+            {
+                media_id = mediaId
+            };
+            var result = HttpUtil.Post(url, JsonConvert.SerializeObject(postData));
+            var resultJson = JObject.Parse(result);
+            if (resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0")
+            {
+                var error = JsonConvert.DeserializeObject<WeChatErrorResponse>(result);
+                throw new SpException("删除素材失败：" + error.errmsg);
+            }
+        }
+        #endregion
+
         #region 获取关注用户列表
         /// <summary>
         /// 获取关注用户列表API

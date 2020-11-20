@@ -46,6 +46,20 @@ namespace SixpenceStudio.WeChat.Material
         }
 
         /// <summary>
+        /// 删除素材
+        /// </summary>
+        /// <param name="ids"></param>
+        public override void DeleteData(List<string> ids)
+        {
+            foreach (var item in ids)
+            {
+                var data = _cmd.broker.Retrieve<wechat_material>(item);
+                WeChatApi.DeleteMaterial(data.media_id);
+            }
+            base.DeleteData(ids);
+        }
+
+        /// <summary>
         /// 获取素材
         /// </summary>
         /// <param name="type">素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</param>
@@ -75,7 +89,7 @@ namespace SixpenceStudio.WeChat.Material
         /// <param name="type"></param>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        public string AddMaterial(MaterialType type, string fileId)
+        public string CreateData(MaterialType type, string fileId)
         {
             var file = new SysFileService().GetData(fileId);
             ExceptionUtil.CheckBoolean<SpException>(file == null, $"根据fileid：{fileId}未找到记录", "36B5F5C9-ED65-4CAC-BE60-712278056EA9");
