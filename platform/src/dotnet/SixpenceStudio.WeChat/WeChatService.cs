@@ -19,9 +19,6 @@ namespace SixpenceStudio.WeChat
         private static string _token;
         private static string _secret;
         private static string _encodingAESKey;
-        private static string _accessToken;
-        private static DateTime _tokenExpireDatetime;
-        private static int _expireSeconds = 7200;
 
         /// <summary>
         /// 获取access_token
@@ -30,11 +27,12 @@ namespace SixpenceStudio.WeChat
         {
             get
             {
-                if (string.IsNullOrEmpty(_accessToken) || DateTime.Now > _tokenExpireDatetime.AddSeconds(_expireSeconds))
+                var accessToken = MemoryCacheUtil.GetCacheItem<AccessTokenResponse>("AccessToken");
+                if (accessToken == null)
                 {
-                    RefreshToken();
+                    accessToken = RefreshToken();
                 }
-                return _accessToken;
+                return accessToken.AccessToken;
             }
         }
 
@@ -53,12 +51,17 @@ namespace SixpenceStudio.WeChat
         /// <summary>
         /// 刷新Token
         /// </summary>
-        public static void RefreshToken()
+        public static AccessTokenResponse RefreshToken()
         {
             var result = WeChatApi.GetAccessToken(_appid, _secret);
-            _tokenExpireDatetime = new DateTime();
-            _accessToken = result.AccessToken;
-            _expireSeconds = result.Expire;
+            var accessToken = new AccessTokenResponse()
+            {
+                AccessToken = result.AccessToken,
+                Expire = result.Expire
+            };
+            MemoryCacheUtil.RemoveCacheItem("AccessToken");
+            MemoryCacheUtil.Set("AccessToken", accessToken);
+            return accessToken;
         }
 
         /// <summary>

@@ -118,4 +118,10 @@ namespace SixpenceStudio.WeChat
         public string media_id { get; set; }
         public string url { get; set; }
     }
+
+    public class AccessTokenResponse
+    {
+        public string AccessToken { get; set; }
+        public int Expire { get; set; }
+    }
 }
