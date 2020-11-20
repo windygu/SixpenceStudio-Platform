@@ -24,13 +24,23 @@ namespace SixpenceStudio.WeChat.WeChatNews
         }
         #endregion
 
+        public override void DeleteData(List<string> ids)
+        {
+            foreach (var item in ids)
+            {
+                var data = _cmd.broker.Retrieve<wechat_news>(item);
+                WeChatApi.DeleteMaterial(data.media_id);
+            }
+            base.DeleteData(ids);
+        }
+
         /// <summary>
         /// 获取图文素材
         /// </summary>
         /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
         /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
         /// <returns></returns>
-        public WeChatNewsMaterial GetNewsMaterial(int pageIndex, int pageSize)
+        public WeChatNewsMaterial GetDataList(int pageIndex, int pageSize)
         {
             var result = WeChatApi.BatchGetMaterial("news", pageIndex, pageSize);
             var materialList = JsonConvert.DeserializeObject<WeChatNewsMaterial>(result);
@@ -59,7 +69,7 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <param name="content_source_url">图文消息的原文地址，即点击“阅读原文”后的URL</param>
         /// <param name="need_open_comment">Uint32 是否打开评论，0不打开，1打开</param>
         /// <param name="only_fans_can_comment">Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论</param>
-        public void AddNews(string title, string thumb_media_id, string author, string digest, bool show_cover_pic, string content, string content_source_url, bool need_open_comment, bool only_fans_can_comment)
+        public void CreateData(string title, string thumb_media_id, string author, string digest, bool show_cover_pic, string content, string content_source_url, bool need_open_comment, bool only_fans_can_comment)
         {
             var postData = new
             {

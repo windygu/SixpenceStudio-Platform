@@ -25,9 +25,9 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <param name="need_open_comment">Uint32 是否打开评论，0不打开，1打开</param>
         /// <param name="only_fans_can_comment">Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论</param>
         [HttpGet]
-        public void AddNews(string title, string thumb_media_id, string author, string digest, bool show_cover_pic, string content, string content_source_url, bool need_open_comment, bool only_fans_can_comment)
+        public void CreateData(string title, string thumb_media_id, string author, string digest, bool show_cover_pic, string content, string content_source_url, bool need_open_comment, bool only_fans_can_comment)
         {
-            new WeChatNewsService().AddNews(title, thumb_media_id, author, digest, show_cover_pic, content, content_source_url, need_open_comment, only_fans_can_comment);
+            new WeChatNewsService().CreateData(title, thumb_media_id, author, digest, show_cover_pic, content, content_source_url, need_open_comment, only_fans_can_comment);
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public WeChatNewsMaterial GetNewsMaterial(int pageIndex, int pageSize)
+        public WeChatNewsMaterial GetDataList(int pageIndex, int pageSize)
         {
-            return new WeChatNewsService().GetNewsMaterial(pageIndex, pageSize);
+            return new WeChatNewsService().GetDataList(pageIndex, pageSize);
         }
     }
 }
