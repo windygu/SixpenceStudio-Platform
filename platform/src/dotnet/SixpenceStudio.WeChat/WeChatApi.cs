@@ -85,10 +85,20 @@ namespace SixpenceStudio.WeChat
         /// 新增永久素材API（图文）
         /// </summary>
         /// <param name="postData">参考： https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html</param>
-        public static void AddNews(string postData)
+        public static WeChatAddNewsResponse AddNews(string postData)
         {
             var url = string.Format(AddNewsApi, WeChatService.AccessToken);
-            HttpUtil.Post(url, postData);
+            var result = HttpUtil.Post(url, postData);
+            var resultJson = JObject.Parse(result);
+            if (resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0")
+            {
+                var error = JsonConvert.DeserializeObject<WeChatErrorResponse>(result);
+                throw new SpException("添加图文素材失败：" + error.errmsg);
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<WeChatAddNewsResponse>(result);
+            }
         }
 
         /// <summary>

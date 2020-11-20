@@ -134,6 +134,10 @@ namespace SixpenceStudio.WeChat
         public string url { get; set; }
     }
 
+    public class WeChatAddNewsResponse
+    {
+        public string media_id { get; set; }
+    }
     public class AccessTokenResponse
     {
         public string AccessToken { get; set; }

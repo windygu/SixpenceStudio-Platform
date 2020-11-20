@@ -79,7 +79,23 @@ namespace SixpenceStudio.WeChat.WeChatNews
                     }
                 }
             };
-            WeChatApi.AddNews(JsonConvert.SerializeObject(postData));
+            var result = WeChatApi.AddNews(JsonConvert.SerializeObject(postData));
+            var user = _cmd.GetCurrentUser();
+            var data = new wechat_news()
+            {
+                wechat_newsId = Guid.NewGuid().ToString(),
+                media_id = result.media_id,
+                author = author,
+                content = content,
+                name = title,
+                createdBy = user.userId,
+                createdByName = user.name,
+                modifiedBy = user.userId,
+                modifiedByName = user.name,
+                createdOn = DateTime.Now,
+                modifiedOn = DateTime.Now
+            };
+            CreateData(data);
         }
     }
 }
