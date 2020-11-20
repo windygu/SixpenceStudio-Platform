@@ -11,34 +11,55 @@ namespace SixpenceStudio.Platform.Logging
     /// </summary>
     public static class LogUtils
     {
+        #region 同步写日志
         public static void Info(string msg)
         {
             var log = LogFactory.GetLogger(LogType.Info);
-            Task.Run(() => log.Info(msg));
+            log.Info(msg);
         }
-
         public static void Debug(string msg)
         {
             var log = LogFactory.GetLogger(LogType.Info);
-            Task.Run(() => log.Debug(msg));
+            log.Debug(msg);
         }
-
         public static void Warn(string msg)
         {
             var log = LogFactory.GetLogger(LogType.Info);
-            Task.Run(() => log.Debug(msg));
+            log.Debug(msg);
         }
-
         public static void Error(string msg)
         {
             var log = LogFactory.GetLogger(LogType.Error);
-            Task.Run(() => log.Error(msg));
+            log.Error(msg);
         }
-
         public static void Error(string msg, Exception exception)
         {
             var log = LogFactory.GetLogger(LogType.Error);
-            Task.Run(() => log.Error(msg, exception));
+            log.Error(msg, exception);
         }
+        #endregion
+
+        #region 异步写日志
+        public static Task AsyncInfo(string msg)
+        {
+            return Task.Run(() => Info(msg));
+        }
+        public static Task AsyncDebug(string msg)
+        {
+            return Task.Run(() => Debug(msg));
+        }
+        public static Task AsyncWarn(string msg)
+        {
+            return Task.Run(() => Warn(msg));
+        }
+        public static Task AsyncError(string msg)
+        {
+            return Task.Run(() => Error(msg));
+        }
+        public static Task AsyncError(string msg, Exception exception)
+        {
+            return Task.Run(() => Error(msg, exception));
+        }
+        #endregion
     }
 }

@@ -16,29 +16,50 @@ namespace SixpenceStudio.Platform.Logging
             _log = log;
         }
 
+        #region 同步写日志
         public void Debug(string msg)
         {
-            Task.Run(() => _log.Debug(msg));
+            _log.Debug(msg);
         }
-
         public void Info(string msg)
         {
-            Task.Run(() => _log.Info(msg));
+            _log.Info(msg);
         }
-
+        public void Warn(string msg)
+        {
+            _log.Warn(msg);
+        }
         public void Error(string msg)
         {
-            Task.Run(() => _log.Error(msg));
+            _log.Error(msg);
         }
-
         public void Error(string msg, Exception e)
+        {
+            _log.Error(msg, e);
+        }
+        #endregion
+
+        #region 异步写日志
+        public Task AsyncDebug(string msg)
+        {
+            return Task.Run(() => Debug(msg));
+        }
+        public Task AsyncInfo(string msg)
+        {
+            return Task.Run(() => Info(msg));
+        }
+        public Task AsyncError(string msg)
+        {
+            return Task.Run(() => Error(msg));
+        }
+        public void AsyncError(string msg, Exception e)
         {
             Task.Run(() => _log.Error(msg, e));
         }
-
-        public void Warn(string msg)
+        public void AsyncWarn(string msg)
         {
-            Task.Run(() => _log.Warn(msg));
+            Task.Run(() => Warn(msg));
         }
+        #endregion
     }
 }
