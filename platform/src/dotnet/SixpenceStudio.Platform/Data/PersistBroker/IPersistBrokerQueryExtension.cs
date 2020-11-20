@@ -1,12 +1,10 @@
-﻿using SixpenceStudio.Platform.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace SixpenceStudio.Platform.Data
 {
-    public static class IPersistBrokerExtension
+    public static class IPersistBrokerQueryExtension
     {
         /// <summary>
         /// 通过lambda表达式的方式执行数据库事务
@@ -66,11 +64,26 @@ namespace SixpenceStudio.Platform.Data
 
         }
 
-        public static IEnumerable<T> Query<T>(this IPersistBroker broker, string sql, IDictionary<string, object> paramList = null) where T : BaseEntity, new()
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="broker"></param>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Query<T>(this IPersistBroker broker, string sql, IDictionary<string, object> paramList = null)
         {
             return broker.DbClient.Query<T>(sql, paramList);
         }
 
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <param name="sql"></param>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
         public static DataTable Query(this IPersistBroker broker, string sql, IDictionary<string, object> paramList = null)
         {
             return broker.DbClient.Query(sql, paramList);

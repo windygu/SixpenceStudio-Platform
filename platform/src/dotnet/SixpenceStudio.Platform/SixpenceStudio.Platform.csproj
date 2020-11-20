@@ -155,6 +155,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
     <Compile Include="Entity\Command\EntityCommand.cs" />
     <Compile Include="Entity\Command\EntityCommandExtension.cs" />
     <Compile Include="Configs\BaseAppSettingsConfig.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Data\DBClient\DialectSql.cs" />
     <Compile Include="Data\DBClient\IDbClient.cs" />
     <Compile Include="Data\PersistBroker\IPersistBroker.cs" />
-    <Compile Include="Data\PersistBroker\IPersistBrokerExtension.cs" />
+    <Compile Include="Data\PersistBroker\IPersistBrokerQueryExtension.cs" />
     <Compile Include="Data\PersistBroker\PersistBroker.cs" />
     <Compile Include="Data\DBClient\DbClient.cs" />
     <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
