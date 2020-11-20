@@ -24,6 +24,10 @@ namespace SixpenceStudio.WeChat.WeChatNews
         }
         #endregion
 
+        /// <summary>
+        /// 删除图文素材
+        /// </summary>
+        /// <param name="ids"></param>
         public override void DeleteData(List<string> ids)
         {
             foreach (var item in ids)
@@ -32,6 +36,31 @@ namespace SixpenceStudio.WeChat.WeChatNews
                 WeChatApi.DeleteMaterial(data.media_id);
             }
             base.DeleteData(ids);
+        }
+
+        /// <summary>
+        /// 修改图文素材
+        /// </summary>
+        /// <param name="t"></param>
+        public override void UpdateData(wechat_news t)
+        {
+            var model = new WeChatNewsUpdateModel()
+            {
+                media_id = t.media_id,
+                index = 0,
+                articles = new Article()
+                {
+                    title = t.name,
+                    thumb_media_id = t.thumb_media_id,
+                    author = t.author,
+                    digest = t.digest,
+                    show_cover_pic = 1,
+                    content = t.content.ToString(),
+                    content_source_url = ""
+                }
+            };
+            WeChatApi.UpdateNews(model);
+            base.UpdateData(t);
         }
 
         /// <summary>
@@ -98,6 +127,8 @@ namespace SixpenceStudio.WeChat.WeChatNews
                 author = author,
                 content = content,
                 name = title,
+                digest = digest,
+                thumb_media_id = thumb_media_id,
                 createdBy = user.userId,
                 createdByName = user.name,
                 modifiedBy = user.userId,

@@ -141,6 +141,20 @@ namespace SixpenceStudio.WeChat
         }
         #endregion
 
+        #region 修改永久图文素材
+        public static readonly string UpdateNewsApi = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token={0}";
+        public static void UpdateNews(WeChatNewsUpdateModel model)
+        {
+            var result = HttpUtil.Post(string.Format(UpdateNewsApi, WeChatService.AccessToken), JsonConvert.SerializeObject(model));
+            var resultJson = JObject.Parse(result);
+            if (resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0")
+            {
+                var error = JsonConvert.DeserializeObject<WeChatErrorResponse>(result);
+                throw new SpException("修改素材失败：" + error.errmsg);
+            }
+        }
+        #endregion
+
         #region 删除素材
         /// <summary>
         /// 删除素材Api

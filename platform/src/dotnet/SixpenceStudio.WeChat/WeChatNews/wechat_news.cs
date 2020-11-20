@@ -104,6 +104,42 @@ namespace SixpenceStudio.WeChat.WeChatNews
         }
 
         /// <summary>
+        /// 封面图片id
+        /// </summary>
+        private string _thumb_media_id;
+        [DataMember]
+        public string thumb_media_id
+        {
+            get
+            {
+                return this._thumb_media_id;
+            }
+            set
+            {
+                this._thumb_media_id = value;
+                SetAttributeValue("thumb_media_id", value);
+            }
+        }
+
+        /// <summary>
+        /// 摘要
+        /// </summary>
+        private string _digest;
+        [DataMember]
+        public string digest
+        {
+            get
+            {
+                return this._digest;
+            }
+            set
+            {
+                this._digest = value;
+                SetAttributeValue("digest", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdBy;
