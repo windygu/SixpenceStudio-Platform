@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Extensions;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace SixpenceStudio.Platform.Data
     public static class IPersistBrokerBulkCreateOrUpdateExtension
     {
         public static void BulkCreate<T>(this IPersistBroker broker, List<T> dataList)
+            where T : BaseEntity, new()
         {
             var client = broker.DbClient;
 
@@ -25,7 +27,6 @@ namespace SixpenceStudio.Platform.Data
 
             var dt = client.Query($"select * from {tempName}");
 
-
             var commandFormat = string.Format(CultureInfo.InvariantCulture, "COPY {0} FROM STDIN BINARY", tempName);
             using (var writer = (client.DbConnection as NpgsqlConnection).BeginBinaryImport(commandFormat))
             {
@@ -33,7 +34,7 @@ namespace SixpenceStudio.Platform.Data
                     writer.WriteRow(item.ItemArray);
             }
 
-            var sql = string.Format("INSERT INTO {0} SELECT * FROM {1} WHERE NOT EXISTS(SELECT 1 FROM {0} WHERE {0}.{2}id = {1}.{2}id)", tableName, tempName, tempName);
+            var sql = string.Format("INSERT INTO {0} SELECT * FROM {1} WHERE NOT EXISTS(SELECT 1 FROM {0} WHERE {0}.{2}id = {1}.{2}id)", tableName, tempName, tableName);
             client.Execute(sql);
 
             client.Execute($"DROP TABLE IF EXISTS {tempName}");
