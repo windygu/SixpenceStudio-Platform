@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Platform.Extensions;
 
 namespace SixpenceStudio.WeChat.Material
 {
@@ -75,10 +76,9 @@ namespace SixpenceStudio.WeChat.Material
                 return materialList;
             }
 
-            materialList.item.ForEach(item =>
+            materialList.item.Each(item =>
             {
-                var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                item.UpdateTime = start.AddMilliseconds(item.update_time * 1000).ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+                item.UpdateTime = item.update_time.ToDateTimeString();
             });
             return materialList;
         }

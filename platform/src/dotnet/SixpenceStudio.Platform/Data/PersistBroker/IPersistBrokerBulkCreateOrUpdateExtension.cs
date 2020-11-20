@@ -1,6 +1,5 @@
 ﻿using Npgsql;
 using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;

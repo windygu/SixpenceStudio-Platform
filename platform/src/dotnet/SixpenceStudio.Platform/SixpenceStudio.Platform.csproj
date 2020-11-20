@@ -173,6 +173,7 @@
     <Compile Include="Entity\DataModel.cs" />
     <Compile Include="Entity\EntityNameAttribute.cs" />
     <Compile Include="Entity\KeyAttributesAttribute.cs" />
+    <Compile Include="Extensions\LongExtension.cs" />
     <Compile Include="Job\JobBase.cs" />
     <Compile Include="Job\JobHelpers.cs" />
     <Compile Include="Logging\Logger.cs" />

@@ -37,7 +37,7 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public WeChatNewsMaterial GetDataList(int pageIndex, int pageSize)
+        public WeChatNewsResponse GetDataList(int pageIndex, int pageSize)
         {
             return new WeChatNewsService().GetDataList(pageIndex, pageSize);
         }

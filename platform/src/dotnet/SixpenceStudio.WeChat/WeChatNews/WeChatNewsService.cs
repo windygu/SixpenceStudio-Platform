@@ -69,20 +69,10 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <param name="pageIndex">从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</param>
         /// <param name="pageSize">返回素材的数量，取值在1到20之间</param>
         /// <returns></returns>
-        public WeChatNewsMaterial GetDataList(int pageIndex, int pageSize)
+        public WeChatNewsResponse GetDataList(int pageIndex, int pageSize)
         {
             var result = WeChatApi.BatchGetMaterial("news", pageIndex, pageSize);
-            var materialList = JsonConvert.DeserializeObject<WeChatNewsMaterial>(result);
-            if (materialList == null || materialList.item == null || materialList.item.Count <= 0)
-            {
-                return materialList;
-            }
-
-            materialList.item.ForEach(item =>
-            {
-                var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                item.UpdateTime = start.AddMilliseconds(item.update_time * 1000).ToLocalTime().ToString("yyyy-MM-dd HH:mm");
-            });
+            var materialList = JsonConvert.DeserializeObject<WeChatNewsResponse>(result);
             return materialList;
         }
 

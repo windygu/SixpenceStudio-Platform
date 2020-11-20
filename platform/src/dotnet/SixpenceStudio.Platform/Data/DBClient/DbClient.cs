@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Npgsql;
-using SixpenceStudio.Platform.Extensions;
 using SixpenceStudio.Platform.Logging;
 using System.Collections.Generic;
 using System.Data;
