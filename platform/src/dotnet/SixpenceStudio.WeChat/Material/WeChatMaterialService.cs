@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Extensions;
 
 namespace SixpenceStudio.WeChat.Material
 {
