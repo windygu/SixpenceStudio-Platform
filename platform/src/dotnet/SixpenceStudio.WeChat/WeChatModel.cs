@@ -9,12 +9,27 @@ Description：WeChatModel
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat
 {
+    /// <summary>
+    /// 素材类型枚举
+    /// </summary>
+    public enum MaterialType
+    {
+        [Description("图片")]
+        image,
+        [Description("视频")]
+        video,
+        [Description("语音")]
+        voice,
+        [Description("图文")]
+        news
+    }
     public class BaseWeChatMaterial<T>
         where T : BaseWeChatMaterialItem, new()
     {

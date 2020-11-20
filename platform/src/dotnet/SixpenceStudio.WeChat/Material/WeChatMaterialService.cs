@@ -75,7 +75,7 @@ namespace SixpenceStudio.WeChat.Material
         /// <param name="type"></param>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        public string AddMaterial(WeChatMaterialExtension.MaterialType type, string fileId)
+        public string AddMaterial(MaterialType type, string fileId)
         {
             var file = new SysFileService().GetData(fileId);
             var config = ConfigFactory.GetConfig<StoreSection>();

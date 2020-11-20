@@ -8,22 +8,6 @@ namespace SixpenceStudio.WeChat
 {
     public static class WeChatMaterialExtension
     {
-
-        /// <summary>
-        /// 素材类型枚举
-        /// </summary>
-        public enum MaterialType
-        {
-            [Description("图片")]
-            image,
-            [Description("视频")]
-            video,
-            [Description("语音")]
-            voice,
-            [Description("图文")]
-            news
-        }
-
         /// <summary>
         /// 获取素材类型字符串值
         /// </summary>
