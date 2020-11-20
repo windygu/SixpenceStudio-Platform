@@ -78,9 +78,21 @@ namespace SixpenceStudio.WeChat.Material
         public string AddMaterial(MaterialType type, string fileId)
         {
             var file = new SysFileService().GetData(fileId);
+            ExceptionUtil.CheckBoolean<SpException>(file == null, $"根据fileid：{fileId}未找到记录", "36B5F5C9-ED65-4CAC-BE60-712278056EA9");
+
+            // 检查素材库是否已经上传
+            var data = _cmd.broker.Retrieve<wechat_material>("select * from wechat_material where sys_fileid = @sys_fileid", new Dictionary<string, object>() { { "@sys_fileid", file.sys_fileId } });
+            if (data != null)
+            {
+                return data.media_id;
+            }
+
+            // 获取文件流
             var config = ConfigFactory.GetConfig<StoreSection>();
             var stream = AssemblyUtil.GetObject<IStoreStrategy>(config?.type).GetStream(fileId);
             var media = WeChatApi.AddMaterial(type, stream, file.name, file.content_type);
+            
+            // 创建素材记录
             var user = _cmd.GetCurrentUser();
             var material = new wechat_material()
             {
