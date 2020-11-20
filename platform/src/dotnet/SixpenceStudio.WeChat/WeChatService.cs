@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
+using SixpenceStudio.Platform.Logging;
 using SixpenceStudio.Platform.Utils;
 using SixpenceStudio.WeChat.Message;
 using SixpenceStudio.WeChat.Message.Text;
@@ -61,6 +62,8 @@ namespace SixpenceStudio.WeChat
             };
             MemoryCacheUtil.RemoveCacheItem("AccessToken");
             MemoryCacheUtil.Set("AccessToken", accessToken);
+            var logger = LogFactory.GetLogger("wechat");
+            logger.Debug("获取微信access_token成功：" + accessToken.AccessToken);
             return accessToken;
         }
 

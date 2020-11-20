@@ -94,7 +94,7 @@ namespace SixpenceStudio.WeChat
         /// <summary>
         /// 新增永久素材API（音乐、视频、图片）
         /// </summary>
-        public static readonly string AddMaterialAPi = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
+        public static readonly string AddMaterialAPi = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={0}&type={1}";
         /// <summary>
         /// 新增永久素材（音乐、视频、图片）
         /// </summary>
