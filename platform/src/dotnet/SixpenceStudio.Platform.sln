@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Encryption",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.WeChat", "SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj", "{638FED7C-15F5-499E-A772-A78A4A884926}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Test", "SixpenceStudio.Test\SixpenceStudio.Test.csproj", "{153578E4-8536-4172-AA5B-FA977BD8F86D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +37,17 @@ Global
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{63B62369-8909-46DA-822D-E96FD2478808} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
+		{153578E4-8536-4172-AA5B-FA977BD8F86D} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59B4B777-66D7-403A-93FA-8406A336E4B5}

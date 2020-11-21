@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Platform
+namespace SixpenceStudio.Platform.Utils
 {
     public static class IEnumerableExtensions
     {

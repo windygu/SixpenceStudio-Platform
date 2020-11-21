@@ -8,6 +8,7 @@ Description：素材Plugin
 #endregion
 
 using SixpenceStudio.BaseSite.SysFile;
+using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Store;
@@ -37,6 +38,7 @@ namespace SixpenceStudio.WeChat.Material
                         var hash_code = SHAUtil.GetFileSHA1(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
                         AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
+                        var contentType = entity.type + "/" + entity.url.GetSubString("wx_fmt=");
                         var sysImage = new sys_file()
                         {
                             sys_fileId = Guid.NewGuid().ToString(),
@@ -44,7 +46,7 @@ namespace SixpenceStudio.WeChat.Material
                             hash_code = hash_code,
                             file_path = filePath,
                             file_type = "wechat_material",
-                            content_type = "image/png",
+                            content_type = contentType,
                             objectId = entity.Id
                         };
                         var id = new SysFileService(context.Broker).CreateData(sysImage);

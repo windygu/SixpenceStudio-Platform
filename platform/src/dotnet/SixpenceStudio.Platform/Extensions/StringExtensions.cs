@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Platform
+namespace SixpenceStudio.Platform.Utils
 {
     /// <summary>
     /// 字符串扩展类
@@ -44,5 +44,28 @@ namespace SixpenceStudio.Platform
             return "\r\n" + string.Join("\r\n", list) + "\r\n";
         }
 
+        /// <summary>
+        /// 获取查找到的字符串之后的字符串
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="str">需要查找的字符串</param>
+        /// <returns></returns>
+        public static string GetSubString(this string value, string str)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return "";
+            }
+
+            var startIndex = value.IndexOf(str);
+            if (startIndex == -1 || startIndex == 0)
+            {
+                return "";
+            }
+
+            startIndex += str.Length;
+            var len = value.Length - startIndex;
+            return value.Substring(startIndex, len);
+        }
     }
 }
