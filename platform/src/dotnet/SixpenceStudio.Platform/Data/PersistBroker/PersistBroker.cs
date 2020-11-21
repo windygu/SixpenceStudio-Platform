@@ -45,7 +45,12 @@ namespace SixpenceStudio.Platform.Data
                 paramList.Add(attrName, keyValue.value);
             }
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
-            this.Execute(sql, paramList);
+            this.ExecuteTransaction(() =>
+            {
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate } }, entity.EntityName);
+                this.Execute(sql, paramList);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostCreate } }, entity.EntityName);
+            });
             return entity.Id;
         }
 
@@ -68,12 +73,18 @@ namespace SixpenceStudio.Platform.Data
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int Delete(BaseEntity obj)
+        public int Delete(BaseEntity entity)
         {
             var sql = "DELETE FROM {0} WHERE {1}id = @id";
-            sql = string.Format(sql, obj.EntityName, obj.EntityName);
-            int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", obj.Id } });
-            return result;
+            sql = string.Format(sql, entity.EntityName, entity.EntityName);
+
+            return this.ExecuteTransaction(() =>
+            {
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete } }, entity.EntityName);
+                int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete } }, entity.EntityName);
+                return result;
+            });
         }
 
         /// <summary>
@@ -140,9 +151,14 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             }
             #endregion
             sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), entity.MainKeyName);
-            var result = this.Execute(sql, paramList);
 
-            return result;
+            return this.ExecuteTransaction(() =>
+            {
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate } }, entity.EntityName);
+                var result = this.Execute(sql, paramList);
+                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostUpdate } }, entity.EntityName);
+                return result;
+            });
         }
         #endregion
 

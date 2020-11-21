@@ -184,12 +184,7 @@ namespace SixpenceStudio.Platform.Entity
             t["modifiedByName"] = user.name;
             t["modifiedOn"] = DateTime.Now;
             var id = "";
-            broker.ExecuteTransaction(() =>
-            {
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PreCreate } }, t.EntityName);
-                id = broker.Create(t);
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PostCreate } }, t.EntityName);
-            });
+            id = broker.Create(t);
             return id;
         }
 
@@ -208,12 +203,7 @@ namespace SixpenceStudio.Platform.Entity
             t["modifiedBy"] = user.userId;
             t["modifiedByName"] = user.name;
             t["modifiedOn"] = DateTime.Now;
-            broker.ExecuteTransaction(() =>
-            {
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PreUpdate } }, t.EntityName);
-                broker.Update(t);
-                AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = t, EntityName = t.EntityName, Action = EntityAction.PostUpdate } }, t.EntityName);
-            });
+            broker.Update(t);
         }
 
         /// <summary>
@@ -249,9 +239,7 @@ namespace SixpenceStudio.Platform.Entity
                 ids.ForEach(id =>
                 {
                     var data = broker.Retrieve<T>(id);
-                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = EntityAction.PreDelete } }, data.EntityName);
                     broker.Delete(new T().EntityName, id);
-                    AssemblyUtil.Execute<IEntityActionPlugin>("Execute", new object[] { new Context() { Broker = broker, Entity = data, EntityName = data.EntityName, Action = EntityAction.PreDelete } }, data.EntityName);
                 });
             });
         }
