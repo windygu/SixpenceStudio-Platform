@@ -16,6 +16,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "uuidjs": "^4.2.5",
+    "vue-infinite-scroll": "^2.0.2",
     "wangeditor": "^4.1.0"
   },
   "devDependencies": {

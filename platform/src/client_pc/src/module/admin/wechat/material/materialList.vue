@@ -1,46 +1,29 @@
 <template>
-  <sp-list
-    ref="list"
-    :controllerName="controllerName"
-    :operations="operations"
-    :columns="columns"
-    :customApi="customApi"
-    :headerClick="headerClick"
-    :searchList="searchList"
-    :editTitle="'详情'"
-  >
-    <a-form-model
-      :model="searchData"
-      slot="more"
-      layout="horizontal"
-      v-bind="{ labelCol: { span: 4 }, wrapperCol: { span: 20 } }"
-      label-align="left"
-      style="padding: 0 10px"
-    >
-      <a-row :gutter="24">
-        <a-col :span="10">
-          <a-form-model-item label="素材类型">
-            <a-select v-model="searchData.type">
-              <a-select-option v-for="item in materialList" :key="item.Value">
-                {{ item.Name }}
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-col>
-      </a-row>
-    </a-form-model>
-    <material-read slot="edit" :data="data" :type="searchData.type"></material-read>
-  </sp-list>
+  <div :infinite-scroll-disabled="busy" class="content">
+    <a-card hoverable class="card" v-for="item in data" :key="item.Id">
+      <div v-html="handleShowImage(item.local_url)" style="width:100%;" slot="cover"></div>
+    </a-card>
+  </div>
 </template>
 
 <script>
 import materialRead from './materialRead';
+import infiniteScroll from 'vue-infinite-scroll';
+import pagination from '../mixins/pagination';
 
 export default {
   name: 'materialList',
   components: { materialRead },
+  directives: { infiniteScroll },
+  mixins: [pagination],
   data() {
     return {
+      isFirstLoad: true,
+      busy: false,
+      editVisible: false,
+      data: [],
+      pageSize: 15,
+      loading: false,
       controllerName: 'WeChatMaterial',
       operations: ['search', 'more'],
       columns: [
@@ -51,14 +34,19 @@ export default {
       materialList: [],
       searchData: {
         type: 'image'
-      },
-      data: null
+      }
     };
   },
   created() {
     this.getSysParam();
+    this.loadData();
   },
   computed: {
+    customApi() {
+      return `api/${this.controllerName}/GetDataList?pageIndex=$pageIndex&pagesize=$pageSize&orderBy=&searchValue=&searchList=${JSON.stringify(
+        this.searchList
+      )}`;
+    },
     searchList() {
       return [
         {
@@ -69,17 +57,72 @@ export default {
     }
   },
   methods: {
+    loadData() {
+      if (this.loading) {
+        this.$bus.$emit('loading-finish');
+        return;
+      }
+      this.loading = true;
+
+      if (sp.isNullOrEmpty(this.getDataApi)) {
+        this.$bus.$emit('loading-finish');
+        this.$bus.$emit('loaded-all');
+        return;
+      }
+
+      if (this.pageSize * this.pageIndex >= this.total && !this.isFirstLoad) {
+        this.$bus.$emit('loading-finish');
+        this.$bus.$emit('loaded-all');
+        return;
+      }
+
+      this.busy = true;
+      this.$emit('loading');
+      if (!this.isFirstLoad) {
+        this.pageIndex += 1;
+      }
+      sp.get(this.customApi.replace('$pageSize', this.pageSize).replace('$pageIndex', this.pageIndex))
+        .then(resp => {
+          this.data = this.data.concat(resp.DataList);
+          this.total = resp.RecordCount;
+          this.isFirstLoad = false;
+          this.busy = false;
+        })
+        .finally(() => {
+          this.loading = false;
+          this.$emit('loading-close');
+          this.$bus.$emit('loading-finish');
+        });
+    },
     async getSysParam() {
       this.materialList = await sp.get('api/SysParamGroup/GetParams?code=wechat_material_type');
-    },
-    headerClick(row) {
-      if (row) {
-        this.data = row;
-      }
-      this.$refs.list.editVisible = true;
     }
   }
 };
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  .card {
+    width: 100%;
+    max-width: 20%;
+    padding: 0 15px;
+    margin: 15px 0;
+    border: 0 !important;
+  }
+}
+
+img {
+  height: 200px;
+}
+
+.demo-infinite-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 300px;
+}
+</style>
