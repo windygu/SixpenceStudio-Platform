@@ -46,20 +46,6 @@ namespace SixpenceStudio.WeChat.Material
         }
 
         /// <summary>
-        /// 删除素材
-        /// </summary>
-        /// <param name="ids"></param>
-        public override void DeleteData(List<string> ids)
-        {
-            foreach (var item in ids)
-            {
-                var data = _cmd.broker.Retrieve<wechat_material>(item);
-                WeChatApi.DeleteMaterial(data.media_id);
-            }
-            base.DeleteData(ids);
-        }
-
-        /// <summary>
         /// 获取素材
         /// </summary>
         /// <param name="type">素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</param>

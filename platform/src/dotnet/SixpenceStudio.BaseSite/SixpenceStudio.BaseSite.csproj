@@ -120,6 +120,7 @@
     <Compile Include="AuthUser\AuthUserController.cs" />
     <Compile Include="AuthUser\AuthUserService.cs" />
     <Compile Include="AuthUser\auth_user.cs" />
+    <Compile Include="AuthUser\IPersistBrokerSecurityExtension.cs" />
     <Compile Include="AuthUser\LoginResponse.cs" />
     <Compile Include="OpenApi.cs" />
     <Compile Include="ShortUrl\ShortenUrl.cs" />

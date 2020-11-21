@@ -98,8 +98,8 @@ UPDATE auth_user
 SET password = @password
 WHERE user_infoid = @id;
 ";
-            var user = _cmd.GetCurrentUser();
-            var paramList = new Dictionary<string, object>() { { "@id",  user.userId}, { "@password", password } };
+            var user = _cmd.broker.GetCurrentUser();
+            var paramList = new Dictionary<string, object>() { { "@id",  user.Id}, { "@password", password } };
             _cmd.broker.Execute(sql, paramList);
         }
 

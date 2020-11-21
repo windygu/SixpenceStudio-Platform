@@ -155,7 +155,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
+    <Compile Include="Data\PersistBroker\IPersistBrokerSecurityExtension.cs" />
     <Compile Include="Entity\Command\EntityCommand.cs" />
     <Compile Include="Entity\Command\EntityCommandExtension.cs" />
     <Compile Include="Configs\BaseAppSettingsConfig.cs" />

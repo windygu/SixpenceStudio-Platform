@@ -137,7 +137,6 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
             return _conn.Execute(sql, paramListClone);
         }
 
@@ -155,7 +154,6 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
             return _conn.ExecuteScalar(sql, paramListClone);
         }
         #endregion
@@ -176,7 +174,6 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
             var ret = _conn.Query<T>(sql, paramListClone);
             return ret;
         }
@@ -197,7 +194,6 @@ namespace SixpenceStudio.Platform.Data
                 paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
             }
             sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
             DataTable dt = new DataTable();
             var reader = _conn.ExecuteReader(sql, paramListClone);
             dt.Load(reader);

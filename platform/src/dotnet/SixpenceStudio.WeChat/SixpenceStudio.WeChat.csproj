@@ -133,6 +133,7 @@
     <Compile Include="FocusUser\WeChatUserService.cs" />
     <Compile Include="FocusUser\wechat_user.cs" />
     <Compile Include="Material\WeChatMaterialController.cs" />
+    <Compile Include="Material\WeChatMaterialPlugin.cs" />
     <Compile Include="Material\WeChatMaterialService.cs" />
     <Compile Include="Material\wechat_material.cs" />
     <Compile Include="Message\Text\WeChatTextMessage.cs" />

@@ -57,6 +57,17 @@ namespace SixpenceStudio.Platform.Utils
         }
 
         /// <summary>
+        /// 下载图片
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="fileName"></param>
+        public static byte[] DownloadImage(string url)
+        {
+            WebClient client = new WebClient();
+            return client.DownloadData(url);
+        }
+
+        /// <summary>
         /// POST请求
         /// </summary>
         /// <param name="url"></param>
