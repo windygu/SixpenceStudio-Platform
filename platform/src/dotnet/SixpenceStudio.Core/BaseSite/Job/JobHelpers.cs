@@ -75,8 +75,7 @@ namespace SixpenceStudio.Core.Job
         public static void Register(Logging.Logger logger)
         {
             AssemblyUtil.GetTypes<IJob>()
-                .ToList()
-                .ForEach(item =>
+                .Each(item =>
                 {
                     sched.Start().Wait();
 
@@ -84,6 +83,10 @@ namespace SixpenceStudio.Core.Job
                     var job = JobBuilder.Create(item)
                         .Build();
                     var t = Activator.CreateInstance(item) as JobBase;
+                    if (t == null)
+                    {
+                        return;
+                    }
                     if (!string.IsNullOrEmpty(t.CronExperssion))
                     {
                         // 创建 trigger

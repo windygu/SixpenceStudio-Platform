@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Utils
 {
@@ -65,7 +62,7 @@ namespace SixpenceStudio.Core.Utils
         /// <param name="stream">要计算哈希值的 Stream</param>
         /// <param name="algName">算法:sha1,md5</param>
         /// <returns>哈希值字节数组</returns>
-        private static byte[] HashData(System.IO.Stream stream, string algName)
+        private static byte[] HashData(Stream stream, string algName)
         {
             System.Security.Cryptography.HashAlgorithm algorithm;
             if (algName == null)

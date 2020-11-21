@@ -1,18 +1,15 @@
-﻿using Minio.DataModel;
+﻿using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.SysConfig;
 using SixpenceStudio.Core.SysConfig.Config;
 using SixpenceStudio.Core.SysFile;
-using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Job;
-using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 
-namespace SixpenceStudio.Core
+namespace SixpenceStudio.Core.Job
 {
     /// <summary>
     /// 系统作业（Daily）

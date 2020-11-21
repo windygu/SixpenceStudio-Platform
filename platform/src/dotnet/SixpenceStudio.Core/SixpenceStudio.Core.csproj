@@ -218,7 +218,7 @@
     <Compile Include="BaseSite\SysParamGroup\SysParams\SysParamService.cs" />
     <Compile Include="BaseSite\SysParamGroup\SysParams\sys_param.cs" />
     <Compile Include="BaseSite\SysParamGroup\sys_paramgroup.cs" />
-    <Compile Include="BaseSite\SystemJob.cs" />
+    <Compile Include="BaseSite\Job\SystemJob.cs" />
     <Compile Include="BaseSite\UserInfo\UserInfoController.cs" />
     <Compile Include="BaseSite\UserInfo\UserInfoPlugin.cs" />
     <Compile Include="BaseSite\UserInfo\UserInfoService.cs" />
@@ -246,8 +246,8 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\LongExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Job\JobBase.cs" />
-    <Compile Include="Job\JobHelpers.cs" />
+    <Compile Include="BaseSite\Job\JobBase.cs" />
+    <Compile Include="BaseSite\Job\JobHelpers.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogUtils.cs" />
