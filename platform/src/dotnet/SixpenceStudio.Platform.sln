@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.BaseSite", "SixpenceStudio.BaseSite\SixpenceStudio.BaseSite.csproj", "{ED15407E-D6BB-47AD-A834-0CF31D0A85CC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Platform", "SixpenceStudio.Platform\SixpenceStudio.Platform.csproj", "{D450A5BE-E240-41F7-A948-17EEF0D16445}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SixpenceStudio.Tool", "SixpenceStudio.Tool", "{0D13F201-E039-4218-A7B5-C09ECF410C5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Encryption", "SixpenceStudio.Encryption\SixpenceStudio.Encryption.csproj", "{63B62369-8909-46DA-822D-E96FD2478808}"
@@ -15,20 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.WeChat", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Test", "SixpenceStudio.Test\SixpenceStudio.Test.csproj", "{153578E4-8536-4172-AA5B-FA977BD8F86D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Core", "SixpenceStudio.Core\SixpenceStudio.Core.csproj", "{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED15407E-D6BB-47AD-A834-0CF31D0A85CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED15407E-D6BB-47AD-A834-0CF31D0A85CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED15407E-D6BB-47AD-A834-0CF31D0A85CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED15407E-D6BB-47AD-A834-0CF31D0A85CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D450A5BE-E240-41F7-A948-17EEF0D16445}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63B62369-8909-46DA-822D-E96FD2478808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63B62369-8909-46DA-822D-E96FD2478808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63B62369-8909-46DA-822D-E96FD2478808}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +31,10 @@ Global
 		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

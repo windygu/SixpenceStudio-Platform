@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SixpenceStudio.Platform\SixpenceStudio.Platform.csproj">
-      <Project>{d450a5be-e240-41f7-a948-17eef0d16445}</Project>
-      <Name>SixpenceStudio.Platform</Name>
+    <ProjectReference Include="..\SixpenceStudio.Core\SixpenceStudio.Core.csproj">
+      <Project>{8be4a4eb-b842-4133-adf9-a3581d47c8a3}</Project>
+      <Name>SixpenceStudio.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

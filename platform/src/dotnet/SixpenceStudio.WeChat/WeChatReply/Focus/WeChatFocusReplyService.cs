@@ -1,8 +1,8 @@
-﻿using SixpenceStudio.BaseSite;
-using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Logging;
+﻿using SixpenceStudio.Core;
+using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Logging;
 using SixpenceStudio.WeChat.Message;
 using System;
 using System.Collections.Generic;

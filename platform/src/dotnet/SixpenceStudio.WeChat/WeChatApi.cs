@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SixpenceStudio.Platform;
-using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.Core;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;

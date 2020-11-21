@@ -7,8 +7,8 @@ Description：
 ********************************************************/
 #endregion
 
-using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Entity;
+using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

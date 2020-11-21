@@ -163,18 +163,14 @@
     <Compile Include="WeChatService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SixpenceStudio.BaseSite\SixpenceStudio.BaseSite.csproj">
-      <Project>{ed15407e-d6bb-47ad-a834-0cf31d0a85cc}</Project>
-      <Name>SixpenceStudio.BaseSite</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SixpenceStudio.Platform\SixpenceStudio.Platform.csproj">
-      <Project>{d450a5be-e240-41f7-a948-17eef0d16445}</Project>
-      <Name>SixpenceStudio.Platform</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SixpenceStudio.Core\SixpenceStudio.Core.csproj">
+      <Project>{8be4a4eb-b842-4133-adf9-a3581d47c8a3}</Project>
+      <Name>SixpenceStudio.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

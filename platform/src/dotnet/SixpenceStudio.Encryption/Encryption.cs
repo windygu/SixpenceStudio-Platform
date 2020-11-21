@@ -1,4 +1,4 @@
-﻿using SixpenceStudio.Platform.Utils;
+﻿using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

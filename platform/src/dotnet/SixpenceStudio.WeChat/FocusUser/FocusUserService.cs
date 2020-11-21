@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Logging;
-using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Logging;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

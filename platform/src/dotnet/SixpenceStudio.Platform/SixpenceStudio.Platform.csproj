@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D450A5BE-E240-41F7-A948-17EEF0D16445}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SixpenceStudio.Platform</RootNamespace>
-    <AssemblyName>SixpenceStudio.Platform</AssemblyName>
+    <RootNamespace>SixpenceStudio.Core</RootNamespace>
+    <AssemblyName>SixpenceStudio.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

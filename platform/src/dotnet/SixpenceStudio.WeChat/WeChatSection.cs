@@ -1,4 +1,4 @@
-﻿using SixpenceStudio.Platform.Configs;
+﻿using SixpenceStudio.Core.Configs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

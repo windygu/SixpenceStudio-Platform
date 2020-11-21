@@ -1,7 +1,7 @@
-﻿using SixpenceStudio.Platform;
-using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Logging;
-using SixpenceStudio.Platform.Utils;
+﻿using SixpenceStudio.Core;
+using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Logging;
+using SixpenceStudio.Core.Utils;
 using SixpenceStudio.WeChat.Message;
 using SixpenceStudio.WeChat.Message.Text;
 using SixpenceStudio.WeChat.WeChatReply.Focus;

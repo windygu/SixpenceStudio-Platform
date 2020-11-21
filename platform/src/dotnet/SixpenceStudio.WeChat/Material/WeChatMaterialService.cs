@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using SixpenceStudio.BaseSite;
-using SixpenceStudio.BaseSite.AuthUser;
-using SixpenceStudio.BaseSite.SysFile;
-using SixpenceStudio.Platform;
-using SixpenceStudio.Platform.Configs;
-using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Entity;
-using SixpenceStudio.Platform.Store;
-using SixpenceStudio.Platform.Utils;
+using SixpenceStudio.Core;
+using SixpenceStudio.Core.AuthUser;
+using SixpenceStudio.Core.SysFile;
+using SixpenceStudio.Core;
+using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Store;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 
