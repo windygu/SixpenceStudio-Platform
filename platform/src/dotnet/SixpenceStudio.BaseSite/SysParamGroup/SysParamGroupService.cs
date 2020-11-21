@@ -20,7 +20,7 @@ namespace SixpenceStudio.BaseSite.SysParamGroup
         }
         #endregion
 
-        public override IList<EntityView<sys_paramgroup>> GetViewList()
+        public override IList<EntityView> GetViewList()
         {
             var sql = @"
 SELECT
@@ -29,9 +29,9 @@ FROM
 	sys_paramgroup
 ";
             var customFilter = new List<string>() { "name" };
-            return new List<EntityView<sys_paramgroup>>()
+            return new List<EntityView>()
             {
-                new EntityView<sys_paramgroup>()
+                new EntityView()
                 {
                     Sql = sql,
                     CustomFilter = customFilter,
@@ -52,17 +52,17 @@ FROM sys_param
 INNER JOIN sys_paramgroup ON sys_param.sys_paramgroupid = sys_paramgroup.sys_paramgroupid
 WHERE sys_paramgroup.code = @code
 ";
-            return _cmd.broker.DbClient.Query<SelectModel>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
+            return _cmd.Broker.DbClient.Query<SelectModel>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
         }
 
         public override void DeleteData(List<string> ids)
         {
-            _cmd.broker.ExecuteTransaction(() =>
+            _cmd.Broker.ExecuteTransaction(() =>
             {
                 var sql = @"
 DELETE FROM sys_param WHERE sys_paramgroupid IN (in@ids)
 ";
-                _cmd.broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", ids } });
+                _cmd.Broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", ids } });
                 base.DeleteData(ids);
             });
         }

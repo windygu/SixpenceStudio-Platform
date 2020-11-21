@@ -7,6 +7,7 @@ Description：微信关键词回复 Service
 ********************************************************/
 #endregion
 
+using SixpenceStudio.BaseSite;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.WeChat.Message;
@@ -44,7 +45,7 @@ namespace SixpenceStudio.WeChat.WeChatReply.Keywords
 SELECT * FROM wechat_keywords
 WHERE name LIKE CONCAT('%', @name, '%')
 ";
-            return _cmd.broker.RetrieveMultiple<wechat_keywords>(sql, new Dictionary<string, object>() { { "@name", requestMesage } });
+            return _cmd.Broker.RetrieveMultiple<wechat_keywords>(sql, new Dictionary<string, object>() { { "@name", requestMesage } });
         }
 
         /// <summary>

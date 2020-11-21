@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Platform.Configs;
+﻿using SixpenceStudio.BaseSite;
+using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Logging;
@@ -44,7 +45,7 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
             var sql = @"
 select * from wechat_focus_reply where wechat = @wechat
 ";
-            var data = _cmd.broker.Retrieve<wechat_focus_reply>(sql, new Dictionary<string, object>() { { "@wechat", config.appid } });
+            var data = _cmd.Broker.Retrieve<wechat_focus_reply>(sql, new Dictionary<string, object>() { { "@wechat", config.appid } });
             return data;
         }
 

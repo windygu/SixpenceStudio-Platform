@@ -33,7 +33,7 @@ namespace SixpenceStudio.BaseSite.SysFile
 SELECT * FROM sys_file
 WHERE hash_code = @code
 ";
-            return _cmd.broker.RetrieveMultiple<sys_file>(sql, new Dictionary<string, object>() { { "@code", code } });
+            return _cmd.Broker.RetrieveMultiple<sys_file>(sql, new Dictionary<string, object>() { { "@code", code } });
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ WHERE hash_code = @code
         /// <param name="ids"></param>
         public override void DeleteData(List<string> ids)
         {
-            _cmd.broker.ExecuteTransaction(() =>
+            _cmd.Broker.ExecuteTransaction(() =>
             {
                 ids.ForEach(item =>
                 {
@@ -50,7 +50,7 @@ WHERE hash_code = @code
                     var sql = @"
 SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
 ";
-                    var result = _cmd.broker.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
+                    var result = _cmd.Broker.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
                     // 只有当前记录拥有该文件则删除
                     if (Convert.ToInt32(result) <= 1)
                     {

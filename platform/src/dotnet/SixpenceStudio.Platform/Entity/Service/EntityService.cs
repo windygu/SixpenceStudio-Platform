@@ -16,7 +16,7 @@ namespace SixpenceStudio.Platform.Entity
         /// <summary>
         /// 实体操作
         /// </summary>
-        protected EntityCommand<T> _cmd;
+        protected IEntityCommand<T> _cmd;
 
         /// <summary>
         /// 数据库持久化
@@ -25,7 +25,7 @@ namespace SixpenceStudio.Platform.Entity
         {
             get
             {
-                return _cmd.broker;
+                return _cmd.Broker;
             }
         }
 
@@ -35,12 +35,12 @@ namespace SixpenceStudio.Platform.Entity
         /// 获取视图
         /// </summary>
         /// <returns></returns>
-        public virtual IList<EntityView<T>> GetViewList()
+        public virtual IList<EntityView> GetViewList()
         {
             var sql = $"SELECT * FROM {new T().EntityName} WHERE 1=1";
-            return new List<EntityView<T>>()
+            return new List<EntityView>()
             {
-                new EntityView<T>()
+                new EntityView()
                 {
                     Sql = sql,
                     CustomFilter = new List<string>() { "name" }, // name 是每个实体必须要添加字段

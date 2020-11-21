@@ -34,7 +34,7 @@ namespace SixpenceStudio.BaseSite.AuthUser
 SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
             var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", pwd } };
-            var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
+            var authUser = _cmd.Broker.Retrieve<auth_user>(sql, paramList);
             return authUser;
         }
 
@@ -52,7 +52,7 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
 ";
             var encryptionPwd = RSAUtil.Decrypt(pwd, publicKey);
             var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
-            var authUser = _cmd.broker.Retrieve<auth_user>(sql, paramList);
+            var authUser = _cmd.Broker.Retrieve<auth_user>(sql, paramList);
             return authUser;
         }
 
@@ -98,9 +98,9 @@ UPDATE auth_user
 SET password = @password
 WHERE user_infoid = @id;
 ";
-            var user = _cmd.broker.GetCurrentUser();
+            var user = _cmd.Broker.GetCurrentUser();
             var paramList = new Dictionary<string, object>() { { "@id",  user.Id}, { "@password", password } };
-            _cmd.broker.Execute(sql, paramList);
+            _cmd.Broker.Execute(sql, paramList);
         }
 
 

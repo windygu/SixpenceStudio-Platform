@@ -155,9 +155,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\PersistBroker\IPersistBrokerSecurityExtension.cs" />
-    <Compile Include="Entity\Command\EntityCommand.cs" />
-    <Compile Include="Entity\Command\EntityCommandExtension.cs" />
     <Compile Include="Configs\BaseAppSettingsConfig.cs" />
     <Compile Include="Configs\ConfigFactory.cs" />
     <Compile Include="Configs\ConfigSectionNameAttribute.cs" />
@@ -170,6 +167,7 @@
     <Compile Include="Data\DBClient\DbClient.cs" />
     <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\Command\IEntityCommand.cs" />
     <Compile Include="Entity\DataModel.cs" />
     <Compile Include="Entity\EntityNameAttribute.cs" />
     <Compile Include="Entity\KeyAttributesAttribute.cs" />

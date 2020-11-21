@@ -31,7 +31,7 @@ namespace SixpenceStudio.BaseSite.SysEntity
         }
         #endregion
 
-        public override IList<EntityView<sys_entity>> GetViewList()
+        public override IList<EntityView> GetViewList()
         {
             var sql = @"
 SELECT
@@ -40,9 +40,9 @@ FROM
 	sys_entity
 ";
             var customFilter = new List<string>() { "name" };
-            return new List<EntityView<sys_entity>>()
+            return new List<EntityView>()
             {
-                new EntityView<sys_entity>()
+                new EntityView()
                 {
                     Sql = sql,
                     CustomFilter = customFilter,
@@ -68,7 +68,7 @@ FROM
 WHERE
 	entityid = @id
 ";
-            return _cmd.broker.RetrieveMultiple<sys_attrs>(sql, new Dictionary<string, object>() { { "@id", id } });
+            return _cmd.Broker.RetrieveMultiple<sys_attrs>(sql, new Dictionary<string, object>() { { "@id", id } });
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ WHERE
         public override string CreateData(sys_entity t)
         {
             var id = "";
-            _cmd.broker.ExecuteTransaction(() =>
+            _cmd.Broker.ExecuteTransaction(() =>
             {
-                _cmd.broker.Execute(DDLTemplate.CreateTable(t.code));
+                _cmd.Broker.Execute(DDLTemplate.CreateTable(t.code));
                 id = base.CreateData(t);
                 var sys_attr = new sys_attrs()
                 {
@@ -95,7 +95,7 @@ WHERE
                     entityidname = t.name,
                     isrequire = 0
                 };
-                new SysAttrsService(_cmd.broker).CreateData(sys_attr);
+                new SysAttrsService(_cmd.Broker).CreateData(sys_attr);
             });
             return id;
         }
@@ -107,7 +107,7 @@ WHERE
         public void AddSystemAttrs(string tableName, List<Column> columns)
         {
             var sql = DDLTemplate.GetAddColumnSql(tableName, columns);
-            _cmd.broker.Execute(sql);
+            _cmd.Broker.Execute(sql);
         }
 
         /// <summary>
@@ -116,17 +116,17 @@ WHERE
         /// <param name="ids"></param>
         public override void DeleteData(List<string> ids)
         {
-            _cmd.broker.ExecuteTransaction(() =>
+            _cmd.Broker.ExecuteTransaction(() =>
             {
-                var dataList = _cmd.broker.RetrieveMultiple<sys_entity>(ids).ToList();
+                var dataList = _cmd.Broker.RetrieveMultiple<sys_entity>(ids).ToList();
                 base.DeleteData(ids); // 删除实体
                 var sql = @"
 DELETE FROM sys_attrs WHERE entityid IN (in@ids);
 ";
-                _cmd.broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", string.Join(",", ids) } }); // 删除级联字段
+                _cmd.Broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", string.Join(",", ids) } }); // 删除级联字段
                 dataList.ForEach(data =>
                 {
-                    _cmd.broker.Execute(DDLTemplate.DropTable(data.code));
+                    _cmd.Broker.Execute(DDLTemplate.DropTable(data.code));
                 });
             });
         }

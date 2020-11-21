@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SixpenceStudio.BaseSite;
+using SixpenceStudio.BaseSite.AuthUser;
 using SixpenceStudio.Platform.Data;
 using SixpenceStudio.Platform.Entity;
 using System;
@@ -32,7 +33,7 @@ namespace SixpenceStudio.WeChat.WeChatNews
         {
             foreach (var item in ids)
             {
-                var data = _cmd.broker.Retrieve<wechat_news>(item);
+                var data = _cmd.Broker.Retrieve<wechat_news>(item);
                 WeChatApi.DeleteMaterial(data.media_id);
             }
             base.DeleteData(ids);
@@ -109,7 +110,7 @@ namespace SixpenceStudio.WeChat.WeChatNews
                 }
             };
             var result = WeChatApi.AddNews(JsonConvert.SerializeObject(postData));
-            var user = _cmd.GetCurrentUser();
+            var user = _cmd.Broker.GetCurrentUser();
             var data = new wechat_news()
             {
                 wechat_newsId = Guid.NewGuid().ToString(),
@@ -119,10 +120,10 @@ namespace SixpenceStudio.WeChat.WeChatNews
                 name = title,
                 digest = digest,
                 thumb_media_id = thumb_media_id,
-                createdBy = user.userId,
-                createdByName = user.name,
-                modifiedBy = user.userId,
-                modifiedByName = user.name,
+                createdBy = user.Id,
+                createdByName = user.Name,
+                modifiedBy = user.Id,
+                modifiedByName = user.Name,
                 createdOn = DateTime.Now,
                 modifiedOn = DateTime.Now
             };

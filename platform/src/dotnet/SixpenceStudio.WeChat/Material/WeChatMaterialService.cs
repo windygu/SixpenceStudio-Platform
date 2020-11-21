@@ -1,18 +1,15 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using SixpenceStudio.BaseSite;
+using SixpenceStudio.BaseSite.AuthUser;
 using SixpenceStudio.BaseSite.SysFile;
 using SixpenceStudio.Platform;
 using SixpenceStudio.Platform.Configs;
 using SixpenceStudio.Platform.Data;
-using SixpenceStudio.Platform.Logging;
+using SixpenceStudio.Platform.Entity;
 using SixpenceStudio.Platform.Store;
 using SixpenceStudio.Platform.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SixpenceStudio.Platform.Entity;
 
 namespace SixpenceStudio.WeChat.Material
 {
@@ -30,12 +27,12 @@ namespace SixpenceStudio.WeChat.Material
         }
         #endregion
 
-        public override IList<EntityView<wechat_material>> GetViewList()
+        public override IList<EntityView> GetViewList()
         {
             var sql = $"SELECT * FROM wechat_material WHERE 1=1";
-            return new List<EntityView<wechat_material>>()
+            return new List<EntityView>()
             {
-                new EntityView<wechat_material>()
+                new EntityView()
                 {
                     Sql = sql,
                     CustomFilter = new List<string>() { "name" },
@@ -80,7 +77,7 @@ namespace SixpenceStudio.WeChat.Material
             ExceptionUtil.CheckBoolean<SpException>(file == null, $"根据fileid：{fileId}未找到记录", "36B5F5C9-ED65-4CAC-BE60-712278056EA9");
 
             // 检查素材库是否已经上传
-            var data = _cmd.broker.Retrieve<wechat_material>("select * from wechat_material where sys_fileid = @sys_fileid", new Dictionary<string, object>() { { "@sys_fileid", file.sys_fileId } });
+            var data = _cmd.Broker.Retrieve<wechat_material>("select * from wechat_material where sys_fileid = @sys_fileid", new Dictionary<string, object>() { { "@sys_fileid", file.sys_fileId } });
             if (data != null)
             {
                 return data.media_id;
@@ -92,7 +89,7 @@ namespace SixpenceStudio.WeChat.Material
             var media = WeChatApi.AddMaterial(type, stream, file.name, file.content_type);
             
             // 创建素材记录
-            var user = _cmd.GetCurrentUser();
+            var user = _cmd.Broker.GetCurrentUser();
             var material = new wechat_material()
             {
                 wechat_materialId = Guid.NewGuid().ToString(),
@@ -101,10 +98,10 @@ namespace SixpenceStudio.WeChat.Material
                 sys_fileid = fileId,
                 name = file.name,
                 type = type.ToMaterialTypeString(),
-                createdBy = user.userId,
-                createdByName = user.name,
-                modifiedBy = user.userId,
-                modifiedByName= user.name,
+                createdBy = user.Id,
+                createdByName = user.Name,
+                modifiedBy = user.Id,
+                modifiedByName= user.Name,
                 modifiedOn = DateTime.Now,
                 createdOn = DateTime.Now
             };

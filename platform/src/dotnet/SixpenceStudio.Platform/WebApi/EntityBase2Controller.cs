@@ -14,7 +14,7 @@ namespace SixpenceStudio.Platform.WebApi
         where S : EntityService<E>, new()
     {
         [HttpGet, Route("api/[controller]/viewlist")]
-        public IList<EntityView<E>> GetViewList()
+        public IList<EntityView> GetViewList()
         {
             return new S().GetViewList();
         }

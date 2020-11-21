@@ -9,9 +9,7 @@ namespace SixpenceStudio.Platform.Entity
     /// <summary>
     /// 实体试图
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EntityView<T>
-        where T : BaseEntity, new()
+    public class EntityView
     {
         /// <summary>
         /// 视图名

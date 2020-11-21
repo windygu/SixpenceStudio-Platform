@@ -10,14 +10,19 @@ using System.Web;
 
 namespace SixpenceStudio.BaseSite.Job
 {
-    public class JobService : BaseService
+    public class JobService : EntityService<job>
     {
+        #region 构造函数
         public JobService()
         {
-            broker = PersistBrokerFactory.GetPersistBroker();
-            logger = LogFactory.GetLogger();
+            _cmd = new EntityCommand<job>();
         }
 
+        public JobService(IPersistBroker broker)
+        {
+            _cmd = new EntityCommand<job>(broker);
+        }
+        #endregion
         /// <summary>
         /// 查询所有的job
         /// </summary>
@@ -28,7 +33,7 @@ namespace SixpenceStudio.BaseSite.Job
 SELECT * FROM job
 ORDER BY name
 ";
-            var dataList = broker.RetrieveMultiple<job>(sql);
+            var dataList = _cmd.Broker.RetrieveMultiple<job>(sql);
             return dataList;
         }
 

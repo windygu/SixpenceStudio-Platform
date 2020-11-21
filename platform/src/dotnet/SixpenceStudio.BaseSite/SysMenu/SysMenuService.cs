@@ -72,7 +72,7 @@ SELECT * FROM sys_menu
 WHERE parentid IS NULL
 ORDER BY menu_index
 ";
-            var data = _cmd.broker.RetrieveMultiple<sys_menu>(sql);
+            var data = _cmd.Broker.RetrieveMultiple<sys_menu>(sql);
             return data;
         }
     }

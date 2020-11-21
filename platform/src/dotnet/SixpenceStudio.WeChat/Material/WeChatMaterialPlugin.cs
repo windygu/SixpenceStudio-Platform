@@ -25,20 +25,20 @@ namespace SixpenceStudio.WeChat.Material
     {
         public void Execute(Context context)
         {
-            var entity = context.Entity as wechat_material;
+            var entity = context.Entity;
             switch (context.Action)
             {
                 case EntityAction.PreCreate:
                 case EntityAction.PreUpdate:
                     // 如果素材未上传到系统，则根据url请求图片保存
-                    if (string.IsNullOrEmpty(entity.sys_fileid))
+                    if (string.IsNullOrEmpty(entity.GetAttributeValue<string>("sys_fileid")))
                     {
-                        var result = HttpUtil.DownloadImage(entity.url);
+                        var result = HttpUtil.DownloadImage(entity.GetAttributeValue<string>("url"));
                         var stream = StreamUtil.BytesToStream(result);
                         var hash_code = SHAUtil.GetFileSHA1(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
                         AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
-                        var contentType = entity.type + "/" + entity.url.GetSubString("wx_fmt=");
+                        var contentType = entity.GetAttributeValue<string>("type")+ " / " + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt =");
                         var sysImage = new sys_file()
                         {
                             sys_fileId = Guid.NewGuid().ToString(),
@@ -50,11 +50,11 @@ namespace SixpenceStudio.WeChat.Material
                             objectId = entity.Id
                         };
                         var id = new SysFileService(context.Broker).CreateData(sysImage);
-                        entity.sys_fileid = id;
+                        entity.SetAttributeValue("sys_fileid", id);
                     }
                     break;
                 case EntityAction.PreDelete:
-                    WeChatApi.DeleteMaterial(entity.media_id);
+                    WeChatApi.DeleteMaterial(entity.GetAttributeValue<string>("media_id"));
                     break;
                 default:
                     break;
