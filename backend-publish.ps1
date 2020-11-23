@@ -4,8 +4,8 @@ If (! $?) { Throw $buildException }
 
 If (Test-Path platform\build) { Remove-Item -Recurse -Force "platform\build\*.nupkg" }
 
-$lastVersion = nuget list SixpenceStudio.BaseSite -Source http://nuget.karldu.cn/nuget
-$lastVersion = $lastVersion -replace "SixpenceStudio.BaseSite ","Current Version: "
+$lastVersion = nuget list SixpenceStudio.Core -Source http://nuget.karldu.cn/nuget
+$lastVersion = $lastVersion -replace "SixpenceStudio.Core ","Current Version: "
 Write-Output $lastVersion
 
 $newVersion = Read-Host "Enter new version"
