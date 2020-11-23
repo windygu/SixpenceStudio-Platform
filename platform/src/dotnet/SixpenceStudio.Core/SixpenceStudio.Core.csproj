@@ -133,8 +133,8 @@
       <HintPath>..\packages\System.Reactive.Linq.4.0.0\lib\net46\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -164,6 +164,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=5.11.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.8\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.9.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.8\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
     <Reference Include="WebApiThrottle, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WebApiThrottle.1.5.4\lib\net45\WebApiThrottle.dll</HintPath>
     </Reference>
@@ -248,6 +254,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="BaseSite\Job\JobBase.cs" />
     <Compile Include="BaseSite\Job\JobHelpers.cs" />
+    <Compile Include="IoC\CustomStrategyAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogUtils.cs" />
@@ -271,6 +278,7 @@
     <Compile Include="Utils\RSAUtil.cs" />
     <Compile Include="Utils\SHAUtil.cs" />
     <Compile Include="Utils\StreamUtil.cs" />
+    <Compile Include="IoC\UnityContainerService.cs" />
     <Compile Include="WebApi\BaseController.cs" />
     <Compile Include="WebApi\EntityBase2Controller.cs" />
     <Compile Include="WebApi\EntityBaseController.cs" />

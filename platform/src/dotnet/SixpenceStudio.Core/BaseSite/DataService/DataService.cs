@@ -7,6 +7,7 @@ using SixpenceStudio.Core.Utils;
 using System;
 using System.Web;
 using System.Web.Http;
+using SixpenceStudio.Core.IoC;
 
 namespace SixpenceStudio.Core.DataService
 {
@@ -36,8 +37,7 @@ namespace SixpenceStudio.Core.DataService
             // 保存图片到本地
             // TODO：执行失败回滚操作
             var config = ConfigFactory.GetConfig<StoreSection>();
-            AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(image.InputStream, fileName, out var filePath);
-
+            UnityContainerService.Resolve<IStoreStrategy>(config?.type).Upload(image.InputStream, fileName, out var filePath);
             var sysImage = new sys_file()
             {
                 sys_fileId = Guid.NewGuid().ToString(),

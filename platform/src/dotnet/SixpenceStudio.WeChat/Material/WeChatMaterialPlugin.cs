@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixpenceStudio.Core.IoC;
 
 namespace SixpenceStudio.WeChat.Material
 {
@@ -37,7 +38,7 @@ namespace SixpenceStudio.WeChat.Material
                         var stream = StreamUtil.BytesToStream(result);
                         var hash_code = SHAUtil.GetFileSHA1(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
-                        AssemblyUtil.GetObject<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
+                        UnityContainerService.Resolve<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
                         var contentType = entity.GetAttributeValue<string>("type")+ " / " + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt =");
                         var sysImage = new sys_file()
                         {

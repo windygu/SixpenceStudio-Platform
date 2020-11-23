@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SixpenceStudio.Core.IoC;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace SixpenceStudio.Core.Store
     /// <summary>
     /// 存储策略接口
     /// </summary>
+    [CustomStrategy]
     public interface IStoreStrategy
     {
         /// <summary>

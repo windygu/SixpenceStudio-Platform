@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.IoC;
 
 namespace SixpenceStudio.Core.SysFile
 {
@@ -68,7 +69,7 @@ SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
         public void Download(string objectId)
         {
             var config = ConfigFactory.GetConfig<StoreSection>();
-            AssemblyUtil.GetObject<IStoreStrategy>(config?.type).DownLoad(objectId);
+            UnityContainerService.Resolve<IStoreStrategy>(config?.type).DownLoad(objectId);
         }
 
     }

@@ -2,8 +2,12 @@
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
+using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Startup;
+using SixpenceStudio.Core.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.Http;
 
@@ -16,7 +20,7 @@ namespace SixpenceStudio.Core.Startup
         public void Configuration(IAppBuilder app)
         {
             // 加载log配置
-            var file = new FileInfo(System.AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config");
+            var file = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config");
             var repository = log4net.LogManager.CreateRepository("NETFrameworkRepository");
             Quartz.Logging.LogProvider.IsDisabled = true;
             XmlConfigurator.Configure(repository, file);
@@ -35,6 +39,18 @@ namespace SixpenceStudio.Core.Startup
             log.Info("正在注册Job");
             Job.JobHelpers.Register(log);
             log.Info("注册Job成功");
+
+            log.Info("注册IoC");
+            AssemblyUtil.GetAssemblies().Each(item =>
+            {
+                var types = new List<Type>();
+                item.GetTypes().Each(type =>
+                {
+                    types.Add(type);
+                });
+                UnityContainerService.Register(types);
+            });
+            log.Info("IoC注册成功");
         }
     }
 }

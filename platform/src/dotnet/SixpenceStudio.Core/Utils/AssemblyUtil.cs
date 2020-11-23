@@ -11,19 +11,16 @@ namespace SixpenceStudio.Core.Utils
     public class AssemblyUtil
     {
         private const string SIXPENCE_LIBS = "SixpenceStudio.*.dll";
-        private static readonly IList<Assembly> assemblies;
+        private static readonly IList<Assembly> assemblies = GetAssemblies(SIXPENCE_LIBS);
 
-        static AssemblyUtil()
-        {
-            assemblies = GetAssemblies(SIXPENCE_LIBS);
-        }
+        static AssemblyUtil() { }
 
         /// <summary>
         /// 获取所有Assembly实例
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IList<Assembly> GetAssemblies(string name = "")
+        public static List<Assembly> GetAssemblies(string name = "")
         {
             if (string.IsNullOrEmpty(name)) return new List<Assembly>() { Assembly.GetCallingAssembly() };
 

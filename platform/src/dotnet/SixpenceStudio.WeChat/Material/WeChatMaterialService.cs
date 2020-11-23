@@ -10,6 +10,7 @@ using SixpenceStudio.Core.Store;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
+using SixpenceStudio.Core.IoC;
 
 namespace SixpenceStudio.WeChat.Material
 {
@@ -85,7 +86,7 @@ namespace SixpenceStudio.WeChat.Material
 
             // 获取文件流
             var config = ConfigFactory.GetConfig<StoreSection>();
-            var stream = AssemblyUtil.GetObject<IStoreStrategy>(config?.type).GetStream(fileId);
+            var stream = UnityContainerService.Resolve<IStoreStrategy>(config?.type).GetStream(fileId);
             var media = WeChatApi.AddMaterial(type, stream, file.name, file.content_type);
             
             // 创建素材记录
