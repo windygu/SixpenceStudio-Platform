@@ -75,19 +75,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         public static void Register(Logging.Logger logger)
         {
-            foreach (var assembly in AssemblyUtil.GetAssemblies())
-            {
-                var types = assembly.GetTypes();
-                types.Each(type =>
-                {
-                    if (type.IsInstanceOfType(typeof(IJob)))
-                    {
-                        UnityContainerService.RegisterType(typeof(JobBase), type, type.Name);
-                    }
-                });
-            }
-
-            UnityContainerService.ResolveAll<JobBase>()
+            UnityContainerService.ResolveAll<IJob>()
                 .Each(item =>
                 {
                     sched.Start().Wait();
@@ -99,18 +87,20 @@ namespace SixpenceStudio.Core.Job
                     {
                         return;
                     }
-                    if (!string.IsNullOrEmpty(item.CronExperssion))
+                    var cronExperssion = item.GetType().GetProperty("CronExperssion").GetValue(item).ToString();
+                    var name = item.GetType().GetProperty("Name").GetValue(item).ToString();
+                    if (!string.IsNullOrEmpty(cronExperssion))
                     {
                         // 创建 trigger
                         ITrigger trigger = TriggerBuilder.Create()
                             .StartNow()
-                            .WithSchedule(CronScheduleBuilder.CronSchedule(item.CronExperssion))
+                            .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
                             .Build();
 
                         // 使用 trigger 规划执行任务 job
                         sched.ScheduleJob(job, trigger).Wait();
                     }
-                    logger.Info($"创建{item.Name}Job成功");
+                    logger.Info($"创建{name}Job成功");
                 });
         }
 
@@ -121,13 +111,17 @@ namespace SixpenceStudio.Core.Job
         /// <returns></returns>
         public static string GetJobNextTime(string jobName)
         {
-            var job = UnityContainerService.Resolve<JobBase>(jobName);
-            if (job != null)
+            var jobs = UnityContainerService.ResolveAll<IJob>();
+            var time = "";
+            jobs.Each(job =>
             {
-                return CronUtil.GetNextDateTime(job.CronExperssion, DateTime.Now);
-            }
-
-            return "";
+                var instance = Activator.CreateInstance(job.GetType()) as JobBase;
+                if (instance.Name.Equals(jobName))
+                {
+                    time = CronUtil.GetNextDateTime(instance.CronExperssion, DateTime.Now);
+                }
+            });
+            return time;
         }
 
         /// <summary>
@@ -136,11 +130,15 @@ namespace SixpenceStudio.Core.Job
         /// <param name="name"></param>
         public static void StartJob(string name)
         {
-            var job = UnityContainerService.Resolve<JobBase>(name);
-            if (job != null)
+            var jobs = UnityContainerService.ResolveAll<IJob>();
+            jobs.Each(job =>
             {
-                RunManually(job.GetType()).Wait();
-            }
+                var instance = Activator.CreateInstance(job.GetType()) as JobBase;
+                if (instance.Name.Equals(name))
+                {
+                    RunManually(job.GetType()).Wait();
+                }
+            });
         }
 
         /// <summary>

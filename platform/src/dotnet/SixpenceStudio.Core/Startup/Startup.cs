@@ -2,7 +2,9 @@
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
+using Quartz;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Startup;
 using SixpenceStudio.Core.Utils;
@@ -36,10 +38,6 @@ namespace SixpenceStudio.Core.Startup
             WebApiConfig.Register(app, config);
             log.Info("注册API成功");
 
-            log.Info("正在注册Job");
-            Job.JobHelpers.Register(log);
-            log.Info("注册Job成功");
-
             log.Info("注册IoC");
             AssemblyUtil.GetAssemblies().Each(item =>
             {
@@ -49,6 +47,8 @@ namespace SixpenceStudio.Core.Startup
                     types.Add(type);
                 });
                 UnityContainerService.Register(types);
+                UnityContainerService.Register<IJob>(types);
+                JobHelpers.Register(log);
             });
             log.Info("IoC注册成功");
         }
