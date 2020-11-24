@@ -9,7 +9,6 @@ using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Startup;
 using SixpenceStudio.Core.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Web.Http;
 
@@ -34,23 +33,16 @@ namespace SixpenceStudio.Core.Startup
 
             var log = LogFactory.GetLogger("startup");
 
-            log.Info("正在注册Controller");
             WebApiConfig.Register(app, config);
-            log.Info("注册API成功");
+            log.Info("Api注册成功");
 
-            log.Info("注册IoC");
             AssemblyUtil.GetAssemblies().Each(item =>
             {
-                var types = new List<Type>();
-                item.GetTypes().Each(type =>
-                {
-                    types.Add(type);
-                });
+                var types = item.GetTypes().ToList();
                 UnityContainerService.Register(types);
                 UnityContainerService.Register<IJob>(types);
                 JobHelpers.Register(log);
             });
-            log.Info("IoC注册成功");
         }
     }
 }

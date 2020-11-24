@@ -99,5 +99,26 @@ namespace SixpenceStudio.Core.Utils
                 callback(item);
             }
         }
+
+        /// <summary>
+        /// 数组转集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static List<T> ToList<T>(this T[] array)
+        {
+            var list = new List<T>();
+            if (array == null || array.Length == 0)
+            {
+                return list;
+            }
+
+            array.Each(item =>
+            {
+                list.Add(item);
+            });
+            return list;
+        }
     }
 }

@@ -29,6 +29,8 @@ namespace SixpenceStudio.Core.IoC
             }
         }
 
+        private static Logger logger = LogFactory.GetLogger("startup");
+
         /// <summary>
         /// 注册实例
         /// </summary>
@@ -37,7 +39,6 @@ namespace SixpenceStudio.Core.IoC
         /// <param name="name"></param>
         public static void RegisterType(Type from , Type to, string name = "")
         {
-            var logger = LogFactory.GetLogger("startup");
             container.RegisterType(from, to, name);
             logger.Info($"{to.Name}注册成功");
         }
@@ -60,7 +61,6 @@ namespace SixpenceStudio.Core.IoC
                 return;
             }
 
-            var logger = LogFactory.GetLogger("startup");
             foreach (var item in typeList)
             {
                 if (item.IsInterface && (item.IsDefined(typeof(CustomStrategyAttribute))))
