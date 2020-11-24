@@ -9,7 +9,9 @@ using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Startup;
 using SixpenceStudio.Core.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Http;
 
 [assembly: OwinStartup("ProductionConfiguration", typeof(Startup))]
@@ -40,9 +42,10 @@ namespace SixpenceStudio.Core.Startup
             {
                 var types = item.GetTypes().ToList();
                 UnityContainerService.Register(types);
+                var toBeRegisterList = types.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)));
                 UnityContainerService.Register<IJob>(types);
-                JobHelpers.Register(log);
             });
+            JobHelpers.Register(log);
         }
     }
 }
