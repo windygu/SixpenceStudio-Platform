@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
+    [CustomStrategy]
     public interface IEntityActionPlugin
     {
         /// <summary>
