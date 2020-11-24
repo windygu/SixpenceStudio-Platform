@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web.Http;
 
 [assembly: OwinStartup("ProductionConfiguration", typeof(Startup))]
@@ -38,12 +39,19 @@ namespace SixpenceStudio.Core.Startup
             WebApiConfig.Register(app, config);
             logger.Info("Api注册成功");
 
-            var assemblys = AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll");
             var typeList = new List<Type>();
-            assemblys.ForEach(item => typeList.AddRange(item.GetTypes()));
-            UnityContainerService.Register(typeList);
-            logger.Info("IoC注册成功");
+            AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll").ForEach(item => typeList.AddRange(item.GetTypes()));
 
+            #region IoC注册
+            var interfaces = typeList.Where(item => item.IsInterface && item.GetCustomAttributes(typeof(CustomStrategyAttribute), false).ToString().Contains("")).ToList();
+            interfaces.ForEach(item =>
+            {
+                var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item)).ToList();
+                types.ForEach(type => UnityContainerService.RegisterType(item, type, type.Name));
+            });
+            #endregion
+
+            #region Job注册
             var jobTypeList = typeList.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)));
             logger.Info($"共发现{jobTypeList.Count()}个Job待注册");
             jobTypeList.Each(type =>
@@ -53,6 +61,7 @@ namespace SixpenceStudio.Core.Startup
             });
             logger.Info($"注册成功，共注册{jobTypeList.Count()}个");
             JobHelpers.Register(logger);
+            #endregion
         }
     }
 }

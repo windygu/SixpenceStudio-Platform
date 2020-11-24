@@ -24,7 +24,7 @@ namespace SixpenceStudio.Core.Utils
         {
             if (string.IsNullOrEmpty(name)) return new List<Assembly>() { Assembly.GetCallingAssembly() };
 
-            var assemblyList = FileUtil.GetFileList(name)?.Select(item => Assembly.LoadFile(item))?.ToList();
+            var assemblyList = FileUtil.GetFileList(name)?.Select(item => Assembly.Load(AssemblyName.GetAssemblyName(item)))?.ToList();
             return assemblyList;
         }
 

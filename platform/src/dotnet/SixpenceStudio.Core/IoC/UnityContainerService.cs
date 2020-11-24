@@ -43,55 +43,6 @@ namespace SixpenceStudio.Core.IoC
         }
 
         /// <summary>
-        /// 注册接口
-        /// </summary>
-        public static void Register()
-        {
-            Register(Assembly.GetCallingAssembly().GetTypes().ToList());
-        }
-
-        /// <summary>
-        /// 注册接口
-        /// </summary>
-        public static void Register(List<Type> typeList)
-        {
-            if (typeList == null || typeList.Count == 0)
-            {
-                return;
-            }
-
-            foreach (var item in typeList)
-            {
-                if (item.IsInterface && (item.IsDefined(typeof(CustomStrategyAttribute))))
-                {
-                    typeList.ForEach(type =>
-                    {
-                        if (!type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item))
-                        {
-                            RegisterType(item, type, type.Name);
-                        }
-                    });
-                }
-            }
-        }
-
-        /// <summary>
-        /// 注册所有实现该接口的实例
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="typeList"></param>
-        public static void Register<T>(List<Type> typeList)
-        {
-            typeList.ForEach(type =>
-            {
-                if (!type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(T)))
-                {
-                    RegisterType(typeof(T), type, type.Name);
-                }
-            });
-        }
-
-        /// <summary>
         /// 查找实现
         /// </summary>
         /// <typeparam name="T"></typeparam>
