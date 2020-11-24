@@ -40,7 +40,6 @@ namespace SixpenceStudio.Core.IoC
         public static void RegisterType(Type from, Type to, string name = "")
         {
             container.RegisterType(from, to, name);
-            logger.Info($"{to.Name}注册成功");
         }
 
         /// <summary>
@@ -69,8 +68,7 @@ namespace SixpenceStudio.Core.IoC
                     {
                         if (!type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item))
                         {
-                            container.RegisterType(item, type, type.Name);
-                            logger.Info($"{type.Name}注册成功");
+                            RegisterType(item, type, type.Name);
                         }
                     });
                 }

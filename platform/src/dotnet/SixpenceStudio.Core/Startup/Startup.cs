@@ -33,19 +33,26 @@ namespace SixpenceStudio.Core.Startup
 
             app.UseCors(CorsOptions.AllowAll);
 
-            var log = LogFactory.GetLogger("startup");
+            var logger = LogFactory.GetLogger("startup");
 
             WebApiConfig.Register(app, config);
-            log.Info("Api注册成功");
+            logger.Info("Api注册成功");
 
-            AssemblyUtil.GetAssemblies().Each(item =>
+            var assemblys = AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll");
+            var typeList = new List<Type>();
+            assemblys.ForEach(item => typeList.AddRange(item.GetTypes()));
+            UnityContainerService.Register(typeList);
+            logger.Info("IoC注册成功");
+
+            var jobTypeList = typeList.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)));
+            logger.Info($"共发现{jobTypeList.Count()}个Job待注册");
+            jobTypeList.Each(type =>
             {
-                var types = item.GetTypes().ToList();
-                UnityContainerService.Register(types);
-                var toBeRegisterList = types.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)));
-                UnityContainerService.Register<IJob>(types);
+                UnityContainerService.RegisterType(typeof(IJob), type, type.Name);
+                logger.Info($"注册{type.Name}成功");
             });
-            JobHelpers.Register(log);
+            logger.Info($"注册成功，共注册{jobTypeList.Count()}个");
+            JobHelpers.Register(logger);
         }
     }
 }
