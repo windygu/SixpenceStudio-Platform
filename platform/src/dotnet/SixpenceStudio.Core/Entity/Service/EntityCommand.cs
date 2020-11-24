@@ -1,13 +1,12 @@
 ﻿using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SixpenceStudio.Core
+namespace SixpenceStudio.Core.Entity
 {
     public class EntityCommand<E> : IEntityCommand<E>
         where E : BaseEntity, new()
