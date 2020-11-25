@@ -1,27 +1,26 @@
 <template>
-  <div :infinite-scroll-disabled="busy" class="content">
-    <a-card hoverable class="card" v-for="item in data" :key="item.Id">
-      <div v-html="handleShowImage(item.local_url)" style="width:100%;" slot="cover"></div>
-    </a-card>
-  </div>
+  <waterfall :line-gap="200" :watch="data">
+    <!-- each component is wrapped by a waterfall slot -->
+    <waterfall-slot v-for="(item, index) in data" :width="item.width" :height="item.height" :order="index" :key="item.Id">
+      <img class="item" :src="item.local_url" />
+    </waterfall-slot>
+  </waterfall>
 </template>
 
 <script>
-import materialRead from './materialRead';
-import infiniteScroll from 'vue-infinite-scroll';
-import pagination from '../mixins/pagination';
+import Waterfall from 'vue-waterfall/lib/waterfall';
+import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot';
 
 export default {
   name: 'materialList',
-  components: { materialRead },
-  directives: { infiniteScroll },
-  mixins: [pagination],
+  components: { Waterfall, WaterfallSlot },
   data() {
     return {
       isFirstLoad: true,
       busy: false,
       editVisible: false,
       data: [],
+      pageIndex: 1,
       pageSize: 15,
       loading: false,
       controllerName: 'WeChatMaterial',
@@ -40,6 +39,15 @@ export default {
   created() {
     this.getSysParam();
     this.loadData();
+    window.addEventListener('scroll', () => {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop + window.innerHeight >= document.body.clientHeight) {
+        this.loadData();
+      }
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll');
   },
   computed: {
     customApi() {
@@ -59,25 +67,15 @@ export default {
   methods: {
     loadData() {
       if (this.loading) {
-        this.$bus.$emit('loading-finish');
         return;
       }
       this.loading = true;
 
-      if (sp.isNullOrEmpty(this.getDataApi)) {
-        this.$bus.$emit('loading-finish');
-        this.$bus.$emit('loaded-all');
-        return;
-      }
-
       if (this.pageSize * this.pageIndex >= this.total && !this.isFirstLoad) {
-        this.$bus.$emit('loading-finish');
-        this.$bus.$emit('loaded-all');
         return;
       }
 
       this.busy = true;
-      this.$emit('loading');
       if (!this.isFirstLoad) {
         this.pageIndex += 1;
       }
@@ -90,8 +88,6 @@ export default {
         })
         .finally(() => {
           this.loading = false;
-          this.$emit('loading-close');
-          this.$bus.$emit('loading-finish');
         });
     },
     async getSysParam() {
@@ -102,27 +98,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  .card {
-    width: 100%;
-    max-width: 20%;
-    padding: 0 15px;
-    margin: 15px 0;
-    border: 0 !important;
-  }
+.item {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  font-size: 1.2em;
+  color: rgb(0, 158, 107);
 }
-
-img {
-  height: 200px;
+.item:after {
+  content: attr(index);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
-
-.demo-infinite-container {
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  overflow: auto;
-  padding: 8px 24px;
-  height: 300px;
+.wf-transition {
+  transition: opacity 0.3s ease;
+  -webkit-transition: opacity 0.3s ease;
+}
+.wf-enter {
+  opacity: 0;
 }
 </style>
