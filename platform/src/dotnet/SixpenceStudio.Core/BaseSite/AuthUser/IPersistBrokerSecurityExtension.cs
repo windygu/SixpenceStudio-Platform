@@ -8,21 +8,25 @@ namespace SixpenceStudio.Core.AuthUser
 {
     public static class IPersistBrokerSecurityExtension
     {
-        private static string Userid
+        private static string Userid = HttpContext.Current?.Session?["UserId"]?.ToString();
+
+        public static void SetCurrentUser(string userId)
         {
-            get
+            if (!string.IsNullOrEmpty(userId))
             {
-                if (HttpContext.Current != null && HttpContext.Current.Session != null)
-                {
-                    return HttpContext.Current.Session["UserId"]?.ToString();
-                }
-                return "";
+                Userid = userId;
             }
         }
 
         public static CurrentUserModel GetCurrentUser(this IPersistBroker broker)
         {
             var data = broker.Retrieve<auth_user>("select * from auth_user where code = @code;", new Dictionary<string, object>() { { "@code", Userid } });
+            return data?.ToCurrentUserModel();
+        }
+
+        public static CurrentUserModel GetAdmin(this IPersistBroker broker)
+        {
+            var data = broker.Retrieve<auth_user>("select * from auth_user where code = 'admin'");
             return data?.ToCurrentUserModel();
         }
 

@@ -273,6 +273,7 @@
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
     <Compile Include="Utils\ImageHelp.cs" />
+    <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MD5Util.cs" />
     <Compile Include="Utils\MemoryCacheUtil.cs" />
     <Compile Include="Utils\RSAUtil.cs" />

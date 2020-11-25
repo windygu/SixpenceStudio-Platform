@@ -102,6 +102,60 @@ namespace SixpenceStudio.WeChat.Material
         }
 
         /// <summary>
+        /// 宽度
+        /// </summary>
+        private int? _width;
+        [DataMember]
+        public int? width
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+                SetAttributeValue("width", value);
+            }
+        }
+
+        /// <summary>
+        /// 高度
+        /// </summary>
+        private int? _height;
+        [DataMember]
+        public int? height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                SetAttributeValue("height", value);
+            }
+        }
+
+        /// <summary>
+        /// 本地地址
+        /// </summary>
+        private string _local_url;
+        [DataMember]
+        public string local_url
+        {
+            get
+            {
+                return _local_url;
+            }
+            set
+            {
+                _local_url = value;
+                SetAttributeValue("local_url", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdBy;

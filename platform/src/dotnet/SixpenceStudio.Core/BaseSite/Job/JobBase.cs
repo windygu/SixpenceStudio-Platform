@@ -40,7 +40,7 @@ namespace SixpenceStudio.Core.Job
         /// <returns></returns>
         public Task Execute(IJobExecutionContext context)
         {
-            return Task.Factory.StartNew(() =>
+            return Task.Run(() =>
             {
                 LogUtils.Debug($"作业：{Name} 开始执行");
 
@@ -72,7 +72,7 @@ namespace SixpenceStudio.Core.Job
                 }
                 catch (Exception e)
                 {
-                    LogUtils.Error($"作业：{Name}执行异常", e);
+                    LogUtils.Error($"作业：{Name}执行异常\r\n{e.Message}\r\n{e.StackTrace}");
                 }
                 stopWatch.Stop();
                 LogUtils.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");

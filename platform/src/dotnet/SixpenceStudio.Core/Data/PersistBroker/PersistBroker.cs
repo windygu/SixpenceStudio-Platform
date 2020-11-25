@@ -48,10 +48,10 @@ namespace SixpenceStudio.Core.Data
             sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
             this.ExecuteTransaction(() =>
             {
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.name.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
+                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
                 this.Execute(sql, paramList);
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostCreate });
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostCreate });
             });
             return entity.Id;
         }
@@ -82,10 +82,10 @@ namespace SixpenceStudio.Core.Data
 
             return this.ExecuteTransaction(() =>
             {
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.name.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 return result;
             });
         }
@@ -157,10 +157,10 @@ UPDATE {0} SET {1} WHERE {2} = @id;
 
             return this.ExecuteTransaction(() =>
             {
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.name.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
+                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
                 var result = this.Execute(sql, paramList);
-                plugin.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostUpdate });
+                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostUpdate });
                 return result;
             });
         }

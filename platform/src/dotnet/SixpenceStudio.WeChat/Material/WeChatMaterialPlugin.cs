@@ -37,6 +37,7 @@ namespace SixpenceStudio.WeChat.Material
                         var result = HttpUtil.DownloadImage(entity.GetAttributeValue<string>("url"));
                         var stream = StreamUtil.BytesToStream(result);
                         var hash_code = SHAUtil.GetFileSHA1(stream);
+                        var image = ImageUtil.GetImage(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
                         UnityContainerService.Resolve<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
                         var contentType = entity.GetAttributeValue<string>("type")+ " / " + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt =");
@@ -52,6 +53,9 @@ namespace SixpenceStudio.WeChat.Material
                         };
                         var id = new SysFileService(context.Broker).CreateData(sysImage);
                         entity.SetAttributeValue("sys_fileid", id);
+                        entity.SetAttributeValue("width", image?.Width);
+                        entity.SetAttributeValue("height", image?.Height);
+                        entity.SetAttributeValue("local_url", $"/api/SysFile/Download?objectId={id}");
                     }
                     break;
                 case EntityAction.PreDelete:
