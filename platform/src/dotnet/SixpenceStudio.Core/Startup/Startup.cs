@@ -43,7 +43,7 @@ namespace SixpenceStudio.Core.Startup
             AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll").ForEach(item => typeList.AddRange(item.GetTypes()));
 
             #region IoC注册
-            var interfaces = typeList.Where(item => item.IsInterface && item.GetCustomAttributes(typeof(CustomStrategyAttribute), false).ToString().Contains("")).ToList();
+            var interfaces = typeList.Where(item => item.IsInterface && item.IsDefined(typeof(CustomStrategyAttribute), false)).ToList();
             interfaces.ForEach(item =>
             {
                 var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item)).ToList();
