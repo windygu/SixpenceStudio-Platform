@@ -26,7 +26,7 @@ namespace SixpenceStudio.Core.AuthUser
 
         public static CurrentUserModel GetAdmin(this IPersistBroker broker)
         {
-            var data = broker.Retrieve<auth_user>("select * from auth_user where code = 'admin'");
+            var data = broker.Retrieve<auth_user>("select * from auth_user where code = @code", new Dictionary<string, object>() { { "@code", "admin" } });
             return data?.ToCurrentUserModel();
         }
 
