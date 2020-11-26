@@ -1,4 +1,5 @@
 ﻿using Quartz;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Logging;
 using System;
@@ -40,6 +41,7 @@ namespace SixpenceStudio.Core.Job
         /// <returns></returns>
         public Task Execute(IJobExecutionContext context)
         {
+            var user = context.JobDetail.JobDataMap.Get("User") as CurrentUserModel;
             return Task.Factory.StartNew(() =>
             {
                 LogUtils.Debug($"作业：{Name} 开始执行");
@@ -47,6 +49,7 @@ namespace SixpenceStudio.Core.Job
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
                 var broker = PersistBrokerFactory.GetPersistBroker();
+                UserIdentityUtil.SetCurrentUser(user);
                 try
                 {
                     broker.ExecuteTransaction(() =>

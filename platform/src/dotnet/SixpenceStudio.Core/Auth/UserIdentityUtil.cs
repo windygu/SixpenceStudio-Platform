@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SixpenceStudio.Core.AuthUser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,17 @@ namespace SixpenceStudio.Core.Auth
         public static CurrentUserModel GetCurrentUser()
         {
             return ApplicationContext.Current.User;
+        }
+
+        public static CurrentUserModel GetAdmin()
+        {
+            var data = new AuthUserService().GetDataByCode("admin");
+            return new CurrentUserModel()
+            {
+                Code = data.code,
+                Id = data.code,
+                Name = data.name
+            };
         }
     }
 }

@@ -2,7 +2,6 @@
 using SixpenceStudio.Core;
 using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.SysFile;
-using SixpenceStudio.Core;
 using SixpenceStudio.Core.Configs;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;

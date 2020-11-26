@@ -17,7 +17,7 @@ namespace SixpenceStudio.Core.Auth
             {
                 if (HttpContext.Current != null)
                 {
-                    if (HttpContext.Current.Session[ContextKey] != null)
+                    if (HttpContext.Current.Session[ContextKey] == null)
                     {
                         HttpContext.Current.Session[ContextKey] = new ApplicationContext();
                     }

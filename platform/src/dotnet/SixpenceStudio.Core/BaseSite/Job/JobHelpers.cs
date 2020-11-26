@@ -1,9 +1,11 @@
 ﻿using log4net.Repository.Hierarchy;
 using Quartz;
 using Quartz.Impl;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,7 +61,10 @@ namespace SixpenceStudio.Core.Job
 
             // 3.创建 job
             var job = JobBuilder.Create(type)
+                .WithIdentity("MyJob")
                 .Build();
+
+            job.JobDataMap.Add("User", UserIdentityUtil.GetCurrentUser());
 
             // 4.创建 trigger
             ITrigger trigger = TriggerBuilder.Create()
@@ -82,11 +87,15 @@ namespace SixpenceStudio.Core.Job
 
                     // 创建 Job
                     var job = JobBuilder.Create(item.GetType())
+                        .WithIdentity("MyJob")
                         .Build();
+                    job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
+
                     if (item == null)
                     {
                         return;
                     }
+
                     var cronExperssion = item.GetType().GetProperty("CronExperssion").GetValue(item).ToString();
                     var name = item.GetType().GetProperty("Name").GetValue(item).ToString();
                     if (!string.IsNullOrEmpty(cronExperssion))

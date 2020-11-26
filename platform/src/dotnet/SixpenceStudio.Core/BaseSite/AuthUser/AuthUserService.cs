@@ -125,9 +125,8 @@ WHERE user_infoid = @id;
             string userStr = user.Substring(0, index);
             string pwdStr = user.Substring(index + 1);
 
-            userId = userStr;
-
             var data = GetData(userStr, pwdStr);
+            userId = data.Id;
             if (expired)
             {
                 return 403;
