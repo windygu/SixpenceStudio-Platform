@@ -6,7 +6,6 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysParams
 {
-    [RequestAuthorize]
     public class SysParamController : EntityBaseController<sys_param, SysParamService>
     {
     }

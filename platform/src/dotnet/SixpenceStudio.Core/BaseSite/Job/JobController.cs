@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.WebApi;
 using System;
@@ -9,7 +10,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.Job
 {
-    [RequestAuthorize]
     public class JobController : BaseController
     {
         [HttpGet]

@@ -9,7 +9,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysEntity
 {
-    [RequestAuthorize]
     public class SysEntityController : EntityBaseController<sys_entity, SysEntityService>
     {
         /// <summary>

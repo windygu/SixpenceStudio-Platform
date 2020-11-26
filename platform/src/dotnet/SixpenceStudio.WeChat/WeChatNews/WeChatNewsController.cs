@@ -9,7 +9,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.WeChat.WeChatNews
 {
-    [RequestAuthorize]
     public class WeChatNewsController : EntityBaseController<wechat_news, WeChatNewsService>
     {
         /// <summary>

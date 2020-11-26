@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.SysFile.Minio;
+﻿using SixpenceStudio.Core.AuthUser;
+using SixpenceStudio.Core.SysFile.Minio;
 using SixpenceStudio.Core.WebApi;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysFile
 {
-    [RequestAuthorize]
     public class SysFileController : EntityBaseController<sys_file, SysFileService>
     {
         [HttpGet, AllowAnonymous]

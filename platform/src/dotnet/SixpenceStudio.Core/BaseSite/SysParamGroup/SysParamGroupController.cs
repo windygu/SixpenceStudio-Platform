@@ -8,7 +8,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysParamGroup
 {
-    [RequestAuthorize]
     public class SysParamGroupController : EntityBaseController<sys_paramgroup, SysParamGroupService>
     {
         [HttpGet]

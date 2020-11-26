@@ -1,11 +1,12 @@
-﻿using SixpenceStudio.Core.AuthUser;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.AuthUser;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
-namespace SixpenceStudio.Core
+namespace SixpenceStudio.Core.AuthUser
 {
     public class RequestAuthorizeAttribute : AuthorizeAttribute
     {
@@ -34,7 +35,7 @@ namespace SixpenceStudio.Core
                     if (status == 200)
                     {
                         base.IsAuthorized(actionContext);
-                        HttpContext.Current.Session["UserId"] = userId;
+                        ApplicationContext.Current.User = new AuthUserService().GetData(userId).ToCurrentUserModel();
                     }
                     else
                     {

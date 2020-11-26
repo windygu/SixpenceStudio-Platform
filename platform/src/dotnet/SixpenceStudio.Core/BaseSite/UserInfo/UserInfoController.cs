@@ -8,7 +8,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.UserInfo
 {
-    [RequestAuthorize]
     public class UserInfoController : EntityBaseController<user_info, UserInfoService>
     {
         [HttpGet, AllowAnonymous]

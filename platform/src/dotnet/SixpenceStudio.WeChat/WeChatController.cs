@@ -8,7 +8,6 @@ using static SixpenceStudio.WeChat.WeChatMaterialExtension;
 
 namespace SixpenceStudio.WeChat
 {
-    [RequestAuthorize]
     public class WeChatController : BaseController
     {
         /// <summary>

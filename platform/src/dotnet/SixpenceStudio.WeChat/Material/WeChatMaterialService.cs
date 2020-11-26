@@ -11,6 +11,7 @@ using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.Auth;
 
 namespace SixpenceStudio.WeChat.Material
 {
@@ -90,7 +91,7 @@ namespace SixpenceStudio.WeChat.Material
             var media = WeChatApi.AddMaterial(type, stream, file.name, file.content_type);
             
             // 创建素材记录
-            var user = _cmd.Broker.GetCurrentUser();
+            var user = UserIdentityUtil.GetCurrentUser();
             var material = new wechat_material()
             {
                 wechat_materialId = Guid.NewGuid().ToString(),

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat.WeChatReply.Focus
 {
-    [RequestAuthorize]
     public class WeChatFocusReplyController : EntityBaseController<wechat_focus_reply, WeChatFocusReplyService>
     {
         /// <summary>

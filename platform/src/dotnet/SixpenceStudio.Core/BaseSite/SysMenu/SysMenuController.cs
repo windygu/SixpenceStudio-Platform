@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysMenu
 {
-    [RequestAuthorize]
     public class SysMenuController : EntityBaseController<sys_menu, SysMenuService>
     {
         [HttpGet]

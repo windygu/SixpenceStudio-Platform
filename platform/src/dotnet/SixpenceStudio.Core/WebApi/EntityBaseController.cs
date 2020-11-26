@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Entity;
 using System.Collections.Generic;
 using System.Web.Http;
 
 namespace SixpenceStudio.Core.WebApi
 {
+    [RequestAuthorize]
     public class EntityBaseController<E, S> : BaseController
         where E : BaseEntity, new()
         where S : EntityService<E>, new()

@@ -176,11 +176,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\ApplicationContext.cs" />
+    <Compile Include="Auth\CurrentUserModel.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserController.cs" />
+    <Compile Include="BaseSite\AuthUser\AuthUserExtension.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserService.cs" />
     <Compile Include="BaseSite\AuthUser\auth_user.cs" />
-    <Compile Include="BaseSite\AuthUser\IPersistBrokerSecurityExtension.cs" />
     <Compile Include="BaseSite\AuthUser\LoginResponse.cs" />
+    <Compile Include="Auth\UserIdentityUtil.cs" />
     <Compile Include="BaseSite\DataService\DataService.cs" />
     <Compile Include="BaseSite\DataService\DataServiceController.cs" />
     <Compile Include="BaseSite\DataService\Models\file.cs" />
@@ -189,7 +192,7 @@
     <Compile Include="BaseSite\Job\JobController.cs" />
     <Compile Include="BaseSite\Job\JobService.cs" />
     <Compile Include="BaseSite\OpenApi.cs" />
-    <Compile Include="BaseSite\RequestAuthorizeAttribute.cs" />
+    <Compile Include="BaseSite\AuthUser\RequestAuthorizeAttribute.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortenUrl.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlService.cs" />
     <Compile Include="BaseSite\ShortUrl\short_url_log.cs" />

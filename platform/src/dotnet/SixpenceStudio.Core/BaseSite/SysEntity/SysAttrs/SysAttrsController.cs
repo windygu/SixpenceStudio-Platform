@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysEntity.SysAttrs
 {
-    [RequestAuthorize]
     public class SysAttrsController : EntityBaseController<sys_attrs, SysAttrsService>
     {
         /// <summary>

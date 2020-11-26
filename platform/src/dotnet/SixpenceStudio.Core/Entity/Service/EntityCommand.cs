@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.AuthUser;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -36,7 +37,7 @@ namespace SixpenceStudio.Core.Entity
                 return "";
             }
 
-            var user = Broker.GetCurrentUser();
+            var user = UserIdentityUtil.GetCurrentUser();
             if ((!entity.Attributes.ContainsKey("createdBy") || entity.GetAttributeValue("createdBy") == null) && entity.GetType().GetProperty("createdBy") != null)
             {
                 entity.SetAttributeValue("createdBy", user.Id);
@@ -167,7 +168,7 @@ namespace SixpenceStudio.Core.Entity
             {
                 return;
             }
-            var user = Broker.GetCurrentUser();
+            var user = UserIdentityUtil.GetCurrentUser();
             entity.SetAttributeValue("modifiedBy", user.Id);
             entity.SetAttributeValue("modifiedByName", user.Name);
             entity.SetAttributeValue("modifiedOn", DateTime.Now);

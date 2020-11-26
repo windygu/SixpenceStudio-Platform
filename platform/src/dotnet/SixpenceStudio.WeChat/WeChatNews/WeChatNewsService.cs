@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SixpenceStudio.Core;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
@@ -110,7 +111,7 @@ namespace SixpenceStudio.WeChat.WeChatNews
                 }
             };
             var result = WeChatApi.AddNews(JsonConvert.SerializeObject(postData));
-            var user = _cmd.Broker.GetCurrentUser();
+            var user = UserIdentityUtil.GetCurrentUser();
             var data = new wechat_news()
             {
                 wechat_newsId = Guid.NewGuid().ToString(),

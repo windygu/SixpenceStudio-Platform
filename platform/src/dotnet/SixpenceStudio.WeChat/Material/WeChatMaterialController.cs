@@ -9,7 +9,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.WeChat.Material
 {
-    [RequestAuthorize]
     public class WeChatMaterialController : EntityBaseController<wechat_material, WeChatMaterialService>
     {
     }

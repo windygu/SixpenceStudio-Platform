@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -98,7 +99,7 @@ UPDATE auth_user
 SET password = @password
 WHERE user_infoid = @id;
 ";
-            var user = _cmd.Broker.GetCurrentUser();
+            var user = UserIdentityUtil.GetCurrentUser();
             var paramList = new Dictionary<string, object>() { { "@id",  user.Id}, { "@password", password } };
             _cmd.Broker.Execute(sql, paramList);
         }
@@ -141,5 +142,10 @@ WHERE user_infoid = @id;
             }
         }
 
+        public (string id, string code, string name) GetDataByCode(string code)
+        {
+            var data = _cmd.Broker.Retrieve<auth_user>("select * from auth_user where code = @code", new Dictionary<string, object>(){ { "@code", code } });
+            return (data.Id, data.code, data.name);
+        }
     }
 }

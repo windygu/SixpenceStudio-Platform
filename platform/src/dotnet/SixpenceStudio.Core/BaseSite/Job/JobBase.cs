@@ -40,7 +40,7 @@ namespace SixpenceStudio.Core.Job
         /// <returns></returns>
         public Task Execute(IJobExecutionContext context)
         {
-            return Task.Run(() =>
+            return Task.Factory.StartNew(() =>
             {
                 LogUtils.Debug($"作业：{Name} 开始执行");
 

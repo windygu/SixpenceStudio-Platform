@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.SysConfig
 {
-    [RequestAuthorize]
     public class SysConfigController : EntityBaseController<sys_config, SysConfigService>
     {
         [HttpGet, AllowAnonymous]

@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.AuthUser
 {
-    [RequestAuthorize]
     public class AuthUserController : EntityBaseController<auth_user, AuthUserService>
     {
         /// <summary>
