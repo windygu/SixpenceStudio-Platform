@@ -61,7 +61,6 @@ namespace SixpenceStudio.Core.Job
 
             // 3.创建 job
             var job = JobBuilder.Create(type)
-                .WithIdentity("MyJob")
                 .Build();
 
             job.JobDataMap.Add("User", UserIdentityUtil.GetCurrentUser());
@@ -87,7 +86,6 @@ namespace SixpenceStudio.Core.Job
 
                     // 创建 Job
                     var job = JobBuilder.Create(item.GetType())
-                        .WithIdentity("MyJob")
                         .Build();
                     job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
 
