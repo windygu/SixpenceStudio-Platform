@@ -33,27 +33,27 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public string Create(BaseEntity entity)
         {
-            var sql = "INSERT INTO {0}({1}) Values({2})";
-            var attrs = new List<string>();
-            var values = new List<object>();
-            var paramList = new Dictionary<string, object>();
-            foreach (var attr in entity.Attributes)
-            {
-                var attrName = attr.Key == "Id" ? entity.MainKeyName : attr.Key;
-                var keyValue = DialectSql.GetSpecialValue($"@{attrName}", attr.Value);
-                attrs.Add(attrName);
-                values.Add(keyValue.name);
-                paramList.Add(attrName, keyValue.value);
-            }
-            sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
-            this.ExecuteTransaction(() =>
+            return this.ExecuteTransaction(() =>
             {
                 var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
+                var sql = "INSERT INTO {0}({1}) Values({2})";
+                var attrs = new List<string>();
+                var values = new List<object>();
+                var paramList = new Dictionary<string, object>();
+                foreach (var attr in entity.Attributes)
+                {
+                    var attrName = attr.Key == "Id" ? entity.MainKeyName : attr.Key;
+                    var keyValue = DialectSql.GetSpecialValue($"@{attrName}", attr.Value);
+                    attrs.Add(attrName);
+                    values.Add(keyValue.name);
+                    paramList.Add(attrName, keyValue.value);
+                }
+                sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
                 this.Execute(sql, paramList);
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostCreate });
+                return entity.Id;
             });
-            return entity.Id;
         }
 
         /// <summary>
@@ -77,13 +77,12 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public int Delete(BaseEntity entity)
         {
-            var sql = "DELETE FROM {0} WHERE {1}id = @id";
-            sql = string.Format(sql, entity.EntityName, entity.EntityName);
-
             return this.ExecuteTransaction(() =>
             {
                 var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                var sql = "DELETE FROM {0} WHERE {1}id = @id";
+                sql = string.Format(sql, entity.EntityName, entity.EntityName);
                 int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 return result;
@@ -130,35 +129,34 @@ WHERE {entity.EntityName}Id = @id;
         /// <returns></returns>
         public int Update(BaseEntity entity)
         {
-            var sql = @"
-UPDATE {0} SET {1} WHERE {2} = @id;
-";
-            var paramList = new Dictionary<string, object>();
-
-            #region 处理属性
-            var attributes = new List<string>();
-            int count = 0;
-            foreach (var item in entity.Attributes)
-            {
-                if (item.Key != "Id" && item.Key != entity.EntityName + "Id")
-                {
-                    var keyValue = DialectSql.GetSpecialValue($"@param{count}", item.Value);
-                    paramList.Add($"@param{count}", keyValue.value);
-                    attributes.Add($"{ item.Key} = {keyValue.name}");
-                    count++;
-                }
-                else
-                {
-                    paramList.Add("@id", item.Value);
-                }
-            }
-            #endregion
-            sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), entity.MainKeyName);
-
             return this.ExecuteTransaction(() =>
             {
                 var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
+                var sql = @"
+UPDATE {0} SET {1} WHERE {2} = @id;
+";
+                var paramList = new Dictionary<string, object>();
+
+                #region 处理属性
+                var attributes = new List<string>();
+                int count = 0;
+                foreach (var item in entity.Attributes)
+                {
+                    if (item.Key != "Id" && item.Key != entity.EntityName + "Id")
+                    {
+                        var keyValue = DialectSql.GetSpecialValue($"@param{count}", item.Value);
+                        paramList.Add($"@param{count}", keyValue.value);
+                        attributes.Add($"{ item.Key} = {keyValue.name}");
+                        count++;
+                    }
+                    else
+                    {
+                        paramList.Add("@id", item.Value);
+                    }
+                }
+                #endregion
+                sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), entity.MainKeyName);
                 var result = this.Execute(sql, paramList);
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostUpdate });
                 return result;

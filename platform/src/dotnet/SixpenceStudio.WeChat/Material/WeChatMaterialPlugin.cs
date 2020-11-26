@@ -40,7 +40,7 @@ namespace SixpenceStudio.WeChat.Material
                         var image = ImageUtil.GetImage(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
                         UnityContainerService.Resolve<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
-                        var contentType = entity.GetAttributeValue<string>("type")+ " / " + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt =");
+                        var contentType = entity.GetAttributeValue<string>("type")+ "/" + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt=");
                         var sysImage = new sys_file()
                         {
                             sys_fileId = Guid.NewGuid().ToString(),
@@ -52,10 +52,10 @@ namespace SixpenceStudio.WeChat.Material
                             objectId = entity.Id
                         };
                         var id = new SysFileService(context.Broker).CreateData(sysImage);
-                        entity.SetAttributeValue("sys_fileid", id);
-                        entity.SetAttributeValue("width", image?.Width);
-                        entity.SetAttributeValue("height", image?.Height);
-                        entity.SetAttributeValue("local_url", $"/api/SysFile/Download?objectId={id}");
+                        entity.GetType().GetProperty("sys_fileid").SetValue(entity, id);
+                        entity.GetType().GetProperty("width").SetValue(entity, image?.Width);
+                        entity.GetType().GetProperty("height").SetValue(entity, image?.Height);
+                        entity.GetType().GetProperty("local_url").SetValue(entity, $"/api/SysFile/Download?objectId={id}");
                     }
                     break;
                 case EntityAction.PreDelete:
