@@ -60,9 +60,9 @@ namespace SixpenceStudio.Core.Job
                         var nextTime = JobHelpers.GetJobNextTime(Name);
                         var nextTimeSql = "";
                         var paramList = new Dictionary<string, object>() {
-                        { "@time", DateTime.Now },
-                        { "@name", Name }
-                    };
+                            { "@time", DateTime.Now },
+                            { "@name", Name }
+                        };
 
                         if (!string.IsNullOrEmpty(nextTime))
                         {

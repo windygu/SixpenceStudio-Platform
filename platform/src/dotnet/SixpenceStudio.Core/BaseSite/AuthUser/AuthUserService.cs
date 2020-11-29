@@ -141,10 +141,10 @@ WHERE user_infoid = @id;
             }
         }
 
-        public (string id, string code, string name) GetDataByCode(string code)
+        public auth_user GetDataByCode(string code)
         {
             var data = _cmd.Broker.Retrieve<auth_user>("select * from auth_user where code = @code", new Dictionary<string, object>(){ { "@code", code } });
-            return (data.Id, data.code, data.name);
+            return data;
         }
     }
 }

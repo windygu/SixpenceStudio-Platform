@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.AuthUser;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,13 @@ namespace SixpenceStudio.Core.Auth
 
         public static CurrentUserModel GetAdmin()
         {
-            var data = new AuthUserService().GetDataByCode("admin");
-            return new CurrentUserModel()
+            var data = MemoryCacheUtil.GetCacheItem<auth_user>("Admin");
+            if (data == null)
             {
-                Code = data.code,
-                Id = data.code,
-                Name = data.name
-            };
+                data = new AuthUserService().GetDataByCode("admin");
+                MemoryCacheUtil.Set("Admin", data, 60 * 60 * 24);
+            }
+            return data.ToCurrentUserModel();
         }
     }
 }
