@@ -83,6 +83,11 @@ namespace SixpenceStudio.Core.DataService
             if (authorization != null)
             {
                 authorization = authorization.Replace("BasicAuth ", "");
+                if (string.IsNullOrEmpty(authorization))
+                {
+                    return false;
+                }
+
                 try
                 {
                     return new AuthUserService().ValidateTicket(authorization, out var userId) == 200;

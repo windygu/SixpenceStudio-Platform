@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace SixpenceStudio.Core.DataService
 {
     [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter, RequestAuthorize]
+    [WebApiExceptionFilter]
     public class DataServiceController : ApiController
     {
         /// <summary>
@@ -29,7 +29,7 @@ namespace SixpenceStudio.Core.DataService
         /// <param name="fileType">文件类型</param>
         /// <param name="objectId">对象实体</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost, RequestAuthorize]
         public ImageInfo UploadImage([FromUri]string fileType, [FromUri]string objectId = "")
         {
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
