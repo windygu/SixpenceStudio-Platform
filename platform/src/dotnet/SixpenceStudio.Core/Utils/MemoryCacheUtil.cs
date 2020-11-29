@@ -130,11 +130,7 @@ namespace SixpenceStudio.Core.Utils
         /// <param name="key"></param>
         public static void RemoveCacheItem(string key)
         {
-            try
-            {
-                MemoryCache.Default.Remove(key);
-            }
-            catch { }
+            MemoryCache.Default.Remove(key);
         }
 
         private static CacheItemPolicy CreatePolicy(TimeSpan? slidingExpiration, DateTime? absoluteExpiration)

@@ -32,28 +32,21 @@ namespace SixpenceStudio.Core.Configs
         /// <returns></returns>
         public static T GetConfig<T>(string name = "") where T : ConfigurationSection, new()
         {
-            try
+            var configMap = new ExeConfigurationFileMap()
             {
-                var configMap = new ExeConfigurationFileMap()
+                ExeConfigFilename = ConfigFileFullName
+            };
+            var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+            if (string.IsNullOrEmpty(name))
+            {
+                var type = typeof(T);
+                if (type.IsDefined(typeof(ConfigSectionNameAttribute), true))
                 {
-                    ExeConfigFilename = ConfigFileFullName
-                };
-                var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-                if (string.IsNullOrEmpty(name))
-                {
-                    var type = typeof(T);
-                    if (type.IsDefined(typeof(ConfigSectionNameAttribute), true))
-                    {
-                        var nameAttribute = (ConfigSectionNameAttribute)type.GetCustomAttributes(typeof(ConfigSectionNameAttribute), true)[0];
-                        name = nameAttribute.Name;
-                    }
+                    var nameAttribute = (ConfigSectionNameAttribute)type.GetCustomAttributes(typeof(ConfigSectionNameAttribute), true)[0];
+                    name = nameAttribute.Name;
                 }
-                return (T)config.GetSection(name);
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            return (T)config.GetSection(name);
         }
     }
 }

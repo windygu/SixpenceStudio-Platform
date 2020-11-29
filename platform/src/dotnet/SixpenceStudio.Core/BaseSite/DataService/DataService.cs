@@ -8,6 +8,7 @@ using System;
 using System.Web;
 using System.Web.Http;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.Logging;
 
 namespace SixpenceStudio.Core.DataService
 {
@@ -86,8 +87,9 @@ namespace SixpenceStudio.Core.DataService
                 {
                     return new AuthUserService().ValidateTicket(authorization, out var userId) == 200;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    LogUtils.Error("验证身份失败", ex);
                     return false;
                 }
             }

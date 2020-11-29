@@ -76,6 +76,7 @@ namespace SixpenceStudio.Core.Job
                 catch (Exception e)
                 {
                     LogUtils.Error($"作业：{Name}执行异常\r\n{e.Message}\r\n{e.StackTrace}");
+                    throw e;
                 }
                 stopWatch.Stop();
                 LogUtils.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");

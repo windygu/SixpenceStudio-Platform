@@ -63,6 +63,7 @@ WHERE
             catch (Exception e)
             {
                 LogUtils.Error("日志归档出现异常", e);
+                throw e;
             }
         }
 
