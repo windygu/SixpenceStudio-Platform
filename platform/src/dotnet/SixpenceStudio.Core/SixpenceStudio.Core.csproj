@@ -187,6 +187,7 @@
     <Compile Include="BaseSite\DataService\DataService.cs" />
     <Compile Include="BaseSite\DataService\DataServiceController.cs" />
     <Compile Include="BaseSite\DataService\Models\file.cs" />
+    <Compile Include="BaseSite\SysFile\SysFileParital.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
     <Compile Include="Entity\Service\EntityCommand.cs" />
     <Compile Include="BaseSite\Job\job.cs" />
