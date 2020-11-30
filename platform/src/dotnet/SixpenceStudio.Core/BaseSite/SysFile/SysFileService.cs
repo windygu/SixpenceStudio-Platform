@@ -27,6 +27,29 @@ namespace SixpenceStudio.Core.SysFile
         }
         #endregion
 
+        public override IList<EntityView> GetViewList()
+        {
+            return new List<EntityView>()
+            {
+                new EntityView()
+                {
+                    Name = "图库",
+                    ViewId = "3BCF6C07-2B49-4D69-9EB1-A3D5B721C976",
+                    Sql = @"
+SELECT
+	sys_fileid,
+	NAME,
+	createdon,
+	createdbyname,
+	concat('/api/SysFile/Download?objectId=', sys_fileid) AS downloadUrl
+FROM
+	sys_file
+",
+                    OrderBy = "",
+                    CustomFilter = new List<string>(){ "name" }
+                }
+            };
+        }
 
         public IList<sys_file> GetDattaByCode(string code)
         {

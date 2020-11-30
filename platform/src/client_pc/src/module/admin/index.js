@@ -7,13 +7,14 @@ import sysConfig from './sysConfig';
 import wechat from './wechat';
 import admin from './admin';
 import workplace from './workplace';
+import gallery from './gallery';
 
 export default [
   {
     path: '/admin',
     name: 'admin',
     component: admin,
-    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace),
+    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace, gallery),
     meta: { auth: true } // 需要检验
   }
 ];
