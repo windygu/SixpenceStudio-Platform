@@ -40,5 +40,6 @@ export default {
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
+  vertical-align: middle;
 }
 </style>
