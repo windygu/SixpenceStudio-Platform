@@ -1,19 +1,13 @@
 <template>
-  <waterfall :line-gap="200" :watch="data">
-    <!-- each component is wrapped by a waterfall slot -->
-    <waterfall-slot v-for="(item, index) in data" :width="item.width" :height="item.height" :order="index" :key="item.Id">
-      <img class="item" :src="item.local_url" />
-    </waterfall-slot>
-  </waterfall>
+  <vue-waterfall-easy :imgsArr="data" @scrollReachBottom="loadData"></vue-waterfall-easy>
 </template>
 
 <script>
-import Waterfall from 'vue-waterfall/lib/waterfall';
-import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot';
+import vueWaterfallEasy from 'vue-waterfall-easy';
 
 export default {
   name: 'materialList',
-  components: { Waterfall, WaterfallSlot },
+  components: { vueWaterfallEasy },
   data() {
     return {
       isFirstLoad: true,
@@ -33,21 +27,13 @@ export default {
       materialList: [],
       searchData: {
         type: 'image'
-      }
+      },
+      baseUrl: sp.getBaseUrl()
     };
   },
   created() {
     this.getSysParam();
     this.loadData();
-    window.addEventListener('scroll', () => {
-      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      if (scrollTop + window.innerHeight >= document.body.clientHeight) {
-        this.loadData();
-      }
-    });
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll');
   },
   computed: {
     customApi() {
@@ -81,7 +67,15 @@ export default {
       }
       sp.get(this.customApi.replace('$pageSize', this.pageSize).replace('$pageIndex', this.pageIndex))
         .then(resp => {
-          this.data = this.data.concat(resp.DataList);
+          this.data = this.data.concat(
+            resp.DataList.map(item => {
+              return {
+                src: this.baseUrl + item.local_url,
+                href: 'https://www.baidu.com/',
+                info: item.name
+              };
+            })
+          );
           this.total = resp.RecordCount;
           this.isFirstLoad = false;
           this.busy = false;
@@ -96,31 +90,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less" scoped>
-.item {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  font-size: 1.2em;
-  color: rgb(0, 158, 107);
-}
-.item:after {
-  content: attr(index);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-}
-.wf-transition {
-  transition: opacity 0.3s ease;
-  -webkit-transition: opacity 0.3s ease;
-}
-.wf-enter {
-  opacity: 0;
-}
-</style>

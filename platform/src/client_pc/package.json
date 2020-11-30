@@ -17,7 +17,7 @@
     "less-loader": "^5.0.0",
     "uuidjs": "^4.2.5",
     "vue-infinite-scroll": "^2.0.2",
-    "vue-waterfall": "^1.0.6",
+    "vue-waterfall-easy": "^2.4.4",
     "wangeditor": "^4.1.0"
   },
   "devDependencies": {
