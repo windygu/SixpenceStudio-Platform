@@ -61,10 +61,12 @@ namespace SixpenceStudio.Core.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="fileName"></param>
-        public static byte[] DownloadImage(string url)
+        public static byte[] DownloadImage(string url, out string contentType)
         {
             WebClient client = new WebClient();
-            return client.DownloadData(url);
+            var bytes = client.DownloadData(url);
+            contentType = client.ResponseHeaders.Get("Content-Type");
+            return bytes;
         }
 
         /// <summary>

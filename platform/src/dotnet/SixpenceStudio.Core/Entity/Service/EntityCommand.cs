@@ -36,20 +36,6 @@ namespace SixpenceStudio.Core.Entity
             {
                 return "";
             }
-
-            var user = UserIdentityUtil.GetCurrentUser();
-            if ((!entity.Attributes.ContainsKey("createdBy") || entity.GetAttributeValue("createdBy") == null) && entity.GetType().GetProperty("createdBy") != null)
-            {
-                entity.SetAttributeValue("createdBy", user.Id);
-                entity.SetAttributeValue("createdByName", user.Name);
-            }
-            if ((!entity.Attributes.ContainsKey("createdOn") || entity.GetAttributeValue("createdOn") == null) && entity.GetType().GetProperty("createdOn") != null)
-            {
-                entity.SetAttributeValue("createdOn", DateTime.Now);
-            }
-            entity.SetAttributeValue("modifiedBy", user.Id);
-            entity.SetAttributeValue("modifiedByName", user.Name);
-            entity.SetAttributeValue("modifiedOn", DateTime.Now);
             var id = Broker.Create(entity);
             return id;
         }
@@ -168,10 +154,7 @@ namespace SixpenceStudio.Core.Entity
             {
                 return;
             }
-            var user = UserIdentityUtil.GetCurrentUser();
-            entity.SetAttributeValue("modifiedBy", user.Id);
-            entity.SetAttributeValue("modifiedByName", user.Name);
-            entity.SetAttributeValue("modifiedOn", DateTime.Now);
+
             Broker.Update(entity);
         }
 

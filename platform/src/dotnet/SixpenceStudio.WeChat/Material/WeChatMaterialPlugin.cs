@@ -26,21 +26,19 @@ namespace SixpenceStudio.WeChat.Material
     {
         public void Execute(Context context)
         {
-            var entity = context.Entity;
+            var entity = context.Entity as wechat_material;
             switch (context.Action)
             {
                 case EntityAction.PreCreate:
                 case EntityAction.PreUpdate:
                     // 如果素材未上传到系统，则根据url请求图片保存
-                    if (string.IsNullOrEmpty(entity.GetAttributeValue<string>("sys_fileid")))
+                    if (string.IsNullOrEmpty(entity.sys_fileid))
                     {
-                        var result = HttpUtil.DownloadImage(entity.GetAttributeValue<string>("url"));
+                        var result = HttpUtil.DownloadImage(entity.url, out var contentType);
                         var stream = StreamUtil.BytesToStream(result);
                         var hash_code = SHAUtil.GetFileSHA1(stream);
-                        var image = ImageUtil.GetImage(stream);
                         var config = ConfigFactory.GetConfig<StoreSection>();
                         UnityContainerService.Resolve<IStoreStrategy>(config?.type).Upload(stream, entity.name, out var filePath);
-                        var contentType = entity.GetAttributeValue<string>("type")+ "/" + entity.GetAttributeValue<string>("url").GetSubString("wx_fmt=");
                         var sysImage = new sys_file()
                         {
                             sys_fileId = Guid.NewGuid().ToString(),
@@ -52,10 +50,8 @@ namespace SixpenceStudio.WeChat.Material
                             objectId = entity.Id
                         };
                         var id = new SysFileService(context.Broker).CreateData(sysImage);
-                        entity.GetType().GetProperty("sys_fileid").SetValue(entity, id);
-                        entity.GetType().GetProperty("width").SetValue(entity, image?.Width);
-                        entity.GetType().GetProperty("height").SetValue(entity, image?.Height);
-                        entity.GetType().GetProperty("local_url").SetValue(entity, $"/api/SysFile/Download?objectId={id}");
+                        entity.sys_fileid = id;
+                        entity.local_url = $"/api/SysFile/Download?objectId={id}";
                     }
                     break;
                 case EntityAction.PreDelete:

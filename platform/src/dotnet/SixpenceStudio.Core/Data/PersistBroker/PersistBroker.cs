@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Entity;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -35,6 +36,20 @@ namespace SixpenceStudio.Core.Data
         {
             return this.ExecuteTransaction(() =>
             {
+                var user = UserIdentityUtil.GetCurrentUser();
+                if ((!entity.Attributes.ContainsKey("createdBy") || entity.GetAttributeValue("createdBy") == null) && entity.GetType().GetProperty("createdBy") != null)
+                {
+                    entity.SetAttributeValue("createdBy", user.Id);
+                    entity.SetAttributeValue("createdByName", user.Name);
+                }
+                if ((!entity.Attributes.ContainsKey("createdOn") || entity.GetAttributeValue("createdOn") == null) && entity.GetType().GetProperty("createdOn") != null)
+                {
+                    entity.SetAttributeValue("createdOn", DateTime.Now);
+                }
+                entity.SetAttributeValue("modifiedBy", user.Id);
+                entity.SetAttributeValue("modifiedByName", user.Name);
+                entity.SetAttributeValue("modifiedOn", DateTime.Now);
+
                 var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
                 var sql = "INSERT INTO {0}({1}) Values({2})";
@@ -131,6 +146,11 @@ WHERE {entity.EntityName}Id = @id;
         {
             return this.ExecuteTransaction(() =>
             {
+                var user = UserIdentityUtil.GetCurrentUser();
+                entity.SetAttributeValue("modifiedBy", user.Id);
+                entity.SetAttributeValue("modifiedByName", user.Name);
+                entity.SetAttributeValue("modifiedOn", DateTime.Now);
+
                 var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
                 var sql = @"
