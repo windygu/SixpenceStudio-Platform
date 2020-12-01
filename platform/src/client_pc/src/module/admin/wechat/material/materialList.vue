@@ -1,5 +1,5 @@
 <template>
-  <vue-waterfall-easy :imgsArr="data" @scrollReachBottom="loadData"></vue-waterfall-easy>
+  <vue-waterfall-easy style="position: absolute" :imgsArr="data" @scrollReachBottom="loadData"></vue-waterfall-easy>
 </template>
 
 <script>
