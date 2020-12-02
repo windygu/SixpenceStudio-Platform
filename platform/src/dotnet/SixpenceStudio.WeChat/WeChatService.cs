@@ -20,7 +20,7 @@ namespace SixpenceStudio.WeChat
         private static string _token;
         private static string _secret;
         private static string _encodingAESKey;
-
+        private static readonly object lockObject = new Object();
         /// <summary>
         /// 获取access_token
         /// </summary>
@@ -31,7 +31,13 @@ namespace SixpenceStudio.WeChat
                 var accessToken = MemoryCacheUtil.GetCacheItem<AccessTokenResponse>("AccessToken");
                 if (accessToken == null)
                 {
-                    accessToken = RefreshToken();
+                    lock (lockObject)
+                    {
+                        if (accessToken == null)
+                        {
+                            accessToken = RefreshToken();
+                        }
+                    }
                 }
                 return accessToken.AccessToken;
             }
