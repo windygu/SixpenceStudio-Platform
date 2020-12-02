@@ -13,7 +13,7 @@ namespace SixpenceStudio.Core.Pixabay
         public string pageURL { get; set; }
         public string type { get; set; }
         public int duration { get; set; }
-        public string picture_id { get;set }
+        public string picture_id { get; set; }
         public int views { get; set; }
         public int downloads { get; set; }
         public int favorites { get; set; }

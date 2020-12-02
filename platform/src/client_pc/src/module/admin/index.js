@@ -8,13 +8,14 @@ import wechat from './wechat';
 import admin from './admin';
 import workplace from './workplace';
 import gallery from './gallery';
+import fileManage from './fileManage';
 
 export default [
   {
     path: '/admin',
     name: 'admin',
     component: admin,
-    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace, gallery),
+    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace, gallery, fileManage),
     meta: { auth: true } // 需要检验
   }
 ];

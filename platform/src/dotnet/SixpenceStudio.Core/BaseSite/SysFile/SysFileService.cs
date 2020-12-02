@@ -33,6 +33,23 @@ namespace SixpenceStudio.Core.SysFile
             {
                 new EntityView()
                 {
+                    Name = "所有文件",
+                    ViewId = "DD1D72FB-D7DE-49AC-B387-273375E6A7BA",
+                    Sql = @"
+SELECT
+	sys_fileid,
+	NAME,
+	content_type,
+	createdon,
+	createdbyname
+FROM
+	sys_file
+",
+                    OrderBy = "createdon desc",
+                    CustomFilter = new List<string>(){ "name" }
+                },
+                new EntityView()
+                {
                     Name = "图库",
                     ViewId = "3BCF6C07-2B49-4D69-9EB1-A3D5B721C976",
                     Sql = @"
@@ -58,31 +75,6 @@ SELECT * FROM sys_file
 WHERE hash_code = @code
 ";
             return _cmd.Broker.RetrieveMultiple<sys_file>(sql, new Dictionary<string, object>() { { "@code", code } });
-        }
-
-        /// <summary>
-        /// 删除文件
-        /// </summary>
-        /// <param name="ids"></param>
-        public override void DeleteData(List<string> ids)
-        {
-            _cmd.Broker.ExecuteTransaction(() =>
-            {
-                ids.ForEach(item =>
-                {
-                    var data = GetData(item);
-                    var sql = @"
-SELECT COUNT(1) FROM sys_file WHERE hash_code = @code
-";
-                    var result = _cmd.Broker.ExecuteScalar(sql, new Dictionary<string, object>() { { "@code", data.hash_code } });
-                    // 只有当前记录拥有该文件则删除
-                    if (Convert.ToInt32(result) <= 1)
-                    {
-                        FileUtil.DeleteFile(data.file_path);
-                    }
-                });
-                base.DeleteData(ids);
-            });
         }
 
         /// <summary>
