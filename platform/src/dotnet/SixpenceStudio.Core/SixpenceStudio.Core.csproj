@@ -187,6 +187,10 @@
     <Compile Include="BaseSite\DataService\DataService.cs" />
     <Compile Include="BaseSite\DataService\DataServiceController.cs" />
     <Compile Include="BaseSite\DataService\Models\file.cs" />
+    <Compile Include="BaseSite\Pixabay\BasePixabayResponseModel.cs" />
+    <Compile Include="BaseSite\Pixabay\ImagesModel.cs" />
+    <Compile Include="BaseSite\Pixabay\PixabayApi.cs" />
+    <Compile Include="BaseSite\Pixabay\VideosModel.cs" />
     <Compile Include="BaseSite\SysFile\CrawlImagesJob.cs" />
     <Compile Include="BaseSite\SysFile\SysFileParital.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
