@@ -1,6 +1,6 @@
 <template>
   <a-form-model ref="form" :model="data">
-    <a-row :gutter="24">
+    <a-row :gutter="24" v-if="pageState == 'edit'">
       <a-col :span="12">
         <a-form-model-item label="名称">
           <a-input v-model="data.name" disabled></a-input>
@@ -12,7 +12,7 @@
         </a-form-model-item>
       </a-col>
     </a-row>
-    <a-row>
+    <a-row v-if="pageState == 'edit'">
       <a-col :span="24">
         <a-form-model-item label="图片">
           <img :src="imageUrl" style="max-width: 100%;max-height: 100%;" />
