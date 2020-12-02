@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace SixpenceStudio.Core.Pixabay
     public class PixabayApi
     {
         private static readonly string key = "19356383-2f75a9b525aa933f63ab20ab5";
+        private static Logger logger = LogFactory.GetLogger("PixabayApi");
 
         #region 获取图片资源
         public static readonly string GetImagesApi = "https://pixabay.com/api/?key={0}&q={1}&image_type=photo";
@@ -24,9 +26,19 @@ namespace SixpenceStudio.Core.Pixabay
                 return null;
             }
 
-            var result = HttpUtil.Get(string.Format(GetImagesApi, key, searchValue));
-            var resultJson = JsonConvert.DeserializeObject<ImagesModel>(result);
-            return resultJson;
+            var url = string.Format(GetImagesApi, key, searchValue);
+            try
+            {
+                logger.Debug($"Get：{url}");
+                var result = HttpUtil.Get(url);
+                var resultJson = JsonConvert.DeserializeObject<ImagesModel>(result);
+                return resultJson;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"获取图片资源：{searchValue} 失败", ex);
+                throw ex;
+            }
         }
         #endregion
 
@@ -38,10 +50,19 @@ namespace SixpenceStudio.Core.Pixabay
             {
                 return null;
             }
-
-            var result = HttpUtil.Get(string.Format(GetVideosApi, key, searchValue));
-            var resultJson = JsonConvert.DeserializeObject<VideosModel>(result);
-            return resultJson;
+            var url = string.Format(GetVideosApi, key, searchValue);
+            try
+            {
+                logger.Debug($"Get：{url}");
+                var result = HttpUtil.Get(url);
+                var resultJson = JsonConvert.DeserializeObject<VideosModel>(result);
+                return resultJson;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"获取视频资源：{searchValue} 失败", ex);
+                throw ex;
+            }
         }
         #endregion
 
