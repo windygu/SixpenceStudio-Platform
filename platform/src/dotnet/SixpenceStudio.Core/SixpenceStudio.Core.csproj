@@ -187,12 +187,13 @@
     <Compile Include="BaseSite\DataService\DataService.cs" />
     <Compile Include="BaseSite\DataService\DataServiceController.cs" />
     <Compile Include="BaseSite\DataService\Models\file.cs" />
-    <Compile Include="BaseSite\Pixabay\BasePixabayResponseModel.cs" />
-    <Compile Include="BaseSite\Pixabay\ImagesModel.cs" />
-    <Compile Include="BaseSite\Pixabay\PixabayApi.cs" />
-    <Compile Include="BaseSite\Pixabay\VideosModel.cs" />
+    <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
+    <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />
+    <Compile Include="Pixabay\PixabayApi.cs" />
+    <Compile Include="Pixabay\ResponseModel\VideosModel.cs" />
     <Compile Include="BaseSite\SysFile\CrawlImagesJob.cs" />
     <Compile Include="BaseSite\SysFile\SysFileParital.cs" />
+    <Compile Include="BaseSite\SysFile\SysFilePlugin.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
     <Compile Include="Entity\Service\EntityCommand.cs" />
     <Compile Include="BaseSite\Job\job.cs" />
