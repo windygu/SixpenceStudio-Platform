@@ -16,5 +16,11 @@ namespace SixpenceStudio.Core.gallery
         {
             return PixabayApi.GetImages(searchValue);
         }
+
+        [HttpPost]
+        public string UploadImage(ImageModel image)
+        {
+            return new GalleryService().UploadImage(image);
+        }
     }
 }
