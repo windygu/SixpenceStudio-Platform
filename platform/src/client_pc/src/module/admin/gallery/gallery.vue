@@ -17,13 +17,13 @@ export default {
       pageSize: 15,
       total: 0,
       loading: false,
-      controllerName: 'SysFile',
+      controllerName: 'Gallery',
       baseUrl: sp.getBaseUrl()
     };
   },
   computed: {
     customApi() {
-      return `api/${this.controllerName}/GetDataList?pageIndex=$pageIndex&pagesize=$pageSize&orderBy=&searchValue=&searchList=&viewId=3BCF6C07-2B49-4D69-9EB1-A3D5B721C976`;
+      return `api/${this.controllerName}/GetDataList?pageIndex=$pageIndex&pagesize=$pageSize&orderBy=&searchValue=&searchList=&viewId=`;
     }
   },
   created() {
@@ -49,7 +49,7 @@ export default {
           this.dataList = this.dataList.concat(
             resp.DataList.map(item => {
               return {
-                src: this.baseUrl + item.DownloadUrl,
+                src: this.baseUrl + item.preview_url,
                 href: 'https://www.baidu.com/',
                 info: item.name
               };
