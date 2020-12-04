@@ -59,12 +59,12 @@ namespace SixpenceStudio.Core.gallery
                     Id = Guid.NewGuid().ToString(),
                     tags = image.tags
                 };
-                var previewImageid = DownloadImage(image.previewURL, data.Id);
-                var imageId = DownloadImage(image.largeImageURL, data.Id);
-                data.image_url = $"api/SysFile/Download?objectid={previewImageid}";
-                data.image_url = $"api/SysFile/Download?objectid={imageId}";
+                data.previewid = DownloadImage(image.previewURL, data.Id);
+                data.imageid = DownloadImage(image.largeImageURL, data.Id);
+                data.preview_url = $"api/SysFile/Download?objectid={data.previewid}";
+                data.image_url = $"api/SysFile/Download?objectid={data.imageid}";
                 base.CreateData(data);
-                return previewImageid;
+                return data.previewid;
             });
         }
     }
