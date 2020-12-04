@@ -18,7 +18,7 @@ namespace SixpenceStudio.Core.gallery
         }
 
         [HttpPost]
-        public string UploadImage(ImageModel image)
+        public (string previewid, string imageid) UploadImage(ImageModel image)
         {
             return new GalleryService().UploadImage(image);
         }

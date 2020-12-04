@@ -50,7 +50,7 @@ namespace SixpenceStudio.Core.gallery
             return Broker.Create(data);
         }
 
-        public string UploadImage(Pixabay.ImageModel image)
+        public (string previewid, string imageid) UploadImage(Pixabay.ImageModel image)
         {
             return Broker.ExecuteTransaction(() =>
             {
@@ -64,7 +64,7 @@ namespace SixpenceStudio.Core.gallery
                 data.preview_url = $"api/SysFile/Download?objectid={data.previewid}";
                 data.image_url = $"api/SysFile/Download?objectid={data.imageid}";
                 base.CreateData(data);
-                return data.previewid;
+                return (data.previewid, data.imageid);
             });
         }
     }
