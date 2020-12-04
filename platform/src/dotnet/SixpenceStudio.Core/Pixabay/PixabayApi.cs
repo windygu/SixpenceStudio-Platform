@@ -50,8 +50,11 @@ namespace SixpenceStudio.Core.Pixabay
 
             if (responseStream == null) return string.Empty;
 
-            var stream = new BrotliStream(responseStream, CompressionMode.Decompress);
-            using (var reader = new StreamReader(stream))
+            if (response.Headers.Get("Content-Encoding") == "br")
+            {
+                responseStream = new BrotliStream(responseStream, CompressionMode.Decompress);
+            }
+            using (var reader = new StreamReader(responseStream))
             {
                 return reader.ReadToEnd();
             }
