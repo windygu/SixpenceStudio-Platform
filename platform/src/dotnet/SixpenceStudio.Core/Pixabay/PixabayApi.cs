@@ -65,6 +65,8 @@ namespace SixpenceStudio.Core.Pixabay
             {
                 return null;
             }
+            var cache = MemoryCacheUtil.GetCacheItem<ImagesModel>("PixabayApi_Images_" + searchValue);
+            if (cache != null) return cache;
 
             var url = string.Format(GetImagesApi, key, searchValue);
             try
@@ -72,6 +74,7 @@ namespace SixpenceStudio.Core.Pixabay
                 logger.Debug($"Get：{url}");
                 var result = Get(url);
                 var resultJson = JsonConvert.DeserializeObject<ImagesModel>(result);
+                MemoryCacheUtil.Set("PixabayApi_Images_" + searchValue, resultJson, 3600 * 24);
                 return resultJson;
             }
             catch (Exception ex)
@@ -90,12 +93,16 @@ namespace SixpenceStudio.Core.Pixabay
             {
                 return null;
             }
+            var cache = MemoryCacheUtil.GetCacheItem<VideosModel>("PixabayApi_videos_" + searchValue);
+            if (cache != null) return cache;
+
             var url = string.Format(GetVideosApi, key, searchValue);
             try
             {
                 logger.Debug($"Get：{url}");
                 var result = Get(url);
                 var resultJson = JsonConvert.DeserializeObject<VideosModel>(result);
+                MemoryCacheUtil.Set("PixabayApi_videos_" + searchValue, resultJson, 3600 * 24);
                 return resultJson;
             }
             catch (Exception ex)
