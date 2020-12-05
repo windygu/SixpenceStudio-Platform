@@ -1,5 +1,5 @@
 <template>
-  <sp-header>
+  <div>
     <template v-for="(button, index) in buttons">
       <a-input-search
         v-if="button.name === 'search'"
@@ -13,7 +13,7 @@
       }}</a-button>
       <a-button v-else :icon="button.icon" @click="handleClick(button)" v-bind:key="index" style="margin-right:10px;">{{ button.text }}</a-button>
     </template>
-  </sp-header>
+  </div>
 </template>
 
 <script>

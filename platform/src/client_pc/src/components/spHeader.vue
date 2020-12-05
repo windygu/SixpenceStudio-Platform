@@ -15,8 +15,9 @@ export default {
 
 <style lang="less" scoped>
 .header {
+  display: flex;
+  justify-content: space-between;
   line-height: 60px;
   height: 60px;
-  text-align: right;
 }
 </style>

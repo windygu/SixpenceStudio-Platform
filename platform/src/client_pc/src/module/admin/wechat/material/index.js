@@ -2,6 +2,7 @@ export default [
   {
     name: 'material',
     path: '/admin/material',
-    component: () => import('./materialList')
+    component: () => import('./materialList'),
+    meta: { title: '素材管理' }
   }
 ];
