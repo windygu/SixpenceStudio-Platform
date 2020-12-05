@@ -204,7 +204,6 @@
     <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />
     <Compile Include="Pixabay\PixabayApi.cs" />
     <Compile Include="Pixabay\ResponseModel\VideosModel.cs" />
-    <Compile Include="BaseSite\SysFile\CrawlImagesJob.cs" />
     <Compile Include="BaseSite\SysFile\SysFileParital.cs" />
     <Compile Include="BaseSite\SysFile\SysFilePlugin.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBulkCreateOrUpdateExtension.cs" />
