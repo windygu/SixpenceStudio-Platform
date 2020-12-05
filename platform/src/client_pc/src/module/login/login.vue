@@ -55,7 +55,7 @@ export default {
     test() {
       sp.get('api/DataService/test').then(resp => {
         if (resp) {
-          this.$router.push('admin');
+          this.$router.push({ name: 'workplace' });
         }
       });
     },
@@ -77,7 +77,7 @@ export default {
                 localStorage.setItem('Token', resp.Ticket);
                 localStorage.setItem('UserId', resp.UserId);
                 that.$store.commit('changeLogin', true);
-                that.$router.push('admin');
+                that.$router.push({ name: 'workplace' });
                 that.$message.success('登录成功');
               } else {
                 that.$message.error('账号密码错误');
