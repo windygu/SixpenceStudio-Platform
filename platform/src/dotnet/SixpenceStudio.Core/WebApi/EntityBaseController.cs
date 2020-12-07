@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SixpenceStudio.Core.AuthUser;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.Entity;
 using System.Collections.Generic;
 using System.Web.Http;

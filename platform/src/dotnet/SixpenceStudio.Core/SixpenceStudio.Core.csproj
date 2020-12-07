@@ -212,7 +212,7 @@
     <Compile Include="BaseSite\Job\JobController.cs" />
     <Compile Include="BaseSite\Job\JobService.cs" />
     <Compile Include="BaseSite\OpenApi.cs" />
-    <Compile Include="BaseSite\AuthUser\RequestAuthorizeAttribute.cs" />
+    <Compile Include="Auth\RequestAuthorizeAttribute.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortenUrl.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlService.cs" />
     <Compile Include="BaseSite\ShortUrl\short_url_log.cs" />

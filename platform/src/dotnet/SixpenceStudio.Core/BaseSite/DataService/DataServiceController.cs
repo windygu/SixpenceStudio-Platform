@@ -1,4 +1,4 @@
-﻿using SixpenceStudio.Core.AuthUser;
+﻿using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.DataService.Models;
 using SixpenceStudio.Core.WebApi;
 using System;

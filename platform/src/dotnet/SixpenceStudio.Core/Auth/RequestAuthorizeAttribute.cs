@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
-namespace SixpenceStudio.Core.AuthUser
+namespace SixpenceStudio.Core.Auth
 {
     public class RequestAuthorizeAttribute : AuthorizeAttribute
     {
