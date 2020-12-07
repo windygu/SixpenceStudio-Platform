@@ -2,6 +2,7 @@
 using Npgsql;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -262,6 +263,28 @@ namespace SixpenceStudio.Core.Data
                 return sql;
             }
             return sql;
+        }
+
+        /// <summary>
+        /// 创建临时表
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public string CreateTemporaryTable(string tableName)
+        {
+            var newTableName = tableName + Guid.NewGuid().ToString().Replace("-", "");
+            _conn.Execute($@"CREATE TEMP TABLE {newTableName} ON COMMIT DROP AS SELECT * FROM {tableName} WHERE 1!=1;");
+            return newTableName;
+        }
+
+        /// <summary>
+        /// 删除表
+        /// </summary>
+        /// <param name="tableName"></param>
+        public void DropTable(string tableName)
+        {
+            var sql = $"DROP TABLE IF EXISTS {tableName}";
+            _conn.Execute(sql);
         }
     }
 }

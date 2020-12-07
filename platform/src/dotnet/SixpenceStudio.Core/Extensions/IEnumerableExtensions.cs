@@ -11,14 +11,9 @@ namespace SixpenceStudio.Core.Utils
 {
     public static class IEnumerableExtensions
     {
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> ts)
+        public static bool IsEmpty<T>(this IEnumerable<T> ts)
         {
             return ts == null || ts.Count() == 0;
-        }
-
-        public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> ts)
-        {
-            return !ts.IsNullOrEmpty();
         }
 
         public static DataTable ToDataTable<T>(this IList<T> data)

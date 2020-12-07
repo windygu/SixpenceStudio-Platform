@@ -80,5 +80,19 @@ namespace SixpenceStudio.Core.Data
         /// <param name="paramList"></param>
         /// <returns></returns>
         object ExecuteScalar(string sql, IDictionary<string, object> paramList = null);
+
+        /// <summary>
+        /// 创建临时表
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="newTableName"></param>
+        /// <returns></returns>
+        string CreateTemporaryTable(string tableName);
+
+        /// <summary>
+        /// 删除表
+        /// </summary>
+        /// <param name="tableName"></param>
+        void DropTable(string tableName);
     }
 }

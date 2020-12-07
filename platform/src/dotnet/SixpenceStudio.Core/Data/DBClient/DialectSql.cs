@@ -53,17 +53,5 @@ namespace SixpenceStudio.Core.Data
             }
             return (name, value);
         }
-
-        /// <summary>
-        /// 获取创建临时表语句
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="newTableName"></param>
-        /// <returns></returns>
-        public static string GetCreateTemporaryTableSql(string tableName, out string newTableName)
-        {
-            newTableName = tableName + Guid.NewGuid().ToString().Replace("-", "");
-            return $@"CREATE TEMP TABLE {newTableName} ON COMMIT DROP AS SELECT * FROM {tableName} WHERE 1!=1;";
-        }
     }
 }
