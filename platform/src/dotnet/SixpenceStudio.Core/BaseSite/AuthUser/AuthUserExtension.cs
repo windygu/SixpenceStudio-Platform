@@ -14,7 +14,7 @@ namespace SixpenceStudio.Core.AuthUser
             return new CurrentUserModel()
             {
                 Code = user.code,
-                Id = user.Id,
+                Id = user.user_infoid,
                 Name = user.name
             };
         }
