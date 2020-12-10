@@ -1,24 +1,16 @@
 <template>
-  <div>
-    <vue-waterfall-easy @click="showModal" :maxCols="4" style="position: absolute;width: 83%" :imgsArr="dataList" @scrollReachBottom="loadData"></vue-waterfall-easy>
-    <div>
-      <a-modal
-        title="图片"
-        :visible="visible"
-        :confirm-loading="confirmLoading"
-        @ok="handleOk"
-        @cancel="handleCancel"
-        width="70%">
+  <div style="position: relative">
+    <vue-waterfall-easy @click="showModal" :imgsArr="dataList" @scrollReachBottom="loadData"> </vue-waterfall-easy>
+    <a-modal title="图片" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel" width="70%">
+      <div v-if="visible">
+        <img style="width: 100%;height: 100%" :src="imgUrl" />
+      </div>
+      <template slot="footer">
         <div v-if="visible">
-          <img style="width: 100%;height: 100%" :src="imgUrl"/>
+          <a-button type="primary" @click="downloadImg">点击下载</a-button>
         </div>
-        <template slot="footer">
-          <div v-if="visible">
-            <a-button type="primary" @click="downloadImg">点击下载</a-button>
-          </div>
-        </template>
-      </a-modal>
-    </div>
+      </template>
+    </a-modal>
   </div>
 </template>
 
@@ -56,9 +48,9 @@ export default {
   methods: {
     showModal(event, { index, value }) {
       // 阻止a标签跳转
-      event.preventDefault()
-      this.imgUrl = ''
-      this.imgUrl = value.infoUrl
+      event.preventDefault();
+      this.imgUrl = '';
+      this.imgUrl = value.infoUrl;
       this.visible = true;
     },
     handleOk(e) {
@@ -72,8 +64,8 @@ export default {
     handleCancel(e) {
       this.visible = false;
     },
-    downloadImg () {
-      window.open(this.imgUrl, '_blank')
+    downloadImg() {
+      window.open(this.imgUrl, '_blank');
     },
     loadData() {
       if (this.loading) {
@@ -95,7 +87,6 @@ export default {
             resp.DataList.map(item => {
               return {
                 src: this.baseUrl + item.preview_url,
-                href: 'https://www.baidu.com/',
                 name: item.name,
                 infoUrl: this.baseUrl + item.image_url
               };
@@ -112,5 +103,15 @@ export default {
   }
 };
 </script>
-<style>
+
+<style lang="less" scoped>
+/deep/ .vue-waterfall-easy-scroll {
+  position: initial !important;
+  max-width: 100% !important;
+}
+
+/deep/ .vue-waterfall-easy {
+  max-width: 100% !important;
+  width: calc(100% - 60px) !important;
+}
 </style>
