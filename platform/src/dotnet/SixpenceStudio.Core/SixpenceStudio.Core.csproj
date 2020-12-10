@@ -199,6 +199,7 @@
     <Compile Include="BaseSite\DataService\Models\file.cs" />
     <Compile Include="BaseSite\gallery\gallery.cs" />
     <Compile Include="BaseSite\gallery\GalleryController.cs" />
+    <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
     <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />

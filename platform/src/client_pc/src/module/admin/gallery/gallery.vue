@@ -1,31 +1,41 @@
 <template>
   <div style="position: relative">
-    <vue-waterfall-easy @click="showModal" :imgsArr="dataList" @scrollReachBottom="loadData"> </vue-waterfall-easy>
-    <a-modal title="图片" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel" width="70%">
-      <div v-if="visible">
-        <img style="width: 100%;height: 100%" :src="imgUrl" />
+    <sp-header>
+      <a-breadcrumb style="line-height:60px;margin-left:10px;">
+        <a-breadcrumb-item href="">
+          <a-icon type="home" />
+        </a-breadcrumb-item>
+        <a-breadcrumb-item href="">
+          <span>{{ $route.meta.title }}</span>
+        </a-breadcrumb-item>
+      </a-breadcrumb>
+      <div v-if="buttons && buttons.length > 0" style="display:inline-block">
+        <sp-button-list :buttons="buttons" @search-change="loadData" @unfold="showMore = true" @fold="showMore = false"></sp-button-list>
       </div>
+    </sp-header>
+    <vue-waterfall-easy @click="showModal" :imgsArr="dataList" @scrollReachBottom="loadData"> </vue-waterfall-easy>
+    <a-modal title="图片" v-model="readVisible" width="850px">
+      <img class="big-image" :src="imgUrl" />
       <template slot="footer">
-        <div v-if="visible">
-          <a-button type="primary" @click="downloadImg">点击下载</a-button>
-        </div>
+        <a-button type="primary" @click="downloadImg">点击下载</a-button>
       </template>
     </a-modal>
+    <gallery-edit v-model="editVisible"></gallery-edit>
   </div>
 </template>
 
 <script>
 import vueWaterfallEasy from 'vue-waterfall-easy2';
+import galleryEdit from './galleryEdit';
 
 export default {
   name: 'gallery',
-  components: { vueWaterfallEasy },
+  components: { vueWaterfallEasy, galleryEdit },
   data() {
     return {
       imgUrl: '',
-      ModalText: '',
-      visible: false,
-      confirmLoading: false,
+      readVisible: false,
+      editVisible: false,
       isFirstLoad: true,
       busy: false,
       dataList: [],
@@ -34,7 +44,8 @@ export default {
       total: 0,
       loading: false,
       controllerName: 'Gallery',
-      baseUrl: sp.getBaseUrl()
+      baseUrl: sp.getBaseUrl(),
+      buttons: [{ name: 'new', icon: 'plus', operate: () => (this.editVisible = true) }, { name: 'search' }]
     };
   },
   computed: {
@@ -51,18 +62,7 @@ export default {
       event.preventDefault();
       this.imgUrl = '';
       this.imgUrl = value.infoUrl;
-      this.visible = true;
-    },
-    handleOk(e) {
-      this.ModalText = '';
-      this.confirmLoading = true;
-      setTimeout(() => {
-        this.visible = false;
-        this.confirmLoading = false;
-      }, 2000);
-    },
-    handleCancel(e) {
-      this.visible = false;
+      this.readVisible = true;
     },
     downloadImg() {
       window.open(this.imgUrl, '_blank');
@@ -113,5 +113,12 @@ export default {
 /deep/ .vue-waterfall-easy {
   max-width: 100% !important;
   width: calc(100% - 60px) !important;
+}
+
+.big-image {
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
+  max-height: 600px;
 }
 </style>
