@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import vueWaterfallEasy from 'vue-waterfall-easy';
+import vueWaterfallEasy from 'vue-waterfall-easy2';
 
 export default {
   name: 'gallery',
@@ -61,6 +61,17 @@ export default {
       this.imgUrl = value.infoUrl
       this.visible = true;
     },
+    handleOk(e) {
+      this.ModalText = '';
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel(e) {
+      this.visible = false;
+    },
     downloadImg () {
       window.open(this.imgUrl, '_blank')
     },
@@ -73,6 +84,7 @@ export default {
       if (this.pageSize * this.pageIndex >= this.total && !this.isFirstLoad) {
         return;
       }
+
       this.busy = true;
       if (!this.isFirstLoad) {
         this.pageIndex += 1;
