@@ -1,5 +1,4 @@
 <template>
-  <!--@mouseenter="setSortHover" -->
   <div>
     <vue-waterfall-easy @click="showModal" :maxCols="4" style="position: absolute;width: 83%" :imgsArr="dataList" @scrollReachBottom="loadData"></vue-waterfall-easy>
     <div>
