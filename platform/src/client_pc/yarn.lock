@@ -7501,10 +7501,10 @@ vue-template-es2015-compiler@^1.6.0:
   resolved "http://npm.karldu.cn/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue-waterfall-easy@^2.4.4:
-  version "2.4.4"
-  resolved "http://npm.karldu.cn/vue-waterfall-easy/-/vue-waterfall-easy-2.4.4.tgz#a990ef3f7f7eb88dedc5ef40e064c4e68908e84c"
-  integrity sha1-qZDvP39+uI3txe9A4GTE5okI6Ew=
+vue-waterfall-easy2@^2.4.5:
+  version "2.4.5"
+  resolved "http://npm.karldu.cn/vue-waterfall-easy2/-/vue-waterfall-easy2-2.4.5.tgz#a8979349fefda2c63a807755c463b9f44c1fdaf9"
+  integrity sha512-tNj3d6zzIcYaj+wBQqm2/iN6RgOtBEvwtnwbL3R7zKRPhi04wnjI0mFEABlWCy2tQhCNtjsmEg39rgudnrDcaQ==
 
 wangeditor@^4.1.0:
   version "4.2.1"
