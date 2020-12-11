@@ -28,6 +28,20 @@ namespace SixpenceStudio.Core.gallery
         }
         #endregion
 
+        public override IList<EntityView> GetViewList()
+        {
+            return new List<EntityView>() {
+                new EntityView()
+                {
+                    ViewId = "0F0DC786-CF7D-4997-B42C-47FB09B12AAE",
+                    Sql = "select * from gallery where 1 = 1",
+                    CustomFilter = new List<string>(){ "tags" },
+                    Name = "本地图库",
+                    OrderBy = "createdon desc"
+                }
+            };
+        }
+
         private string DownloadImage(string url, string objectid)
         {
             var result = HttpUtil.DownloadImage(url, out var contentType);
