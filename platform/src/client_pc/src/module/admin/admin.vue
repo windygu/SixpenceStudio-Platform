@@ -25,7 +25,9 @@
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div :style="{ background: '#fff', minHeight: '800px' }">
-          <router-view :key="$route.path"></router-view>
+          <keep-alive>
+            <router-view :key="$route.path"></router-view>
+          </keep-alive>
         </div>
       </a-layout-content>
     </a-layout>
