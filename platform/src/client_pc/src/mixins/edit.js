@@ -15,10 +15,11 @@ export default {
   created() {
     if (this.relatedAttr && this.relatedAttr.id) {
       this.Id = this.relatedAttr.id;
-    } else {
+      this.loadData();
+    } else if (this.$route.params && this.$route.params.id) {
       this.Id = this.$route.params.id;
+      this.loadData();
     }
-    this.loadData();
   },
   computed: {
     pageState() {
