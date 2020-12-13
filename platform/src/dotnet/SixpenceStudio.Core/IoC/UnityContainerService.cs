@@ -29,8 +29,6 @@ namespace SixpenceStudio.Core.IoC
             }
         }
 
-        private static Logger logger = LogFactory.GetLogger("startup");
-
         /// <summary>
         /// 注册实例
         /// </summary>
