@@ -31,6 +31,10 @@ export default {
     enableMenu: {
       type: Array,
       default: () => []
+    },
+    // 创建事件
+    preCreate: {
+      type: Function
     }
   },
   model: {
@@ -57,6 +61,9 @@ export default {
     };
     if (this.enableMenu && this.enableMenu.length > 0) {
       this.editor.config.menus = this.enableMenu;
+    }
+    if (this.preCreate && typeof this.preCreate === 'function') {
+      this.preCreate(this.editor);
     }
     this.editor.config.menus = this.editor.config.menus.filter(item => !this.disabledMenu.includes(item));
     this.editor.config.uploadImgParamsWithUrl = true;
