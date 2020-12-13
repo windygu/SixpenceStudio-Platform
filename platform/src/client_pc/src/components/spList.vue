@@ -3,18 +3,12 @@
     <!-- 按钮组 -->
     <slot name="header">
       <sp-header>
-        <a-breadcrumb style="line-height:60px;margin-left:10px;">
-          <a-breadcrumb-item href="">
-            <a-icon type="home" />
-          </a-breadcrumb-item>
-          <a-breadcrumb-item href="">
-            <span>{{ $route.meta.title }}</span>
-          </a-breadcrumb-item>
-        </a-breadcrumb>
+        <!-- 按钮组 -->
         <div v-if="buttons && buttons.length > 0" style="display:inline-block">
           <sp-button-list :buttons="buttons" @search-change="loadData" @unfold="showMore = true" @fold="showMore = false"></sp-button-list>
         </div>
       </sp-header>
+      <!-- 展示更多筛选条件 -->
       <div v-if="showMore">
         <slot name="more" />
       </div>
