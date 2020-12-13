@@ -15,8 +15,10 @@ export default {
   created() {
     if (this.relatedAttr && this.relatedAttr.id) {
       this.Id = this.relatedAttr.id;
-      this.loadData();
+    } else {
+      this.Id = this.$route.params.id;
     }
+    this.loadData();
   },
   computed: {
     pageState() {
