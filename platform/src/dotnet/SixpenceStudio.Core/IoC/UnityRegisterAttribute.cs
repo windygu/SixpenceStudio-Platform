@@ -18,7 +18,7 @@ namespace SixpenceStudio.Core.IoC
     /// <summary>
     /// 策略类特性（所有策略接口都应该打上该标记）
     /// </summary>
-    public class CustomStrategyAttribute : Attribute
+    public class UnityRegisterAttribute : Attribute
     {
     }
 }

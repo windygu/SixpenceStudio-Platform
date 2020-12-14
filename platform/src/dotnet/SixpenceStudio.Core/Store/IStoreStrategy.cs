@@ -11,7 +11,7 @@ namespace SixpenceStudio.Core.Store
     /// <summary>
     /// 存储策略接口
     /// </summary>
-    [CustomStrategy]
+    [UnityRegister]
     public interface IStoreStrategy
     {
         /// <summary>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Data
 {
-    [CustomStrategy]
+    [UnityRegister]
     public interface IPersistBrokerPlugin
     {
         /// <summary>

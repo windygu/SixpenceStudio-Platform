@@ -278,7 +278,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="BaseSite\Job\JobBase.cs" />
     <Compile Include="BaseSite\Job\JobHelpers.cs" />
-    <Compile Include="IoC\CustomStrategyAttribute.cs" />
+    <Compile Include="IoC\UnityRegisterAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogUtils.cs" />
