@@ -43,12 +43,16 @@ export default {
   },
   data() {
     return {
-      editor: {}
+      editor: {},
+      isChange: false
     };
   },
   watch: {
     value() {
-      this.editor.txt.html(this.value);
+      if (!this.isChange) {
+        this.editor.txt.html(this.value);
+        this.isChange = true;
+      }
     },
     uploadImgParams() {
       this.editor.config.uploadImgParams = this.uploadImgParams;
@@ -75,6 +79,12 @@ export default {
     this.editor.config.uploadImgHooks = {
       customInsert: function(insertImgFn, result) {
         insertImgFn(`${sp.getBaseUrl()}${result.downloadUrl}`);
+      }
+    };
+    this.editor.customConfig = {
+      onchange: html => {
+        this.isChange = true;
+        this.$emit('input', html);
       }
     };
     this.editor.create();
