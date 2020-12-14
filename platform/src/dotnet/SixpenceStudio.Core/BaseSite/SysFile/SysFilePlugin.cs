@@ -1,5 +1,5 @@
 ﻿using SixpenceStudio.Core.Configs;
-using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Store;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.SysFile
 {
-    public class SysFilePlugin : IEntityActionPlugin
+    public class SysFilePlugin : IPersistBrokerPlugin
     {
         public void Execute(Context context)
         {

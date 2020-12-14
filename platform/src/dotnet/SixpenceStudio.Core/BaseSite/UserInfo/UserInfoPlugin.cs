@@ -9,7 +9,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.UserInfo
 {
-    public class UserInfoPlugin : IEntityActionPlugin
+    public class UserInfoPlugin : IPersistBrokerPlugin
     {
         public void Execute(Context context)
         {

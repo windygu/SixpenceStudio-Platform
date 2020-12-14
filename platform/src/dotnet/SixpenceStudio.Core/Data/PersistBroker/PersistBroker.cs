@@ -50,7 +50,7 @@ namespace SixpenceStudio.Core.Data
                 entity.SetAttributeValue("modifiedByName", user.Name);
                 entity.SetAttributeValue("modifiedOn", DateTime.Now);
 
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
                 var sql = "INSERT INTO {0}({1}) Values({2})";
                 var attrs = new List<string>();
@@ -94,7 +94,7 @@ namespace SixpenceStudio.Core.Data
         {
             return this.ExecuteTransaction(() =>
             {
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 var sql = "DELETE FROM {0} WHERE {1}id = @id";
                 sql = string.Format(sql, entity.EntityName, entity.EntityName);
@@ -151,7 +151,7 @@ WHERE {entity.EntityName}Id = @id;
                 entity.SetAttributeValue("modifiedByName", user.Name);
                 entity.SetAttributeValue("modifiedOn", DateTime.Now);
 
-                var plugin = UnityContainerService.Resolve<IEntityActionPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+                var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
                 plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
                 var sql = @"
 UPDATE {0} SET {1} WHERE {2} = @id;

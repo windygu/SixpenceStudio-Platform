@@ -10,7 +10,6 @@ Description：素材Plugin
 using SixpenceStudio.Core.SysFile;
 using SixpenceStudio.Core;
 using SixpenceStudio.Core.Configs;
-using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Store;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -19,10 +18,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.Data;
 
 namespace SixpenceStudio.WeChat.Material
 {
-    public class WeChatMaterialPlugin : IEntityActionPlugin
+    public class WeChatMaterialPlugin : IPersistBrokerPlugin
     {
         public void Execute(Context context)
         {

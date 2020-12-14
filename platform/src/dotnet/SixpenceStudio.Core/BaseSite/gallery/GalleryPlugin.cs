@@ -1,4 +1,4 @@
-﻿using SixpenceStudio.Core.Entity;
+﻿using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.SysFile;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.gallery
 {
-    public class GalleryPlugin : IEntityActionPlugin
+    public class GalleryPlugin : IPersistBrokerPlugin
     {
         public void Execute(Context context)
         {

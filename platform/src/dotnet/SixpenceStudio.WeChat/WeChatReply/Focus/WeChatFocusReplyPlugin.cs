@@ -8,7 +8,7 @@ Description：
 #endregion
 
 using SixpenceStudio.Core.Configs;
-using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat.WeChatReply.Focus
 {
-    public class WeChatFocusReplyPlugin : IEntityActionPlugin
+    public class WeChatFocusReplyPlugin : IPersistBrokerPlugin
     {
         public void Execute(Context context)
         {

@@ -1,5 +1,4 @@
-﻿using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Entity;
+﻿using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Generic;
@@ -8,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Core.Entity
+namespace SixpenceStudio.Core.Data
 {
     [CustomStrategy]
-    public interface IEntityActionPlugin
+    public interface IPersistBrokerPlugin
     {
         /// <summary>
         /// 执行
