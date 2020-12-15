@@ -19,14 +19,16 @@ namespace SixpenceStudio.Core.Utils
     {
         public static string ToDateTimeString(this long value, string format = "yyyy-MM-dd HH:mm")
         {
-            var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return start.AddMilliseconds(value * 1000).ToLocalTime().ToString(format);
+            return value.ToDateTime().ToString(format);
         }
 
         public static DateTime ToDateTime(this long value)
         {
-            var start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return start.AddMilliseconds(value * 1000).ToLocalTime();
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = long.Parse(value + "0000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            DateTime dtResult = dtStart.Add(toNow);
+            return dtResult;
         }
     }
 }
