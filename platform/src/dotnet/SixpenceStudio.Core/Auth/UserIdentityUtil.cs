@@ -31,24 +31,38 @@ namespace SixpenceStudio.Core.Auth
             return ApplicationContext.Current.User;
         }
 
+        private static readonly object lockAnonymousObject = new Object();
         public static CurrentUserModel GetAnonymous()
         {
             var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_anonymous");
             if (data == null)
             {
-                data = new AuthUserService().GetDataByCode("Anonymous");
-                MemoryCacheUtil.Set("auth_user_anonymous", data, 3600 * 24);
+                lock (lockAnonymousObject)
+                {
+                    if (data == null)
+                    {
+                        data = new AuthUserService().GetDataByCode("Anonymous");
+                        MemoryCacheUtil.Set("auth_user_anonymous", data, 3600 * 24);
+                    }
+                }
             }
             return data.ToCurrentUserModel();
         }
 
+        private static readonly object lockAdminObject = new Object();
         public static CurrentUserModel GetAdmin()
         {
             var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_admin");
             if (data == null)
             {
-                data = new AuthUserService().GetDataByCode("admin");
-                MemoryCacheUtil.Set("auth_user_admin", data, 3600 * 24);
+                lock (lockAdminObject)
+                {
+                    if (data == null)
+                    {
+                        data = new AuthUserService().GetDataByCode("admin");
+                        MemoryCacheUtil.Set("auth_user_admin", data, 3600 * 24);
+                    }
+                }
             }
             return data.ToCurrentUserModel();
         }
