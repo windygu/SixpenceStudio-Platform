@@ -12,9 +12,9 @@ namespace SixpenceStudio.Core.gallery
     public class GalleryController : EntityBaseController<gallery, GalleryService>
     {
         [HttpGet]
-        public ImagesModel GetImages(string searchValue)
+        public ImagesModel GetImages(string searchValue, int pageIndex, int pageSize)
         {
-            return PixabayApi.GetImages(searchValue);
+            return PixabayApi.GetImages(searchValue, pageIndex, pageSize);
         }
 
         [HttpPost]

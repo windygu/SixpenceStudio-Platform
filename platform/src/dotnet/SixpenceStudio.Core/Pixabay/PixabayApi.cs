@@ -61,23 +61,24 @@ namespace SixpenceStudio.Core.Pixabay
         }
 
         #region 获取图片资源
-        public static readonly string GetImagesApi = "https://pixabay.com/api/?key={0}&q={1}&image_type=photo";
-        public static ImagesModel GetImages(string searchValue)
+        public static readonly string GetImagesApi = "https://pixabay.com/api/?key={0}&q={1}&image_type=photo&lang=zh&page={2}&per_page={3}";
+        public static ImagesModel GetImages(string searchValue, int pageIndex, int pageSize)
         {
             if (string.IsNullOrEmpty(searchValue))
             {
                 return null;
             }
-            var cache = MemoryCacheUtil.GetCacheItem<ImagesModel>("PixabayApi_Images_" + searchValue);
+            var cache = MemoryCacheUtil.GetCacheItem<ImagesModel>($"PixabayApi_Images_{searchValue}_{pageIndex}_{pageSize}");
             if (cache != null) return cache;
 
-            var url = string.Format(GetImagesApi, key, searchValue);
+            var url = string.Format(GetImagesApi, key, searchValue, pageIndex, pageSize);
             try
             {
                 logger.Debug($"Get：{url}");
                 var result = Get(url);
                 var resultJson = JsonConvert.DeserializeObject<ImagesModel>(result);
-                MemoryCacheUtil.Set("PixabayApi_Images_" + searchValue, resultJson, 3600 * 24);
+                // 缓存24小时
+                MemoryCacheUtil.Set($"PixabayApi_Images_{searchValue}_{pageIndex}_{pageSize}", resultJson, 3600 * 24);
                 return resultJson;
             }
             catch (Exception ex)
