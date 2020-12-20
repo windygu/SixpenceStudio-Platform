@@ -58,13 +58,13 @@ export default {
           if (sp.isNullOrEmpty(this.Id)) {
             this.data.Id = sp.newUUID();
           }
-          sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(() => {
+          sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(async () => {
+            this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
             if (this.postSave && typeof this.postSave === 'function') {
-              this.postSave();
+              await this.postSave();
             }
             this.$emit('close');
             this.$emit('load-data');
-            this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
           });
         } else {
           this.$message.error('请检查表单必填项');
