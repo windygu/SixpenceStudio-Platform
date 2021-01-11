@@ -145,6 +145,11 @@
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
+    <Compile Include="RobotMessageTask\RobotMessageTaskController.cs" />
+    <Compile Include="RobotMessageTask\RobotMessageTaskService.cs" />
+    <Compile Include="RobotMessageTask\robot_message_task.cs" />
+    <Compile Include="RobotMessage\EnterpriseWechatRobot.cs" />
+    <Compile Include="Robot\IRobot.cs" />
     <Compile Include="Robot\robot.cs" />
     <Compile Include="Robot\RobotController.cs" />
     <Compile Include="Robot\RobotService.cs" />
@@ -175,5 +180,6 @@
       <Name>SixpenceStudio.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
