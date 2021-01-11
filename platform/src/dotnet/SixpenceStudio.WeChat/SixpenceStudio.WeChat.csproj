@@ -145,6 +145,9 @@
     <Compile Include="Message\ShortVideo\WeChatShortVideoMessage.cs" />
     <Compile Include="Message\Video\WeChatVideoMessage.cs" />
     <Compile Include="Message\Voice\WeChatVoiceMessage.cs" />
+    <Compile Include="Robot\robot.cs" />
+    <Compile Include="Robot\RobotController.cs" />
+    <Compile Include="Robot\RobotService.cs" />
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />
