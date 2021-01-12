@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.WeChat.RobotMessage
+namespace SixpenceStudio.WeChat.Robot
 {
-    public class EnterpriseWechatRobot : IRobot
+    public class EnterpriseWechatRobotClient : IRobotClient
     {
-        public EnterpriseWechatRobot(string hook)
+        public EnterpriseWechatRobotClient(string hook)
         {
             this.hook = hook;
         }

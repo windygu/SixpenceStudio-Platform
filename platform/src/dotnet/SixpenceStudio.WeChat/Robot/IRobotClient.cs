@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat.Robot
 {
-    interface IRobot
+    public interface IRobotClient
     {
         void SendTextMessage(string text);
     }

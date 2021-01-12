@@ -30,14 +30,16 @@ namespace SixpenceStudio.Core.Job
         /// 任务调度的使用过程
         /// </summary>
         /// <returns></returns>
-        private async static Task Run<T>(string cronExperssion)
+        public async static Task Run<T>(string cronExperssion, string name, string group, object param)
             where T : IJob
         {
             await sched.Start();
 
             // 创建 Job
             var job = JobBuilder.Create<T>()
+                .WithIdentity(name, group)
                 .Build();
+            job.JobDataMap.Add("Context", param);
 
             // 创建 trigger
             ITrigger trigger = TriggerBuilder.Create()
@@ -46,7 +48,18 @@ namespace SixpenceStudio.Core.Job
                 .Build();
 
             // 使用 trigger 规划执行任务 job
-            await sched.ScheduleJob(job, trigger);
+            sched.ScheduleJob(job, trigger).Wait();
+            sched.Start().Wait();
+        }
+
+        /// <summary>
+        /// 删除job
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        public static void DeleteJob(string name, string group)
+        {
+            sched.DeleteJob(new JobKey(name, group)).Wait();
         }
 
         /// <summary>
@@ -54,7 +67,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private async static Task RunManually(Type type)
+        internal async static Task RunManually(Type type)
         {
             // 1.创建scheduler的引用
             await sched.Start();
