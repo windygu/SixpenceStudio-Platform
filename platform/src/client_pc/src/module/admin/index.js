@@ -9,13 +9,14 @@ import admin from './admin';
 import workplace from './workplace';
 import gallery from './gallery';
 import fileManage from './fileManage';
+import robot from './robot';
 
 export default [
   {
     path: '/admin',
     name: 'admin',
     component: admin,
-    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace, gallery, fileManage),
+    children: [].concat(sysEntity, sysMenu, sysParamGroup, userInfo, job, sysConfig, wechat, workplace, gallery, fileManage, robot),
     meta: { auth: true } // 需要检验
   }
 ];
