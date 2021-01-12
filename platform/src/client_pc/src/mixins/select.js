@@ -10,9 +10,9 @@ export default {
   },
   methods: {
     loadSelectDataList() {
-      sp.get(`api/SysParamGroup/GetParamsList?code=${selectDataList.join(',')}`).then(resp => {
-        selectNameList.forEach((item, index) => {
-          this.selectDataList[item] = resp[index];
+      sp.get(`api/SysParamGroup/GetParamsList?code=${this.selectNameList.join(',')}`).then(resp => {
+        this.selectNameList.forEach((item, index) => {
+          this.$set(this.selectDataList, item, resp[index]);
         });
         if (this.loadSelectDataListComplete && typeof this.loadSelectDataListComplete === 'function') {
           this.loadSelectDataListComplete();
@@ -20,4 +20,4 @@ export default {
       });
     }
   }
-}
+};

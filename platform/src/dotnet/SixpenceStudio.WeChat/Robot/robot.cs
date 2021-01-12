@@ -88,18 +88,18 @@ namespace SixpenceStudio.WeChat.Robot
         /// <summary>
         /// 类型名称
         /// </summary>
-        private string _robot_typename;
+        private string _robot_typeName;
         [DataMember]
-        public string robot_typename
+        public string robot_typeName
         {
             get
             {
-                return this._robot_typename;
+                return this._robot_typeName;
             }
             set
             {
-                this._robot_typename = value;
-                SetAttributeValue("robot_typename", value);
+                this._robot_typeName = value;
+                SetAttributeValue("robot_typeName", value);
             }
         }
 

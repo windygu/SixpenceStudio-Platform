@@ -15,9 +15,7 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="类型" prop="robot_type">
-          <a-select v-model="data.robot_type" @change="handleTypeChange">
-            <a-select-option v-model="item.Value" v-for="(item, index) in robotType" :key="index">{{ item.Name }}</a-select-option>
-          </a-select>
+          <sp-select v-model="data.robot_type" :options="selectDataList.robot_type" @change="item => (data.robot_typeName = item.name)"></sp-select>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -32,11 +30,11 @@
 </template>
 
 <script>
-import edit from '../../../../mixins/edit';
+import { edit, select } from '../../../../mixins';
 
 export default {
   name: 'robot-edit',
-  mixins: [edit],
+  mixins: [edit, select],
   data() {
     return {
       controllerName: 'Robot',
@@ -45,22 +43,9 @@ export default {
         hook: [{ required: true, message: '请输入钩子地址', trigger: 'blur' }],
         value: [{ required: true, message: '请输入值', trigger: 'blur' }]
       },
+      selectNameList: ['robot_type'],
       robotType: []
     };
-  },
-  created() {
-    this.getSysParam();
-  },
-  methods: {
-    handleTypeChange(value) {
-      const arrs = this.robotType.filter(item => item.Value === value);
-      if (arrs.length > 0) {
-        this.data.robot_typename = arrs[0].Name;
-      }
-    },
-    async getSysParam() {
-      this.robotType = await sp.get('api/SysParamGroup/GetParams?code=robot_type');
-    }
   }
 };
 </script>

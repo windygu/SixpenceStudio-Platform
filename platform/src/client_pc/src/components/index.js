@@ -8,6 +8,7 @@ import spSection from './spSection';
 import spMenu from './spMenu';
 import spTag from './spTag';
 import spEditor from './spEditor';
+import spSelect from './spSelect';
 
 const components = [
   { name: register.name, component: register },
@@ -19,7 +20,8 @@ const components = [
   { name: spSection.name, component: spSection },
   { name: spMenu.name, component: spMenu },
   { name: spTag.name, component: spTag },
-  { name: spEditor.name, component: spEditor }
+  { name: spEditor.name, component: spEditor },
+  { name: spSelect.name, component: spSelect }
 ];
 
 export default components;

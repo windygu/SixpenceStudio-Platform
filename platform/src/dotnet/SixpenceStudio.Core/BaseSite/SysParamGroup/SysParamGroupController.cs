@@ -26,5 +26,16 @@ namespace SixpenceStudio.Core.SysParamGroup
             }
             return new SysParamGroupService().GetParamsList(codeList);
         }
+
+        [HttpGet]
+        public IEnumerable<IEnumerable<SelectModel>> GetEntitiyList(string code)
+        {
+            var codeList = new string[] { };
+            if (!string.IsNullOrEmpty(code))
+            {
+                codeList = code.Split(',');
+            }
+            return new SysParamGroupService().GetEntitiyList(codeList);
+        }
     }
 }
