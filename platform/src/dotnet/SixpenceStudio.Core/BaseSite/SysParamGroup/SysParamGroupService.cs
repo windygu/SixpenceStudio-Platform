@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ FROM
             };
         }
 
-        public IList<SelectModel> GetParams(string code)
+        public IEnumerable<SelectModel> GetParams(string code)
         {
             var sql = @"
 SELECT 
@@ -53,6 +54,12 @@ INNER JOIN sys_paramgroup ON sys_param.sys_paramgroupid = sys_paramgroup.sys_par
 WHERE sys_paramgroup.code = @code
 ";
             return _cmd.Broker.DbClient.Query<SelectModel>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
+        }
+
+        public IEnumerable<IEnumerable<SelectModel>> GetParamsList(string[] paramsList)
+        {
+            var dataList = new List<List<SelectModel>>();
+            return paramsList.Select(item => GetParams(item));
         }
 
         public override void DeleteData(List<string> ids)

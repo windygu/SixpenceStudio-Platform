@@ -27,6 +27,6 @@ import edit from './src/mixins/edit';
 import pagination from './src/mixins/pagination';
 import admin from './src/module/admin/admin';
 
-export { edit, pagination, admin };
+export { edit, pagination, select, admin };
 
 export default API;
