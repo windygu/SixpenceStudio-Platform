@@ -15,9 +15,7 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="机器人">
-          <a-select v-model="data.robotid" @change="handleTypeChange">
-            <a-select-option v-model="item.Value" v-for="(item, index) in robotList" :key="index">{{ item.Name }}</a-select-option>
-          </a-select>
+          <sp-select v-model="data.robotid" :options="selectDataList.robot" @change="item => (data.robotidName = item.name)"></sp-select>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -32,11 +30,11 @@
 </template>
 
 <script>
-import edit from '../../../../mixins/edit';
+import { edit, select } from '../../../../mixins';
 
 export default {
   name: 'robot-edit',
-  mixins: [edit],
+  mixins: [edit, select],
   data() {
     return {
       controllerName: 'Robot',
@@ -44,24 +42,8 @@ export default {
         name: [{ required: true, message: '请输入任务名', trigger: 'blur' }],
         hook: [{ required: true, message: '请输入执行时间', trigger: 'blur' }]
       },
-      robotList: []
+      selectEntityNameList: ['robot']
     };
-  },
-  created() {
-    this.getRobot();
-  },
-  methods: {
-    handleTypeChange(value) {
-      const arrs = this.robotType.filter(item => item.Value === value);
-      if (arrs.length > 0) {
-        this.data.robotIdName = arrs[0].Name;
-      }
-    },
-    getRobot() {
-      sp.get('api/Robot/GetDataList').then(resp => {
-        this.robotList = resp.map(item => ({ Name: item.name, Value: item.Id }));
-      });
-    }
   }
 };
 </script>

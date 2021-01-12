@@ -1,7 +1,8 @@
 export default {
   data() {
     return {
-      selectNameList: [],
+      selectParamNameList: [],
+      selectEntityNameList: [],
       selectDataList: {}
     }
   },
@@ -9,15 +10,18 @@ export default {
     this.loadSelectDataList();
   },
   methods: {
-    loadSelectDataList() {
-      sp.get(`api/SysParamGroup/GetParamsList?code=${this.selectNameList.join(',')}`).then(resp => {
-        this.selectNameList.forEach((item, index) => {
-          this.$set(this.selectDataList, item, resp[index]);
-        });
-        if (this.loadSelectDataListComplete && typeof this.loadSelectDataListComplete === 'function') {
-          this.loadSelectDataListComplete();
-        }
+    async loadSelectDataList() {
+      const resp1 = await sp.get(`api/SysParamGroup/GetParamsList?code=${this.selectParamNameList.join(',')}`);
+      this.selectParamNameList.forEach((item, index) => {
+        this.$set(this.selectDataList, item, resp1[index]);
       });
+      const resp2 = await sp.get(`api/SysParamGroup/GetEntitiyList?code=${this.selectEntityNameList.join(',')}`);
+      this.selectEntityNameList.forEach((item, index) => {
+        this.$set(this.selectDataList, item, resp2[index]);
+      });
+      if (this.loadSelectDataListComplete && typeof this.loadSelectDataListComplete === 'function') {
+        this.loadSelectDataListComplete();
+      }
     }
   }
 };

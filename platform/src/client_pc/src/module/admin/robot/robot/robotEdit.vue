@@ -43,7 +43,7 @@ export default {
         hook: [{ required: true, message: '请输入钩子地址', trigger: 'blur' }],
         value: [{ required: true, message: '请输入值', trigger: 'blur' }]
       },
-      selectNameList: ['robot_type'],
+      selectParamNameList: ['robot_type'],
       robotType: []
     };
   }
