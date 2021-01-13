@@ -28,11 +28,11 @@ namespace SixpenceStudio.Core.Job
         /// 调度时间
         /// </summary>
         public abstract string CronExperssion { get; }
-        
+
         /// <summary>
         /// 任务
         /// </summary>
-        public abstract void Execute(IPersistBroker broker);
+        public abstract void Executing(IJobExecutionContext context);
 
         /// <summary>
         /// 任务执行
@@ -54,8 +54,7 @@ namespace SixpenceStudio.Core.Job
                 {
                     broker.ExecuteTransaction(() =>
                     {
-
-                        Execute(broker);
+                        Executing(context);
                         // 更新下次执行时间
                         var nextTime = JobHelpers.GetJobNextTime(Name);
                         var nextTimeSql = "";

@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using Quartz;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.SysConfig;
 using SixpenceStudio.Core.SysConfig.Config;
@@ -21,9 +22,9 @@ namespace SixpenceStudio.Core.Job
         public override string CronExperssion => "0 0 4 * * ?";
 
         public override string Description => "清理系统无效文件及整理日志";
-
-        public override void Execute(IPersistBroker broker)
+        public override void Executing(IJobExecutionContext context)
         {
+            var broker = PersistBrokerFactory.GetPersistBroker();
             DeletePictures(broker);
             ArchiveLog();
         }

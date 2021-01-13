@@ -1,12 +1,10 @@
-﻿using log4net.Repository.Hierarchy;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Job
@@ -17,14 +15,9 @@ namespace SixpenceStudio.Core.Job
     public static class JobHelpers
     {
         // 创建scheduler的引用
-        static StdSchedulerFactory schedFact;
-        static IScheduler sched;
+        static IScheduler sched = new StdSchedulerFactory().GetScheduler().Result;
 
-        static JobHelpers()
-        {
-            schedFact = schedFact ?? new StdSchedulerFactory();
-            sched = sched ?? schedFact.GetScheduler().Result;
-        }
+        static JobHelpers() { }
 
         /// <summary>
         /// 任务调度的使用过程
@@ -33,33 +26,20 @@ namespace SixpenceStudio.Core.Job
         public async static Task Run<T>(string cronExperssion, string name, string group, object param)
             where T : IJob
         {
-            await sched.Start();
-
-            // 创建 Job
             var job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)
                 .Build();
-            job.JobDataMap.Add("Context", param);
 
-            // 创建 trigger
+            job.JobDataMap.Add("Context", param);
+            job.JobDataMap.Add("User", UserIdentityUtil.GetCurrentUser());
+
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()
                 .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
                 .Build();
 
-            // 使用 trigger 规划执行任务 job
-            sched.ScheduleJob(job, trigger).Wait();
-            sched.Start().Wait();
-        }
-
-        /// <summary>
-        /// 删除job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        public static void DeleteJob(string name, string group)
-        {
-            sched.DeleteJob(new JobKey(name, group)).Wait();
+            await sched.ScheduleJob(job, trigger);
+            StartJob();
         }
 
         /// <summary>
@@ -67,25 +47,31 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal async static Task RunManually(Type type)
+        private async static Task RunOnce(Type type)
         {
-            // 1.创建scheduler的引用
-            await sched.Start();
-
-            // 3.创建 job
             var job = JobBuilder.Create(type)
                 .Build();
 
             job.JobDataMap.Add("User", UserIdentityUtil.GetCurrentUser());
 
-            // 4.创建 trigger
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()
                 .Build();
 
-            // 5.使用trigger规划执行任务job
             await sched.ScheduleJob(job, trigger);
+            StartJob();
         }
+
+        /// <summary>
+        /// 删除job
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        public static async void DeleteJob(string name, string group)
+        {
+            await sched.DeleteJob(new JobKey(name, group));
+        }
+
 
         /// <summary>
         /// 注册作业
@@ -95,32 +81,33 @@ namespace SixpenceStudio.Core.Job
             UnityContainerService.ResolveAll<IJob>()
                 .Each(item =>
                 {
-                    sched.Start().Wait();
-
-                    // 创建 Job
-                    var job = JobBuilder.Create(item.GetType())
-                        .Build();
-                    job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
-
                     if (item == null)
                     {
                         return;
                     }
 
-                    var cronExperssion = item.GetType().GetProperty("CronExperssion").GetValue(item).ToString();
-                    var name = item.GetType().GetProperty("Name").GetValue(item).ToString();
-                    if (!string.IsNullOrEmpty(cronExperssion))
+                    StartJob();
+
+                    // 创建 Job
+                    var instance = item as JobBase;
+                    var job = JobBuilder.Create(item.GetType())
+                        .WithIdentity(new JobKey(instance.Name, item.GetType().Namespace))
+                        .Build();
+                    new JobService().CreateOrUpdateData(instance);
+                    job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
+
+                    if (!string.IsNullOrEmpty(instance.CronExperssion))
                     {
                         // 创建 trigger
                         ITrigger trigger = TriggerBuilder.Create()
                             .StartNow()
-                            .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
+                            .WithSchedule(CronScheduleBuilder.CronSchedule(instance.CronExperssion))
                             .Build();
 
                         // 使用 trigger 规划执行任务 job
                         sched.ScheduleJob(job, trigger).Wait();
                     }
-                    logger.Info($"创建{name}Job成功");
+                    logger.Info($"创建{instance.Name}Job成功");
                 });
         }
 
@@ -156,13 +143,13 @@ namespace SixpenceStudio.Core.Job
                 var instance = Activator.CreateInstance(job.GetType()) as JobBase;
                 if (instance.Name.Equals(name))
                 {
-                    RunManually(job.GetType()).Wait();
+                    RunOnce(job.GetType()).Wait();
                 }
             });
         }
 
         /// <summary>
-        /// 停止Job
+        /// 停止所有 Job
         /// </summary>
         public static void PauseJob()
         {
@@ -170,21 +157,42 @@ namespace SixpenceStudio.Core.Job
         }
 
         /// <summary>
+        /// 暂停 Job
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        public static void PauseJob(string name, string group)
+        {
+            sched.PauseJob(new JobKey(name, group));
+        }
+
+        /// <summary>
         /// 继续
         /// </summary>
-        public static void Continue()
+        public static void Continue(string name, string group)
         {
-            sched.ResumeAll();
+            sched.ResumeJob(new JobKey(name, group));
         }
 
         /// <summary>
         /// 服务停止
         /// </summary>
-        public static void StopJob()
+        public async static void StopJob()
         {
             if (!sched.IsShutdown)
             {
-                sched.Shutdown();
+                await sched.Shutdown();
+            }
+        }
+
+        /// <summary>
+        /// 开启服务
+        /// </summary>
+        public async static void StartJob()
+        {
+            if (!sched.IsStarted)
+            {
+                await sched.Start();
             }
         }
     }
