@@ -1,5 +1,7 @@
 ﻿using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Job;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +24,13 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         }
         #endregion
 
+        public void RegisterJob()
+        {
+            var dataList = _cmd.GetAllEntity();
+            dataList.Each(item =>
+            {
+                JobHelpers.Run<RobotMessageTaskJob>(item.runtime, item.name, item.GetType().Namespace, item);
+            });
+        }
     }
 }

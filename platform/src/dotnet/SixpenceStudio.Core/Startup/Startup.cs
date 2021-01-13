@@ -62,6 +62,12 @@ namespace SixpenceStudio.Core.Startup
             logger.Info($"注册成功，共注册{jobTypeList.Count()}个");
             JobHelpers.Register(logger);
             #endregion
+
+            // 调用所有的IStartup
+            UnityContainerService.ResolveAll<IStartup>().Each(item =>
+            {
+                item.Configuration(app);
+            });
         }
     }
 }

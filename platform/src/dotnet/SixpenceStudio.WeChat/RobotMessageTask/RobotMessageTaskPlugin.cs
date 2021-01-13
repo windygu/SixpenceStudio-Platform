@@ -17,11 +17,11 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
             {
                 case EntityAction.PostCreate:
                 case EntityAction.PostUpdate:
-                    JobHelpers.Run<RobotMessageTaskJob>(obj.runtime, obj.name, obj.robotidName, obj).Wait();
+                    JobHelpers.Run<RobotMessageTaskJob>(obj.runtime, obj.name, obj.GetType().Namespace, obj).Wait();
                     break;
                 case EntityAction.PreUpdate:
                 case EntityAction.PostDelete:
-                    JobHelpers.DeleteJob(obj.name, obj.robotidName);
+                    JobHelpers.DeleteJob(obj.name, obj.GetType().Namespace);
                     break;
                 default:
                     break;
