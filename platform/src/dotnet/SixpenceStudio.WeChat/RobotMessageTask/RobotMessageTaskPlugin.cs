@@ -17,7 +17,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
             {
                 case EntityAction.PostCreate:
                 case EntityAction.PostUpdate:
-                    JobHelpers.Run<RobotMessageTaskJob>(obj.runtime, obj.name, obj.robotidName).Wait();
+                    JobHelpers.Run<RobotMessageTaskJob>(obj.runtime, obj.name, obj.robotidName, obj).Wait();
                     break;
                 case EntityAction.PreUpdate:
                 case EntityAction.PostDelete:

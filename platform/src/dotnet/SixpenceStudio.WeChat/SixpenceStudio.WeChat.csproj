@@ -154,9 +154,10 @@
     <Compile Include="RobotMessageTask\RobotMessageTaskPlugin.cs" />
     <Compile Include="RobotMessageTask\RobotMessageTaskService.cs" />
     <Compile Include="RobotMessageTask\robot_message_task.cs" />
-    <Compile Include="RobotMessage\EnterpriseWechatRobot.cs" />
-    <Compile Include="Robot\IRobot.cs" />
+    <Compile Include="Robot\EnterpriseWechatRobotClient.cs" />
+    <Compile Include="Robot\IRobotClient.cs" />
     <Compile Include="Robot\robot.cs" />
+    <Compile Include="Robot\RobotClientFacotry.cs" />
     <Compile Include="Robot\RobotController.cs" />
     <Compile Include="Robot\RobotService.cs" />
     <Compile Include="WeChatApi.cs" />
