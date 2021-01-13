@@ -202,6 +202,7 @@
     <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerPlugin.cs" />
+    <Compile Include="Entity\Service\BaseCommand.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
     <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />
     <Compile Include="Pixabay\PixabayApi.cs" />
@@ -266,7 +267,6 @@
     <Compile Include="Data\PersistBroker\PersistBroker.cs" />
     <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
-    <Compile Include="Entity\Service\IEntityCommand.cs" />
     <Compile Include="Entity\DataModel.cs" />
     <Compile Include="Entity\EntityNameAttribute.cs" />
     <Compile Include="Entity\KeyAttributesAttribute.cs" />

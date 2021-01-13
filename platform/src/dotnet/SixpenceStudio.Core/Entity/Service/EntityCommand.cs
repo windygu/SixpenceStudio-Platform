@@ -1,6 +1,7 @@
 ﻿using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Entity.Service;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,80 +10,17 @@ using System.Web;
 
 namespace SixpenceStudio.Core.Entity
 {
-    public class EntityCommand<E> : IEntityCommand<E>
+    public class EntityCommand<E> : BaseEntityCommand<E>
         where E : BaseEntity, new()
     {
-        #region 构造函数
-        public EntityCommand()
-        {
-            Broker = PersistBrokerFactory.GetPersistBroker();
-        }
-        public EntityCommand(IPersistBroker broker)
-        {
-            Broker = broker;
-        }
-        #endregion
-
-        public IPersistBroker Broker { get; set; }
-
-        /// <summary>
-        /// 创建实体记录
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public string Create(E entity)
-        {
-            if (string.IsNullOrEmpty(entity.Id))
-            {
-                return "";
-            }
-            var id = Broker.Create(entity);
-            return id;
-        }
-
-        /// <summary>
-        /// 创建或更新历史记录
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public string CreateOrUpdateData(E entity)
-        {
-            var id = entity.Id;
-            var isExist = GetEntity(id) != null;
-            if (isExist)
-            {
-                Update(entity);
-            }
-            else
-            {
-                id = Create(entity);
-            }
-            return id;
-        }
-
-        /// <summary>
-        /// 删除历史记录
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ids"></param>
-        public void Delete(IEnumerable<string> ids)
-        {
-            Broker.ExecuteTransaction(() =>
-            {
-                ids.Each(id =>
-                {
-                    var data = Broker.Retrieve<E>(id);
-                    Broker.Delete(new E().EntityName, id);
-                });
-            });
-        }
+        public EntityCommand() { }
+        public EntityCommand(IPersistBroker broker) : base(broker) { }
 
         /// <summary>
         ///  获取所有实体记录
         /// </summary>
         /// <returns></returns>
-        public IList<E> GetAllEntity()
+        public virtual IList<E> GetAllEntity()
         {
             var sql = $"SELECT *  FROM {new E().EntityName}";
             var data = Broker.RetrieveMultiple<E>(sql);
@@ -100,7 +38,7 @@ namespace SixpenceStudio.Core.Entity
         /// <param name="recordCount"></param>
         /// <param name="searchValue"></param>
         /// <returns></returns>
-        public IList<E> GetDataList(EntityView view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount, string searchValue = "")
+        public virtual IList<E> GetDataList(EntityView view, IList<SearchCondition> searchList, string orderBy, int pageSize, int pageIndex, out int recordCount, string searchValue = "")
         {
             var sql = view.Sql;
             var paramList = new Dictionary<string, object>();
@@ -121,7 +59,7 @@ namespace SixpenceStudio.Core.Entity
         /// <param name="searchList">搜索条件</param>
         /// <param name="orderBy">排序</param>
         /// <returns></returns>
-        public IList<E> GetDataList(EntityView view, IList<SearchCondition> searchList, string orderBy, string searchValue = "")
+        public virtual IList<E> GetDataList(EntityView view, IList<SearchCondition> searchList, string orderBy, string searchValue = "")
         {
             var sql = view.Sql;
             var paramList = new Dictionary<string, object>();
@@ -130,32 +68,6 @@ namespace SixpenceStudio.Core.Entity
 
             var data = Broker.RetrieveMultiple<E>(sql, paramList);
             return data;
-        }
-
-        /// <summary>
-        /// 获取实体记录
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public E GetEntity(string id)
-        {
-            return Broker.Retrieve<E>(id);
-        }
-
-        /// <summary>
-        /// 更新实体记录
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="entity"></param>
-        public void Update(E entity)
-        {
-            if (string.IsNullOrEmpty(entity?.Id))
-            {
-                return;
-            }
-
-            Broker.Update(entity);
         }
 
         /// <summary>

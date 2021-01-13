@@ -16,7 +16,7 @@ namespace SixpenceStudio.Core.Entity
         /// <summary>
         /// 实体操作
         /// </summary>
-        protected IEntityCommand<T> _cmd;
+        protected EntityCommand<T> _cmd;
 
         /// <summary>
         /// 数据库持久化
