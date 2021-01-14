@@ -29,9 +29,9 @@
       </a-col>
     </a-row>
     <a-row :gutter="24">
-      <a-col :span="12">
+      <a-col :span="24">
         <a-form-model-item label="内容">
-          <el-input v-model="data.content"></el-input>
+          <a-textarea v-model="data.content"></a-textarea>
         </a-form-model-item>
       </a-col>
     </a-row>

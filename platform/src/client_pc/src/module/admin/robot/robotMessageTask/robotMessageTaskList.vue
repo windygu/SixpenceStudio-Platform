@@ -23,10 +23,73 @@ export default {
         { prop: 'robotidName', label: '机器人' },
         { prop: 'content', label: '内容' },
         { prop: 'createdByName', label: '创建人' },
-        { prop: 'createdOn', label: '创建日期', type: 'datetime' }
+        { prop: 'createdOn', label: '创建日期', type: 'datetime' },
+        {
+          prop: 'action',
+          label: '操作',
+          type: 'actions',
+          actions: [
+            { name: '运行', size: 'small', method: this.start, type: '' },
+            { name: '暂停', size: 'small', method: this.pause, type: 'danger' },
+            { name: '继续', size: 'small', method: this.pause, type: 'primary' }
+          ]
+        }
       ],
       editComponent: robotMessageTaskEdit
     };
+  },
+  methods: {
+    start(row) {
+      this.$confirm({
+        title: '提示',
+        content: '是否确认运行该作业?',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          sp.get(`api/${this.controllerName}/RunOnce?id=${row.Id}`).then(() => {
+            this.$refs.list.loadData();
+            this.$message.success('执行成功');
+          });
+        },
+        onCancel: () => {
+          this.$message.info('已取消');
+        }
+      });
+    },
+    pause(row) {
+      this.$confirm({
+        title: '提示',
+        content: '是否暂停该作业?',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          sp.get(`api/${this.controllerName}/PauseJob?id=${row.Id}`).then(() => {
+            this.$refs.list.loadData();
+            this.$message.success('执行成功');
+          });
+        },
+        onCancel: () => {
+          this.$message.info('已取消');
+        }
+      });
+    },
+    resume(row) {
+      this.$confirm({
+        title: '提示',
+        content: '是否继续该作业?',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          sp.get(`api/${this.controllerName}/ResumeJob?id=${row.Id}`).then(() => {
+            this.$refs.list.loadData();
+            this.$message.success('执行成功');
+          });
+        },
+        onCancel: () => {
+          this.$message.info('已取消');
+        }
+      });
+    }
   }
 };
 </script>

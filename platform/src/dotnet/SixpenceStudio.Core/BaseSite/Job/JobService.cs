@@ -113,9 +113,9 @@ ORDER BY name
         /// </summary>
         /// <param name="name"></param>
         /// <param name="group"></param>
-        public void ContinueJob(string name, string group)
+        public void ResumeJob(string name, string group)
         {
-            JobHelpers.Continue(name, group);
+            JobHelpers.ResumeJob(name, group);
         }
 
     }

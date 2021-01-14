@@ -12,12 +12,17 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
     {
         public void Execute(Context context)
         {
+            if (context.EntityName != "robot_message_task")
+            {
+                return;
+            }
+
             var obj = context.Entity as robot_message_task;
             switch (context.Action)
             {
                 case EntityAction.PostCreate:
                 case EntityAction.PostUpdate:
-                    JobHelpers.Run<RobotMessageTaskJob>(obj.runtime, obj.name, obj.GetType().Namespace, obj).Wait();
+                    JobHelpers.RegisterJob<RobotMessageTaskJob>(obj, obj.runtime);
                     break;
                 case EntityAction.PreUpdate:
                 case EntityAction.PostDelete:

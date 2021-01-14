@@ -22,7 +22,7 @@ namespace SixpenceStudio.WeChat
             {
                 new RobotMessageTaskService().GetAllData().Each(item =>
                 {
-                    JobHelpers.Run<RobotMessageTaskJob>(item.runtime, item.name, item.GetType().Namespace, item).Wait();
+                    JobHelpers.RegisterJob<RobotMessageTaskJob>(item, item.runtime);
                     logger.Info($"机器人[{item.robotidName}]的[{item.name}]作业已启动");
                 });
                 logger.Info("机器人启动完毕");

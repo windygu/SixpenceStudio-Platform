@@ -36,7 +36,9 @@
         </template>
         <span v-if="operationColumn" slot="action" slot-scope="text, record">
           <template v-for="(action, index) in operationColumn.actions">
-            <a-button :size="action.size" type="primary" @click="action.method(record)" :key="index">{{ action.name }}</a-button>
+            <a-button :size="action.size" :type="action.type || ''" @click="action.method(record)" :key="index" style="margin-right: 5px">{{
+              action.name
+            }}</a-button>
           </template>
         </span>
       </a-table>

@@ -20,25 +20,54 @@ namespace SixpenceStudio.Core.Job
         static JobHelpers() { }
 
         /// <summary>
-        /// 任务调度的使用过程
+        /// 注册job
         /// </summary>
-        /// <returns></returns>
-        public async static Task Run<T>(string cronExperssion, string name, string group, object param)
-            where T : IJob
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        /// <param name="param"></param>
+        /// <param name="cronExperssion"></param>
+        public static void RegisterJob<T>(object context, string cronExperssion) where T : JobBase, new ()
         {
-            var job = JobBuilder.Create<T>()
-                .WithIdentity(name, group)
+            var job = new T();
+
+            var jobDetail = JobBuilder.Create<T>()
+                .WithIdentity(job.Name, job.GetType().Namespace)
                 .Build();
 
-            job.JobDataMap.Add("Context", param);
-            job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
+            jobDetail.JobDataMap.Add("Context", context);
+            jobDetail.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
+
+            TriggerBuilder builder = TriggerBuilder.Create().WithIdentity(job.Name, job.GetType().Namespace);
+            if (!string.IsNullOrEmpty(cronExperssion))
+            {
+                builder = builder.WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion));
+            }
+
+            ITrigger trigger = builder
+                .StartNow()
+                .Build();
+            sched.ScheduleJob(jobDetail, trigger).Wait();
+            StartJob();
+        }
+
+        /// <summary>
+        /// 手动运行一次
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="context"></param>
+        public static void RunOnce<T>(object context) where T : JobBase, new()
+        {
+            var jobDetail = JobBuilder.Create<T>()
+                .Build();
+
+            jobDetail.JobDataMap.Add("Context", context);
+            jobDetail.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
 
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithSchedule(CronScheduleBuilder.CronSchedule(cronExperssion))
                 .Build();
-
-            await sched.ScheduleJob(job, trigger);
+            sched.ScheduleJob(jobDetail, trigger).Wait();
             StartJob();
         }
 
@@ -47,7 +76,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private async static Task RunOnce(Type type)
+        private static void RunOnce(Type type)
         {
             var job = JobBuilder.Create(type)
                 .Build();
@@ -58,7 +87,7 @@ namespace SixpenceStudio.Core.Job
                 .StartNow()
                 .Build();
 
-            await sched.ScheduleJob(job, trigger);
+            sched.ScheduleJob(job, trigger);
             StartJob();
         }
 
@@ -69,7 +98,10 @@ namespace SixpenceStudio.Core.Job
         /// <param name="group"></param>
         public static async void DeleteJob(string name, string group)
         {
-            await sched.DeleteJob(new JobKey(name, group));
+            await sched.PauseJob(new JobKey(name, group)); // 停止任务
+            await sched.PauseTrigger(new TriggerKey(name, group)); // 停止触发器
+            await sched.UnscheduleJob(new TriggerKey(name, group)); // 移除触发器
+            await sched.DeleteJob(new JobKey(name, group)); // 删除任务
         }
 
 
@@ -104,7 +136,7 @@ namespace SixpenceStudio.Core.Job
                             .Build();
 
                         // 使用 trigger 规划执行任务 job
-                        sched.ScheduleJob(job, trigger).Wait();
+                        sched.ScheduleJob(job, trigger);
                     }
                 });
         }
@@ -141,17 +173,9 @@ namespace SixpenceStudio.Core.Job
                 var instance = Activator.CreateInstance(job.GetType()) as JobBase;
                 if (instance.Name.Equals(name))
                 {
-                    RunOnce(job.GetType()).Wait();
+                    RunOnce(job.GetType());
                 }
             });
-        }
-
-        /// <summary>
-        /// 停止所有 Job
-        /// </summary>
-        public static void PauseJob()
-        {
-            sched.PauseAll();
         }
 
         /// <summary>
@@ -161,21 +185,23 @@ namespace SixpenceStudio.Core.Job
         /// <param name="group"></param>
         public static void PauseJob(string name, string group)
         {
-            sched.PauseJob(new JobKey(name, group));
+            sched.PauseTrigger(new TriggerKey(name, group)); // 暂停触发器
+            sched.PauseJob(new JobKey(name, group)); // 暂停job
         }
 
         /// <summary>
         /// 继续
         /// </summary>
-        public static void Continue(string name, string group)
+        public static void ResumeJob(string name, string group)
         {
+            sched.ResumeTrigger(new TriggerKey(name, group));
             sched.ResumeJob(new JobKey(name, group));
         }
 
         /// <summary>
         /// 服务停止
         /// </summary>
-        public async static void StopJob()
+        public async static void Shutdown()
         {
             if (!sched.IsShutdown)
             {

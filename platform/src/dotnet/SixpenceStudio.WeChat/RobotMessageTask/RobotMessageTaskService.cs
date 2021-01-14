@@ -28,5 +28,23 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         {
             return _cmd.GetAllEntity();
         }
+
+        public void RunOnce(string id)
+        {
+            var data = GetData(id);
+            JobHelpers.RunOnce<RobotMessageTaskJob>(data);
+        }
+
+        public void PauseJob(string id)
+        {
+            var data = GetData(id);
+            JobHelpers.PauseJob(data.name, data.GetType().Namespace);
+        }
+
+        public void ResumeJob(string id)
+        {
+            var data = GetData(id);
+            JobHelpers.ResumeJob(data.name, data.GetType().Namespace);
+        }
     }
 }

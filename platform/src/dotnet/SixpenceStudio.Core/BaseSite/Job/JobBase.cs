@@ -42,9 +42,10 @@ namespace SixpenceStudio.Core.Job
         public Task Execute(IJobExecutionContext context)
         {
             var user = context.JobDetail.JobDataMap.Get("User") as CurrentUserModel;
+            var logger = LogFactory.GetLogger("job");
             return Task.Factory.StartNew(() =>
             {
-                LogUtils.Debug($"作业：{Name} 开始执行");
+                logger.Debug($"作业：{Name} 开始执行");
 
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
@@ -74,11 +75,10 @@ namespace SixpenceStudio.Core.Job
                 }
                 catch (Exception e)
                 {
-                    LogUtils.Error($"作业：{Name}执行异常\r\n{e.Message}\r\n{e.StackTrace}");
-                    throw e;
+                    logger.Error($"作业：{Name}执行异常", e);
                 }
                 stopWatch.Stop();
-                LogUtils.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");
+                logger.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");
             });
         }
     }
