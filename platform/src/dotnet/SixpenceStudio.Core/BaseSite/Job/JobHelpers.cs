@@ -31,7 +31,7 @@ namespace SixpenceStudio.Core.Job
                 .Build();
 
             job.JobDataMap.Add("Context", param);
-            job.JobDataMap.Add("User", UserIdentityUtil.GetCurrentUser());
+            job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
 
             ITrigger trigger = TriggerBuilder.Create()
                 .StartNow()

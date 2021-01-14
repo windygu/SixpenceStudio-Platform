@@ -28,14 +28,5 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         {
             return _cmd.GetAllEntity();
         }
-
-        public void RegisterJob()
-        {
-            var dataList = _cmd.GetAllEntity();
-            dataList.Each(item =>
-            {
-                
-            });
-        }
     }
 }
