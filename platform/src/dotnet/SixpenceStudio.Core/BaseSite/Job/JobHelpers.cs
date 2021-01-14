@@ -93,7 +93,6 @@ namespace SixpenceStudio.Core.Job
                     var job = JobBuilder.Create(item.GetType())
                         .WithIdentity(new JobKey(instance.Name, item.GetType().Namespace))
                         .Build();
-                    new JobService().CreateOrUpdateData(instance);
                     job.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
 
                     if (!string.IsNullOrEmpty(instance.CronExperssion))

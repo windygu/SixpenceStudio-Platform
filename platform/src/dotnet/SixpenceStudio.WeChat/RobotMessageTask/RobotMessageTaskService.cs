@@ -24,12 +24,17 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         }
         #endregion
 
+        public IEnumerable<robot_message_task> GetAllData()
+        {
+            return _cmd.GetAllEntity();
+        }
+
         public void RegisterJob()
         {
             var dataList = _cmd.GetAllEntity();
             dataList.Each(item =>
             {
-                JobHelpers.Run<RobotMessageTaskJob>(item.runtime, item.name, item.GetType().Namespace, item);
+                
             });
         }
     }
