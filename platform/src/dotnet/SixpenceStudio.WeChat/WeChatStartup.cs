@@ -18,11 +18,11 @@ namespace SixpenceStudio.WeChat
         {
             var logger = LogFactory.GetLogger("startup");
             logger.Info("正在启动机器人作业...");
-            new RobotMessageTaskService().GetAllData().Each(item =>
-            {
-                JobHelpers.Run<RobotMessageTaskJob>(item.runtime, item.name, item.GetType().Namespace, item).Wait();
-                logger.Info($"机器人[{item.robotidName}]的[{item.name}]作业已启动");
-            });
+            //new RobotMessageTaskService().GetAllData().Each(item =>
+            //{
+            //    JobHelpers.Run<RobotMessageTaskJob>(item.runtime, item.name, item.GetType().Namespace, item).Wait();
+            //    logger.Info($"机器人[{item.robotidName}]的[{item.name}]作业已启动");
+            //});
             logger.Info("机器人启动完毕");
         }
     }

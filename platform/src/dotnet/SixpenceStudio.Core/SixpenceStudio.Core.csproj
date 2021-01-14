@@ -280,7 +280,6 @@
     <Compile Include="BaseSite\Job\JobHelpers.cs" />
     <Compile Include="IoC\UnityRegisterAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
-    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogUtils.cs" />
     <Compile Include="Logging\WebApiMonitorLog.cs" />
     <Compile Include="Logging\WebApiTrackerArribute.cs" />

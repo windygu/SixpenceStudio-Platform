@@ -39,6 +39,18 @@ namespace SixpenceStudio.Core.Startup
             WebApiConfig.Register(app, config);
             logger.Info("Api注册成功");
 
+            var typeList = new List<Type>();
+            AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll").ForEach(item => typeList.AddRange(item.GetTypes()));
+            #region IoC注册
+            var interfaces = typeList.Where(item => item.IsInterface && item.IsDefined(typeof(UnityRegisterAttribute), false)).ToList();
+            interfaces.ForEach(item =>
+            {
+                var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item)).ToList();
+                types.ForEach(type => UnityContainerService.RegisterType(item, type, type.Name));
+            });
+            logger.Info("IoC注册成功");
+            #endregion
+
             // 调用所有的启动类
             UnityContainerService.ResolveAll<IStartup>().Each(item => item.Configuration(app));
         }

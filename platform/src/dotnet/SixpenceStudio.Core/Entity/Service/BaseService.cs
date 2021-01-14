@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using log4net;
+using SixpenceStudio.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace SixpenceStudio.Core.Entity
     public class BaseService
     {
         protected IPersistBroker broker;
-        protected Logging.Logger logger;
+        protected ILog logger;
     }
 }

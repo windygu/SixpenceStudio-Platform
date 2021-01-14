@@ -1,4 +1,5 @@
 ﻿using Brotli;
+using log4net;
 using Newtonsoft.Json;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
@@ -19,7 +20,7 @@ namespace SixpenceStudio.Core.Pixabay
     public class PixabayApi
     {
         private static readonly string key = "19356383-2f75a9b525aa933f63ab20ab5";
-        private static Logger logger = LogFactory.GetLogger("PixabayApi");
+        private static ILog logger = LogFactory.GetLogger("PixabayApi");
         private static string Get(string url)
         {
             var request = WebRequest.Create(url) as HttpWebRequest;

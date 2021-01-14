@@ -76,7 +76,7 @@ namespace SixpenceStudio.Core.Job
         /// <summary>
         /// 注册作业
         /// </summary>
-        public static void Register(Logging.Logger logger)
+        public static void Register()
         {
             UnityContainerService.ResolveAll<IJob>()
                 .Each(item =>
@@ -106,7 +106,6 @@ namespace SixpenceStudio.Core.Job
                         // 使用 trigger 规划执行任务 job
                         sched.ScheduleJob(job, trigger).Wait();
                     }
-                    logger.Info($"创建{instance.Name}Job成功");
                 });
         }
 

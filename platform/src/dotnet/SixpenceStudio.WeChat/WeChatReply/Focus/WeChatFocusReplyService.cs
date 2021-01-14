@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core;
+﻿using log4net;
+using SixpenceStudio.Core;
 using SixpenceStudio.Core.Configs;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
@@ -23,7 +24,7 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
         }
         #endregion
 
-        private Logger Logger = LogFactory.GetLogger("wechat");
+        private ILog logger = LogFactory.GetLogger("wechat");
 
         public void Activate(string id)
         {
@@ -59,7 +60,7 @@ select * from wechat_focus_reply where wechat = @wechat
             if (!string.IsNullOrEmpty(message.EventName) && message.EventName.Trim() == "subscribe")
             {
                 var reply = GetData()?.content ?? "感谢您的关注！";
-                Logger.Info($"收到来自{message.FromUserName}的关注");
+                logger.Info($"收到来自{message.FromUserName}的关注");
                 return string.Format(WeChatMessageTemplate.Text, message.FromUserName, message.ToUserName, DateTime.Now.Ticks, reply);
             }
             return "";
