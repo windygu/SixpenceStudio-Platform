@@ -29,7 +29,7 @@ namespace SixpenceStudio.Core.Startup
                 logger.Info($"注册{type.Name}成功");
             });
             logger.Info($"注册成功，共注册{jobTypeList.Count()}个");
-            JobHelpers.Register();
+            JobHelpers.Start();
             #endregion
         }
     }

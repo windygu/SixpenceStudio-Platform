@@ -19,7 +19,7 @@ namespace SixpenceStudio.Core.Job
     {
         public override string Name => "系统作业";
 
-        public override string CronExperssion => "0 0 4 * * ?";
+        public override IScheduleBuilder ScheduleBuilder => CronScheduleBuilder.CronSchedule("0 0 4 * * ?");
 
         public override string Description => "清理系统无效文件及整理日志";
         public override void Executing(IJobExecutionContext context)

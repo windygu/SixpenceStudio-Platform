@@ -17,36 +17,5 @@ namespace SixpenceStudio.Core.Job
         {
             return new JobService().GetDataList();
         }
-
-        /// <summary>
-        /// 执行job
-        /// </summary>
-        /// <param name="name"></param>
-        [HttpPost, HttpGet]
-        public void StartJob(string name)
-        {
-            new JobService().StartJob(name);
-        }
-
-        /// <summary>
-        /// 暂停 job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        [HttpGet]
-        public void PauseJob(string name, string group)
-        {
-            new JobService().PauseJob(name, group);
-        }
-
-        /// <summary>
-        /// 删除 job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        public void Delete(string name, string group)
-        {
-            new JobService().DeleteJob(name, group);
-        }
     }
 }

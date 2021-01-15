@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Utils;
@@ -32,7 +33,12 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         public void RunOnce(string id)
         {
             var data = GetData(id);
-            JobHelpers.RunOnce<RobotMessageTaskJob>(data);
+            var paramList = new Dictionary<string, object>()
+            {
+                { "Entity", data },
+                { "User", UserIdentityUtil.GetAdmin() }
+            };
+            JobHelpers.RunOnceNow(data.name, data.robotidName, paramList);
         }
 
         public void PauseJob(string id)

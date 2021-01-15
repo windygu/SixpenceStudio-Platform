@@ -1,84 +1,55 @@
 ﻿using log4net;
 using Quartz;
 using SixpenceStudio.Core.Auth;
-using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Job
 {
     /// <summary>
-    /// Job基类（所有Job继承该基类）
+    /// Job基类（所有动态Job继承该基类）
     /// </summary>
     [DisallowConcurrentExecution]
-    public abstract class JobBase : IJob
+    public abstract class DynamicJobBase : IJob
     {
+        public DynamicJobBase(string name, string group, string cron)
+        {
+            JobKey = new JobKey(name, group);
+            Name = name;
+            ScheduleBuilder = CronScheduleBuilder.CronSchedule(cron);
+        }
+
+        public JobKey JobKey;
+
         /// <summary>
         /// 作业名
         /// </summary>
-        public abstract string Name { get; }
+        public string Name;
 
         /// <summary>
         /// 日志
         /// </summary>
         protected ILog Logger => LogFactory.GetLogger("job_" + GetType().Name);
 
-        /// <summary>
-        /// Job Key
-        /// </summary>
-        public virtual JobKey JobKey => new JobKey(Name, GetType().Namespace);
-
-        /// <summary>
-        /// 默认触发器状态
-        /// </summary>
-        public virtual TriggerState DefaultTriggerState => TriggerState.Normal;
-
-        /// <summary>
-        /// 作业描述
-        /// </summary>
-        public abstract string Description { get; }
-
-        /// <summary>
-        /// 任务
-        /// </summary>
         public abstract void Executing(IJobExecutionContext context);
-
-        /// <summary>
-        /// 任务执行
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public Task Execute(IJobExecutionContext context)
         {
             var user = context.JobDetail.JobDataMap.Get("User") as CurrentUserModel;
             var logger = LogFactory.GetLogger("job");
             return Task.Factory.StartNew(() =>
             {
-                logger.Debug($"作业：{Name} 开始执行");
-
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
-                var broker = PersistBrokerFactory.GetPersistBroker();
-                UserIdentityUtil.SetCurrentUser(user);
+                logger.Debug($"作业：{Name} 开始执行");
                 try
                 {
-                    broker.ExecuteTransaction(() =>
-                    {
-                        Executing(context);
-                        // 更新下次执行时间
-                        var nextTime = JobHelpers.GetJobNextTime(Name);
-                        var nextTimeSql = "";
-                        var paramList = new Dictionary<string, object>() {
-                            { "@time", DateTime.Now },
-                            { "@name", Name }
-                        };
-                        paramList.Add("@nextTime", Convert.ToDateTime(nextTime));
-                        nextTimeSql = ", nextruntime = @nextTime";
-                        broker.Execute($"UPDATE job SET lastruntime = @time {nextTimeSql} WHERE name = @name", paramList);
-                    });
+                    UserIdentityUtil.SetCurrentUser(user);
+                    Executing(context);
                 }
                 catch (Exception e)
                 {
@@ -96,14 +67,13 @@ namespace SixpenceStudio.Core.Job
         public virtual JobBuilder GetJobBuilder()
         {
             return JobBuilder.Create(GetType())
-                    .WithIdentity(JobKey.Name, JobKey.Group)
-                    .WithDescription(Description);
+                    .WithIdentity(JobKey.Name, JobKey.Group);
         }
 
         /// <summary>
         /// 计划生成
         /// </summary>
-        public virtual IScheduleBuilder ScheduleBuilder => null;
+        public IScheduleBuilder ScheduleBuilder;
         public virtual TriggerBuilder GetTriggerBuilder()
         {
             if (ScheduleBuilder == null)
@@ -114,7 +84,6 @@ namespace SixpenceStudio.Core.Job
             return TriggerBuilder
                     .Create()
                     .WithIdentity(JobKey.Name, JobKey.Group)
-                    .WithDescription(Description)
                     .WithSchedule(ScheduleBuilder)
                     .StartAt(SystemTime.UtcNow().AddSeconds(5));
         }

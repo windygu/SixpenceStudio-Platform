@@ -26,35 +26,6 @@ namespace SixpenceStudio.Core.Job
         #endregion
 
         /// <summary>
-        /// 创建或更新
-        /// </summary>
-        /// <param name="job"></param>
-        public void CreateOrUpdateData(JobBase job)
-        {
-            var sql = @"
-SELECT * FROM job
-WHERE name = @name
-";
-            var data = Broker.Retrieve<job>(sql, new Dictionary<string, object>() { { "@name", job.Name } });
-            if (data != null)
-            {
-                data.runTime = job.CronExperssion;
-                data.description = job.Description;
-            }
-            else
-            {
-                data = new job()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    name = job.Name,
-                    description = job.Description,
-                    runTime = job.CronExperssion
-                };
-            }
-            Broker.Save(data);
-        }
-
-        /// <summary>
         /// 删除job列表不存在的job
         /// </summary>
         /// <param name="jobNameList"></param>
@@ -78,45 +49,5 @@ ORDER BY name
             var dataList = _cmd.Broker.RetrieveMultiple<job>(sql);
             return dataList;
         }
-
-        /// <summary>
-        /// 手动执行job
-        /// </summary>
-        /// <param name="name"></param>
-        public void StartJob(string name)
-        {
-            JobHelpers.StartJob(name);
-        }
-
-        /// <summary>
-        ///删除job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        public void DeleteJob(string name, string group)
-        {
-            JobHelpers.DeleteJob(name, group);
-        }
-
-        /// <summary>
-        /// 暂停job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        public void PauseJob(string name, string group)
-        {
-            JobHelpers.PauseJob(name, group);
-        }
-
-        /// <summary>
-        /// 继续job
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="group"></param>
-        public void ResumeJob(string name, string group)
-        {
-            JobHelpers.ResumeJob(name, group);
-        }
-
     }
 }
