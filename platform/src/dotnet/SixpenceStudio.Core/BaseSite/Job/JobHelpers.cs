@@ -141,7 +141,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         /// <param name="jobName"></param>
         /// <returns></returns>
-        public static DateTimeOffset? GetJobNextTime(string jobName)
+        public static DateTimeOffset GetJobNextTime(string jobName)
         {
             var jobs = UnityContainerService.ResolveAll<IJob>();
             var datetime = new DateTimeOffset();

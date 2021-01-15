@@ -75,7 +75,7 @@ namespace SixpenceStudio.Core.Job
                             { "@time", DateTime.Now },
                             { "@name", Name }
                         };
-                        paramList.Add("@nextTime", Convert.ToDateTime(nextTime));
+                        paramList.Add("@nextTime", nextTime.UtcDateTime);
                         nextTimeSql = ", nextruntime = @nextTime";
                         broker.Execute($"UPDATE job SET lastruntime = @time {nextTimeSql} WHERE name = @name", paramList);
                     });
