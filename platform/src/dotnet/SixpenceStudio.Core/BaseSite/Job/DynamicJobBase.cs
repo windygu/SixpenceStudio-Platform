@@ -14,7 +14,7 @@ namespace SixpenceStudio.Core.Job
     /// <summary>
     /// Job基类（所有动态Job继承该基类）
     /// </summary>
-    [DisallowConcurrentExecution]
+    [DisallowConcurrentExecution, DynamicJob]
     public abstract class DynamicJobBase : IJob
     {
         public DynamicJobBase(string name, string group, string cron)

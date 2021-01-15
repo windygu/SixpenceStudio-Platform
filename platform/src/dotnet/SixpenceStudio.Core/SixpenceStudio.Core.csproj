@@ -201,6 +201,7 @@
     <Compile Include="BaseSite\gallery\GalleryController.cs" />
     <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
+    <Compile Include="BaseSite\Job\DynamicJobAttribute.cs" />
     <Compile Include="BaseSite\Job\DynamicJobBase.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerPlugin.cs" />
     <Compile Include="Entity\Service\BaseCommand.cs" />

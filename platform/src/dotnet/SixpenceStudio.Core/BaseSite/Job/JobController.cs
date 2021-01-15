@@ -17,5 +17,11 @@ namespace SixpenceStudio.Core.Job
         {
             return new JobService().GetDataList();
         }
+
+        [HttpGet]
+        public void RunOnceNow(string name)
+        {
+            new JobService().RunOnceNow(name);
+        }
     }
 }

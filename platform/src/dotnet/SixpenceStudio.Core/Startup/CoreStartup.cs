@@ -21,7 +21,7 @@ namespace SixpenceStudio.Core.Startup
             AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll").ForEach(item => typeList.AddRange(item.GetTypes()));
 
             #region Job注册
-            var jobTypeList = typeList.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)));
+            var jobTypeList = typeList.Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)) && !type.IsDefined(typeof(DynamicJobAttribute), true));
             logger.Info($"共发现{jobTypeList.Count()}个Job待注册");
             jobTypeList.Each(type =>
             {

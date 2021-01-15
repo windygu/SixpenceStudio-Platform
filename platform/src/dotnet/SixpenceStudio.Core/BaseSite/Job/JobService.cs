@@ -1,13 +1,10 @@
 ﻿using Quartz;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
-using SixpenceStudio.Core.Job;
-using SixpenceStudio.Core.Logging;
+using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace SixpenceStudio.Core.Job
 {
@@ -48,6 +45,22 @@ ORDER BY name
 ";
             var dataList = _cmd.Broker.RetrieveMultiple<job>(sql);
             return dataList;
+        }
+
+        /// <summary>
+        /// 运行一次job
+        /// </summary>
+        /// <param name="name"></param>
+        public void RunOnceNow(string name)
+        {
+            UnityContainerService.ResolveAll<IJob>().Each(item =>
+            {
+                var job = item as JobBase;
+                if (job.Name == name)
+                {
+                    JobHelpers.RunOnceNow(job.Name, typeof(job).Namespace);
+                }
+            });
         }
     }
 }

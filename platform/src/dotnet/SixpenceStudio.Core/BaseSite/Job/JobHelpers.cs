@@ -32,12 +32,6 @@ namespace SixpenceStudio.Core.Job
                         return;
                     }
 
-                    // 如果没有继承 JobBase 不需要运行
-                    if (!(item is JobBase))
-                    {
-                        return;
-                    }
-
                     // 创建 Job
                     var instance = item as JobBase;
 

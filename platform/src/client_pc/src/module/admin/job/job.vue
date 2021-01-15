@@ -38,7 +38,7 @@ export default {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          sp.get(`api/${this.controllerName}/StartJob?name=${row.name}`)
+          sp.get(`api/${this.controllerName}/RunOnceNow?name=${row.name}`)
             .then(() => {
               this.$refs.list.loadData();
               this.$message.success('执行成功');
