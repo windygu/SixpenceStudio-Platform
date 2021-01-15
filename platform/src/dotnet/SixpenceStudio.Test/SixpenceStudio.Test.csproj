@@ -54,6 +54,10 @@
       <Project>{8be4a4eb-b842-4133-adf9-a3581d47c8a3}</Project>
       <Name>SixpenceStudio.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj">
+      <Project>{638fed7c-15f5-499e-a772-a78a4a884926}</Project>
+      <Name>SixpenceStudio.WeChat</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
