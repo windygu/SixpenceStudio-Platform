@@ -22,6 +22,7 @@ namespace SixpenceStudio.Core.Job
         public override IScheduleBuilder ScheduleBuilder => CronScheduleBuilder.CronSchedule("0 0 4 * * ?");
 
         public override string Description => "清理系统无效文件及整理日志";
+
         public override void Executing(IJobExecutionContext context)
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
@@ -46,7 +47,9 @@ WHERE
 ";
             var dataList = broker.RetrieveMultiple<sys_file>(sql);
             var ids = dataList.Select(item => item.Id).ToList();
-            new SysFileService().DeleteData(ids);
+            
+            new SysFileService(broker).DeleteData(ids);
+            Logger.Info($"找到{ids.Count}张过期图片文件，已删除");
         }
 
         /// <summary>
@@ -60,6 +63,7 @@ WHERE
                 var targetPath = FileUtil.GetSystemPath(FolderType.logArchive);
                 FileUtil.MoveFiles(fileList, targetPath);
                 DeleteLog();
+                Logger.Info("日志归档成功");
             }
             catch (Exception e)
             {

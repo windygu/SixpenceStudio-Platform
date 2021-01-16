@@ -35,6 +35,8 @@ namespace SixpenceStudio.Core.Logging
             }
         }
 
+        public string HttpAction => System.Web.HttpContext.Current.Request.HttpMethod.ToString();
+
         /// <summary>
         /// 获取监控指标日志
         /// </summary>
@@ -42,8 +44,8 @@ namespace SixpenceStudio.Core.Logging
         /// <returns></returns>
         public string GetLoginfo()
         {
-            string Msg = "WebApi: {0}";
-            return string.Format(Msg, Url);
+            string Msg = "{0}：{1}";
+            return string.Format(Msg, HttpAction, Url);
         }
 
         /// <summary>

@@ -42,6 +42,7 @@ namespace SixpenceStudio.Core.Logging
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            var logger = LogFactory.GetLogger("webapi");
             WebApiMonitorLog MonLog = actionExecutedContext.Request.Properties[Key] as WebApiMonitorLog;
             MonLog.ExecuteEndTime = DateTime.Now;
             MonLog.ActionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
@@ -53,10 +54,12 @@ namespace SixpenceStudio.Core.Logging
                 Action参数：{2}
                     ", MonLog.ControllerName, MonLog.ActionName, MonLog.GetCollections(MonLog.ActionParams));
                 LogUtils.Error(Msg, actionExecutedContext.Exception);
+                logger.Error(Msg, actionExecutedContext.Exception);
             }
             else
             {
                 LogUtils.Debug(MonLog.GetLoginfo());
+                logger.Debug(MonLog.GetLoginfo());
             }
         }
     }

@@ -31,7 +31,7 @@ export default {
           actions: [
             { name: '运行', size: 'small', method: this.start, type: '' },
             { name: '暂停', size: 'small', method: this.pause, type: 'danger' },
-            { name: '继续', size: 'small', method: this.pause, type: 'primary' }
+            { name: '继续', size: 'small', method: this.resume, type: 'primary' }
           ]
         }
       ],

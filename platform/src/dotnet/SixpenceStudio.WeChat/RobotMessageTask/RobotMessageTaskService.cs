@@ -44,13 +44,13 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         public void PauseJob(string id)
         {
             var data = GetData(id);
-            JobHelpers.PauseJob(data.name, data.GetType().Namespace);
+            JobHelpers.PauseJob(data.name, data.robotidName);
         }
 
         public void ResumeJob(string id)
         {
             var data = GetData(id);
-            JobHelpers.ResumeJob(data.name, data.GetType().Namespace);
+            JobHelpers.ResumeJob(data.name, data.robotidName);
         }
     }
 }

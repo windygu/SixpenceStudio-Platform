@@ -1,10 +1,13 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Job
@@ -15,16 +18,17 @@ namespace SixpenceStudio.Core.Job
     public static class JobHelpers
     {
         static IScheduler sched = new StdSchedulerFactory().GetScheduler().Result;
-
         static JobHelpers() { }
-
 
         /// <summary>
         /// 注册作业
         /// </summary>
         public static void Start()
         {
-            UnityContainerService.ResolveAll<IJob>()
+            var logger = LogFactory.GetLogger("startup");
+            var jobs = UnityContainerService.ResolveAll<IJob>().ToList();
+            logger.Info($"共发现{jobs.Count}个Job待运行");
+            jobs
                 .Each(item =>
                 {
                     if (item == null)
@@ -54,7 +58,7 @@ namespace SixpenceStudio.Core.Job
                         ITrigger trigger = triggerBuilder.Build();
                         // 使用 trigger 规划执行任务 job
                         sched.ScheduleJob(job, trigger);
-
+                        logger.Info($"作业[{instance.Name}]运行成功");
                         if (instance.DefaultTriggerState == TriggerState.Paused)
                         {
                             sched.PauseTrigger(trigger.Key);
@@ -71,7 +75,7 @@ namespace SixpenceStudio.Core.Job
         /// <param name="group"></param>
         /// <param name="param"></param>
         /// <param name="cronExperssion"></param>
-        public static void RegisterJob(DynamicJobBase job, object context)
+        public static void RegisterJob(DynamicJobBase job, BaseEntity entity)
         {
             StartService();
 
@@ -82,7 +86,7 @@ namespace SixpenceStudio.Core.Job
 
             var jobDetail = job.GetJobBuilder().Build();
 
-            jobDetail.JobDataMap.Add("Context", context);
+            jobDetail.JobDataMap.Add("Entity", entity);
             jobDetail.JobDataMap.Add("User", UserIdentityUtil.GetAdmin());
 
             ITrigger trigger = job.GetTriggerBuilder()
@@ -172,7 +176,8 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         public static void ResumeJob(string name, string group)
         {
-            sched.ResumeTrigger(new TriggerKey(name, group));
+            var triggerKey = new TriggerKey(name, group);
+            sched.ResumeTrigger(triggerKey);
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace SixpenceStudio.Core.Job
         /// <summary>
         /// 日志
         /// </summary>
-        protected ILog Logger => LogFactory.GetLogger("job_" + GetType().Name);
+        protected ILog Logger => LogFactory.GetLogger("job_" + GetType().Name.ToLower());
 
         /// <summary>
         /// Job Key
@@ -54,10 +54,9 @@ namespace SixpenceStudio.Core.Job
         public Task Execute(IJobExecutionContext context)
         {
             var user = context.JobDetail.JobDataMap.Get("User") as CurrentUserModel;
-            var logger = LogFactory.GetLogger("job");
             return Task.Factory.StartNew(() =>
             {
-                logger.Debug($"作业：{Name} 开始执行");
+                Logger.Debug($"作业：{Name} 开始执行");
 
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
@@ -82,10 +81,10 @@ namespace SixpenceStudio.Core.Job
                 }
                 catch (Exception e)
                 {
-                    logger.Error($"作业：{Name}执行异常", e);
+                    Logger.Error($"作业：{Name}执行异常", e);
                 }
                 stopWatch.Stop();
-                logger.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");
+                Logger.Debug($"作业：{Name} 执行结束，耗时{stopWatch.ElapsedMilliseconds}ms");
             });
         }
 

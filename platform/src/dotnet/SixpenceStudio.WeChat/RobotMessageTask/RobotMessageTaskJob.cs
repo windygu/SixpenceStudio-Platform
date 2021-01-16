@@ -13,6 +13,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
 {
     public class RobotMessageTaskJob : DynamicJobBase
     {
+        public RobotMessageTaskJob() { }
         public RobotMessageTaskJob(string name, string group, string cron) : base(name, group, cron) { }
 
         public override void Executing(IJobExecutionContext context)
