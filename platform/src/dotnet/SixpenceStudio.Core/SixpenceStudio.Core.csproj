@@ -201,9 +201,9 @@
     <Compile Include="BaseSite\gallery\GalleryController.cs" />
     <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
-    <Compile Include="BaseSite\Job\DynamicJobAttribute.cs" />
-    <Compile Include="BaseSite\Job\DynamicJobBase.cs" />
-    <Compile Include="BaseSite\Job\JobExtension.cs" />
+    <Compile Include="Job\DynamicJobAttribute.cs" />
+    <Compile Include="Job\DynamicJobBase.cs" />
+    <Compile Include="Job\JobExtension.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerPlugin.cs" />
     <Compile Include="Entity\Service\BaseCommand.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
@@ -279,8 +279,8 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\LongExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="BaseSite\Job\JobBase.cs" />
-    <Compile Include="BaseSite\Job\JobHelpers.cs" />
+    <Compile Include="Job\JobBase.cs" />
+    <Compile Include="Job\JobHelpers.cs" />
     <Compile Include="IoC\UnityRegisterAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\LogUtils.cs" />

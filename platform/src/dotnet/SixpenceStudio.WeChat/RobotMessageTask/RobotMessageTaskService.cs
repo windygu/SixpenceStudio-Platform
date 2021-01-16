@@ -59,7 +59,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         {
             var data = GetData(id);
             JobHelpers.ResumeJob(data.name, data.robotidName);
-            data.job_state = "'0";
+            data.job_state = "0";
             data.job_stateName = "正常";
             UpdateData(data);
         }

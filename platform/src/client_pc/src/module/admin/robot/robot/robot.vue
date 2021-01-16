@@ -20,7 +20,7 @@ export default {
       columns: [
         { prop: 'name', label: '机器人名' },
         { prop: 'hook', label: '钩子地址' },
-        { prop: 'robot_typename', label: '类型' },
+        { prop: 'robot_typeName', label: '类型' },
         { prop: 'description', label: '描述' },
         { prop: 'createdByName', label: '创建人' },
         { prop: 'createdOn', label: '创建日期', type: 'datetime' }

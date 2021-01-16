@@ -23,8 +23,8 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
             var robot = broker.Retrieve<robot>(entity.robotid);
             try
             {
-                //var client = RobotClientFacotry.GetClient(robot.robot_type, robot.hook);
-                //client.SendTextMessage(entity.content);
+                var client = RobotClientFacotry.GetClient(robot.robot_type, robot.hook);
+                client.SendTextMessage(entity.content);
                 Logger.Debug($"机器人[{robot.name}]发送了一条消息[{entity.content}]");
             }
             catch (Exception e)

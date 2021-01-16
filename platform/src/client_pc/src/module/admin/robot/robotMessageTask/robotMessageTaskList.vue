@@ -22,9 +22,9 @@ export default {
         { prop: 'name', label: '任务名' },
         { prop: 'runtime', label: '执行时间' },
         { prop: 'robotidName', label: '机器人' },
-        { prop: 'content', label: '内容' },
         { prop: 'message_typeName', label: '消息类型' },
         { prop: 'job_stateName', label: '任务状态' },
+        { prop: 'createdByName', label: '创建人' },
         {
           prop: 'action',
           label: '操作',

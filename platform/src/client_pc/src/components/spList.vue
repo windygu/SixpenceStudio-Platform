@@ -168,6 +168,9 @@ export default {
           dataIndex: item.prop,
           key: item.prop
         };
+        if (item.width) {
+          column.width = item.width;
+        }
         // 特殊列和首列需自定义列渲染
         if (item.type === 'datetime' || item.type === 'actions' || item.type === 'tag' || index === 0) {
           let prop = '';
