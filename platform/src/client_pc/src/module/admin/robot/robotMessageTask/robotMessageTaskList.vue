@@ -1,5 +1,6 @@
 <template>
   <sp-list
+    ref="list"
     :controller-name="controllerName"
     :operations="operations"
     :columns="columns"
@@ -22,8 +23,8 @@ export default {
         { prop: 'runtime', label: '执行时间' },
         { prop: 'robotidName', label: '机器人' },
         { prop: 'content', label: '内容' },
-        { prop: 'createdByName', label: '创建人' },
-        { prop: 'createdOn', label: '创建日期', type: 'datetime' },
+        { prop: 'message_typeName', label: '消息类型' },
+        { prop: 'job_stateName', label: '任务状态' },
         {
           prop: 'action',
           label: '操作',

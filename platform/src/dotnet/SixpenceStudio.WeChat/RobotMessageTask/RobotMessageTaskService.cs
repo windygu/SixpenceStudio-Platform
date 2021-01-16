@@ -38,19 +38,30 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
                 { "Entity", data },
                 { "User", UserIdentityUtil.GetAdmin() }
             };
+
             JobHelpers.RunOnceNow(data.name, data.robotidName, paramList);
+            var jobState = JobHelpers.GetJobStatus(data.name, data.robotidName).ToSelectModel();
+            data.job_state = jobState.Value.ToString();
+            data.job_stateName = jobState.Name;
+            UpdateData(data);
         }
 
         public void PauseJob(string id)
         {
             var data = GetData(id);
             JobHelpers.PauseJob(data.name, data.robotidName);
+            data.job_state = "1";
+            data.job_stateName = "暂停";
+            UpdateData(data);
         }
 
         public void ResumeJob(string id)
         {
             var data = GetData(id);
             JobHelpers.ResumeJob(data.name, data.robotidName);
+            data.job_state = "'0";
+            data.job_stateName = "正常";
+            UpdateData(data);
         }
     }
 }

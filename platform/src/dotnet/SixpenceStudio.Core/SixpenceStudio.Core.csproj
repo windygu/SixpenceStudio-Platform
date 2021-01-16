@@ -203,6 +203,7 @@
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
     <Compile Include="BaseSite\Job\DynamicJobAttribute.cs" />
     <Compile Include="BaseSite\Job\DynamicJobBase.cs" />
+    <Compile Include="BaseSite\Job\JobExtension.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerPlugin.cs" />
     <Compile Include="Entity\Service\BaseCommand.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />

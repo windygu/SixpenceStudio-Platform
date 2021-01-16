@@ -52,20 +52,19 @@ export default {
           return;
         }
       }
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate(async valid => {
         if (valid) {
           const operateName = sp.isNullOrEmpty(this.Id) ? 'CreateData' : 'UpdateData';
           if (sp.isNullOrEmpty(this.Id)) {
             this.data.Id = sp.newUUID();
           }
-          sp.post(`api/${this.controllerName}/${operateName}`, this.data).then(async () => {
-            this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
-            if (this.postSave && typeof this.postSave === 'function') {
-              await this.postSave();
-            }
-            this.$emit('close');
-            this.$emit('load-data');
-          });
+          await sp.post(`api/${this.controllerName}/${operateName}`, this.data);
+          this.$message.success(operateName === 'CreateData' ? '添加成功' : '更新成功');
+          if (this.postSave && typeof this.postSave === 'function') {
+            await this.postSave();
+          }
+          this.$emit('close');
+          this.$emit('load-data');
         } else {
           this.$message.error('请检查表单必填项');
         }

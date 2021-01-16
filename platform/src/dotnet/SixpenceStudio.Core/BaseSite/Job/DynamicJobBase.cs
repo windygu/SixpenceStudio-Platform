@@ -37,6 +37,11 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         protected ILog Logger => LogFactory.GetLogger("job_" + GetType().Name.ToLower());
 
+        /// <summary>
+        /// 默认触发器状态
+        /// </summary>
+        public virtual TriggerState DefaultTriggerState => TriggerState.Normal;
+
         public abstract void Executing(IJobExecutionContext context);
         public Task Execute(IJobExecutionContext context)
         {

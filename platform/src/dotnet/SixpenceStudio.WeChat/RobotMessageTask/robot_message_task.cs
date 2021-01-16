@@ -140,6 +140,45 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
             }
         }
 
+
+        /// <summary>
+        /// 任务状态
+        /// </summary>
+        private string _job_state;
+        [DataMember]
+        public string job_state
+        {
+            get
+            {
+                return this._job_state;
+            }
+            set
+            {
+                this._job_state = value;
+                SetAttributeValue("job_state", value);
+            }
+        }
+
+
+        /// <summary>
+        /// 任务状态名称
+        /// </summary>
+        private string _job_stateName;
+        [DataMember]
+        public string job_stateName
+        {
+            get
+            {
+                return this._job_stateName;
+            }
+            set
+            {
+                this._job_stateName = value;
+                SetAttributeValue("job_stateName", value);
+            }
+        }
+
+
         /// <summary>
         /// 创建人
         /// </summary>

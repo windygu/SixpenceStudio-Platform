@@ -75,7 +75,7 @@ namespace SixpenceStudio.Core.Job
         /// <param name="group"></param>
         /// <param name="param"></param>
         /// <param name="cronExperssion"></param>
-        public static void RegisterJob(DynamicJobBase job, BaseEntity entity)
+        public static void RegisterJob(DynamicJobBase job, BaseEntity entity, TriggerState state)
         {
             StartService();
 
@@ -92,6 +92,11 @@ namespace SixpenceStudio.Core.Job
             ITrigger trigger = job.GetTriggerBuilder()
                 .Build();
             sched.ScheduleJob(jobDetail, trigger).Wait();
+
+            if (state == TriggerState.Paused)
+            {
+                sched.PauseTrigger(trigger.Key);
+            }
         }
 
         /// <summary>
@@ -200,6 +205,17 @@ namespace SixpenceStudio.Core.Job
             {
                 await sched.Start();
             }
+        }
+
+        /// <summary>
+        /// 获取日志状态
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public static TriggerState GetJobStatus(string name, string group)
+        {
+            return sched.GetTriggerState(new TriggerKey(name, group)).Result;
         }
     }
 }
