@@ -25,6 +25,14 @@ namespace SixpenceStudio.Core.Utils
             });
         }
 
+        public static void Set(string key, object obj, DateTime expireDate)
+        {
+            MemoryCache.Default.Set(key, obj, new CacheItemPolicy()
+            {
+                AbsoluteExpiration = expireDate
+            });
+        }
+
         /// <summary>
         /// 取缓存项，如果不存在则返回空
         /// </summary>

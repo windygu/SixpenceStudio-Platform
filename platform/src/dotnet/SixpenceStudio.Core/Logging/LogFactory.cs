@@ -5,6 +5,7 @@ using log4net.Core;
 using log4net.Filter;
 using log4net.Layout;
 using log4net.Repository;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,6 @@ namespace SixpenceStudio.Core.Logging
     /// </summary>
     public class LogFactory
     {
-        private static Dictionary<string, ILog> loggers = new Dictionary<string, ILog>();
         private static readonly Object lockObject = new object();
 
         /// <summary>
@@ -28,20 +28,22 @@ namespace SixpenceStudio.Core.Logging
         {
             if (string.IsNullOrEmpty(name)) return null;
 
-            if (loggers.ContainsKey(name))
+            if (MemoryCacheUtil.Contains(name))
             {
-                return loggers[name];
+                return MemoryCacheUtil.GetCacheItem<ILog>(name);
             }
             else
             {
                 lock (lockObject)
                 {
-                    if (loggers.ContainsKey(name))
+                    if (MemoryCacheUtil.Contains(name))
                     {
-                        return loggers[name];
+                        return MemoryCacheUtil.GetCacheItem<ILog>(name);
                     }
                     var logger = CreateLoggerInstance(name);
-                    loggers.Add(name, logger);
+                    var now = DateTime.Now.AddDays(1);
+                    var expireDate = new DateTime(now.Year, now.Month, now.Day); // 晚上0点过期
+                    MemoryCacheUtil.Set(name, logger, expireDate);
                     return logger;
                 }
             }
