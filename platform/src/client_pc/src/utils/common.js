@@ -7,8 +7,23 @@ export function isNull(value) {
   return value === undefined || value === null;
 }
 
+/**
+ * 判断传入对象是否空
+ */
 export function isNullOrEmpty(value) {
-  return isNull(value) || value.trim().length === 0;
+  if (isNull(value)) {
+    return true;
+  }
+  switch (Object.prototype.toString.call(value)) {
+    case '[object String]':
+      return value.trim().length === 0;
+    case '[object Array]':
+      return value.length === 0;
+    case '[object Object]':
+      return Object.keys(value).length === 0;
+    default:
+      throw new TypeError();
+  }
 }
 
 export function getUser() {
