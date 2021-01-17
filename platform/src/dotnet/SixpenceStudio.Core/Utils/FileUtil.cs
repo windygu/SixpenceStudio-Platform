@@ -21,7 +21,7 @@ namespace SixpenceStudio.Core.Utils
         static FileUtil()
         {
             var config = ConfigFactory.GetConfig<StoreSection>();
-            ExceptionUtil.CheckBoolean<SpException>(config == null, "文件存储配置信息为空", "CA302515-07E6-455C-88C8-5EE130C486D2");
+            AssertUtil.CheckBoolean<SpException>(config == null, "文件存储配置信息为空", "CA302515-07E6-455C-88C8-5EE130C486D2");
             temp = config.temp;
             storage = config.storage;
             try

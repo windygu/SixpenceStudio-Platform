@@ -15,15 +15,6 @@ namespace SixpenceStudio.Core.Entity
     }
 
     /// <summary>
-    /// 选项集
-    /// </summary>
-    public class SelectModel
-    {
-        public string Name { get; set; }
-        public object Value { get; set; }
-    }
-
-    /// <summary>
     /// 搜索条件
     /// </summary>
     public class SearchCondition

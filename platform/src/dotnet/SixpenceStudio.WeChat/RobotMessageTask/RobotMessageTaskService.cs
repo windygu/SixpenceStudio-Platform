@@ -40,7 +40,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
             };
 
             JobHelpers.RunOnceNow(data.name, data.robotidName, paramList);
-            var jobState = JobHelpers.GetJobStatus(data.name, data.robotidName).ToSelectModel();
+            var jobState = JobHelpers.GetJobStatus(data.name, data.robotidName).ToSelectOption();
             data.job_state = jobState.Value.ToString();
             data.job_stateName = jobState.Name;
             UpdateData(data);

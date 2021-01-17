@@ -48,7 +48,7 @@ namespace SixpenceStudio.WeChat
         static WeChatService()
         {
             var config = ConfigFactory.GetConfig<WeChatSection>();
-            ExceptionUtil.CheckBoolean<SpException>(config == null, "未找到微信公众号配置", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
+            AssertUtil.CheckBoolean<SpException>(config == null, "未找到微信公众号配置", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
             _appid = config.appid;
             _token = config.token;
             _secret = config.secret;

@@ -23,7 +23,7 @@ namespace SixpenceStudio.WeChat
             var url = string.Format(GetAccessTokenApi, appid, secret);
             var resp = HttpUtil.Get(url);
             var respJson = JObject.Parse(resp);
-            ExceptionUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取微信授权失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
+            AssertUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取微信授权失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
             return (respJson.GetValue("access_token").ToString(), Convert.ToInt32(respJson.GetValue("expires_in").ToString()));
         }
 
@@ -48,7 +48,7 @@ namespace SixpenceStudio.WeChat
             var result = HttpUtil.Post(url, JsonConvert.SerializeObject(postData));
             var resultJson = JObject.Parse(result);
 
-            ExceptionUtil.CheckBoolean<SpException>(resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0", "获取微信素材失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
+            AssertUtil.CheckBoolean<SpException>(resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0", "获取微信素材失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
             return result;
         }
         #endregion
@@ -74,7 +74,7 @@ namespace SixpenceStudio.WeChat
             }));
             var resultJson = JObject.Parse(result);
 
-            ExceptionUtil.CheckBoolean<SpException>(resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0", "获取微信素材失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
+            AssertUtil.CheckBoolean<SpException>(resultJson.GetValue("errcode") != null && resultJson.GetValue("errcode").ToString() != "0", "获取微信素材失败", "87A36C30-3A62-457A-8D01-1A1E2C9250FC");
             return result;
         }
         #endregion
@@ -195,7 +195,7 @@ namespace SixpenceStudio.WeChat
         {
             var resp = HttpUtil.Get(string.Format(GetFocusUserListApi, WeChatService.AccessToken, nextOpenId));
             var respJson = JObject.Parse(resp);
-            ExceptionUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取关注用户列表失败", "C84A4B94-2B34-4F9C-9B85-9A260F8F9F98");
+            AssertUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取关注用户列表失败", "C84A4B94-2B34-4F9C-9B85-9A260F8F9F98");
             return resp;
         }
         #endregion
@@ -213,7 +213,7 @@ namespace SixpenceStudio.WeChat
         {
             var resp = HttpUtil.Get(string.Format(GetFocusUserApi, WeChatService.AccessToken, openId, lang));
             var respJson = JObject.Parse(resp);
-            ExceptionUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取关注用户基本信息失败", "4F52B0D5-0C83-492B-B420-373DB156229E");
+            AssertUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "获取关注用户基本信息失败", "4F52B0D5-0C83-492B-B420-373DB156229E");
             return resp;
         }
         #endregion
@@ -231,7 +231,7 @@ namespace SixpenceStudio.WeChat
         {
             var resp = HttpUtil.Post(string.Format(BatchGetFocusUserApi, WeChatService.AccessToken), postData);
             var respJson = JObject.Parse(resp);
-            ExceptionUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "批量获取关注用户基本信息失败", "D8E6DEC8-6887-4EAE-B685-9F175C1FB806");
+            AssertUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", "批量获取关注用户基本信息失败", "D8E6DEC8-6887-4EAE-B685-9F175C1FB806");
             return resp;
         }
         #endregion

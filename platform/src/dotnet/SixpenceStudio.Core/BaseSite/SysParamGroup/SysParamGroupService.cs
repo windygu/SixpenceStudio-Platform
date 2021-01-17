@@ -44,7 +44,7 @@ FROM
             };
         }
 
-        public IEnumerable<SelectModel> GetParams(string code)
+        public IEnumerable<SelectOption> GetParams(string code)
         {
             var sql = @"
 SELECT 
@@ -54,28 +54,28 @@ FROM sys_param
 INNER JOIN sys_paramgroup ON sys_param.sys_paramgroupid = sys_paramgroup.sys_paramgroupid
 WHERE sys_paramgroup.code = @code
 ";
-            return _cmd.Broker.Query<SelectModel>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
+            return _cmd.Broker.Query<SelectOption>(sql, new Dictionary<string, object>() { { "@code", code } }).ToList();
         }
 
-        public IEnumerable<IEnumerable<SelectModel>> GetParamsList(string[] paramsList)
+        public IEnumerable<IEnumerable<SelectOption>> GetParamsList(string[] paramsList)
         {
-            var dataList = new List<List<SelectModel>>();
+            var dataList = new List<List<SelectOption>>();
             return paramsList.Select(item => GetParams(item));
         }
 
-        public IEnumerable<SelectModel> GetEntities(string code)
+        public IEnumerable<SelectOption> GetEntities(string code)
         {
             var entity = Broker.Retrieve<sys_entity>(@"select * from sys_entity se where code = @code", new Dictionary<string, object>() { { "@code", code } });
             if (entity != null)
             {
-                return Broker.Query<SelectModel>($"select {entity.code}id AS Value, name AS Name from {entity.code}");
+                return Broker.Query<SelectOption>($"select {entity.code}id AS Value, name AS Name from {entity.code}");
             }
-            return new List<SelectModel>();
+            return new List<SelectOption>();
         }
 
-        public IEnumerable<IEnumerable<SelectModel>> GetEntitiyList(string[] paramsList)
+        public IEnumerable<IEnumerable<SelectOption>> GetEntitiyList(string[] paramsList)
         {
-            var dataList = new List<List<SelectModel>>();
+            var dataList = new List<List<SelectOption>>();
             return paramsList.Select(item => GetEntities(item));
         }
 

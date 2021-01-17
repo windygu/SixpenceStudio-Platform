@@ -11,13 +11,13 @@ namespace SixpenceStudio.Core.SysParamGroup
     public class SysParamGroupController : EntityBaseController<sys_paramgroup, SysParamGroupService>
     {
         [HttpGet]
-        public IEnumerable<SelectModel> GetParams(string code)
+        public IEnumerable<SelectOption> GetParams(string code)
         {
             return new SysParamGroupService().GetParams(code);
         }
 
         [HttpGet]
-        public IEnumerable<IEnumerable<SelectModel>> GetParamsList(string code)
+        public IEnumerable<IEnumerable<SelectOption>> GetParamsList(string code)
         {
             var codeList = new string[] { };
             if (!string.IsNullOrEmpty(code))
@@ -28,7 +28,7 @@ namespace SixpenceStudio.Core.SysParamGroup
         }
 
         [HttpGet]
-        public IEnumerable<IEnumerable<SelectModel>> GetEntitiyList(string code)
+        public IEnumerable<IEnumerable<SelectOption>> GetEntitiyList(string code)
         {
             var codeList = new string[] { };
             if (!string.IsNullOrEmpty(code))

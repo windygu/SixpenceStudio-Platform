@@ -201,6 +201,7 @@
     <Compile Include="BaseSite\gallery\GalleryController.cs" />
     <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
+    <Compile Include="Entity\SelectOption.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />
     <Compile Include="Job\DynamicJobBase.cs" />
     <Compile Include="Job\JobExtension.cs" />
@@ -297,7 +298,7 @@
     <Compile Include="Utils\AssemblyUtil.cs" />
     <Compile Include="Utils\CronUtil.cs" />
     <Compile Include="Utils\DecryptAndEncryptHelper.cs" />
-    <Compile Include="Utils\ExceptionUtil.cs" />
+    <Compile Include="Utils\AssertUtil.cs" />
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
     <Compile Include="Utils\ImageHelp.cs" />

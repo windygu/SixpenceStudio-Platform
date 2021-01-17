@@ -25,7 +25,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
                     JobHelpers.RegisterJob(new RobotMessageTaskJob(obj.name, obj.robotidName, obj.runtime), obj, obj.job_state.ToTriggerState());
                     break;
                 case EntityAction.PreCreate:
-                    var jobState = new RobotMessageTaskJob().DefaultTriggerState.ToSelectModel();
+                    var jobState = new RobotMessageTaskJob().DefaultTriggerState.ToSelectOption();
                     obj.job_state = jobState.Value.ToString();
                     obj.job_stateName = jobState.Name;
                     break;
