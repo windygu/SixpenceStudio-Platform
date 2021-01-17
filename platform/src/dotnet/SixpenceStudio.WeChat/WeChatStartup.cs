@@ -30,7 +30,7 @@ namespace SixpenceStudio.WeChat
             catch (Exception e)
             {
                 logger.Error("注册机器人失败", e);
-                throw;
+                throw e;
             }
         }
     }

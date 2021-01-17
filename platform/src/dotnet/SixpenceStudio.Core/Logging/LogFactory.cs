@@ -50,6 +50,23 @@ namespace SixpenceStudio.Core.Logging
         }
 
         /// <summary>
+        /// 获取日志实例
+        /// </summary>
+        /// <param name="logType"></param>
+        /// <returns></returns>
+        public static ILog GetLogger(LogType logType = LogType.All)
+        {
+            switch (logType)
+            {
+                case LogType.Error:
+                    return LogManager.GetLogger("Error");
+                case LogType.All:
+                default:
+                    return LogManager.GetLogger("All");
+            }
+        }
+
+        /// <summary>
         /// 创建日志实例
         /// </summary>
         /// <param name="name"></param>
@@ -93,18 +110,6 @@ namespace SixpenceStudio.Core.Logging
             var logger = LogManager.GetLogger(repositoryName, name);
             return logger;
         }
-
-        internal static ILog GetLogger(LogType logType)
-        {
-            switch (logType)
-            {
-                case LogType.Error:
-                    return LogManager.GetLogger("Error");
-                case LogType.Info:
-                default:
-                    return LogManager.GetLogger("Debug");
-            }
-        }
     }
 
     /// <summary>
@@ -115,6 +120,6 @@ namespace SixpenceStudio.Core.Logging
         [Description("报错信息")]
         Error,
         [Description("信息")]
-        Info
+        All
     }
 }

@@ -12,19 +12,9 @@ namespace SixpenceStudio.Core.Logging
     public static class LogUtils
     {
         #region 同步写日志
-        public static void Info(string msg)
-        {
-            var log = LogFactory.GetLogger(LogType.Info);
-            log.Info(msg);
-        }
         public static void Debug(string msg)
         {
-            var log = LogFactory.GetLogger(LogType.Info);
-            log.Debug(msg);
-        }
-        public static void Warn(string msg)
-        {
-            var log = LogFactory.GetLogger(LogType.Info);
+            var log = LogFactory.GetLogger(LogType.All);
             log.Debug(msg);
         }
         public static void Error(string msg)
@@ -40,17 +30,9 @@ namespace SixpenceStudio.Core.Logging
         #endregion
 
         #region 异步写日志
-        public static Task AsyncInfo(string msg)
-        {
-            return Task.Run(() => Info(msg));
-        }
         public static Task AsyncDebug(string msg)
         {
             return Task.Run(() => Debug(msg));
-        }
-        public static Task AsyncWarn(string msg)
-        {
-            return Task.Run(() => Warn(msg));
         }
         public static Task AsyncError(string msg)
         {
