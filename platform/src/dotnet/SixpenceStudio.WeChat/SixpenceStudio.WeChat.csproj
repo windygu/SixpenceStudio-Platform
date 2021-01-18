@@ -167,6 +167,9 @@
     <Compile Include="WeChatApi.cs" />
     <Compile Include="WeChatController.cs" />
     <Compile Include="WeChatMaterialExtension.cs" />
+    <Compile Include="WeChatMenu\WeChatMenuController.cs" />
+    <Compile Include="WeChatMenu\WeChatMenuModel.cs" />
+    <Compile Include="WeChatMenu\WeChatMenuService.cs" />
     <Compile Include="WeChatModel.cs" />
     <Compile Include="WeChatNews\WeChatNewsController.cs" />
     <Compile Include="WeChatNews\WeChatNewsService.cs" />

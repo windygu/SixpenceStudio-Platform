@@ -277,15 +277,15 @@ namespace SixpenceStudio.WeChat
        /// <summary>
        /// 删除微信菜单api
        /// </summary>
-        public static readonly string DeleteMenuApi = "https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token={0}";
+        public static readonly string DeleteMenuApi = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={0}";
         
         /// <summary>
         /// 删除微信菜单
         /// </summary>
         /// <param name="postData"></param>
-        public static void DeleteMenu(string postData)
+        public static void DeleteMenu()
         {
-            var resp = HttpUtil.Post(string.Format(DeleteMenuApi, WeChatService.AccessToken), postData);
+            var resp = HttpUtil.Get(string.Format(DeleteMenuApi, WeChatService.AccessToken));
             CheckWeChatErrorResponse(JObject.Parse(resp), "删除微信菜单失败");
         }
         #endregion
