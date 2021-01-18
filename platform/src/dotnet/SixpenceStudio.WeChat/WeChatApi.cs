@@ -27,6 +27,11 @@ namespace SixpenceStudio.WeChat
             return (respJson.GetValue("access_token").ToString(), Convert.ToInt32(respJson.GetValue("expires_in").ToString()));
         }
 
+        public static void CheckWeChatErrorResponse(JObject respJson, string message)
+        {
+            AssertUtil.CheckBoolean<SpException>(respJson.GetValue("errcode") != null && respJson.GetValue("errcode").ToString() != "0", message, "522F326C-D739-47E4-8824-271582DEEBC6");
+        }
+
         #region 批量获取微信素材
         /// <summary>
         /// 批量获取微信素材API
@@ -235,5 +240,55 @@ namespace SixpenceStudio.WeChat
             return resp;
         }
         #endregion
+
+        #region 菜单
+        /// <summary>
+        /// 创建菜单 Api
+        /// </summary>
+        public static readonly string CreateMenuApi = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}";
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateMenu(string postData)
+        {
+            var resp = HttpUtil.Post(string.Format(CreateMenuApi, WeChatService.AccessToken), postData);
+            CheckWeChatErrorResponse(JObject.Parse(resp), "创建菜单失败");
+            return resp;
+        }
+
+        /// <summary>
+        /// 获取菜单 Api
+        /// </summary>
+        public static readonly string GetMenuApi = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token={0}";
+        
+        /// <summary>
+        /// 获取菜单
+        /// </summary>
+        /// <returns></returns>
+        public static string GetMenu()
+        {
+            var resp = HttpUtil.Get(string.Format(GetMenuApi, WeChatService.AccessToken));
+            CheckWeChatErrorResponse(JObject.Parse(resp), "获取微信菜单失败");
+            return resp;
+        }
+
+       /// <summary>
+       /// 删除微信菜单api
+       /// </summary>
+        public static readonly string DeleteMenuApi = "https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token={0}";
+        
+        /// <summary>
+        /// 删除微信菜单
+        /// </summary>
+        /// <param name="postData"></param>
+        public static void DeleteMenu(string postData)
+        {
+            var resp = HttpUtil.Post(string.Format(DeleteMenuApi, WeChatService.AccessToken), postData);
+            CheckWeChatErrorResponse(JObject.Parse(resp), "删除微信菜单失败");
+        }
+        #endregion
+
     }
 }
