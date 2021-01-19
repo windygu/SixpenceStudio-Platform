@@ -1,9 +1,9 @@
 // 引入 vue 和 app
 import App from './App';
-import './libs';
 import components from './components';
 import myRouter from './router';
 import store from './store/store';
+import 'web-core';
 
 const Vue = require('vue');
 const VueRouter = require('vue-router');

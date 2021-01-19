@@ -2,6 +2,7 @@ import './src/libs';
 import components from './src/components';
 import router from './src/router';
 import store from './src/store/store';
+import 'web-core';
 
 const Vue = require('vue');
 const moment = require('moment');
