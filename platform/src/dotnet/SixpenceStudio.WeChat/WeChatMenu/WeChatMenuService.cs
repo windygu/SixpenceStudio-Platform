@@ -13,7 +13,7 @@ namespace SixpenceStudio.WeChat.WeChatMenu
         /// 创建菜单
         /// </summary>
         /// <param name="menu"></param>
-        public static void CreateMenu(WeChatMenuModel menu)
+        public static void CreateMenu(SelfMenuInfo menu)
         {
             WeChatApi.CreateMenu(JsonConvert.SerializeObject(menu));
         }
@@ -22,10 +22,10 @@ namespace SixpenceStudio.WeChat.WeChatMenu
         /// 查询菜单
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<WeChatMenuModel> GetMenu()
+        public static WeChatMenuModel GetMenu()
         {
             var resp = WeChatApi.GetMenu();
-            return JsonConvert.DeserializeObject<IEnumerable<WeChatMenuModel>>(resp);
+            return JsonConvert.DeserializeObject<WeChatMenuModel>(resp);
         }
 
         /// <summary>

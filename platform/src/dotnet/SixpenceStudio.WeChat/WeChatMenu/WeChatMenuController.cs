@@ -13,13 +13,13 @@ namespace SixpenceStudio.WeChat.WeChatMenu
     public class WeChatMenuController : BaseController
     {
         [HttpPost]
-        public void CreateMenu(WeChatMenuModel menu)
+        public void CreateMenu(SelfMenuInfo menu)
         {
             WeChatMenuService.CreateMenu(menu);
         }
 
         [HttpGet]
-        public IEnumerable<WeChatMenuModel> GetMenu()
+        public WeChatMenuModel GetMenu()
         {
             return WeChatMenuService.GetMenu();
         }
