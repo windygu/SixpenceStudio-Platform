@@ -105,8 +105,15 @@ namespace SixpenceStudio.Core.Logging
             appender.MaxSizeRollBackups = 30;
             appender.StaticLogFileName = false;
             string repositoryName = $"{name}Repository";
-            ILoggerRepository repository = LoggerManager.CreateRepository(repositoryName);
-            BasicConfigurator.Configure(repository, appender);
+            try
+            {
+                LoggerManager.GetRepository(repositoryName);
+            }
+            catch
+            {
+                ILoggerRepository repository = LoggerManager.CreateRepository(repositoryName);
+                BasicConfigurator.Configure(repository, appender);
+            }
             var logger = LogManager.GetLogger(repositoryName, name);
             return logger;
         }
