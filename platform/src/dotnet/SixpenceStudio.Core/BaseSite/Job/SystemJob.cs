@@ -19,7 +19,7 @@ namespace SixpenceStudio.Core.Job
     {
         public override string Name => "系统作业";
 
-        public override IScheduleBuilder ScheduleBuilder => CronScheduleBuilder.CronSchedule("0 0 4 * * ?");
+        public override IScheduleBuilder ScheduleBuilder => CronScheduleBuilder.CronSchedule("0 0 0 * * ?");
 
         public override string Description => "清理系统无效文件及整理日志";
 
@@ -70,7 +70,6 @@ WHERE
                     }
                 });
                 DeleteLog();
-                Logger.Info("日志归档成功");
             }
             catch (Exception e)
             {

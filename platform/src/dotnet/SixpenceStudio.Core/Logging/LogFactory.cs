@@ -82,28 +82,24 @@ namespace SixpenceStudio.Core.Logging
             // File Appender
             RollingFileAppender appender = new RollingFileAppender();
             // 目录
-            appender.File = $"log\\";
+            appender.File = $"log\\{name}.log";
             // 立即写入磁盘
             appender.ImmediateFlush = true;
             // true：追加到文件；false：覆盖文件
             appender.AppendToFile = true;
             // 新的日期或者文件大小达到上限，新建一个文件
-            appender.RollingStyle = RollingFileAppender.RollingMode.Composite;
+            appender.RollingStyle = RollingFileAppender.RollingMode.Once;
             // 文件大小达到上限，新建文件时，文件编号放到文件后缀前面
             appender.PreserveLogFileNameExtension = true;
-            // 时间模式
-            appender.DatePattern = $"{name}.log\"";
             // 最小锁定模型以允许多个进程可以写入同一个文件
             appender.LockingModel = new FileAppender.MinimalLock();
             appender.Name = $"{name}Appender";
             appender.AddFilter(filter);
             appender.Layout = layout;
             appender.ActivateOptions();
-            // 文件大小上限
-            appender.MaximumFileSize = "200MB";
             // 设置无限备份=-1 ，最大备份数为30
             appender.MaxSizeRollBackups = 30;
-            appender.StaticLogFileName = false;
+            appender.StaticLogFileName = true;
             string repositoryName = $"{name}Repository";
             try
             {
