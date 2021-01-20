@@ -59,9 +59,16 @@ WHERE
         {
             try
             {
-                var fileList = FileUtil.GetFileList("*.log", FolderType.log, SearchOption.TopDirectoryOnly).Where(item => !item.Contains(DateTime.Now.ToString("yyyyMMdd"))).ToList();
+                var fileList = FileUtil.GetFileList("*.log", FolderType.log, SearchOption.TopDirectoryOnly);
                 var targetPath = FileUtil.GetSystemPath(FolderType.logArchive);
-                FileUtil.MoveFiles(fileList, targetPath);
+                fileList.Each(item =>
+                {
+                    if (File.Exists(item))
+                    {
+                        var file = new FileInfo(item);
+                        File.Move(item, Path.Combine(targetPath, DateTime.Now.ToString("yyyyMMdd") + " " + file.Name));
+                    }
+                });
                 DeleteLog();
                 Logger.Info("日志归档成功");
             }

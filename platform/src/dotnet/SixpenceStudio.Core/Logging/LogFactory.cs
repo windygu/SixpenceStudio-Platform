@@ -92,7 +92,7 @@ namespace SixpenceStudio.Core.Logging
             // 文件大小达到上限，新建文件时，文件编号放到文件后缀前面
             appender.PreserveLogFileNameExtension = true;
             // 时间模式
-            appender.DatePattern = $"yyyyMMdd\" {name}.log\"";
+            appender.DatePattern = $"{name}.log\"";
             // 最小锁定模型以允许多个进程可以写入同一个文件
             appender.LockingModel = new FileAppender.MinimalLock();
             appender.Name = $"{name}Appender";
