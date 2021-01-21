@@ -1,5 +1,7 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +23,35 @@ namespace SixpenceStudio.Core.ShortUrl
         }
         #endregion
 
-        public string CreateData(string longUrl)
+        public override string CreateData(short_url_log t)
         {
-            var entity = new short_url_log()
+            if (string.IsNullOrEmpty(t.long_url))
             {
-                Id = Guid.NewGuid().ToString(),
-                long_url = longUrl
-            };
-            var shortUrl = ShortenUrl.AddUrl(new string[] { longUrl });
-            entity.short_url = shortUrl?.FirstOrDefault();
-            CreateData(entity);
-            return entity.short_url;
+                return "";
+            }
+            return Broker.ExecuteTransaction(() =>
+            {
+                var data = Broker.Retrieve<short_url_log>("select * from short_url_log where long_url = @long_url", new Dictionary<string, object>() { { "@long_url", t.long_url } });
+                if (data != null)
+                {
+                    return data.Id;
+                }
+                var baseUrl = ConfigFactory.GetConfig<ShortUrlSection>("url");
+                t.short_key = ShortenUrlUtil.Generate(t.long_url);
+                t.short_url = baseUrl + t.short_key;
+                return base.CreateData(t);
+            });
         }
 
-        public string GetShortUrl(string id)
+        /// <summary>
+        /// 获取短链接
+        /// </summary>
+        /// <param name="shortid"></param>
+        /// <returns></returns>
+        public short_url_log GetDataByShortId(string shortid)
         {
-            return GetData(id)?.short_url;
+            var data = Broker.Retrieve<short_url_log>("select * from short_url_log where short_key = @short_key", new Dictionary<string, object>() { { "@short_key", shortid } });
+            return data;
         }
     }
 }

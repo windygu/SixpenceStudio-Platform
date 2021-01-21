@@ -11,6 +11,24 @@ namespace SixpenceStudio.Core.ShortUrl
     public class short_url_log : BaseEntity
     {
         /// <summary>
+        /// 短链接key
+        /// </summary>
+        private string _short_key;
+        [DataMember]
+        public string short_key
+        {
+            get
+            {
+                return this._short_key;
+            }
+            set
+            {
+                this._short_key = value;
+                SetAttributeValue("short_key", value);
+            }
+        }
+
+        /// <summary>
         /// 短链接
         /// </summary>
         private string _short_url;

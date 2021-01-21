@@ -201,6 +201,7 @@
     <Compile Include="BaseSite\gallery\GalleryController.cs" />
     <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\gallery\GalleryService.cs" />
+    <Compile Include="BaseSite\ShortUrl\ShortUrlController.cs" />
     <Compile Include="Entity\SelectOption.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />
     <Compile Include="Job\DynamicJobBase.cs" />
@@ -218,7 +219,6 @@
     <Compile Include="BaseSite\Job\job.cs" />
     <Compile Include="BaseSite\Job\JobController.cs" />
     <Compile Include="BaseSite\Job\JobService.cs" />
-    <Compile Include="BaseSite\OpenApi.cs" />
     <Compile Include="Auth\RequestAuthorizeAttribute.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortenUrl.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlService.cs" />
@@ -307,6 +307,7 @@
     <Compile Include="Utils\MemoryCacheUtil.cs" />
     <Compile Include="Utils\RSAUtil.cs" />
     <Compile Include="Utils\SHAUtil.cs" />
+    <Compile Include="Utils\ShortenUrlUtil.cs" />
     <Compile Include="Utils\StreamUtil.cs" />
     <Compile Include="IoC\UnityContainerService.cs" />
     <Compile Include="WebApi\BaseController.cs" />

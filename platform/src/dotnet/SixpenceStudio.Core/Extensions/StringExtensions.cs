@@ -67,5 +67,7 @@ namespace SixpenceStudio.Core.Utils
             var len = value.Length - startIndex;
             return value.Substring(startIndex, len);
         }
+
+
     }
 }
