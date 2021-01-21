@@ -24,6 +24,7 @@ const API = {
 };
 
 import edit from './src/mixins/edit';
+import select from './src/mixins/select';
 import pagination from './src/mixins/pagination';
 import admin from './src/module/admin/admin';
 
