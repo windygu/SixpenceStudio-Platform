@@ -14,7 +14,7 @@ namespace SixpenceStudio.Core.gallery
         [HttpGet]
         public ImagesModel GetImages(string searchValue, int pageIndex, int pageSize)
         {
-            return PixabayApi.GetImages(searchValue, pageIndex, pageSize);
+            return new PixabayService().GetImages(searchValue, pageIndex, pageSize);
         }
 
         [HttpPost]

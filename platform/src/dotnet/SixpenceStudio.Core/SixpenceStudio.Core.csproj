@@ -197,10 +197,10 @@
     <Compile Include="BaseSite\DataService\DataService.cs" />
     <Compile Include="BaseSite\DataService\DataServiceController.cs" />
     <Compile Include="BaseSite\DataService\Models\file.cs" />
-    <Compile Include="BaseSite\gallery\gallery.cs" />
-    <Compile Include="BaseSite\gallery\GalleryController.cs" />
-    <Compile Include="BaseSite\gallery\GalleryPlugin.cs" />
-    <Compile Include="BaseSite\gallery\GalleryService.cs" />
+    <Compile Include="BaseSite\Gallery\gallery.cs" />
+    <Compile Include="BaseSite\Gallery\GalleryController.cs" />
+    <Compile Include="BaseSite\Gallery\GalleryPlugin.cs" />
+    <Compile Include="BaseSite\Gallery\GalleryService.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlController.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlSection.cs" />
     <Compile Include="Entity\SelectOption.cs" />
@@ -211,7 +211,7 @@
     <Compile Include="Entity\Service\BaseCommand.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
     <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />
-    <Compile Include="Pixabay\PixabayApi.cs" />
+    <Compile Include="Pixabay\PixabayService.cs" />
     <Compile Include="Pixabay\ResponseModel\VideosModel.cs" />
     <Compile Include="BaseSite\SysFile\SysFileParital.cs" />
     <Compile Include="BaseSite\SysFile\SysFilePlugin.cs" />

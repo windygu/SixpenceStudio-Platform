@@ -17,10 +17,14 @@ namespace SixpenceStudio.Core.Pixabay
     /// <summary>
     /// Pixabay第三方API资源（https://pixabay.com/api/docs/）
     /// </summary>
-    public class PixabayApi
+    public class PixabayService
     {
+        public PixabayService()
+        {
+            logger = LogFactory.GetLogger("Pixabay");
+        }
+
         private static readonly string key = "19356383-2f75a9b525aa933f63ab20ab5";
-        private static ILog logger = LogFactory.GetLogger("PixabayApi");
         private static string Get(string url)
         {
             var request = WebRequest.Create(url) as HttpWebRequest;
@@ -61,9 +65,10 @@ namespace SixpenceStudio.Core.Pixabay
             }
         }
 
+        private ILog logger;
+
         #region 获取图片资源
-        public static readonly string GetImagesApi = "https://pixabay.com/api/?key={0}&q={1}&image_type=photo&lang=zh&page={2}&per_page={3}";
-        public static ImagesModel GetImages(string searchValue, int pageIndex, int pageSize)
+        public ImagesModel GetImages(string searchValue, int pageIndex, int pageSize)
         {
             if (string.IsNullOrEmpty(searchValue))
             {
@@ -72,7 +77,7 @@ namespace SixpenceStudio.Core.Pixabay
             var cache = MemoryCacheUtil.GetCacheItem<ImagesModel>($"PixabayApi_Images_{searchValue}_{pageIndex}_{pageSize}");
             if (cache != null) return cache;
 
-            var url = string.Format(GetImagesApi, key, searchValue, pageIndex, pageSize);
+            var url = string.Format("https://pixabay.com/api/?key={0}&q={1}&image_type=photo&lang=zh&page={2}&per_page={3}", key, searchValue, pageIndex, pageSize);
             try
             {
                 logger.Debug($"Get：{url}");
@@ -91,8 +96,7 @@ namespace SixpenceStudio.Core.Pixabay
         #endregion
 
         #region 获取视频资源 
-        public static readonly string GetVideosApi = "https://pixabay.com/api/videos/?key={0}&q={1}";
-        public static VideosModel GetVideos(string searchValue)
+        public VideosModel GetVideos(string searchValue)
         {
             if (string.IsNullOrEmpty(searchValue))
             {
@@ -101,7 +105,7 @@ namespace SixpenceStudio.Core.Pixabay
             var cache = MemoryCacheUtil.GetCacheItem<VideosModel>("PixabayApi_videos_" + searchValue);
             if (cache != null) return cache;
 
-            var url = string.Format(GetVideosApi, key, searchValue);
+            var url = string.Format("https://pixabay.com/api/videos/?key={0}&q={1}", key, searchValue);
             try
             {
                 logger.Debug($"Get：{url}");
