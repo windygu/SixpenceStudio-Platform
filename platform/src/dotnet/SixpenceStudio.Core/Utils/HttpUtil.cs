@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net;
+using SixpenceStudio.Core.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace SixpenceStudio.Core.Utils
     {
         const string DEFAULT_USER_AGENT = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 4.0.30319)";
         const string DEFAULT_CONTENT_TYPE = "application/json";
+        private static ILog logger = LogFactory.GetLogger("http");
 
         #region 同步
         /// <summary>
@@ -25,25 +28,35 @@ namespace SixpenceStudio.Core.Utils
         /// <returns></returns>
         public static string Get(string url, IDictionary<string, string> headerList)
         {
-            var request = WebRequest.Create(url) as HttpWebRequest;
-            request.UserAgent = DEFAULT_USER_AGENT;
-            request.ContentType = DEFAULT_CONTENT_TYPE;
-            if (headerList != null)
+            try
             {
-                foreach (var header in headerList)
+                logger.Debug($"[Get]请求：{url}");
+                var request = WebRequest.Create(url) as HttpWebRequest;
+                request.UserAgent = DEFAULT_USER_AGENT;
+                request.ContentType = DEFAULT_CONTENT_TYPE;
+                if (headerList != null)
                 {
-                    request.Headers.Add(header.Key, header.Value);
+                    foreach (var header in headerList)
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                var responseStream = request.GetResponse().GetResponseStream();
+
+                if (responseStream == null) return string.Empty;
+
+                using (var reader = new StreamReader(responseStream))
+                {
+                    return reader.ReadToEnd();
                 }
             }
-
-            var responseStream = request.GetResponse().GetResponseStream();
-
-            if (responseStream == null) return string.Empty;
-
-            using (var reader = new StreamReader(responseStream))
+            catch (Exception ex)
             {
-                return reader.ReadToEnd();
+                logger.Error("[Get]请求失败", ex);
+                throw ex;
             }
+
         }
 
         /// <summary>
@@ -63,10 +76,19 @@ namespace SixpenceStudio.Core.Utils
         /// <param name="fileName"></param>
         public static byte[] DownloadImage(string url, out string contentType)
         {
-            WebClient client = new WebClient();
-            var bytes = client.DownloadData(url);
-            contentType = client.ResponseHeaders.Get("Content-Type");
-            return bytes;
+            try
+            {
+                logger.Debug($"下载图片：{url}");
+                WebClient client = new WebClient();
+                var bytes = client.DownloadData(url);
+                contentType = client.ResponseHeaders.Get("Content-Type");
+                return bytes;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("下载图片失败", ex);
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -78,12 +100,22 @@ namespace SixpenceStudio.Core.Utils
         /// <returns></returns>
         public static string Post(string url, string postData, string contentType = DEFAULT_CONTENT_TYPE)
         {
-            var webClient = new WebClient();
-            webClient.Headers.Add("user-agent", DEFAULT_USER_AGENT);
-            webClient.Headers.Add("Content-Type", contentType);
-            byte[] sendData = Encoding.UTF8.GetBytes(postData);
-            byte[] responseData = webClient.UploadData(url, "POST", sendData);
-            return Encoding.UTF8.GetString(responseData);
+            try
+            {
+                logger.Debug($"[Post]请求：{url}");
+                var webClient = new WebClient();
+                webClient.Headers.Add("user-agent", DEFAULT_USER_AGENT);
+                webClient.Headers.Add("Content-Type", contentType);
+                byte[] sendData = Encoding.UTF8.GetBytes(postData);
+                byte[] responseData = webClient.UploadData(url, "POST", sendData);
+                return Encoding.UTF8.GetString(responseData);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("[Post]请求失败", ex);
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -94,6 +126,7 @@ namespace SixpenceStudio.Core.Utils
         /// <returns></returns>
         public static string Post(string url, UploadFile uploadFile)
         {
+            logger.Debug($"[Post]请求：{url}");
             var client = new RestSharp.RestClient(url);
             var req = new RestSharp.RestRequest();
             req.Method = RestSharp.Method.POST;
@@ -101,6 +134,7 @@ namespace SixpenceStudio.Core.Utils
             var resp = client.Execute(req);
             if (!resp.IsSuccessful)
             {
+                logger.Error("上传文件失败");
                 throw new SpException("上传文件失败：" + resp.ErrorException.Message);
             }
             return resp.Content;

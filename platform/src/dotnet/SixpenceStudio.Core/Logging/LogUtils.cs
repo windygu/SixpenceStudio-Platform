@@ -22,6 +22,12 @@ namespace SixpenceStudio.Core.Logging
             var log = LogFactory.GetLogger(LogType.Error);
             log.Error(msg);
         }
+
+        public static void Error(Exception exception)
+        {
+            var log = LogFactory.GetLogger(LogType.Error);
+            log.Error(exception.Message, exception);
+        }
         public static void Error(string msg, Exception exception)
         {
             var log = LogFactory.GetLogger(LogType.Error);
