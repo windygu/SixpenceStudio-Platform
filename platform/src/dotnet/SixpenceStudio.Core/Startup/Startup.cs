@@ -46,7 +46,7 @@ namespace SixpenceStudio.Core.Startup
             interfaces.ForEach(item =>
             {
                 var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item)).ToList();
-                types.ForEach(type => UnityContainerService.RegisterType(item, type, type.Name));
+                types.ForEach(type => UnityContainerService.Register(item, type, type.Name));
             });
             logger.Info("IoC注册成功");
             #endregion

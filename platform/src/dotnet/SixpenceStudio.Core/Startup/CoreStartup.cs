@@ -20,7 +20,7 @@ namespace SixpenceStudio.Core.Startup
             AssemblyUtil.GetAssemblies("SixpenceStudio.*.dll").ForEach(item => typeList.AddRange(item.GetTypes()));
             typeList
                 .Where(type => !type.IsAbstract && !type.IsInterface && type.GetInterfaces().Contains(typeof(IJob)) && !type.IsDefined(typeof(DynamicJobAttribute), true))
-                .Each(type => UnityContainerService.RegisterType(typeof(IJob), type, type.Name));
+                .Each(type => UnityContainerService.Register(typeof(IJob), type, type.Name));
             JobHelpers.Start();
         }
     }

@@ -7,13 +7,9 @@ Description：UnityContainerService
 ********************************************************/
 #endregion
 
-using SixpenceStudio.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 
 namespace SixpenceStudio.Core.IoC
@@ -35,18 +31,29 @@ namespace SixpenceStudio.Core.IoC
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="name"></param>
-        public static void RegisterType(Type from, Type to, string name = "")
+        public static void Register(Type from, Type to, string name = "")
         {
             container.RegisterType(from, to, name);
         }
 
         /// <summary>
-        /// 查找实现
+        /// 注册实例
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TFrom"></typeparam>
+        /// <typeparam name="TTo"></typeparam>
         /// <param name="name"></param>
-        /// <returns></returns>
-        public static T Resolve<T>(string name = "")
+        public static void Register<TFrom, TTo>(string name) where TTo : TFrom
+        {
+            container.RegisterType<TFrom, TTo>(name);
+        }
+
+    /// <summary>
+    /// 查找实现
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static T Resolve<T>(string name = "")
         {
             return container.Resolve<T>(name);
         }
