@@ -204,6 +204,7 @@
     <Compile Include="BaseSite\ShortUrl\ShortUrlController.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlSection.cs" />
     <Compile Include="Entity\SelectOption.cs" />
+    <Compile Include="Extensions\FolderTypeExtension.cs" />
     <Compile Include="Extensions\StreamExtension.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />
     <Compile Include="Job\DynamicJobBase.cs" />

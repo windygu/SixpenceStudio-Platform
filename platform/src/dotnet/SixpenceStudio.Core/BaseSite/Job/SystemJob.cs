@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.SysConfig;
 using SixpenceStudio.Core.SysConfig.Config;
@@ -28,6 +29,7 @@ namespace SixpenceStudio.Core.Job
             var broker = PersistBrokerFactory.GetPersistBroker();
             DeletePictures(broker);
             ArchiveLog();
+            DeleteTempFiles();
         }
 
         /// <summary>
@@ -59,8 +61,8 @@ WHERE
         {
             try
             {
-                var fileList = FileUtil.GetFileList("*.log", FolderType.log, SearchOption.TopDirectoryOnly);
-                var targetPath = FileUtil.GetSystemPath(FolderType.logArchive);
+                var fileList = FileUtil.GetFileList("*.log", FolderType.Log, SearchOption.TopDirectoryOnly);
+                var targetPath = FolderType.LogArchive.GetPath();
                 fileList.Each(item =>
                 {
                     if (File.Exists(item))
@@ -84,7 +86,7 @@ WHERE
         private void DeleteLog()
         {
             var days = SysConfigFactory.GetValue<BackupLogSysConfig>();
-            var files = FileUtil.GetFileList("*.log", FolderType.logArchive);
+            var files = FileUtil.GetFileList("*.log", FolderType.LogArchive);
             var logNameList = new List<string>();
 
             // 需要保留的log
@@ -101,6 +103,25 @@ WHERE
                 {
                     FileUtil.DeleteFile(file);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 删除临时文件
+        /// </summary>
+        private void DeleteTempFiles()
+        {
+            var filePath = FolderType.Temp.GetPath();
+            Logger.Info($"开始删除[{filePath}]下所有文件");
+            try
+            {
+                FileUtil.DeleteFolder(filePath);
+                Logger.Info("删除成功");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("删除失败", ex);
+                throw ex;
             }
         }
     }

@@ -14,6 +14,7 @@ using System.Runtime.DesignerServices;
 using System.Security.Policy;
 using System.Web;
 using System.Web.UI.WebControls;
+using SixpenceStudio.Core.Extensions;
 
 namespace SixpenceStudio.Core.SysEntity
 {
@@ -141,7 +142,7 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
             var attrs = GetEntityAttrs(entityId);
             var entity = GetData(entityId);
             
-            var filePath = $"{FileUtil.GetSystemPath(FolderType.temp)}\\{entity.code}.cs";
+            var filePath = $"{FolderType.Temp.GetPath()}\\{entity.code}.cs";
             FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write); ;
             StreamWriter writer = new StreamWriter(fs);
 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Packaging;
 using System.Security.Cryptography;
 using System.Web;
 
@@ -16,100 +17,15 @@ namespace SixpenceStudio.Core.Utils
     /// </summary>
     public static class FileUtil
     {
-        public static string storage = "";
-        public static string temp = "";
-
-        static FileUtil()
-        {
-            var config = ConfigFactory.GetConfig<StoreSection>();
-            AssertUtil.CheckBoolean<SpException>(config == null, "文件存储配置信息为空", "CA302515-07E6-455C-88C8-5EE130C486D2");
-            temp = config.temp;
-            storage = config.storage;
-            try
-            {
-                if (!Directory.Exists(temp))
-                {
-                    Directory.CreateDirectory(temp);
-                }
-                if (!Directory.Exists(storage))
-                {
-                    Directory.CreateDirectory(storage);
-                }
-            }
-            catch
-            {
-                throw new SpException("文件目录初始化失败", "4EC3BE59-CAFB-4FA4-878E-68FFC265487B");
-            }
-        }
-
-        /// <summary>
-        /// 获取文件类型
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string GetFileType(this string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                var arr = value.Split('.');
-                var typeName = arr[arr.Length - 1].ToString();
-                return typeName;
-            }
-            return "";
-        }
-
-        /// <summary>
-        /// 获取系统路径
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static string GetSystemPath(FolderType type = FolderType.Default)
-        {
-            var folderPath = string.Empty;
-            try
-            {
-                folderPath = HttpRuntime.AppDomainAppPath;
-                switch (type)
-                {
-                    case FolderType.bin:
-                        folderPath += "\\bin";
-                        break;
-                    case FolderType.log:
-                        folderPath += "\\log";
-                        break;
-                    case FolderType.logArchive:
-                        folderPath += "\\log\\Archive";
-                        break;
-                    case FolderType.temp:
-                        folderPath = temp;
-                        break;
-                    case FolderType.storage:
-                        folderPath = storage;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch
-            {
-                folderPath = Environment.CurrentDirectory;
-            }
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-            return folderPath;
-        }
-
         #region CRUD
         /// <summary>
         /// 获取文件列表路径
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IList<string> GetFileList(string name, FolderType type = FolderType.bin, SearchOption searchOption = SearchOption.AllDirectories)
+        public static IList<string> GetFileList(string name, FolderType type = FolderType.Bin, SearchOption searchOption = SearchOption.AllDirectories)
         {
-            var path = GetSystemPath(type);
+            var path = type.GetPath();
             if (!Directory.Exists(path))
             {
                 return new List<string>();
@@ -155,6 +71,18 @@ namespace SixpenceStudio.Core.Utils
                 File.Delete(filePath);
             }
         }
+
+        /// <summary>
+        /// 删除文件夹下所有文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        public static void DeleteFolder(string filePath)
+        {
+            Directory.GetFiles(filePath).Each(item =>
+            {
+                DeleteFile(item);
+            });
+        }
         #endregion
 
         /// <summary>
@@ -170,6 +98,159 @@ namespace SixpenceStudio.Core.Utils
                 fileInfo.MoveTo(Path.Combine(targetFolder, fileInfo.Name));
             });
         }
+
+        /// <summary>
+        /// 压缩文件夹
+        /// </summary>
+        /// <param name="folderName">The folder to add</param>
+        /// <param name="compressedFileName">The package to create</param>
+        /// <param name="overrideExisting">Override exsisitng files</param>
+        /// <returns></returns>
+        public static bool PackageFolder(string folderName, string compressedFileName, bool overrideExisting)
+        {
+            if (folderName.EndsWith(@"\"))
+                folderName = folderName.Remove(folderName.Length - 1);
+            bool result = false;
+            if (!Directory.Exists(folderName))
+            {
+                return result;
+            }
+
+            if (!overrideExisting && File.Exists(compressedFileName))
+            {
+                return result;
+            }
+            try
+            {
+                using (Package package = Package.Open(compressedFileName, FileMode.Create))
+                {
+                    var fileList = Directory.EnumerateFiles(folderName, "*", SearchOption.AllDirectories);
+                    foreach (string fileName in fileList)
+                    {
+
+                        //The path in the package is all of the subfolders after folderName
+                        string pathInPackage;
+                        pathInPackage = Path.GetDirectoryName(fileName).Replace(folderName, string.Empty) + "/" + Path.GetFileName(fileName);
+
+                        Uri partUriDocument = PackUriHelper.CreatePartUri(new Uri(pathInPackage, UriKind.Relative));
+                        PackagePart packagePartDocument = package.CreatePart(partUriDocument, "", CompressionOption.Maximum);
+                        using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                        {
+                            fileStream.CopyTo(packagePartDocument.GetStream());
+                        }
+                    }
+                }
+                result = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error zipping folder " + folderName, e);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 压缩文件
+        /// </summary>
+        /// <param name="fileName">The file to compress</param>
+        /// <param name="compressedFileName">The archive file</param>
+        /// <param name="overrideExisting">override existing file</param>
+        /// <returns></returns>
+        public static bool PackageFile(string fileName, string compressedFileName, bool overrideExisting)
+        {
+            bool result = false;
+
+            if (!File.Exists(fileName))
+            {
+                return result;
+            }
+
+            if (!overrideExisting && File.Exists(compressedFileName))
+            {
+                return result;
+            }
+
+            try
+            {
+                Uri partUriDocument = PackUriHelper.CreatePartUri(new Uri(Path.GetFileName(fileName), UriKind.Relative));
+
+                using (Package package = Package.Open(compressedFileName, FileMode.OpenOrCreate))
+                {
+                    if (package.PartExists(partUriDocument))
+                    {
+                        package.DeletePart(partUriDocument);
+                    }
+
+                    PackagePart packagePartDocument = package.CreatePart(partUriDocument, "", CompressionOption.Maximum);
+                    using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                    {
+                        fileStream.CopyTo(packagePartDocument.GetStream());
+                    }
+                }
+                result = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error zipping file " + fileName, e);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 解压文件
+        /// </summary>
+        /// <param name="folderName">The folder to extract the package to</param>
+        /// <param name="compressedFileName">The package file</param>
+        /// <param name="overrideExisting">override existing files</param>
+        /// <returns></returns>
+        public static bool UncompressFile(string folderName, string compressedFileName, bool overrideExisting)
+        {
+            bool result = false;
+            try
+            {
+                if (!File.Exists(compressedFileName))
+                {
+                    return result;
+                }
+
+                DirectoryInfo directoryInfo = new DirectoryInfo(folderName);
+                if (!directoryInfo.Exists)
+                    directoryInfo.Create();
+
+                using (Package package = Package.Open(compressedFileName, FileMode.Open, FileAccess.Read))
+                {
+                    foreach (PackagePart packagePart in package.GetParts())
+                    {
+                        ExtractPart(packagePart, folderName, overrideExisting);
+                    }
+                }
+
+                result = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error unzipping file " + compressedFileName, e);
+            }
+
+            return result;
+        }
+
+        static void ExtractPart(PackagePart packagePart, string targetDirectory, bool overrideExisting)
+        {
+            string stringPart = targetDirectory + HttpUtility.UrlDecode(packagePart.Uri.ToString()).Replace('\\', '/');
+
+            if (!Directory.Exists(Path.GetDirectoryName(stringPart)))
+                Directory.CreateDirectory(Path.GetDirectoryName(stringPart));
+
+            if (!overrideExisting && File.Exists(stringPart))
+                return;
+            using (FileStream fileStream = new FileStream(stringPart, FileMode.Create))
+            {
+                packagePart.GetStream().CopyTo(fileStream);
+            }
+        }
     }
 
     /// <summary>
@@ -180,14 +261,14 @@ namespace SixpenceStudio.Core.Utils
         [Description("默认目录")]
         Default,
         [Description("dll目录")]
-        bin,
+        Bin,
         [Description("日志目录")]
-        log,
+        Log,
         [Description("日志归档目录")]
-        logArchive,
+        LogArchive,
         [Description("临时目录")]
-        temp,
+        Temp,
         [Description("文件存储目录")]
-        storage
+        Storage
     }
 }

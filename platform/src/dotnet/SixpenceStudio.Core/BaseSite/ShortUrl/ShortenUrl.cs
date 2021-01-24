@@ -4,6 +4,7 @@ using System.Web;
 using System.IO;
 using System.Text;
 using SixpenceStudio.Core.Utils;
+using SixpenceStudio.Core.Extensions;
 
 namespace SixpenceStudio.Core.ShortUrl
 {
@@ -13,12 +14,12 @@ namespace SixpenceStudio.Core.ShortUrl
 
         private static string DataFile
         {
-            get { return Path.Combine(FileUtil.GetSystemPath(FolderType.storage), "Url.db"); }
+            get { return Path.Combine(FolderType.Storage.GetPath(), "Url.db"); }
         }
 
         private static string IndexFile
         {
-            get { return Path.Combine(FileUtil.GetSystemPath(FolderType.storage), "Url.idx"); }
+            get { return Path.Combine(FolderType.Storage.GetPath(), "Url.idx"); }
         }
 
         /// <summary>

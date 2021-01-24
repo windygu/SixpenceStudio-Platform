@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Store;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -19,7 +20,7 @@ namespace SixpenceStudio.Core.SysFile
         {
             fileName.ToList().ForEach(item =>
             {
-                var filePath = Path.Combine(FileUtil.GetSystemPath(FolderType.storage), item);
+                var filePath = Path.Combine(FolderType.Storage.GetPath(), item);
                 FileUtil.DeleteFile(filePath);
             });
         }
@@ -32,7 +33,7 @@ namespace SixpenceStudio.Core.SysFile
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
             var data =  broker.Retrieve<sys_file>(objectId) ?? broker.Retrieve<sys_file>("select * from sys_file where hash_code = @id", new Dictionary<string, object>() { { "@id", objectId } });
-            var fileInfo = new FileInfo(Path.Combine(FileUtil.GetSystemPath(FolderType.storage), data.name));
+            var fileInfo = new FileInfo(Path.Combine(FolderType.Storage.GetPath(), data.name));
             if (fileInfo.Exists)
             {
                 HttpContext.Current.Response.BufferOutput = true;
@@ -53,7 +54,7 @@ namespace SixpenceStudio.Core.SysFile
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
             var data = broker.Retrieve<sys_file>(id);
-            var fileInfo = new FileInfo(Path.Combine(FileUtil.GetSystemPath(FolderType.storage), data.name));
+            var fileInfo = new FileInfo(Path.Combine(FolderType.Storage.GetPath(), data.name));
             if (fileInfo.Exists)
             {
                 var stream = fileInfo.OpenRead();
@@ -71,7 +72,7 @@ namespace SixpenceStudio.Core.SysFile
         public void Upload(Stream stream, string fileName, out string filePath)
         {
             filePath = $"\\storage\\{fileName}"; // 相对路径
-            var path = Path.Combine(FileUtil.GetSystemPath(FolderType.storage), fileName); // 绝对路径
+            var path = Path.Combine(FolderType.Storage.GetPath(), fileName); // 绝对路径
             FileUtil.SaveFile(stream, path);
         }
     }

@@ -68,6 +68,20 @@ namespace SixpenceStudio.Core.Utils
             return value.Substring(startIndex, len);
         }
 
-
+        /// <summary>
+        /// 获取文件类型
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetFileType(this string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                var arr = value.Split('.');
+                var typeName = arr[arr.Length - 1].ToString();
+                return typeName;
+            }
+            return "";
+        }
     }
 }
