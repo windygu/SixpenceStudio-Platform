@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Store;
 using System;
@@ -100,6 +101,7 @@ namespace SixpenceStudio.Core.Utils
             return folderPath;
         }
 
+        #region CRUD
         /// <summary>
         /// 获取文件列表路径
         /// </summary>
@@ -113,14 +115,6 @@ namespace SixpenceStudio.Core.Utils
                 return new List<string>();
             }
             return Directory.GetFiles(path, name, searchOption);
-        }
-
-        private static byte[] Stream2Byte(Stream stream)
-        {
-            var bytes = new byte[stream.Length];
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.Read(bytes, 0, bytes.Length);
-            return bytes;
         }
 
         /// <summary>
@@ -139,7 +133,7 @@ namespace SixpenceStudio.Core.Utils
             var fs = new FileStream(filePath, FileMode.Create);
             try
             {
-                var bytes = Stream2Byte(stream);
+                var bytes = stream.ToByteArray();
                 fs.Write(bytes, 0, bytes.Length);
                 fs.Flush();
             }
@@ -161,6 +155,7 @@ namespace SixpenceStudio.Core.Utils
                 File.Delete(filePath);
             }
         }
+        #endregion
 
         /// <summary>
         /// 移动文件

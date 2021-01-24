@@ -66,7 +66,7 @@ WHERE
                     if (File.Exists(item))
                     {
                         var file = new FileInfo(item);
-                        File.Move(item, Path.Combine(targetPath, DateTime.Now.ToString("yyyyMMdd") + " " + file.Name));
+                        File.Move(item, Path.Combine(targetPath, DateTime.Now.AddDays(-1).ToString("yyyyMMdd") + " " + file.Name));
                     }
                 });
                 DeleteLog();
