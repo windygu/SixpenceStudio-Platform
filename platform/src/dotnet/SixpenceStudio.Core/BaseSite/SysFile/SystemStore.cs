@@ -54,14 +54,7 @@ namespace SixpenceStudio.Core.SysFile
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
             var data = broker.Retrieve<sys_file>(id);
-            var fileInfo = new FileInfo(Path.Combine(FolderType.Storage.GetPath(), data.name));
-            if (fileInfo.Exists)
-            {
-                var stream = fileInfo.OpenRead();
-                stream.Seek(0, SeekOrigin.Begin);
-                return stream;
-            }
-            return null;
+            return FileUtil.GetFileStream(Path.Combine(FolderType.Storage.GetPath(), data.name));
         }
 
         /// <summary>

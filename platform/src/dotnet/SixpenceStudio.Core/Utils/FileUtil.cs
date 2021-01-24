@@ -86,6 +86,23 @@ namespace SixpenceStudio.Core.Utils
         #endregion
 
         /// <summary>
+        /// 获取文件流
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static Stream GetFileStream(string filePath)
+        {
+            var fileInfo = new FileInfo(filePath);
+            if (fileInfo.Exists)
+            {
+                var stream = fileInfo.OpenRead();
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 移动文件
         /// </summary>
         /// <param name="files">文件列表</param>
