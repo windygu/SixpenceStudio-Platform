@@ -12,7 +12,7 @@ export default {
   },
   async created() {
     this.data = await sp.get(`api/ShortUrl/GetDataByShortId?id=${this.shortid}`);
-    window.location.href = data.long_url;
+    window.location.href = this.data.long_url;
   }
 };
 </script>

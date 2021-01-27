@@ -80,7 +80,7 @@ export default {
         }
       ],
       rules: {
-        name: [{ required: true, message: '请输入实体名', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入字段名', trigger: 'blur' }],
         code: [{ required: true, message: '请输入编码', trigger: 'blur' }],
         attr_type: [{ required: true, message: '请选择字段类型', trigger: 'blur' }]
       }
