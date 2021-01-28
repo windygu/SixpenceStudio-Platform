@@ -192,6 +192,7 @@
     <Compile Include="Auth\PrivilegeSelectOption.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeController.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeService.cs" />
+    <Compile Include="Auth\SysRole\BasicRoleFactory.cs" />
     <Compile Include="Auth\SysRole\SysRoleController.cs" />
     <Compile Include="Auth\SysRole\SysRolePlugin.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserController.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Auth\SysRole\SysRoleService.cs" />
     <Compile Include="Auth\SysRole\sys_role.cs" />
     <Compile Include="Entity\SelectOption.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
     <Compile Include="Extensions\StreamExtension.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />

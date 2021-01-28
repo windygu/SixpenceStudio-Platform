@@ -46,42 +46,6 @@ namespace SixpenceStudio.Core.Auth.SysRole
         }
 
         /// <summary>
-        /// 权限
-        /// </summary>
-        private string _privilege;
-        [DataMember]
-        public string privilege
-        {
-            get
-            {
-                return this._privilege;
-            }
-            set
-            {
-                this._privilege = value;
-                SetAttributeValue("privilege", value);
-            }
-        }
-
-        /// <summary>
-        /// 权限名
-        /// </summary>
-        private string _privilegeName;
-        [DataMember]
-        public string privilegeName
-        {
-            get
-            {
-                return this._privilegeName;
-            }
-            set
-            {
-                this._privilegeName = value;
-                SetAttributeValue("privilegeName", value);
-            }
-        }
-
-        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdBy;

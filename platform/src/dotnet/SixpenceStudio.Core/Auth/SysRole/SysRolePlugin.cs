@@ -18,23 +18,6 @@ namespace SixpenceStudio.Core.Auth.SysRole
             {
                 case EntityAction.PostCreate:
                     {
-                        switch (obj.privilege)
-                        {
-                            case "all":
-
-                                break;
-                            case "group":
-
-                                break;
-                            case "user":
-
-                                break;
-                            case "guest":
-
-                                break;
-                            default:
-                                break;
-                        }
                     }
                     break;
                 case EntityAction.PostUpdate:
