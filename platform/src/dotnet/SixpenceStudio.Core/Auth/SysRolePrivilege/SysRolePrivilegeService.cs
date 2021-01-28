@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using SixpenceStudio.Core.Auth.SysRole;
+using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,14 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             _cmd = new EntityCommand<sys_role_privilege>(broker);
         }
         #endregion
+
+        public void CreatePrivilege(sys_role role)
+        {
+            if (role.is_basic == 1)
+            {
+                var basicRole = Broker.Retrieve<sys_role>(role.parent_roleid);
+            }
+
+        }
     }
 }

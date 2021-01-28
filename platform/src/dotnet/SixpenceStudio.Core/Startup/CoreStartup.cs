@@ -30,6 +30,7 @@ namespace SixpenceStudio.Core.Startup
             #region 初始化角色
             var broker = PersistBrokerFactory.GetPersistBroker();
             var user = UserIdentityUtil.GetAdmin();
+            UserIdentityUtil.SetCurrentUser(user);
             foreach (var item in Enum.GetValues(typeof(SystemRole)))
             {
                 var roleName = item.ToString();
@@ -46,7 +47,8 @@ namespace SixpenceStudio.Core.Startup
                         modifiedBy = user.Id,
                         modifiedByName = user.Name,
                         modifiedOn = DateTime.Now,
-                        description = (item as Enum).GetDescription()
+                        description = (item as Enum).GetDescription(),
+                        is_basic = 1
                     };
                     new SysRoleService(broker).CreateData(role);
                 }

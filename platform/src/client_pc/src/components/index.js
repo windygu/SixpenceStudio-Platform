@@ -9,6 +9,7 @@ import spMenu from './spMenu';
 import spTag from './spTag';
 import spEditor from './spEditor';
 import spSelect from './spSelect';
+import spSwitch from './spSwitch';
 
 const components = [
   { name: register.name, component: register },
@@ -21,7 +22,8 @@ const components = [
   { name: spMenu.name, component: spMenu },
   { name: spTag.name, component: spTag },
   { name: spEditor.name, component: spEditor },
-  { name: spSelect.name, component: spSelect }
+  { name: spSelect.name, component: spSelect },
+  { name: spSwitch.name, component: spSwitch }
 ];
 
 export default components;

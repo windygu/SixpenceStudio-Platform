@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\build\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -189,7 +189,6 @@
     <Compile Include="Auth\ApplicationContext.cs" />
     <Compile Include="Auth\CurrentUserModel.cs" />
     <Compile Include="Auth\OperationTypeAttribute.cs" />
-    <Compile Include="Auth\PrivilegeSelectOption.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeController.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeService.cs" />
     <Compile Include="Auth\SysRole\BasicRoleFactory.cs" />

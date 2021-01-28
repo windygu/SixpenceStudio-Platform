@@ -46,6 +46,24 @@ namespace SixpenceStudio.Core.Auth.SysRole
         }
 
         /// <summary>
+        /// 是否基础角色
+        /// </summary>
+        private int _is_basic;
+        [DataMember]
+        public int is_basic
+        {
+            get
+            {
+                return this._is_basic;
+            }
+            set
+            {
+                this._is_basic = value;
+                SetAttributeValue("is_basic", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdBy;
@@ -159,6 +177,42 @@ namespace SixpenceStudio.Core.Auth.SysRole
         }
 
 
+        /// <summary>
+        /// 继承角色
+        /// </summary>
+        private string _parent_roleid;
+        [DataMember]
+        public string parent_roleid
+        {
+            get
+            {
+                return this._parent_roleid;
+            }
+            set
+            {
+                this._parent_roleid = value;
+                SetAttributeValue("parent_roleid", value);
+            }
+        }
+
+
+        /// <summary>
+        /// 继承角色
+        /// </summary>
+        private string _parent_roleidName;
+        [DataMember]
+        public string parent_roleidName
+        {
+            get
+            {
+                return this._parent_roleidName;
+            }
+            set
+            {
+                this._parent_roleidName = value;
+                SetAttributeValue("parent_roleidName", value);
+            }
+        }
     }
 }
 

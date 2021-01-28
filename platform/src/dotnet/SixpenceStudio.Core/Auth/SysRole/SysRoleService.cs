@@ -21,5 +21,14 @@ namespace SixpenceStudio.Core.Auth.SysRole
             _cmd = new EntityCommand<sys_role>(broker);
         }
         #endregion
+
+        public IEnumerable<SelectOption> GetBasicRole()
+        {
+            var sql = @"
+select sys_roleid as Value, name as Name  from sys_role
+where is_basic = 1
+";
+            return Broker.Query<SelectOption>(sql);
+        }
     }
 }
