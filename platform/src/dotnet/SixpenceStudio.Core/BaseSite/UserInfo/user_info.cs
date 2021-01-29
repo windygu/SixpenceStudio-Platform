@@ -170,6 +170,42 @@ namespace SixpenceStudio.Core.UserInfo
         }
 
         /// <summary>
+        /// 角色权限id
+        /// </summary>
+        private string _roleid;
+        [DataMember]
+        public string roleid
+        {
+            get
+            {
+                return _roleid;
+            }
+            set
+            {
+                _roleid = value;
+                SetAttributeValue("roleid", value);
+            }
+        }
+
+        /// <summary>
+        /// 角色权限名
+        /// </summary>
+        private string _roleidName;
+        [DataMember]
+        public string roleidName
+        {
+            get
+            {
+                return _roleidName;
+            }
+            set
+            {
+                _roleidName = value;
+                SetAttributeValue("roleidName", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdby;

@@ -58,7 +58,7 @@ namespace SixpenceStudio.Core.Extensions
             string name = Enum.GetName(type, value);
             if (name == null)
             {
-                return null;
+                return default(T);
             }
 
             FieldInfo field = type.GetField(name);

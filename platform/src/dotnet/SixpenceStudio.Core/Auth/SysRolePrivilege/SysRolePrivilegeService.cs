@@ -1,6 +1,8 @@
-﻿using SixpenceStudio.Core.Auth.SysRole;
+﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
+using SixpenceStudio.Core.UserInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +25,17 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         }
         #endregion
 
-        public void CreatePrivilege(sys_role role)
+        /// <summary>
+        /// 检查权限
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="operationType"></param>
+        /// <returns></returns>
+        public bool CheckAccess(string entityId, OperationType operationType)
         {
-            if (role.is_basic == 1)
-            {
-                var basicRole = Broker.Retrieve<sys_role>(role.parent_roleid);
-            }
-
+            var user = Broker.Retrieve<user_info>(UserIdentityUtil.GetCurrentUser()?.Id);
+            var data = Broker.Retrieve<sys_role_privilege>("select * from sys_role_privilege where roleid = @roleid and entityid = @entityid", new Dictionary<string, object>() { { "@roleid", user.roleid }, { "@entityid", entityId } });
+            return (data.privilege & operationType.GetValue<int>()) == operationType.GetValue<int>();
         }
     }
 }
