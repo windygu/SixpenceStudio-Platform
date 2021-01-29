@@ -194,7 +194,7 @@
     <Compile Include="Auth\SysRole\BasicRole\BasicRole.cs" />
     <Compile Include="Auth\SysRole\BasicRole\Guest.cs" />
     <Compile Include="Auth\SysRole\BasicRole\IBasicRole.cs" />
-    <Compile Include="Auth\SysRole\BasicRole\OperationTypeValue.cs" />
+    <Compile Include="Auth\OperationTypeValue.cs" />
     <Compile Include="Auth\SysRole\BasicRole\SuperUser.cs" />
     <Compile Include="Auth\SysRole\SysRoleExtension.cs" />
     <Compile Include="Auth\SysRole\BasicRole\User.cs" />

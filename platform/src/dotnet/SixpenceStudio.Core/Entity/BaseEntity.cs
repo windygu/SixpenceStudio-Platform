@@ -74,7 +74,7 @@ namespace SixpenceStudio.Core.Entity
             set
             {
                 _id = value;
-                SetAttributeValue($"{EntityName}Id", value);
+                this.GetType().GetProperty($"{EntityName}Id").SetValue(this, value);
             }
         }
 

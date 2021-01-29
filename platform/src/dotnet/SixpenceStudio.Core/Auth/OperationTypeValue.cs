@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
+namespace SixpenceStudio.Core.Auth
 {
     /// <summary>
     /// 操作类型

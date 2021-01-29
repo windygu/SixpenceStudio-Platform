@@ -14,7 +14,9 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
     public abstract class BasicRole
     {
         protected IPersistBroker broker;
-        protected const string PREFIX = "BasicRole_";
+        public const string ROLE_PREFIX = "BasicRole";
+        public const string PRIVILEGE_PREFIX = "RolePrivilege";
+        public string GetRoleKey => this.GetType().Name;
 
         public BasicRole()
         {
@@ -29,7 +31,8 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         protected virtual sys_role GetRole(SystemRole systemRole)
         {
             var roleName = systemRole.ToString();
-            return MemoryCacheUtil.GetOrAddCacheItem(PREFIX + roleName, () =>
+            var key = $"{ROLE_PREFIX}_{roleName}";
+            return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
                 var role = broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", roleName } });
                 if (role == null)
@@ -51,7 +54,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                     new SysRoleService(broker).CreateData(role);
                 }
                 return role;
-            });
+            }, DateTime.Now.AddHours(12));
         }
 
         /// <summary>
@@ -62,7 +65,8 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         protected virtual IEnumerable<sys_role_privilege> GetRolePrivilege(SystemRole systemRole)
         {
             var roleName = systemRole.ToString();
-            return MemoryCacheUtil.GetOrAddCacheItem(PREFIX + roleName, () =>
+            var key = $"{PRIVILEGE_PREFIX}_{roleName}";
+            return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
                 var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", roleName } });
                 if (dataList.IsEmpty())
@@ -70,7 +74,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                     dataList = CreateRolePrivilege();
                 }
                 return dataList;
-            });
+            }, DateTime.Now.AddHours(12));
         }
 
         /// <summary>

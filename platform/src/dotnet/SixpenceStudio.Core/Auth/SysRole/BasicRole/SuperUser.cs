@@ -17,8 +17,6 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
     /// </summary>
     public class SuperUser : BasicRole, IBasicRole
     {
-        public string GetRoleKey => PREFIX + Role.ToString();
-
         public SystemRole Role { get => SystemRole.SuperUser; }
 
         public sys_role GetRole()
@@ -33,14 +31,17 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
 
         protected override IList<sys_role_privilege> CreateRolePrivilege()
         {
-            var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => item.is_sys != 1);
-            var dataList = entityList.Select(entity =>
+            return broker.ExecuteTransaction(() =>
             {
-                int privilege = OperationType.Read.GetValue<int>() + OperationType.Write.GetValue<int>() + OperationType.Delete.GetValue<int>();
-                return GenerateRolePrivilege(entity, GetRole(), privilege);
-            }).ToList();
-            broker.BulkCreate(dataList);
-            return dataList;
+                var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => item.is_sys != 1);
+                var dataList = entityList.Select(entity =>
+                {
+                    int privilege = OperationType.Read.GetValue<int>() + OperationType.Write.GetValue<int>() + OperationType.Delete.GetValue<int>();
+                    return GenerateRolePrivilege(entity, GetRole(), privilege);
+                }).ToList();
+                broker.BulkCreate(dataList);
+                return dataList;
+            });
         }
     }
 }
