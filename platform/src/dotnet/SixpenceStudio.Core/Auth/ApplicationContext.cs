@@ -36,4 +36,11 @@ namespace SixpenceStudio.Core.Auth
 
         public CurrentUserModel User;
     }
+
+    public class CurrentUserModel
+    {
+        public string Id { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
 }

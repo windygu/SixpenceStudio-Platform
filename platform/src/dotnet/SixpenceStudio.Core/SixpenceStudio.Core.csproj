@@ -187,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\ApplicationContext.cs" />
-    <Compile Include="Auth\CurrentUserModel.cs" />
     <Compile Include="Auth\SysRolePrivilege\RolePrivilegeModel.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeController.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeService.cs" />
@@ -197,7 +196,7 @@
     <Compile Include="Auth\SysRole\BasicRole\IBasicRole.cs" />
     <Compile Include="Auth\SysRole\BasicRole\OperationTypeValue.cs" />
     <Compile Include="Auth\SysRole\BasicRole\SuperUser.cs" />
-    <Compile Include="Auth\SysRole\BasicRole\SysRoleExtension.cs" />
+    <Compile Include="Auth\SysRole\SysRoleExtension.cs" />
     <Compile Include="Auth\SysRole\BasicRole\User.cs" />
     <Compile Include="Auth\SysRole\SysRoleController.cs" />
     <Compile Include="Auth\SysRole\SysRolePlugin.cs" />
