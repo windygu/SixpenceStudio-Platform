@@ -65,44 +65,23 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             }
         }
 
-
         /// <summary>
-        /// 操作类型
+        /// 权限值
         /// </summary>
-        private string _operation_type;
+        private int _privilege;
         [DataMember]
-        public string operation_type
+        public int privilege
         {
             get
             {
-                return this._operation_type;
+                return this._privilege;
             }
             set
             {
-                this._operation_type = value;
-                SetAttributeValue("operation_type", value);
+                this._privilege = value;
+                SetAttributeValue("privilege", value);
             }
         }
-
-
-        /// <summary>
-        /// 操作类型名
-        /// </summary>
-        private string _operation_typeName;
-        [DataMember]
-        public string operation_typeName
-        {
-            get
-            {
-                return this._operation_typeName;
-            }
-            set
-            {
-                this._operation_typeName = value;
-                SetAttributeValue("operation_typeName", value);
-            }
-        }
-
 
         /// <summary>
         /// 实体id

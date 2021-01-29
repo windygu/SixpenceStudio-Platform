@@ -86,7 +86,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// <param name="role"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        protected sys_role_privilege GenerateRolePrivilege(sys_entity entity, sys_role role, OperationType type)
+        protected sys_role_privilege GenerateRolePrivilege(sys_entity entity, sys_role role, int value)
         {
             var user = UserIdentityUtil.GetAdmin();
             var privilege = new sys_role_privilege()
@@ -101,29 +101,9 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                 createdOn = DateTime.Now,
                 modifiedBy = user.Id,
                 modifiedByName = user.Name,
-                modifiedOn = DateTime.Now
+                modifiedOn = DateTime.Now,
+                privilege = value
             };
-            switch (type)
-            {
-                case OperationType.Create:
-                    privilege.operation_type = OperationTypeValue.Create.Value;
-                    privilege.operation_typeName = OperationTypeValue.Create.Name;
-                    break;
-                case OperationType.Delete:
-                    privilege.operation_type = OperationTypeValue.Delete.Value;
-                    privilege.operation_typeName = OperationTypeValue.Delete.Name;
-                    break;
-                case OperationType.Select:
-                    privilege.operation_type = OperationTypeValue.Select.Value;
-                    privilege.operation_typeName = OperationTypeValue.Select.Name;
-                    break;
-                case OperationType.Update:
-                    privilege.operation_type = OperationTypeValue.Update.Value;
-                    privilege.operation_typeName = OperationTypeValue.Update.Name;
-                    break;
-                default:
-                    break;
-            }
             return privilege;
         }
     }

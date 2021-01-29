@@ -1,6 +1,7 @@
 ﻿using SixpenceStudio.Core.Auth.SysRolePrivilege;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.SysEntity;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -32,15 +33,12 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
 
         protected override IList<sys_role_privilege> CreateRolePrivilege()
         {
-            var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity();
-            var dataList = new List<sys_role_privilege>();
-            entityList.Each(entity =>
+            var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => item.is_sys != 1);
+            var dataList = entityList.Select(entity =>
             {
-                if (entity.is_sys == 0)
-                {
-                    dataList.Add(GenerateRolePrivilege(entity, GetRole(), OperationType.Select));
-                }
-            });
+                int privilege = OperationType.Read.GetValue<int>();
+                return GenerateRolePrivilege(entity, GetRole(), privilege);
+            }).ToList();
             broker.BulkCreate(dataList);
             return dataList;
         }

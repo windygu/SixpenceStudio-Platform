@@ -15,35 +15,28 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
     public static class OperationTypeValue
     {
         /// <summary>
-        /// 创建
+        /// 写
         /// </summary>
-        public static SelectOption Create => new SelectOption("创建", "create");
+        public static SelectOption Write => new SelectOption("写", "write");
 
         /// <summary>
-        /// 更新
+        /// 删
         /// </summary>
-        public static SelectOption Update => new SelectOption("更新", "update");
+        public static SelectOption Delete => new SelectOption("删", "delete");
 
         /// <summary>
-        /// 删除
+        /// 读
         /// </summary>
-        public static SelectOption Delete => new SelectOption("删除", "delete");
-
-        /// <summary>
-        /// 查询
-        /// </summary>
-        public static SelectOption Select => new SelectOption("查询", "select");
+        public static SelectOption Read => new SelectOption("读", "read");
     }
 
     public enum OperationType
     {
-        [Description("创建")]
-        Create,
-        [Description("更新")]
-        Update,
-        [Description("删除")]
-        Delete,
-        [Description("查询")]
-        Select
+        [Description("读"), Value(1)]
+        Read,
+        [Description("写"), Value(2)]
+        Write,
+        [Description("删"), Value(4)]
+        Delete
     }
 }

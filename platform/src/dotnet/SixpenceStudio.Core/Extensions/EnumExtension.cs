@@ -52,7 +52,7 @@ namespace SixpenceStudio.Core.Extensions
         /// <param name="value"></param>
         /// <param name="nameInstead"></param>
         /// <returns></returns>
-        public static object GetValue(this Enum value)
+        public static T GetValue<T>(this Enum value)
         {
             Type type = value.GetType();
             string name = Enum.GetName(type, value);
@@ -63,7 +63,7 @@ namespace SixpenceStudio.Core.Extensions
 
             FieldInfo field = type.GetField(name);
             ValueAttribute attribute = System.Attribute.GetCustomAttribute(field, typeof(ValueAttribute)) as ValueAttribute;
-            return attribute?.Value;
+            return (T)attribute?.Value;
         }
     }
 
