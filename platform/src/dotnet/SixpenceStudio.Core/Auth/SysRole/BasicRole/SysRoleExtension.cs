@@ -1,29 +1,35 @@
-﻿using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Extensions;
-using SixpenceStudio.Core.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Core.Auth.SysRole
+namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
 {
-    public static class BasicRoleFactory
+    public static class SysRoleExtension
     {
         /// <summary>
-        /// 获取角色
+        /// 是否是基础角色
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
-        public static sys_role GetRole(SystemRole role)
+        public static bool IsBasicRole(this sys_role role)
         {
-            return MemoryCacheUtil.GetOrAddCacheItem(role.ToString(), () =>
+            if (role.is_basic != 1)
             {
-                var broker = PersistBrokerFactory.GetPersistBroker();
-                return broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", role.ToString() } });
-            });
+                return false;
+            }
+
+            var list = Enum.GetValues(typeof(SystemRole));
+            foreach (var item in list)
+            {
+                if (item.ToString() == role.name)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

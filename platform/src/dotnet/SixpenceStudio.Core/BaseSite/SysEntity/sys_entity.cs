@@ -47,6 +47,24 @@ namespace SixpenceStudio.Core.SysEntity
         }
 
         /// <summary>
+        /// 是否系统实体
+        /// </summary>
+        private int _is_sys;
+        [DataMember]
+        public int is_sys
+        {
+            get
+            {
+                return _is_sys;
+            }
+            set
+            {
+                _is_sys = value;
+                SetAttributeValue("is_sys", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdby;

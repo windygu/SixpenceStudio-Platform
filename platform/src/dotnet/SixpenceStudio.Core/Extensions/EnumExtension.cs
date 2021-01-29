@@ -45,5 +45,36 @@ namespace SixpenceStudio.Core.Extensions
             }
             return attribute?.Description;
         }
+
+        /// <summary>
+        /// 获取枚举值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="nameInstead"></param>
+        /// <returns></returns>
+        public static object GetValue(this Enum value)
+        {
+            Type type = value.GetType();
+            string name = Enum.GetName(type, value);
+            if (name == null)
+            {
+                return null;
+            }
+
+            FieldInfo field = type.GetField(name);
+            ValueAttribute attribute = System.Attribute.GetCustomAttribute(field, typeof(ValueAttribute)) as ValueAttribute;
+            return attribute?.Value;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class ValueAttribute : Attribute
+    {
+        public ValueAttribute(object value)
+        {
+            this.Value = value;
+        }
+
+        public object Value;
     }
 }

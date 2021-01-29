@@ -1,18 +1,13 @@
 ﻿using Owin;
 using Quartz;
-using SixpenceStudio.Core.Auth;
-using SixpenceStudio.Core.Auth.SysRole;
-using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Extensions;
+using SixpenceStudio.Core.Auth.SysRole.BasicRole;
+using SixpenceStudio.Core.Auth.SysRolePrivilege;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Job;
-using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Startup
 {
@@ -27,34 +22,8 @@ namespace SixpenceStudio.Core.Startup
                 .Each(type => UnityContainerService.Register(typeof(IJob), type, type.Name));
             JobHelpers.Start();
 
-            #region 初始化角色
-            var broker = PersistBrokerFactory.GetPersistBroker();
-            var user = UserIdentityUtil.GetAdmin();
-            UserIdentityUtil.SetCurrentUser(user);
-            foreach (var item in Enum.GetValues(typeof(SystemRole)))
-            {
-                var roleName = item.ToString();
-                var role = broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", roleName } });
-                if (role == null)
-                {
-                    role = new sys_role()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        name = roleName,
-                        createdBy = user.Id,
-                        createdByName = user.Name,
-                        createdOn = DateTime.Now,
-                        modifiedBy = user.Id,
-                        modifiedByName = user.Name,
-                        modifiedOn = DateTime.Now,
-                        description = (item as Enum).GetDescription(),
-                        is_basic = 1
-                    };
-                    new SysRoleService(broker).CreateData(role);
-                }
-                MemoryCacheUtil.Set(roleName, role, 3600 * 12);
-            }
-            #endregion
+            // 注册基本角色和权限
+            UnityContainerService.ResolveAll<IBasicRole>().Each(item => MemoryCacheUtil.Set(item.GetRoleKey, new RolePrivilegeModel() { Role = item.GetRole(), Privileges = item.GetRolePrivilege() }, 3600 * 12));
         }
     }
 }
