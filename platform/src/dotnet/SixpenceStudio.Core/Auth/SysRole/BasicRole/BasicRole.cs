@@ -37,17 +37,10 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                 var role = broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", roleName } });
                 if (role == null)
                 {
-                    var user = UserIdentityUtil.GetAdmin();
                     role = new sys_role()
                     {
                         Id = Guid.NewGuid().ToString(),
                         name = roleName,
-                        createdBy = user.Id,
-                        createdByName = user.Name,
-                        createdOn = DateTime.Now,
-                        modifiedBy = user.Id,
-                        modifiedByName = user.Name,
-                        modifiedOn = DateTime.Now,
                         description = roleName,
                         is_basic = 1
                     };
@@ -92,7 +85,6 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// <returns></returns>
         protected sys_role_privilege GenerateRolePrivilege(sys_entity entity, sys_role role, int value)
         {
-            var user = UserIdentityUtil.GetAdmin();
             var privilege = new sys_role_privilege()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -100,12 +92,6 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                 sys_entityidName = entity.name,
                 sys_roleid = role.Id,
                 sys_roleidName = role.name,
-                createdBy = user.Id,
-                createdByName = user.Name,
-                createdOn = DateTime.Now,
-                modifiedBy = user.Id,
-                modifiedByName = user.Name,
-                modifiedOn = DateTime.Now,
                 privilege = value
             };
             return privilege;

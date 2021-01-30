@@ -3,6 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 using Quartz;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;
@@ -51,6 +52,7 @@ namespace SixpenceStudio.Core.Startup
             logger.Info("IoC注册成功");
             #endregion
 
+            UserIdentityUtil.SetCurrentUser(UserIdentityUtil.GetAdmin());
             // 调用所有的启动类
             UnityContainerService.ResolveAll<IStartup>().Each(item => item.Configuration(app));
         }
