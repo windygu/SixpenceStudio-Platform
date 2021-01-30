@@ -61,7 +61,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
             var key = $"{PRIVILEGE_PREFIX}_{roleName}";
             return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
-                var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", roleName } });
+                var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", systemRole.GetDescription() } });
                 if (dataList.IsEmpty())
                 {
                     dataList = CreateRolePrivilege();
