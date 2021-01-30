@@ -13,18 +13,16 @@ namespace SixpenceStudio.Core.SysConfig
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_configId;
         [DataMember]
         public string sys_configId
         {
             get
             {
-                return this._sys_configId;
+                return this.Id;
             }
             set
             {
-                this._sys_configId = value;
-                SetAttributeValue("sys_configId", value);
+                this.Id = value;
             }
         }
 

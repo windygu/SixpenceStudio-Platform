@@ -12,18 +12,16 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _robot_message_taskid;
         [DataMember]
         public string robot_message_taskId
         {
             get
             {
-                return this._robot_message_taskid;
+                return this.Id;
             }
             set
             {
-                this._robot_message_taskid = value;
-                SetAttributeValue("robot_message_taskId", value);
+                this.Id = value;
             }
         }
 

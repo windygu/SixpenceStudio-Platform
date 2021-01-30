@@ -21,9 +21,15 @@
       <a-col :span="12">
         <a-form-model-item label="性别">
           <a-radio-group v-model="data.gender" @change="handleChangeGender">
-            <a-radio v-for="(item, index) in [{ name: '男', value: 0 }, { name: '女', value: 1 }]" :key="index" :value="item.value">{{
-              item.name
-            }}</a-radio>
+            <a-radio
+              v-for="(item, index) in [
+                { name: '男', value: 0 },
+                { name: '女', value: 1 }
+              ]"
+              :key="index"
+              :value="item.value"
+              >{{ item.name }}</a-radio
+            >
           </a-radio-group>
         </a-form-model-item>
       </a-col>
@@ -49,17 +55,28 @@
     </a-row>
     <a-row :gutter="24">
       <a-col :span="12">
+        <a-form-model-item label="角色">
+          <sp-select v-model="data.roleid" :options="roles" @change="item => (data.roleidName = item.name)"></sp-select>
+        </a-form-model-item>
+      </a-col>
+      <a-col :span="12">
         <a-form-model-item label="状态">
           <a-radio-group v-model="data.stateCode" @change="handleStateCodeChange">
-            <a-radio v-for="(item, index) in [{ name: '启用', value: 1 }, { name: '禁用', value: 0 }]" :key="index" :value="item.value">{{
-              item.name
-            }}</a-radio>
+            <a-radio
+              v-for="(item, index) in [
+                { name: '启用', value: 1 },
+                { name: '禁用', value: 0 }
+              ]"
+              :key="index"
+              :value="item.value"
+              >{{ item.name }}</a-radio
+            >
           </a-radio-group>
         </a-form-model-item>
       </a-col>
     </a-row>
     <a-row :gutter="24">
-      <a-col>
+      <a-col :span="12">
         <a-form-model-item label="头像">
           <a-upload
             ref="file"
@@ -91,12 +108,16 @@ export default {
       avatarChange: false,
       baseUrl: '',
       token: '',
-      fileList: []
+      fileList: [],
+      roles: []
     };
   },
   created() {
     this.baseUrl = window.localStorage.getItem('baseUrl');
     this.token = window.localStorage.getItem('Token');
+    sp.get('api/SysRole/GetBasicRole').then(resp => {
+      this.roles = resp;
+    });
   },
   computed: {
     headers() {

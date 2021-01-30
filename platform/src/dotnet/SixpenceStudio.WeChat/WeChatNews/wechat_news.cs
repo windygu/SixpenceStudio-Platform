@@ -13,18 +13,16 @@ namespace SixpenceStudio.WeChat.WeChatNews
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _wechat_newsid;
         [DataMember]
         public string wechat_newsId
         {
             get
             {
-                return this._wechat_newsid;
+                return this.Id;
             }
             set
             {
-                this._wechat_newsid = value;
-                SetAttributeValue("wechat_newsId", value);
+                this.Id = value;
             }
         }
 

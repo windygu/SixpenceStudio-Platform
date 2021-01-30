@@ -11,18 +11,16 @@ namespace SixpenceStudio.Core.AuthUser
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _auth_userid;
         [DataMember]
         public string auth_userId
         {
             get
             {
-                return _auth_userid;
+                return this.Id;
             }
             set
             {
-                _auth_userid = value;
-                SetAttributeValue("auth_userId", value);
+                this.Id = value;
             }
         }
 

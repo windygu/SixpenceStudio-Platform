@@ -3,6 +3,7 @@ using Quartz.Util;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -74,7 +75,7 @@ namespace SixpenceStudio.Core.Entity
             set
             {
                 _id = value;
-                this.GetType().GetProperty($"{EntityName}Id").SetValue(this, value);
+                SetAttributeValue($"{EntityName}Id", value);
             }
         }
 
@@ -150,8 +151,6 @@ namespace SixpenceStudio.Core.Entity
         {
             _attributes[attributeLogicalName] = value;
         }
-
-
         #endregion
 
     }

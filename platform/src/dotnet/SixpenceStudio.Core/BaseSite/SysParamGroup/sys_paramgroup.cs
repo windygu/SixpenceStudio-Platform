@@ -13,18 +13,16 @@ namespace SixpenceStudio.Core.SysParamGroup
         /// <summary>
         /// 主键
         /// </summary>
-        private string _sys_paramGroupId;
         [DataMember]
         public string sys_paramGroupId
         {
             get
             {
-                return this._sys_paramGroupId;
+                return this.Id;
             }
             set
             {
-                this._sys_paramGroupId = value;
-                SetAttributeValue("sys_paramGroupId", value);
+                this.Id = value;
             }
         }
 

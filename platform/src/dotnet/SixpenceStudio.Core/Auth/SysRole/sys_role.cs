@@ -11,18 +11,16 @@ namespace SixpenceStudio.Core.Auth.SysRole
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_roleid;
         [DataMember]
         public string sys_roleId
         {
             get
             {
-                return this._sys_roleid;
+                return this.Id;
             }
             set
             {
-                this._sys_roleid = value;
-                SetAttributeValue("sys_roleId", value);
+                this.Id = value;
             }
         }
 

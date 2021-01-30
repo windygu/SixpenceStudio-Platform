@@ -10,18 +10,16 @@ namespace SixpenceStudio.Core.UserInfo
         /// <summary>
         /// 用户id
         /// </summary>
-        private string _user_infoId;
         [DataMember]
         public string user_infoId
         {
             get
             {
-                return _user_infoId;
+                return this.Id;
             }
             set
             {
-                _user_infoId = value;
-                SetAttributeValue("user_infoId", value);
+                this.Id = value;
             }
         }
 

@@ -13,18 +13,16 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_entityid;
         [DataMember]
         public string sys_entityId
         {
             get
             {
-                return this._sys_entityid;
+                return this.Id;
             }
             set
             {
-                this._sys_entityid = value;
-                SetAttributeValue("sys_entityId", value);
+                this.Id = value;
             }
         }
 

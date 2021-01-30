@@ -12,18 +12,16 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_role_privilegeid;
         [DataMember]
         public string sys_role_privilegeId
         {
             get
             {
-                return this._sys_role_privilegeid;
+                return this.Id;
             }
             set
             {
-                this._sys_role_privilegeid = value;
-                SetAttributeValue("sys_role_privilegeId", value);
+                this.Id = value;
             }
         }
 

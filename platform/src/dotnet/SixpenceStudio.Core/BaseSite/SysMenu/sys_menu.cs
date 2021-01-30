@@ -13,18 +13,16 @@ namespace SixpenceStudio.Core.SysMenu
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _sys_menuid;
         [DataMember]
         public string sys_menuId
         {
             get
             {
-                return this._sys_menuid;
+                return this.Id;
             }
             set
             {
-                this._sys_menuid = value;
-                SetAttributeValue("sys_menuId", value);
+                this.Id = value;
             }
         }
 

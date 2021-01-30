@@ -12,18 +12,16 @@ namespace SixpenceStudio.WeChat.WeChatReply.Keywords
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _wechat_keywordsid;
         [DataMember]
         public string wechat_keywordsId
         {
             get
             {
-                return this._wechat_keywordsid;
+                return this.Id;
             }
             set
             {
-                this._wechat_keywordsid = value;
-                SetAttributeValue("wechat_keywordsId", value);
+                this.Id = value;
             }
         }
 

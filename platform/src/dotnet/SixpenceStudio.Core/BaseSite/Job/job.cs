@@ -10,18 +10,16 @@ namespace SixpenceStudio.Core.Job
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _jobid;
         [DataMember]
         public string jobId
         {
             get
             {
-                return _jobid;
+                return this.Id;
             }
             set
             {
-                _jobid = value;
-                SetAttributeValue("jobId", value);
+                this.Id = value;
             }
         }
 

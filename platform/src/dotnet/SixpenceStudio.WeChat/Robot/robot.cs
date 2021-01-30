@@ -12,18 +12,16 @@ namespace SixpenceStudio.WeChat.Robot
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _robotid;
         [DataMember]
         public string robotId
         {
             get
             {
-                return this._robotid;
+                return this.Id;
             }
             set
             {
-                this._robotid = value;
-                SetAttributeValue("robotId", value);
+                this.Id = value;
             }
         }
 

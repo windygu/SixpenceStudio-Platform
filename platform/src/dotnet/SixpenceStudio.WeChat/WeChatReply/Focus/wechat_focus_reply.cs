@@ -14,18 +14,16 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _wechat_focus_replyid;
         [DataMember]
         public string wechat_focus_replyId
         {
             get
             {
-                return this._wechat_focus_replyid;
+                return this.Id;
             }
             set
             {
-                this._wechat_focus_replyid = value;
-                SetAttributeValue("wechat_focus_replyId", value);
+                this.Id = value;
             }
         }
 

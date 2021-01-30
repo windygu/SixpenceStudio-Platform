@@ -13,18 +13,16 @@ namespace SixpenceStudio.Core.ShortUrl
         /// <summary>
         /// 短链接key
         /// </summary>
-        private string _short_key;
         [DataMember]
         public string short_key
         {
             get
             {
-                return this._short_key;
+                return this.Id;
             }
             set
             {
-                this._short_key = value;
-                SetAttributeValue("short_key", value);
+                this.Id = value;
             }
         }
 

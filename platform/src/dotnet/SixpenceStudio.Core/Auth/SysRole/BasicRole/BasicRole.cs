@@ -30,8 +30,8 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// <returns></returns>
         protected virtual sys_role GetRole(SystemRole systemRole)
         {
-            var roleName = systemRole.ToString();
-            var key = $"{ROLE_PREFIX}_{roleName}";
+            var roleName = systemRole.GetDescription();
+            var key = $"{ROLE_PREFIX}_{systemRole}";
             return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
                 var role = broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", roleName } });
@@ -48,7 +48,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                         modifiedBy = user.Id,
                         modifiedByName = user.Name,
                         modifiedOn = DateTime.Now,
-                        description = systemRole.GetDescription(),
+                        description = roleName,
                         is_basic = 1
                     };
                     new SysRoleService(broker).CreateData(role);

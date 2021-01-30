@@ -10,18 +10,16 @@ namespace SixpenceStudio.Core.SysFile
     [EntityName("sys_file")]
     public partial class sys_file : BaseEntity
     {
-        private string _sys_fileid;
         [DataMember]
         public string sys_fileId
         {
             get
             {
-                return this._sys_fileid;
+                return this.Id;
             }
             set
             {
-                this._sys_fileid = value;
-                SetAttributeValue("sys_fileId", value);
+                this.Id = value;
             }
         }
 

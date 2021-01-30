@@ -12,18 +12,16 @@ namespace SixpenceStudio.Core.gallery
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _galleryid;
         [DataMember]
         public string galleryId
         {
             get
             {
-                return this._galleryid;
+                return this.Id;
             }
             set
             {
-                this._galleryid = value;
-                SetAttributeValue("galleryId", value);
+                this.Id = value;
             }
         }
 

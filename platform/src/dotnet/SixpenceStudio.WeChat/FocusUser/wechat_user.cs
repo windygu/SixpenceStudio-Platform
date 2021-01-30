@@ -10,18 +10,16 @@ namespace SixpenceStudio.WeChat.FocusUser
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _wechat_userid;
         [DataMember]
         public string wechat_userId
         {
             get
             {
-                return this._wechat_userid;
+                return this.Id;
             }
             set
             {
-                this._wechat_userid = value;
-                SetAttributeValue("wechat_userId", value);
+                this.Id = value;
             }
         }
 

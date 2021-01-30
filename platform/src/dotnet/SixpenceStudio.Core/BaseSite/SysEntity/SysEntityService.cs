@@ -181,7 +181,6 @@ using SixpenceStudio.Core.Entity;
 using System;
 using System.Runtime.Serialization;
 
-
 namespace SixpenceStudio.Core.SysEntity
 {{
     [EntityName(""{entity.code}"")]
@@ -190,18 +189,16 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 实体id
         /// </summary>
-        private string _{entity.code}id;
         [DataMember]
         public string {entity.code}Id
         {{
             get
             {{
-                return this._{entity.code}id;
+                return this.Id;
             }}
             set
             {{
-                this._{entity.code}id = value;
-                SetAttributeValue(""{entity.code}Id"", value);
+                this.Id = value;
             }}
         }}
 
