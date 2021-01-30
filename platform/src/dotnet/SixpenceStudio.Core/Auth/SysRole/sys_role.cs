@@ -46,9 +46,9 @@ namespace SixpenceStudio.Core.Auth.SysRole
         /// <summary>
         /// 是否基础角色
         /// </summary>
-        private int _is_basic;
+        private bool _is_basic;
         [DataMember]
-        public int is_basic
+        public bool is_basic
         {
             get
             {

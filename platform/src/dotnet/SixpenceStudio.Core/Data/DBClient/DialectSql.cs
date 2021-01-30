@@ -51,6 +51,10 @@ namespace SixpenceStudio.Core.Data
             {
                 return (name + "::json", JsonConvert.SerializeObject(value));
             }
+            else if (value != null && value is Boolean)
+            {
+                return (name, (bool)value ? 1 : 0);
+            }
             return (name, value);
         }
     }

@@ -20,17 +20,17 @@ namespace SixpenceStudio.Core.Auth.SysRole
             {
                 case EntityAction.PostCreate:
                     {
-                        AssertUtil.CheckBoolean<SpException>(obj.IsBasicRole(), "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        AssertUtil.CheckBoolean<SpException>(obj.is_basic, "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
                     }
                     break;
                 case EntityAction.PostUpdate:
                     {
-                        AssertUtil.CheckBoolean<SpException>(obj.IsBasicRole(), "禁止更新基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        AssertUtil.CheckBoolean<SpException>(obj.is_basic, "禁止更新基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
                     }
                     break;
                 case EntityAction.PostDelete:
                     {
-                        AssertUtil.CheckBoolean<SpException>(obj.IsBasicRole(), "禁止删除基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        AssertUtil.CheckBoolean<SpException>(obj.is_basic, "禁止删除基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
                     }
                     break;
                 default:

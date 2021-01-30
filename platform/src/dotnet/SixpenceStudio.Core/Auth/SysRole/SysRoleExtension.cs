@@ -7,32 +7,6 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Auth.SysRole
 {
-    public static class SysRoleExtension
-    {
-        /// <summary>
-        /// 是否是基础角色
-        /// </summary>
-        /// <param name="role"></param>
-        /// <returns></returns>
-        public static bool IsBasicRole(this sys_role role)
-        {
-            if (role.is_basic != 1)
-            {
-                return false;
-            }
-
-            var list = Enum.GetValues(typeof(SystemRole));
-            foreach (var item in list)
-            {
-                if (item.ToString() == role.name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
     /// <summary>
     /// 基础系统角色
     /// </summary>

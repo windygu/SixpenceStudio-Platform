@@ -42,7 +42,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                         Id = Guid.NewGuid().ToString(),
                         name = roleName,
                         description = roleName,
-                        is_basic = 1
+                        is_basic = true
                     };
                     new SysRoleService(broker).CreateData(role);
                 }
