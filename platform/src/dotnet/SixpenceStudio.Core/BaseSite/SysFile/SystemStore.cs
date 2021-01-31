@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace SixpenceStudio.Core.SysFile
@@ -33,7 +34,7 @@ namespace SixpenceStudio.Core.SysFile
         {
             var broker = PersistBrokerFactory.GetPersistBroker();
             var data =  broker.Retrieve<sys_file>(objectId) ?? broker.Retrieve<sys_file>("select * from sys_file where hash_code = @id", new Dictionary<string, object>() { { "@id", objectId } });
-            var fileInfo = new FileInfo(Path.Combine(FolderType.Storage.GetPath(), data.name));
+            var fileInfo = new FileInfo(Path.Combine(FolderType.Storage.GetPath(), data?.name ?? ""));
             if (fileInfo.Exists)
             {
                 HttpContext.Current.Response.BufferOutput = true;
@@ -41,6 +42,11 @@ namespace SixpenceStudio.Core.SysFile
                 HttpContext.Current.Response.ContentType = "application/octet-stream";
                 HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileInfo.Name);
                 HttpContext.Current.Response.TransmitFile(fileInfo.FullName);
+                HttpContext.Current.Response.End();
+            }
+            else
+            {
+                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 HttpContext.Current.Response.End();
             }
         }

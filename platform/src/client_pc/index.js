@@ -10,8 +10,6 @@ const elementUI = require('element-ui');
 Vue.use(elementUI);
 Vue.use(moment);
 
-Vue.prototype.$message = elementUI.Message;
-
 const install = _Vue => {
   components.forEach(item => _Vue.component(item.name, item.component));
 };

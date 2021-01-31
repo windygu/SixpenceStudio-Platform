@@ -1,6 +1,7 @@
 ﻿using SixpenceStudio.Core.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,6 +26,15 @@ namespace SixpenceStudio.Core.WebApi
             else if (context.Exception is TimeoutException)
             {
                 context.Response = new HttpResponseMessage(HttpStatusCode.RequestTimeout);
+            }
+            else if (context.Exception is FileNotFoundException)
+            {
+                context.Response = new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.NotFound,
+                    Content = new StringContent("访问资源未找到"),
+                    ReasonPhrase = "访问资源未找到"
+                };
             }
             // 这里可以根据项目需要返回到客户端特定的状态码。如果找不到相应的异常，统一返回服务端错误500
             else
