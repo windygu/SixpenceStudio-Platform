@@ -47,9 +47,9 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 是否系统实体
         /// </summary>
-        private int _is_sys;
+        private bool _is_sys;
         [DataMember]
-        public int is_sys
+        public bool is_sys
         {
             get
             {
@@ -59,6 +59,24 @@ namespace SixpenceStudio.Core.SysEntity
             {
                 _is_sys = value;
                 SetAttributeValue("is_sys", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否系统实体
+        /// </summary>
+        private string _is_sysName;
+        [DataMember]
+        public string is_sysName
+        {
+            get
+            {
+                return _is_sysName;
+            }
+            set
+            {
+                _is_sysName = value;
+                SetAttributeValue("is_sysName", value);
             }
         }
 

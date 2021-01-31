@@ -33,7 +33,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         {
             return broker.ExecuteTransaction(() =>
             {
-                var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => item.is_sys != 1);
+                var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => !item.is_sys);
                 var dataList = entityList.Select(entity =>
                 {
                     int privilege = OperationType.Read.GetValue<int>();

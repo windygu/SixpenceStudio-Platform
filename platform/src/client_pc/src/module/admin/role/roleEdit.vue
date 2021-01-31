@@ -15,7 +15,7 @@
     <a-row>
       <a-col :span="12">
         <a-form-model-item label="是否基础角色">
-          <sp-switch v-model="data.is_basic" disabled />
+          <a-switch v-model="data.is_basic" disabled />
         </a-form-model-item>
       </a-col>
       <a-col :span="12" v-if="!data.is_basic || data.is_basic == 0">

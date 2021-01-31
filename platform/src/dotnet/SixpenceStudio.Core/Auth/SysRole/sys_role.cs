@@ -62,6 +62,60 @@ namespace SixpenceStudio.Core.Auth.SysRole
         }
 
         /// <summary>
+        /// 是否基础角色
+        /// </summary>
+        private string _is_basicName;
+        [DataMember]
+        public string is_basicName
+        {
+            get
+            {
+                return this._is_basicName;
+            }
+            set
+            {
+                this._is_basicName = value;
+                SetAttributeValue("is_basicName", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否系统实体
+        /// </summary>
+        private bool _is_sys;
+        [DataMember]
+        public bool is_sys
+        {
+            get
+            {
+                return _is_sys;
+            }
+            set
+            {
+                _is_sys = value;
+                SetAttributeValue("is_sys", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否系统实体
+        /// </summary>
+        private string _is_sysName;
+        [DataMember]
+        public string is_sysName
+        {
+            get
+            {
+                return _is_sysName;
+            }
+            set
+            {
+                _is_sysName = value;
+                SetAttributeValue("is_sysName", value);
+            }
+        }
+
+        /// <summary>
         /// 创建人
         /// </summary>
         private string _createdBy;

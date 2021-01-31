@@ -36,22 +36,15 @@ namespace SixpenceStudio.Core.Data
         {
             return this.ExecuteTransaction(() =>
             {
-                var user = UserIdentityUtil.GetCurrentUser();
-                if ((!entity.Attributes.ContainsKey("createdBy") || entity.GetAttributeValue("createdBy") == null) && entity.GetType().GetProperty("createdBy") != null)
-                {
-                    entity.SetAttributeValue("createdBy", user.Id);
-                    entity.SetAttributeValue("createdByName", user.Name);
-                }
-                if ((!entity.Attributes.ContainsKey("createdOn") || entity.GetAttributeValue("createdOn") == null) && entity.GetType().GetProperty("createdOn") != null)
-                {
-                    entity.SetAttributeValue("createdOn", DateTime.Now);
-                }
-                entity.SetAttributeValue("modifiedBy", user.Id);
-                entity.SetAttributeValue("modifiedByName", user.Name);
-                entity.SetAttributeValue("modifiedOn", DateTime.Now);
+                #region 创建前 Plugin
+                var context = new Context() { Entity = entity, Broker = this, Action = EntityAction.PreCreate, EntityName = entity.EntityName };
 
-                var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreCreate });
+                UnityContainerService.ResolveAll<IPersistBrokerBeforeCreateOrUpdate>()?
+                    .Each(item => item.Execute(context));
+                UnityContainerService.ResolveAll<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
+                    .Each(item => item.Execute(context));
+                #endregion
+
                 var sql = "INSERT INTO {0}({1}) Values({2})";
                 var attrs = new List<string>();
                 var values = new List<object>();
@@ -66,7 +59,13 @@ namespace SixpenceStudio.Core.Data
                 }
                 sql = string.Format(sql, entity.EntityName, string.Join(",", attrs), string.Join(",", values));
                 this.Execute(sql, paramList);
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostCreate });
+
+                #region 创建后 Plugin
+                context.Action = EntityAction.PostCreate;
+                UnityContainerService.ResolveAll<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
+                    .Each(item => item.Execute(context));
+                #endregion
+
                 return entity.Id;
             });
         }
@@ -146,13 +145,15 @@ WHERE {entity.EntityName}Id = @id;
         {
             return this.ExecuteTransaction(() =>
             {
-                var user = UserIdentityUtil.GetCurrentUser();
-                entity.SetAttributeValue("modifiedBy", user.Id);
-                entity.SetAttributeValue("modifiedByName", user.Name);
-                entity.SetAttributeValue("modifiedOn", DateTime.Now);
+                #region 更新前 Plugin
+                var context = new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate };
+                UnityContainerService.ResolveAll<IPersistBrokerBeforeCreateOrUpdate>()?
+                    .Each(item => item.Execute(context));
 
-                var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate });
+                UnityContainerService.ResolveAll<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
+                    .Each(item => item.Execute(context));
+                #endregion
+
                 var sql = @"
 UPDATE {0} SET {1} WHERE {2} = @id;
 ";
@@ -178,7 +179,12 @@ UPDATE {0} SET {1} WHERE {2} = @id;
                 #endregion
                 sql = string.Format(sql, entity.EntityName, string.Join(",", attributes), entity.MainKeyName);
                 var result = this.Execute(sql, paramList);
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostUpdate });
+
+                #region 更新后 Plugin
+                context.Action = EntityAction.PostUpdate;
+                UnityContainerService.ResolveAll<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
+                    .Each(item => item.Execute(context));
+                #endregion
                 return result;
             });
         }
