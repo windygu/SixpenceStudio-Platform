@@ -1,4 +1,6 @@
 ﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Auth.SysRole.BasicRole;
+using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -31,11 +31,51 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// <param name="entityId"></param>
         /// <param name="operationType"></param>
         /// <returns></returns>
-        public bool CheckAccess(string entityId, OperationType operationType)
+        private bool CheckAccess(string entityId, OperationType operationType, string userId)
         {
-            var user = Broker.Retrieve<user_info>(UserIdentityUtil.GetCurrentUser()?.Id);
-            var data = Broker.Retrieve<sys_role_privilege>("select * from sys_role_privilege where roleid = @roleid and entityid = @entityid", new Dictionary<string, object>() { { "@roleid", user.roleid }, { "@entityid", entityId } });
-            return (data.privilege & operationType.GetValue<int>()) == operationType.GetValue<int>();
+            var user =Broker.Retrieve<user_info>(string.IsNullOrEmpty(userId) ? UserIdentityUtil.GetCurrentUser()?.Id : userId);
+            var data = Broker.Retrieve<sys_role_privilege>(@"
+select
+	srp.*
+from
+	sys_role_privilege as srp
+where roleid = @role
+	and sys_entityid = @entity
+", new Dictionary<string, object>() { { "@role", user.roleid }, { "@entity", entityId } });
+            return (data.privilege & (int)operationType) == (int)operationType;
+        }
+
+        /// <summary>
+        /// 检查实体读权限
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool CheckReadAccess(string entityId, string userId = "")
+        {
+            return CheckAccess(entityId, OperationType.Read, userId);
+        }
+
+        /// <summary>
+        /// 检查实体写权限
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool CheckWriteAccess(string entityId, string userId = "")
+        {
+            return CheckAccess(entityId, OperationType.Write, userId);
+        }
+
+        /// <summary>
+        /// 检查实体删权限
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool CheckDeleteAccess(string entityId, string userId = "")
+        {
+            return CheckAccess(entityId, OperationType.Delete, userId);
         }
     }
 }

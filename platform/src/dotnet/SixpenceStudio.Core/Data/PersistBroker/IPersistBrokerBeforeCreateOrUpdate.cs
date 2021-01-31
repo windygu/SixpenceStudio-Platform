@@ -74,37 +74,22 @@ namespace SixpenceStudio.Core.Data
             var attrs = entity.GetType().GetCustomAttributes(typeof(KeyAttributesAttribute), false);
             if (attrs.Length == 0) return;
 
-            var sql = string.Format(@"SELECT * FROM {0} WHERE {0}Id = @id", entity.EntityName);
-            var dt = broker.Query(sql, new Dictionary<string, object> { { "@id", entity.Id } });
-
             attrs.Select(item => item as KeyAttributesAttribute)
                .Each(item =>
                {
                    if (item.AttributeList == null || item.AttributeList.Count == 0) return;
 
-                   var paramList = new Dictionary<string, object>();
-                   var sqlParam = new List<string>();
+                   var paramList = new Dictionary<string, object>() { { "@id", entity.Id } };
+                   var sqlParam = new List<string>() { $" AND {entity.EntityName}Id <> @id" }; // 排除自身
                    item.AttributeList.Distinct().Each(attr =>
                    {
-                       if (dt.Rows[0][attr] == DBNull.Value)
-                           sqlParam.Add(attr + " IS NULL");
-                       else
-                       {
-                           var paramKey = "@" + attr;
-                           sqlParam.Add(attr + "=" + paramKey);
-                           paramList.Add(paramKey, dt.Rows[0][attr]);
-                       }
+                       var keyValue = DialectSql.GetSpecialValue($"@{attr}", entity[attr]);
+                       sqlParam.Add($" AND {attr} = {keyValue.name}");
+                       paramList.Add(keyValue.name, keyValue.value);
                    });
-                   if (sqlParam.Count > 0)
-                   {
-                       sql = string.Format(@"SELECT {0}Id FROM {0} WHERE ", entity.EntityName) + string.Join(" AND ", sqlParam);
-                   }
-                   else
-                   {
-                       sql = string.Format(@"SELECT {0}Id FROM {0} ", entity.EntityName);
-                   }
 
-                   AssertUtil.CheckBoolean<SpException>(broker.Query<string>(sql, paramList)?.Count() > 1, "7293452C-AFCA-408D-9EBD-B1CECD206A7D", item.RepeatMessage);
+                   var sql = string.Format(@"SELECT {0}Id FROM {0} WHERE 1 = 1 ", entity.EntityName) + string.Join("", sqlParam);
+                   AssertUtil.CheckBoolean<SpException>(broker.Query<string>(sql, paramList)?.Count() > 0, "7293452C-AFCA-408D-9EBD-B1CECD206A7D", item.RepeatMessage);
                });
         }
 

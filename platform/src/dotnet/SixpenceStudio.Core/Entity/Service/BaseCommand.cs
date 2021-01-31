@@ -35,7 +35,7 @@ namespace SixpenceStudio.Core.Entity.Service
             {
                 return "";
             }
-            var id = Broker.Create(entity);
+            var id = Broker.FilteredCreate(entity);
             return id;
         }
 
@@ -72,7 +72,7 @@ namespace SixpenceStudio.Core.Entity.Service
                 ids.Each(id =>
                 {
                     var data = Broker.Retrieve<E>(id);
-                    Broker.Delete(new E().EntityName, id);
+                    Broker.FilteredDelete(new E().EntityName, id);
                 });
             });
         }
@@ -86,7 +86,7 @@ namespace SixpenceStudio.Core.Entity.Service
         /// <returns></returns>
         public E GetEntity(string id)
         {
-            return Broker.Retrieve<E>(id);
+            return Broker.FilteredRetrieve<E>(id);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace SixpenceStudio.Core.Entity.Service
                 return;
             }
 
-            Broker.Update(entity);
+            Broker.FiltededUpdate(entity);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                 var entityList = new EntityCommand<sys_entity>(broker).GetAllEntity().Where(item => !item.is_sys);
                 var dataList = entityList.Select(entity =>
                 {
-                    int privilege = OperationType.Read.GetValue<int>() + OperationType.Write.GetValue<int>() + OperationType.Delete.GetValue<int>();
+                    int privilege = (int)OperationType.Read + (int)OperationType.Write + (int)OperationType.Delete;
                     return GenerateRolePrivilege(entity, GetRole(), privilege);
                 }).ToList();
                 broker.BulkCreate(dataList);

@@ -219,6 +219,7 @@
     <Compile Include="Auth\SysRole\SysRoleService.cs" />
     <Compile Include="Auth\SysRole\sys_role.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
+    <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\SelectOption.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />

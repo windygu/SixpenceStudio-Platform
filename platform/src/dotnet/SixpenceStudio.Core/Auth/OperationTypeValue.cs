@@ -32,11 +32,11 @@ namespace SixpenceStudio.Core.Auth
 
     public enum OperationType
     {
-        [Description("读"), Value(1)]
-        Read,
-        [Description("写"), Value(2)]
-        Write,
-        [Description("删"), Value(4)]
-        Delete
+        [Description("读")]
+        Read = 1,
+        [Description("写")]
+        Write = 2,
+        [Description("删")]
+        Delete = 4
     }
 }

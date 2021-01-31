@@ -214,7 +214,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
         public T Retrieve<T>(string id) where T : BaseEntity, new()
         {
             var sql = $"SELECT * FROM {new T().EntityName} WHERE {new T().EntityName}id =@id";
-            return _dbClient.Query<T>(sql, new Dictionary<string, object>() { { "@id", id } }).FirstOrDefault();
+            return Retrieve<T>(sql, new Dictionary<string, object>() { { "@id", id } });
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ UPDATE {0} SET {1} WHERE {2} = @id;
             }
 
             sql += $" LIMIT {pageSize} OFFSET {pageSize * (pageIndex - 1)}";
-            return _dbClient.Query<T>(sql, paramList).ToList();
+            return RetrieveMultiple<T>(sql, paramList);
         }
 
         /// <summary>
