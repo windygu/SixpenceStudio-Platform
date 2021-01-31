@@ -44,6 +44,18 @@ namespace SixpenceStudio.Core.Utils
             }
         }
 
+        /// <summary>
+        /// 检查是否是null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="errorMessage"></param>
+        /// <param name="errorId"></param>
+        public static void CheckNull<T>(object value, string errorMessage, string errorId) where T : Exception
+        {
+            CheckBoolean<T>(value == null, errorMessage, errorId);
+        }
+
         private static void Assert<T>(string errorMessage, string errorId) where T : Exception
         {
             var ex = Activator.CreateInstance(typeof(T), errorMessage) as T;

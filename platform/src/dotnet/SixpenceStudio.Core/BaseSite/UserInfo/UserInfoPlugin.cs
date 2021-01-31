@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SixpenceStudio.Core.Utils;
 
 namespace SixpenceStudio.Core.UserInfo
 {
@@ -59,10 +60,7 @@ SELECT * FROM auth_user
 WHERE user_infoid = @id
 ";
             var authInfo = broker.Retrieve<auth_user>(sql, new Dictionary<string, object>() { { "@id", entity["user_infoId"]?.ToString() } });
-            if (authInfo == null)
-            {
-                throw new SpException("用户Id不能为空");
-            }
+            AssertUtil.CheckNull<SpException>(authInfo, "用户Id不能为空", "C37CCF94-6B27-4BF4-AF29-DBEDC9E53E5D");
             authInfo.name = entity["name"]?.ToString();
             new AuthUserService(broker).UpdateData(authInfo);
         }
