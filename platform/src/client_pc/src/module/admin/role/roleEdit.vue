@@ -41,7 +41,7 @@ export default {
       },
       roles: [],
       data: {
-        is_basic: 0
+        is_basic: false
       }
     };
   },
