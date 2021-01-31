@@ -114,22 +114,19 @@ namespace SixpenceStudio.Core.Data
         /// <param name="entity"></param>
         private void SetBooleanName(BaseEntity entity)
         {
-            var properties = entity.GetType().GetProperties();
-            var todo = new List<Action>();
-            for (int i = 0; i < properties.Length; i++)
-            {
-                var item = properties[i];
-                var value = item.GetValue(entity);
-                if (value is bool)
+            var dic = new Dictionary<string, object>();
+
+            entity.Attributes
+                .Where(item => item.Value is bool)
+                .Each(item =>
                 {
-                    var name = properties.Where(p => p.Name == $"{item.Name}Name")?.FirstOrDefault();
-                    if (name != null)
+                    if (entity.GetType().GetProperties().Where(p => p.Name == $"{item.Key}Name").FirstOrDefault() != null)
                     {
-                        todo.Add(() => name.SetValue(entity, (bool)value ? "是" : "否"));
+                        dic.Add($"{item.Key}Name", (bool)item.Value ? "是" : "否");
                     }
-                }
-            }
-            todo.Each(item => item());
+                });
+
+            dic.Each(item => entity.SetAttributeValue(item.Key, item.Value));
         }
     }
 }
