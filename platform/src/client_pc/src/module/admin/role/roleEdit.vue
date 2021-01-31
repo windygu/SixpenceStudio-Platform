@@ -3,12 +3,12 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-form-model-item label="名称" prop="name">
-          <el-input v-model="data.name"></el-input>
+          <a-input v-model="data.name"></a-input>
         </a-form-model-item>
       </a-col>
       <a-col :span="12">
         <a-form-model-item label="描述">
-          <el-input v-model="data.description"></el-input>
+          <a-input v-model="data.description"></a-input>
         </a-form-model-item>
       </a-col>
     </a-row>
