@@ -7570,10 +7570,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-core@1.0.1:
-  version "1.0.1"
-  resolved "http://npm.karldu.cn/web-core/-/web-core-1.0.1.tgz#7f692598376407831ee9d76549289989f42188de"
-  integrity sha512-LELwlAqXSDhqmiLSAEbhrErNjUq1rw0W/wOy1mBUm9TIoDM/ZdvhtaoCqYQ4EoKTBFTqQMsLvoyELrAKaMrZeg==
+web-core@1.0.2:
+  version "1.0.2"
+  resolved "http://npm.karldu.cn/web-core/-/web-core-1.0.2.tgz#63eef43badde9b47bfc9a52907102010957354ac"
+  integrity sha512-9u/5RYz7YaB/yakr0vvByBMR6EKpfaUmfxQh4kZEFB3G/d/fu9L/J99GFs4sbPhvNwMbDt5xFTNNjFicIa0w1A==
   dependencies:
     axios "^0.19.0"
     current-device "^0.10.2"
