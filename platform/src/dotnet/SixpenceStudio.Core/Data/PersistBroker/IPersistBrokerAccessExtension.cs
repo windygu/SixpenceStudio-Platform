@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Auth.SysRolePrivilege;
+﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Auth.SysRolePrivilege;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.SysEntity;
 using SixpenceStudio.Core.Utils;
@@ -24,7 +25,7 @@ namespace SixpenceStudio.Core.Data
         public static string FilteredCreate(this IPersistBroker broker, BaseEntity entity)
         {
             var sysEntity = EntityCache.GetEntity(entity.EntityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckWriteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的创建权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckWriteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的创建权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.Create(entity);
         }
 
@@ -37,7 +38,7 @@ namespace SixpenceStudio.Core.Data
         public static int FiltededUpdate(this IPersistBroker broker, BaseEntity entity)
         {
             var sysEntity = EntityCache.GetEntity(entity.EntityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckWriteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的更新权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckWriteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的更新权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.Update(entity);
         }
 
@@ -51,7 +52,7 @@ namespace SixpenceStudio.Core.Data
         public static T FilteredRetrieve<T>(this IPersistBroker broker, string id) where T : BaseEntity, new()
         {
             var sysEntity = EntityCache.GetEntity(new T().EntityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckReadAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的查询权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckReadAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的查询权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.Retrieve<T>(id);
         }
 
@@ -66,7 +67,7 @@ namespace SixpenceStudio.Core.Data
         public static IList<T> FilteredRetrieveMultiple<T>(this IPersistBroker broker, string sql, Dictionary<string, object> paramList = null) where T : BaseEntity, new()
         {
             var sysEntity = EntityCache.GetEntity(new T().EntityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckReadAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的查询权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckReadAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的查询权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.RetrieveMultiple<T>(sql, paramList);
         }
 
@@ -79,7 +80,7 @@ namespace SixpenceStudio.Core.Data
         public static int FilteredDelete(this IPersistBroker broker, BaseEntity entity)
         {
             var sysEntity = EntityCache.GetEntity(entity.EntityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckDeleteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的删除权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckDeleteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的删除权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.Delete(entity);
         }
 
@@ -93,7 +94,7 @@ namespace SixpenceStudio.Core.Data
         public static int FilteredDelete(this IPersistBroker broker, string entityName, string id)
         {
             var sysEntity = EntityCache.GetEntity(entityName);
-            AssertUtil.CheckBoolean<SpException>(!new SysRolePrivilegeService(broker).CheckDeleteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的删除权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
+            AssertUtil.CheckBoolean<SpException>(!AuthAccess.CheckDeleteAccess(sysEntity.Id), $"用户没有实体{sysEntity.name}的删除权限", "451FC4BA-46B2-4838-B8D0-69617DFCAF39");
             return broker.Delete(entityName, id);
         }
     }

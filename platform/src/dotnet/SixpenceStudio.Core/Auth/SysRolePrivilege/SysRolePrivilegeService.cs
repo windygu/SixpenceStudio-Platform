@@ -24,52 +24,5 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             _cmd = new EntityCommand<sys_role_privilege>(broker);
         }
         #endregion
-
-        /// <summary>
-        /// 检查权限
-        /// </summary>
-        /// <param name="entityId"></param>
-        /// <param name="operationType"></param>
-        /// <returns></returns>
-        private bool CheckAccess(string entityId, OperationType operationType, string userId)
-        {
-            var data = UserPrivilegesCache.GetPrivileges(string.IsNullOrEmpty(userId) ? UserIdentityUtil.GetCurrentUser()?.Id : userId)
-                .Where(item => item.sys_entityid == entityId)
-                .FirstOrDefault();
-            return (data.privilege & (int)operationType) == (int)operationType;
-        }
-
-        /// <summary>
-        /// 检查实体读权限
-        /// </summary>
-        /// <param name="entityId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public bool CheckReadAccess(string entityId, string userId = "")
-        {
-            return CheckAccess(entityId, OperationType.Read, userId);
-        }
-
-        /// <summary>
-        /// 检查实体写权限
-        /// </summary>
-        /// <param name="entityId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public bool CheckWriteAccess(string entityId, string userId = "")
-        {
-            return CheckAccess(entityId, OperationType.Write, userId);
-        }
-
-        /// <summary>
-        /// 检查实体删权限
-        /// </summary>
-        /// <param name="entityId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public bool CheckDeleteAccess(string entityId, string userId = "")
-        {
-            return CheckAccess(entityId, OperationType.Delete, userId);
-        }
     }
 }

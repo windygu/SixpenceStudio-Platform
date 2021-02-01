@@ -15,7 +15,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
 
         private static readonly ConcurrentDictionary<string, IEnumerable<sys_role_privilege>> UserPrivliege = new ConcurrentDictionary<string, IEnumerable<sys_role_privilege>>();
 
-        public static IEnumerable<sys_role_privilege> GetPrivileges(string userId)
+        public static IEnumerable<sys_role_privilege> GetUserPrivileges(string userId)
         {
             return UserPrivliege.GetOrAdd(UserPrivilegesPrefix + userId, (key) =>
             {
