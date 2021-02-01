@@ -41,10 +41,9 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                     {
                         Id = Guid.NewGuid().ToString(),
                         name = roleName,
-                        description = roleName,
                         is_basic = true
                     };
-                    new SysRoleService(broker).CreateData(role);
+                    broker.Create(role);
                 }
                 return role;
             }, DateTime.Now.AddHours(12));
@@ -85,6 +84,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// <returns></returns>
         protected sys_role_privilege GenerateRolePrivilege(sys_entity entity, sys_role role, int value)
         {
+            var user = UserIdentityUtil.GetAdmin();
             var privilege = new sys_role_privilege()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -92,6 +92,12 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                 sys_entityidName = entity.name,
                 sys_roleid = role.Id,
                 sys_roleidName = role.name,
+                createdBy = user.Id,
+                createdByName = user.Name,
+                createdOn = DateTime.Now,
+                modifiedBy = user.Id,
+                modifiedByName = user.Name,
+                modifiedOn = DateTime.Now,
                 privilege = value
             };
             return privilege;

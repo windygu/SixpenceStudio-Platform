@@ -13,41 +13,40 @@ namespace SixpenceStudio.Core.Auth
         private int status { get; set; } // 登录状态
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            // 从http请求的头里面获取身份验证信息，验证是否是请求发起方的ticket
+            var authorization = actionContext.Request.Headers.Authorization;
+
             var attributes = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().OfType<AllowAnonymousAttribute>();
             bool isAnonymous = attributes.Any(a => a is AllowAnonymousAttribute);
-            if (isAnonymous)
+            if (isAnonymous && authorization?.Parameter == null)
             {
+                ApplicationContext.Current.User = UserIdentityUtil.GetAnonymous();
                 base.OnAuthorization(actionContext);
                 return;
             }
 
-            // 从http请求的头里面获取身份验证信息，验证是否是请求发起方的ticket
-            var authorization = actionContext.Request.Headers.Authorization;
-            // 请求头Authorization不为空且验证里的值不为空
-            if ((authorization != null) && (authorization.Parameter != null))
+            // 无授权信息，且非匿名接口
+            if (authorization?.Parameter == null)
             {
-                // 解密用户ticket,并校验用户名密码是否匹配
+                HandleUnauthorizedRequest(actionContext);
+                return;
+            }
+
+            try
+            {
                 var encryptTicket = authorization.Parameter;
-                // 验证是否正确用户名密码
-                try
+                status = new AuthUserService().ValidateTicket(encryptTicket, out var userId); // 验证是否正确用户名密码
+                if (status == 200)
                 {
-                    status = new AuthUserService().ValidateTicket(encryptTicket, out var userId);
-                    if (status == 200)
-                    {
-                        base.IsAuthorized(actionContext);
-                        ApplicationContext.Current.User = new AuthUserService().GetData(userId).ToCurrentUserModel();
-                    }
-                    else
-                    {
-                        HandleUnauthorizedRequest(actionContext);
-                    }
+                    base.IsAuthorized(actionContext);
+                    ApplicationContext.Current.User = new AuthUserService().GetDataById(userId).ToCurrentUserModel();
                 }
-                catch
+                else
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
             }
-            else
+            catch
             {
                 HandleUnauthorizedRequest(actionContext);
             }

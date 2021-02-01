@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
@@ -31,9 +32,17 @@ namespace SixpenceStudio.Core.WebApi
             {
                 context.Response = new HttpResponseMessage()
                 {
-                    StatusCode = HttpStatusCode.NotFound,
+                    StatusCode = HttpStatusCode.Unauthorized,
                     Content = new StringContent("访问资源未找到"),
                     ReasonPhrase = "访问资源未找到"
+                };
+            }
+            else if (context.Exception is InvalidCredentialException)
+            {
+                context.Response = new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Content = new StringContent(context.Exception.Message)
                 };
             }
             // 这里可以根据项目需要返回到客户端特定的状态码。如果找不到相应的异常，统一返回服务端错误500

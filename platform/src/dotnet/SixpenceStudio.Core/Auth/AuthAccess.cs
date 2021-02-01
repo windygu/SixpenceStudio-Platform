@@ -23,7 +23,7 @@ namespace SixpenceStudio.Core.Auth
             var data = UserPrivilegesCache.GetUserPrivileges(string.IsNullOrEmpty(userId) ? UserIdentityUtil.GetCurrentUser()?.Id : userId)
                 .Where(item => item.sys_entityid == entityId)
                 .FirstOrDefault();
-            return (data.privilege & (int)operationType) == (int)operationType;
+            return data != null && (data.privilege & (int)operationType) == (int)operationType;
         }
 
         /// <summary>

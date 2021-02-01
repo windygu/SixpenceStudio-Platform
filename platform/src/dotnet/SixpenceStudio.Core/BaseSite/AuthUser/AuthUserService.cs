@@ -146,5 +146,10 @@ WHERE user_infoid = @id;
             var data = _cmd.Broker.Retrieve<auth_user>("select * from auth_user where code = @code", new Dictionary<string, object>(){ { "@code", code } });
             return data;
         }
+
+        public auth_user GetDataById(string id)
+        {
+            return Broker.Retrieve<auth_user>(id);
+        }
     }
 }

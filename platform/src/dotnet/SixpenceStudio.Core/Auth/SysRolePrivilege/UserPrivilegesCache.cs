@@ -21,7 +21,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             {
                 var broker = PersistBrokerFactory.GetPersistBroker();
                 var user = broker.Retrieve<user_info>(userId);
-                return broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where roleid = @id", new Dictionary<string, object>() { { "@id", user.roleid } }).ToList();
+                return broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleid = @id", new Dictionary<string, object>() { { "@id", user.roleid } }).ToList();
             });
         }
     }
