@@ -188,6 +188,7 @@
   <ItemGroup>
     <Compile Include="Auth\ApplicationContext.cs" />
     <Compile Include="Auth\SysRolePrivilege\RolePrivilegeModel.cs" />
+    <Compile Include="Auth\SysRolePrivilege\UserPrivilegesCache.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeController.cs" />
     <Compile Include="Auth\SysRolePrivilege\SysRolePrivilegeService.cs" />
     <Compile Include="Auth\SysRole\BasicRole\Admin.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Auth\SysRolePrivilege\sys_role_privilege.cs" />
     <Compile Include="Auth\SysRole\SysRoleService.cs" />
     <Compile Include="Auth\SysRole\sys_role.cs" />
+    <Compile Include="BaseSite\SysEntity\EntityCache.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\SelectOption.cs" />

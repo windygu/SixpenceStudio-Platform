@@ -33,15 +33,9 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// <returns></returns>
         private bool CheckAccess(string entityId, OperationType operationType, string userId)
         {
-            var user =Broker.Retrieve<user_info>(string.IsNullOrEmpty(userId) ? UserIdentityUtil.GetCurrentUser()?.Id : userId);
-            var data = Broker.Retrieve<sys_role_privilege>(@"
-select
-	srp.*
-from
-	sys_role_privilege as srp
-where roleid = @role
-	and sys_entityid = @entity
-", new Dictionary<string, object>() { { "@role", user.roleid }, { "@entity", entityId } });
+            var data = UserPrivilegesCache.GetPrivileges(string.IsNullOrEmpty(userId) ? UserIdentityUtil.GetCurrentUser()?.Id : userId)
+                .Where(item => item.sys_entityid == entityId)
+                .FirstOrDefault();
             return (data.privilege & (int)operationType) == (int)operationType;
         }
 
