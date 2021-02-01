@@ -13,11 +13,11 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
     {
         private const string UserPrivilegesPrefix = "UserPrivileges";
 
-        private static ConcurrentDictionary<string, IEnumerable<sys_role_privilege>> userPrivliege;
+        private static readonly ConcurrentDictionary<string, IEnumerable<sys_role_privilege>> UserPrivliege = new ConcurrentDictionary<string, IEnumerable<sys_role_privilege>>();
 
         public static IEnumerable<sys_role_privilege> GetPrivileges(string userId)
         {
-            return userPrivliege.GetOrAdd(UserPrivilegesPrefix + userId, (key) =>
+            return UserPrivliege.GetOrAdd(UserPrivilegesPrefix + userId, (key) =>
             {
                 var broker = PersistBrokerFactory.GetPersistBroker();
                 var user = broker.Retrieve<user_info>(userId);
