@@ -15,13 +15,13 @@ namespace SixpenceStudio.Core.Data
         /// <summary>
         /// 执行
         /// </summary>
-        void Execute(Context context);
+        void Execute(PluginContext context);
     }
 
     /// <summary>
     /// 上下文
     /// </summary>
-    public class Context
+    public class PluginContext
     {
         public IPersistBroker Broker { get; set; }
         public BaseEntity Entity { get; set; }

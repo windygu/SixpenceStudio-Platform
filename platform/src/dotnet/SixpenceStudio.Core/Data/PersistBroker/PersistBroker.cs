@@ -37,7 +37,7 @@ namespace SixpenceStudio.Core.Data
             return this.ExecuteTransaction(() =>
             {
                 #region 创建前 Plugin
-                var context = new Context() { Entity = entity, Broker = this, Action = EntityAction.PreCreate, EntityName = entity.EntityName };
+                var context = new PluginContext() { Entity = entity, Broker = this, Action = EntityAction.PreCreate, EntityName = entity.EntityName };
 
                 UnityContainerService.ResolveAll<IPersistBrokerBeforeCreateOrUpdate>()?
                     .Each(item => item.Execute(context));
@@ -94,11 +94,11 @@ namespace SixpenceStudio.Core.Data
             return this.ExecuteTransaction(() =>
             {
                 var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entity.EntityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 var sql = "DELETE FROM {0} WHERE {1}id = @id";
                 sql = string.Format(sql, entity.EntityName, entity.EntityName);
                 int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
-                plugin?.Execute(new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
                 return result;
             });
         }
@@ -146,7 +146,7 @@ WHERE {entity.EntityName}Id = @id;
             return this.ExecuteTransaction(() =>
             {
                 #region 更新前 Plugin
-                var context = new Context() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate };
+                var context = new PluginContext() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreUpdate };
                 UnityContainerService.ResolveAll<IPersistBrokerBeforeCreateOrUpdate>()?
                     .Each(item => item.Execute(context));
 

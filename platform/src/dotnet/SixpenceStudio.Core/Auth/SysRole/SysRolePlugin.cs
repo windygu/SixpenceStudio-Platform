@@ -11,7 +11,7 @@ namespace SixpenceStudio.Core.Auth.SysRole
 {
     public class SysRolePlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             if (context.EntityName != "sys_role") return;
 

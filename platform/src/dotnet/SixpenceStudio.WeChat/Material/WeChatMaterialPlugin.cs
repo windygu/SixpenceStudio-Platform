@@ -24,7 +24,7 @@ namespace SixpenceStudio.WeChat.Material
 {
     public class WeChatMaterialPlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             var entity = context.Entity as wechat_material;
             switch (context.Action)

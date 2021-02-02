@@ -16,12 +16,12 @@ namespace SixpenceStudio.Core.Data
     [UnityRegister]
     public interface IPersistBrokerBeforeCreateOrUpdate
     {
-        void Execute(Context context);
+        void Execute(PluginContext context);
     }
 
     public class PersistBrokerBeforeCreateOrUpdate : IPersistBrokerBeforeCreateOrUpdate
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             var entity = context.Entity;
             var broker = context.Broker;

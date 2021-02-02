@@ -10,7 +10,7 @@ namespace SixpenceStudio.Core.gallery
 {
     public class GalleryPlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             var obj = context.Entity as gallery;
             switch (context.Action)

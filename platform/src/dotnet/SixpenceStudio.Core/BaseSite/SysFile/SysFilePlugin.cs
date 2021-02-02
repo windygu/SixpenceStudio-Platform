@@ -12,7 +12,7 @@ namespace SixpenceStudio.Core.SysFile
 {
     public class SysFilePlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             var data = context.Entity as sys_file;
             switch (context.Action)

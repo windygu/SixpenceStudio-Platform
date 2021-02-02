@@ -19,7 +19,7 @@ namespace SixpenceStudio.WeChat.WeChatReply.Focus
 {
     public class WeChatFocusReplyPlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             switch (context.Action)
             {

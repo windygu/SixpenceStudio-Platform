@@ -12,7 +12,7 @@ namespace SixpenceStudio.Core.UserInfo
 {
     public class UserInfoPlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             switch (context.Action)
             {

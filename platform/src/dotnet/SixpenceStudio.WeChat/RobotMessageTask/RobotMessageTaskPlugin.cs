@@ -10,7 +10,7 @@ namespace SixpenceStudio.WeChat.RobotMessageTask
 {
     public class RobotMessageTaskPlugin : IPersistBrokerPlugin
     {
-        public void Execute(Context context)
+        public void Execute(PluginContext context)
         {
             if (context.EntityName != "robot_message_task")
             {
