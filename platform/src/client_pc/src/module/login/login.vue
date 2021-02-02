@@ -56,6 +56,9 @@ export default {
       sp.get('api/DataService/test').then(resp => {
         if (resp) {
           this.$router.push({ name: 'workplace' });
+        } else {
+          localStorage.removeItem('Token');
+          this.$store.commit('clearAuth');
         }
       });
     },
@@ -72,17 +75,25 @@ export default {
               publicKey: key
             };
             var that = this;
-            sp.post(url, data).then(resp => {
-              if (resp.result) {
-                localStorage.setItem('Token', resp.Ticket);
-                localStorage.setItem('UserId', resp.UserId);
-                that.$store.commit('changeLogin', true);
-                that.$router.push({ name: 'workplace' });
-                that.$message.success('登录成功');
-              } else {
-                that.$message.error('账号密码错误');
-              }
-            });
+            sp.post(url, data)
+              .then(resp => {
+                if (resp.result) {
+                  localStorage.setItem('Token', resp.Ticket);
+                  localStorage.setItem('UserId', resp.UserId);
+                  this.$store.commit('updateAuth', {
+                    token: resp.Ticket,
+                    userId: resp.UserId
+                  });
+                  that.$store.commit('changeLogin', true);
+                  that.$router.push({ name: 'workplace' });
+                  that.$message.success('登录成功');
+                } else {
+                  that.$message.error('账号密码错误');
+                }
+              })
+              .catch(error => {
+                this.$message.error(error);
+              });
           } else {
             this.$message.error('请检查账号密码是否输入');
           }

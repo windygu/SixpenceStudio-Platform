@@ -98,6 +98,7 @@ export default {
     },
     logout() {
       this.$message.success('退出成功');
+      this.$store.commit('clearAuth');
       localStorage.removeItem('Token'); // 移除登录Token
       this.$store.commit('changeLogin', false); // 修改登录状态
       this.$router.replace('/login');
