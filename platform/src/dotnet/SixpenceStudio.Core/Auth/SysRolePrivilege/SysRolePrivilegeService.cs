@@ -1,7 +1,9 @@
-﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
+﻿using SixpenceStudio.Core.Auth.SysRole;
+using SixpenceStudio.Core.Auth.SysRole.BasicRole;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Extensions;
+using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.UserInfo;
 using System;
 using System.Collections.Generic;
@@ -24,5 +26,21 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             _cmd = new EntityCommand<sys_role_privilege>(broker);
         }
         #endregion
+
+        /// <summary>
+        /// 获取角色权限
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <returns></returns>
+        public IEnumerable<sys_role_privilege> GetUserPrivileges(string roleid)
+        {
+            var role = Broker.Retrieve<sys_role>(roleid);
+            return UnityContainerService.ResolveAll<IBasicRole>().FirstOrDefault(item => item.Role.GetDescription() == role.name).GetRolePrivilege();
+        }
+
+        public void BulkSave(IEnumerable<sys_role_privilege> dataList)
+        {
+            Broker.BulkCreateOrUpdate(dataList);
+        }
     }
 }

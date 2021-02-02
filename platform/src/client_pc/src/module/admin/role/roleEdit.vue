@@ -24,15 +24,28 @@
         </a-form-model-item>
       </a-col>
     </a-row>
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" tab="菜单权限">
+        敬请期待
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="实体权限">
+        <entity-privilege :privileges="entityList"></entity-privilege>
+      </a-tab-pane>
+      <a-tab-pane key="3" tab="按钮权限">
+        敬请期待
+      </a-tab-pane>
+    </a-tabs>
   </a-form-model>
 </template>
 
 <script>
 import { edit } from '../../../mixins';
+import entityPrivilege from './components/entityPrivilege';
 
 export default {
   name: 'sysRoleEdit',
   mixins: [edit],
+  components: { entityPrivilege },
   data() {
     return {
       controllerName: 'SysRole',
@@ -42,13 +55,24 @@ export default {
       roles: [],
       data: {
         is_basic: false
-      }
+      },
+      entityList: []
     };
   },
   created() {
     sp.get('api/SysRole/GetBasicRole').then(resp => {
       this.roles = resp;
     });
+  },
+  methods: {
+    loadComplete() {
+      this.getEntities();
+    },
+    getEntities() {
+      sp.get(`api/SysRolePrivilege/GetUserPrivileges?roleid=${this.data.Id}`).then(resp => {
+        this.entityList = resp;
+      });
+    }
   }
 };
 </script>
