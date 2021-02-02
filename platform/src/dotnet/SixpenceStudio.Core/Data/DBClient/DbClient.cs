@@ -1,7 +1,5 @@
 ﻿using Dapper;
 using Npgsql;
-using SixpenceStudio.Core.Logging;
-using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -133,14 +131,7 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public int Execute(string sql, IDictionary<string, object> paramList = null)
         {
-            var paramListClone = new Dictionary<string, object>();
-            if (paramList != null)
-            {
-                paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
-            }
-            sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
-            return _conn.Execute(sql, paramListClone);
+            return _conn.Execute(sql, paramList);
         }
 
         /// <summary>
@@ -151,14 +142,7 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public object ExecuteScalar(string sql, IDictionary<string, object> paramList = null)
         {
-            var paramListClone = new Dictionary<string, object>();
-            if (paramList != null)
-            {
-                paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
-            }
-            sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
-            return _conn.ExecuteScalar(sql, paramListClone);
+            return _conn.ExecuteScalar(sql, paramList);
         }
         #endregion
 
@@ -172,15 +156,7 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public IEnumerable<T> Query<T>(string sql, IDictionary<string, object> paramList = null)
         {
-            var paramListClone = new Dictionary<string, object>();
-            if (paramList != null)
-            {
-                paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
-            }
-            sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
-            var ret = _conn.Query<T>(sql, paramListClone);
-            return ret;
+            return _conn.Query<T>(sql, paramList);
         }
         #endregion
 
@@ -193,77 +169,13 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public DataTable Query(string sql, IDictionary<string, object> paramList = null)
         {
-            var paramListClone = new Dictionary<string, object>();
-            if (paramList != null)
-            {
-                paramListClone = paramListClone.Concat(paramList).ToDictionary(k => k.Key, v => v.Value);
-            }
-            sql = ConvertSqlToDialectSql(sql, paramListClone);
-            LogUtils.Debug(sql + paramListClone.ToLogString());
             DataTable dt = new DataTable();
-            var reader = _conn.ExecuteReader(sql, paramListClone);
+            var reader = _conn.ExecuteReader(sql, paramList);
             dt.Load(reader);
             return dt;
         }
         #endregion
 
-        /// <summary>
-        /// 将SQL转换为本地化SQL
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="paramsList"></param>
-        /// <returns></returns>
-        public string ConvertSqlToDialectSql(string sql, IDictionary<string, object> paramsList)
-        {
-            if (paramsList == null || paramsList.Count == 0)
-            {
-                return sql;
-            }
-            if (sql.Contains("in@"))
-            {
-                var toRemovedParamNameList = new Dictionary<string, Dictionary<string, object>>();
-                var paramValueNullList = new List<string>(); // 记录传入的InList参数的Value如果为空或者没有值的特殊情况
-
-                foreach (var paramName in paramsList.Keys)
-                {
-                    if (!paramName.ToLower().StartsWith("in")) continue;
-                    var paramValue = paramsList[paramName]?.ToString();
-                    if (string.IsNullOrWhiteSpace(paramValue))
-                    {
-                        paramValueNullList.Add(paramName);
-                        continue;
-                    }
-
-                    toRemovedParamNameList.Add(paramName, new Dictionary<string, object>());
-                    var inListValues = paramValue.Split(',');
-                    for (var i = 0; i < inListValues.Length; i++)
-                    {
-                        toRemovedParamNameList[paramName].Add(paramName.Substring(2, paramName.Length - 2) + i, inListValues[i]);
-                    }
-                }
-
-                foreach (var paramNameRemoved in toRemovedParamNameList.Keys)
-                {
-                    paramsList.Remove(paramNameRemoved);
-                    foreach (var paramNameAdd in toRemovedParamNameList[paramNameRemoved].Keys)
-                    {
-                        paramsList.Add(paramNameAdd, toRemovedParamNameList[paramNameRemoved][paramNameAdd]);
-                    }
-
-                    var newParamNames = toRemovedParamNameList[paramNameRemoved].Keys.Aggregate((l, n) => l + "," + n);
-                    sql = sql.Replace(paramNameRemoved, newParamNames);
-                }
-
-                foreach (var paramValueNullName in paramValueNullList)
-                {
-                    paramsList.Remove(paramValueNullName);
-                    sql = sql.Replace(paramValueNullName, "null");
-                }
-
-                return sql;
-            }
-            return sql;
-        }
 
         /// <summary>
         /// 创建临时表

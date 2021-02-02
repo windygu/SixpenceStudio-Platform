@@ -16,7 +16,7 @@ namespace SixpenceStudio.Core.Data
         /// <param name="readonly">只读</param>
         internal PersistBroker(string connectionString)
         {
-            _dbClient = new DbClient();
+            _dbClient = new DbClientProxy();
             _dbClient.Initialize(connectionString);
         }
 
