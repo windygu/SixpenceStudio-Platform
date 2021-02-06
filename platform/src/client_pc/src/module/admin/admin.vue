@@ -67,24 +67,28 @@ export default {
           Value: 1
         }
       ];
-      sp.get(`api/sysmenu/getdatalist?searchList=${JSON.stringify(searchList)}`).then(resp => {
-        resp.forEach(e => {
-          const menu = {
-            title: e.name,
-            router: e.router,
-            subMenu: [{ title: '', menus: [] }],
-            icon: e.icon
-          };
-          if (e.children && e.children.length > 0) {
-            menu.subMenu[0].menus = e.children.map(item => ({
-              title: item.name,
-              router: item.router,
-              icon: item.icon
-            }));
-          }
-          this.menus.push(menu);
+      sp.get(`api/sysmenu/GetDataList?searchList=${JSON.stringify(searchList)}`)
+        .then(resp => {
+          resp.forEach(e => {
+            const menu = {
+              title: e.name,
+              router: e.router,
+              subMenu: [{ title: '', menus: [] }],
+              icon: e.icon
+            };
+            if (e.children && e.children.length > 0) {
+              menu.subMenu[0].menus = e.children.map(item => ({
+                title: item.name,
+                router: item.router,
+                icon: item.icon
+              }));
+            }
+            this.menus.push(menu);
+          });
+        })
+        .catch(resp => {
+          this.$message.error(resp);
         });
-      });
     },
     handleClick({ item, key, keyPath }) {
       if (sp.isNullOrEmpty(keyPath[0])) {

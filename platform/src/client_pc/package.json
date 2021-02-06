@@ -19,7 +19,7 @@
     "vue-infinite-scroll": "^2.0.2",
     "vue-waterfall-easy2": "^2.4.5",
     "wangeditor": "^4.1.0",
-    "web-core": "1.0.2"
+    "web-core": "1.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
