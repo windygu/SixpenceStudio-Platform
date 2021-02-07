@@ -3,9 +3,8 @@
 ## Description
 
 该平台基于`.Net`的`ORM`二次封装后端平台，封装操作类型包括基本的 CRUD。Package 均上传至 🌍[Nuget](http://nuget.karldu.cn/)。
-前端使用`Vue`基于`Ant design`二次封装的组件库，组件库已上传至 🌍[NPM](http://npm.karldu.cn/-/web/detail/sixpence.platform.pc.vue)。
 
-## Backend
+## Lib
 
 ### SixpenceStudio.Encryption
 
@@ -34,36 +33,3 @@
 - 存储服务（Store）
 - 作业（Job）
 - Configs（系统配置）
-
-## Frontend
-
-### Sixpence.platform.pc.vue
-
-- Components
-  - 按钮组（spButtonList）
-  - 头部（spHeader）
-  - icon（spIcon）
-  - 列表（spList）
-  - 菜单（spMenu）
-  - 区域（spSection）
-  - 表格（spTable）
-  - 标签（spTag）
-- Website modules
-  - 404
-  - 系统管理
-    - 修改密码
-    - 作业管理
-    - 系统配置
-    - 实体管理
-    - 系统菜单
-    - 选项集
-    - 用户信息
-- Mixins
-  - edit
-  - pagination
-- Utils
-  - axios
-  - common
-  - http
-  - uuid
-  - encryption
