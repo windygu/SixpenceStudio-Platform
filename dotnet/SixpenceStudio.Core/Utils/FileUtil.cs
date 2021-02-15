@@ -76,12 +76,37 @@ namespace SixpenceStudio.Core.Utils
         /// 删除文件夹下所有文件
         /// </summary>
         /// <param name="filePath"></param>
+        public static void DeleteFolder(string filePath, List<string> ignoreList)
+        {
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo(filePath);
+                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //返回目录中所有文件和子目录
+                foreach (FileSystemInfo i in fileinfo)
+                {
+                    if (i is DirectoryInfo)
+                    {
+                        DirectoryInfo subdir = new DirectoryInfo(i.FullName);
+                        if (!ignoreList.Contains(subdir.Name))
+                        {
+                            subdir.Delete(true);
+                        }
+                    }
+                    else
+                    {
+                        DeleteFile(i.FullName);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static void DeleteFolder(string filePath)
         {
-            Directory.GetFiles(filePath).Each(item =>
-            {
-                DeleteFile(item);
-            });
+            DeleteFolder(filePath, new List<string>());
         }
         #endregion
 
