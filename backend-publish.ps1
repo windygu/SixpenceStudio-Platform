@@ -16,9 +16,9 @@ $newVersion = UpdatePackage $lastVersion
 
 Write-Host "New Version: $newVersion"
 
-nuget pack SixpenceStudio.Core\SixpenceStudio.Core.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory build
-nuget pack SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory build
+nuget pack SixpenceStudio.Core\SixpenceStudio.Core.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory nuget
+nuget pack SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj -Version $newVersion -Properties Configuration=Release -OutputDirectory nuget
 
-nuget push build\*.nupkg -Source http://nuget.karldu.cn/nuget -ApiKey 9F2E9384-F50A-43FF-8BA9-5D5E981C6561
+nuget push nuget\*.nupkg -Source http://nuget.karldu.cn/nuget -ApiKey 9F2E9384-F50A-43FF-8BA9-5D5E981C6561
 
 Write-Host "Nuget Publish Success!"
