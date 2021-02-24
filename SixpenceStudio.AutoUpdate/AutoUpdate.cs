@@ -37,7 +37,7 @@ namespace SixpenceStudio.AutoUpdate
         /// <summary>
         /// 日志记录
         /// </summary>
-        private ILog logger = LogFactory.GetLogger("AutoUpdate");
+        private Log log;
 
         /// <summary>
         /// 网站目录地址
@@ -63,6 +63,8 @@ namespace SixpenceStudio.AutoUpdate
         {
             InitializeComponent();
             InitializeBackgroundWorker();
+            log = new Log();
+            log.Add(new Subscriber() { Name = "日志文本记录", Output = msg => this.loggerTextBox.AppendText(msg) });
         }
         private void InitializeBackgroundWorker()
         {
@@ -107,8 +109,7 @@ namespace SixpenceStudio.AutoUpdate
         /// </summary>
         private void ChooseUpdateFile()
         {
-            logger.Info($"开始获取更新文件");
-            this.loggerTextBox.AppendText("开始获取更新文件");
+            log.Info($"开始获取更新文件");
             using (OpenFileDialog ofg = new OpenFileDialog())
             {
                 if (ofg.ShowDialog() == DialogResult.OK)
@@ -116,8 +117,7 @@ namespace SixpenceStudio.AutoUpdate
                     this.updateFilePath = ofg.FileName;
                 }
             }
-            logger.Info($"获取更新文件成功");
-            this.loggerTextBox.AppendText("获取更新文件成功");
+            log.Info($"获取更新文件成功");
         }
 
         /// <summary>
@@ -125,11 +125,9 @@ namespace SixpenceStudio.AutoUpdate
         /// </summary>
         private void DeleteFolder()
         {
-            logger.Info($"开始删除网站文件");
-            this.loggerTextBox.AppendText("开始删除网站文件");
+            log.Info($"开始删除网站文件");
             FileUtil.DeleteFolder(webPath, ignoreList);
-            logger.Info($"删除网站文件成功");
-            this.loggerTextBox.AppendText("删除网站文件成功");
+            log.Info($"删除网站文件成功");
         }
 
         /// <summary>
@@ -137,11 +135,9 @@ namespace SixpenceStudio.AutoUpdate
         /// </summary>
         private void UncompressFile()
         {
-            logger.Info($"开始更新网站文件");
-            this.loggerTextBox.AppendText("开始更新网站文件");
+            log.Info($"开始更新网站文件");
             ZipFile.ExtractToDirectory(updateFilePath, webPath);
-            logger.Info($"更新网站文件成功");
-            this.loggerTextBox.AppendText("更新网站文件成功");
+            log.Info($"更新网站文件成功");
         }
 
         private void ProgressButton_Click(object sender, EventArgs e)
@@ -156,7 +152,7 @@ namespace SixpenceStudio.AutoUpdate
             }
             catch (Exception ex)
             {
-                logger.Error("更新网站出现异常", ex);
+                log.Error("更新网站出现异常", ex);
                 this.ProgressProcessBar.Value = 0;
             }
         }

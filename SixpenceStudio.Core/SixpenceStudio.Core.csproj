@@ -233,6 +233,8 @@
     <Compile Include="Job\JobExtension.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerPlugin.cs" />
     <Compile Include="Entity\Service\BaseCommand.cs" />
+    <Compile Include="MessageEvent\IObserver.cs" />
+    <Compile Include="MessageEvent\Observer.cs" />
     <Compile Include="Pixabay\ResponseModel\BasePixabayResponseModel.cs" />
     <Compile Include="Pixabay\ResponseModel\ImagesModel.cs" />
     <Compile Include="Pixabay\PixabayService.cs" />
