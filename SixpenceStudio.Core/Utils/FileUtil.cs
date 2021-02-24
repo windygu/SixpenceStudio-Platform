@@ -94,7 +94,10 @@ namespace SixpenceStudio.Core.Utils
                     }
                     else
                     {
-                        DeleteFile(i.FullName);
+                        if (!ignoreList.Contains(i.Name))
+                        {
+                            DeleteFile(i.FullName);
+                        }
                     }
                 }
             }

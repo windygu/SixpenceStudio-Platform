@@ -13,27 +13,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SixpenceStudio.AutoUpdate
 {
     public partial class AutoUpdate : Form
     {
-        private BackgroundWorker bgWorker = new BackgroundWorker();
-
-        public class TextBoxAppender : AppenderSkeleton
-        {
-            protected override void Append(LoggingEvent loggingEvent)
-            {
-                StringWriter writer = new StringWriter();
-                this.Layout.Format(writer, loggingEvent);
-                // 已经得到了按照自己设置的格式的日志消息内容了，就是writer.toString()。然后你想把这句话显示在哪都可以了。。我是测试就直接控制台了。
-                Console.Write(writer.ToString());
-            }
-        }
-
         /// <summary>
         /// 日志记录
         /// </summary>
@@ -62,62 +47,33 @@ namespace SixpenceStudio.AutoUpdate
         public AutoUpdate()
         {
             InitializeComponent();
-            InitializeBackgroundWorker();
             log = new Log();
-            log.Add(new Subscriber() { Name = "日志文本记录", Output = msg => this.loggerTextBox.AppendText(msg) });
-        }
-        private void InitializeBackgroundWorker()
-        {
-            bgWorker.WorkerReportsProgress = true;
-            bgWorker.WorkerSupportsCancellation = true;
-            bgWorker.DoWork += new DoWorkEventHandler(bgWorker_DoWork);
-            bgWorker.ProgressChanged += new ProgressChangedEventHandler(bgWorker_ProgessChanged);
-            bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorker_WorkerCompleted);
-        }
-
-        public void bgWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (bgWorker.CancellationPending == false)
+            log.Add(new Subscriber()
             {
-                ChooseUpdateFile();
-                bgWorker.ReportProgress(30, "Working");
-                DeleteFolder();
-                bgWorker.ReportProgress(60, "Working");
-                UncompressFile();
-                bgWorker.ReportProgress(100, "Working");
-                bgWorker.CancelAsync();
-            }
-        }
-
-        public void bgWorker_ProgessChanged(object sender, ProgressChangedEventArgs e)
-        {
-            this.ProgressProcessBar.Value = e.ProgressPercentage;
-            this.progressLabel.Text = Convert.ToString(e.ProgressPercentage) + "%";
-        }
-
-        public void bgWorker_WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                MessageBox.Show(e.Error.ToString());
-                return;
-            }
+                Name = "日志文本记录",
+                Output = msg => Invoke(new Action<string>(data => this.loggerTextBox.AppendText(data)), msg)
+            });
+            this.checkBox1.Checked = true;
         }
 
         /// <summary>
         /// 获取更新文件
         /// </summary>
-        private void ChooseUpdateFile()
+        private bool ChooseUpdateFile()
         {
             log.Info($"开始获取更新文件");
             using (OpenFileDialog ofg = new OpenFileDialog())
             {
+                ofg.InitialDirectory = Application.StartupPath.Substring(0, Application.StartupPath.LastIndexOf(@"\"));
                 if (ofg.ShowDialog() == DialogResult.OK)
                 {
                     this.updateFilePath = ofg.FileName;
+                    this.ignoreList.Add(ofg.SafeFileName);
+                    log.Info($"获取更新文件成功");
+                    return true;
                 }
+                return false;
             }
-            log.Info($"获取更新文件成功");
         }
 
         /// <summary>
@@ -137,6 +93,11 @@ namespace SixpenceStudio.AutoUpdate
         {
             log.Info($"开始更新网站文件");
             ZipFile.ExtractToDirectory(updateFilePath, webPath);
+            if (checkBox1.Checked)
+            {
+                FileUtil.DeleteFile(updateFilePath);
+                log.Info("删除更新文件成功");
+            }
             log.Info($"更新网站文件成功");
         }
 
@@ -144,11 +105,23 @@ namespace SixpenceStudio.AutoUpdate
         {
             try
             {
-                if (bgWorker.IsBusy)
-                    return;
-
                 this.ProgressProcessBar.Maximum = 100;
-                bgWorker.RunWorkerAsync();
+                var result = ChooseUpdateFile();
+                if (result)
+                {
+                    this.ProgressProcessBar.Value = 30;
+                    this.progressLabel.Text = "30%";
+                    DeleteFolder();
+                    this.ProgressProcessBar.Value = 60;
+                    this.progressLabel.Text = "60%";
+                    UncompressFile();
+                    this.ProgressProcessBar.Value = 100;
+                    this.progressLabel.Text = "已完成";
+                }
+                else
+                {
+                    log.Info("已取消");
+                }
             }
             catch (Exception ex)
             {

@@ -53,7 +53,7 @@ namespace SixpenceStudio.AutoUpdate
         public void Receive(Object obj)
         {
             var log = obj as Log;
-            var msg = string.Format("[{0}]{1}：{2}", log?.Level?.ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), log?.Message);
+            var msg = string.Format("[{0}]{1}：{2}\r\n", log?.Level?.ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), log?.Message);
             Output.Invoke(msg);
         }
     }
