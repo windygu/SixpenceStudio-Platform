@@ -13,11 +13,11 @@ namespace SixpenceStudio.Core.Configs
     /// </summary>
     public static class ConfigFactory
     {
-        public const string ConfigFileName = "Web.config";
+        public const string ConfigFileName = "Core.config";
         private static readonly string ConfigFileFullName;
         static ConfigFactory()
         {
-            ConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
+            ConfigFileFullName = Path.Combine(Environment.CurrentDirectory, ConfigFileName);
             if (!File.Exists(ConfigFileFullName))
             {
                 throw new SpException("未找到配置文件");
