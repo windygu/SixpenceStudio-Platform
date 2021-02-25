@@ -17,7 +17,7 @@ namespace SixpenceStudio.Core.Configs
         private static readonly string ConfigFileFullName;
         static ConfigFactory()
         {
-            ConfigFileFullName = Path.Combine(Environment.CurrentDirectory, ConfigFileName);
+            ConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", ConfigFileName);
             if (!File.Exists(ConfigFileFullName))
             {
                 throw new SpException("未找到配置文件");
