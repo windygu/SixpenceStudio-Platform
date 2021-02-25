@@ -16,7 +16,7 @@ namespace SixpenceStudio.AutoUpdate
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AutoUpdate());
+            Application.Run(new AutoDeploy());
         }
     }
 }

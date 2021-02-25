@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace SixpenceStudio.AutoUpdate
 {
-    public partial class AutoUpdate : Form
+    public partial class AutoDeploy : Form
     {
         /// <summary>
         /// 日志记录
@@ -49,7 +49,7 @@ namespace SixpenceStudio.AutoUpdate
         /// </summary>
         private string updateFilePath = "";
 
-        public AutoUpdate()
+        public AutoDeploy()
         {
             InitializeComponent();
             log = new Log();

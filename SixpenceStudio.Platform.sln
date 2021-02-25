@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Test", "Sixp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Core", "SixpenceStudio.Core\SixpenceStudio.Core.csproj", "{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.AutoUpdate", "SixpenceStudio.AutoUpdate\SixpenceStudio.AutoUpdate.csproj", "{66337FAC-60FB-4682-B264-66349464981D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.AutoDeploy", "SixpenceStudio.AutoUpdate\SixpenceStudio.AutoDeploy.csproj", "{66337FAC-60FB-4682-B264-66349464981D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

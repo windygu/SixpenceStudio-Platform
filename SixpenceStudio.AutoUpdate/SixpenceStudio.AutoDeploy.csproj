@@ -58,17 +58,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoUpdate.cs">
+    <Compile Include="AutoDeploy.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AutoUpdate.Designer.cs">
-      <DependentUpon>AutoUpdate.cs</DependentUpon>
+    <Compile Include="AutoDeploy.Designer.cs">
+      <DependentUpon>AutoDeploy.cs</DependentUpon>
     </Compile>
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AutoUpdate.resx">
-      <DependentUpon>AutoUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="AutoDeploy.resx">
+      <DependentUpon>AutoDeploy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

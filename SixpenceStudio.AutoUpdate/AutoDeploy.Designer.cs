@@ -1,7 +1,7 @@
 ﻿
 namespace SixpenceStudio.AutoUpdate
 {
-    partial class AutoUpdate
+    partial class AutoDeploy
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -33,9 +33,9 @@ namespace SixpenceStudio.AutoUpdate
             this.ProgressButton = new Sunny.UI.UIButton();
             this.progressLabel = new Sunny.UI.UILabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.loggerTextBox = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +44,7 @@ namespace SixpenceStudio.AutoUpdate
             // 
             this.ProgressProcessBar.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.ProgressProcessBar.Location = new System.Drawing.Point(9, 24);
-            this.ProgressProcessBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProgressProcessBar.Margin = new System.Windows.Forms.Padding(2);
             this.ProgressProcessBar.MinimumSize = new System.Drawing.Size(52, 4);
             this.ProgressProcessBar.Name = "ProgressProcessBar";
             this.ProgressProcessBar.Size = new System.Drawing.Size(387, 23);
@@ -56,7 +56,7 @@ namespace SixpenceStudio.AutoUpdate
             this.ProgressButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ProgressButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.ProgressButton.Location = new System.Drawing.Point(593, 16);
-            this.ProgressButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProgressButton.Margin = new System.Windows.Forms.Padding(2);
             this.ProgressButton.MinimumSize = new System.Drawing.Size(1, 1);
             this.ProgressButton.Name = "ProgressButton";
             this.ProgressButton.Size = new System.Drawing.Size(80, 36);
@@ -84,31 +84,10 @@ namespace SixpenceStudio.AutoUpdate
             this.panel1.Controls.Add(this.ProgressButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(682, 66);
             this.panel1.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.loggerTextBox);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 66);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(682, 372);
-            this.panel2.TabIndex = 5;
-            // 
-            // loggerTextBox
-            // 
-            this.loggerTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.loggerTextBox.Location = new System.Drawing.Point(0, 0);
-            this.loggerTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.loggerTextBox.Multiline = true;
-            this.loggerTextBox.Name = "loggerTextBox";
-            this.loggerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.loggerTextBox.Size = new System.Drawing.Size(682, 372);
-            this.loggerTextBox.TabIndex = 0;
             // 
             // checkBox1
             // 
@@ -120,16 +99,37 @@ namespace SixpenceStudio.AutoUpdate
             this.checkBox1.Text = "成功后删除更新包";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // AutoUpdate
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.loggerTextBox);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 66);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(682, 372);
+            this.panel2.TabIndex = 5;
+            // 
+            // loggerTextBox
+            // 
+            this.loggerTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loggerTextBox.Location = new System.Drawing.Point(0, 0);
+            this.loggerTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.loggerTextBox.Multiline = true;
+            this.loggerTextBox.Name = "loggerTextBox";
+            this.loggerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.loggerTextBox.Size = new System.Drawing.Size(682, 372);
+            this.loggerTextBox.TabIndex = 0;
+            // 
+            // AutoDeploy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 438);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "AutoUpdate";
-            this.Text = "自动更新";
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "AutoDeploy";
+            this.Text = "AutoDeploy";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
