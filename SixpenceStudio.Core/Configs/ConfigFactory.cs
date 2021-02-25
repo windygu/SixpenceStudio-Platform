@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SixpenceStudio.Core.Configs
 {
     /// <summary>
-    /// 配置工厂类（Web.config）
+    /// 配置工厂类（Core.config）
     /// </summary>
     public static class ConfigFactory
     {
