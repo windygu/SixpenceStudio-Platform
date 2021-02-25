@@ -37,7 +37,12 @@ namespace SixpenceStudio.AutoUpdate
         /// <summary>
         /// 忽略文件夹
         /// </summary>
-        private List<string> ignoreList = new List<string>() { "log", currentDirectory.Name };
+        private List<string> ignoreList = new List<string>()
+        {
+            "log",
+            currentDirectory.Name,
+            "Core.config"
+        };
 
         /// <summary>
         /// 更新文件目录
