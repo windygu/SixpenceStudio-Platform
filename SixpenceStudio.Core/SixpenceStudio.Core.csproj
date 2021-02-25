@@ -221,6 +221,7 @@
     <Compile Include="Auth\SysRole\SysRoleService.cs" />
     <Compile Include="Auth\SysRole\sys_role.cs" />
     <Compile Include="BaseSite\SysEntity\EntityCache.cs" />
+    <Compile Include="BaseSite\SysEntity\SysEntityPlugin.cs" />
     <Compile Include="Data\DBClient\DbClientProxy.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />

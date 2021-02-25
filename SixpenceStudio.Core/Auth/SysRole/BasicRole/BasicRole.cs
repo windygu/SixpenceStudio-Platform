@@ -102,5 +102,24 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
             };
             return privilege;
         }
+
+        /// <summary>
+        /// 获取角色未生成实体权限的实体
+        /// </summary>
+        /// <param name="systemRole"></param>
+        /// <returns></returns>
+        protected IEnumerable<sys_entity> GetNoPrivilegeEntityList(SystemRole systemRole)
+        {
+            var sql = @"
+select *
+from sys_entity se 
+where sys_entityid not in (
+	select sys_entityid 
+	from sys_role_privilege srp 
+	where sys_roleid  = @roleid
+)
+";
+            return broker.RetrieveMultiple<sys_entity>(sql, new Dictionary<string, object>() { { "@roleid", GetRole(systemRole)?.Id } });
+        }
     }
 }

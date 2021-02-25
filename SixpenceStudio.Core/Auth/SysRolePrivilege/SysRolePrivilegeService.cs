@@ -4,6 +4,7 @@ using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
+using SixpenceStudio.Core.SysEntity;
 using SixpenceStudio.Core.UserInfo;
 using System;
 using System.Collections.Generic;
