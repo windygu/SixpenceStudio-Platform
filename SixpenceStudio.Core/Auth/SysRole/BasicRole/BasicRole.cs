@@ -60,11 +60,12 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
             var key = $"{PRIVILEGE_PREFIX}_{roleName}";
             return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
-                var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", systemRole.GetDescription() } });
-                if (dataList.IsEmpty())
+                var entityList = GetNoPrivilegeEntityList(systemRole);
+                if (!entityList.IsEmpty())
                 {
-                    dataList = CreateRolePrivilege();
+                    CreateRolePrivilege();
                 }
+                var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", systemRole.GetDescription() } });
                 return dataList;
             }, DateTime.Now.AddHours(12));
         }
@@ -73,7 +74,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// 创建角色权限
         /// </summary>
         /// <returns></returns>
-        protected abstract IList<sys_role_privilege> CreateRolePrivilege();
+        protected abstract void CreateRolePrivilege();
 
         /// <summary>
         /// 生成权限

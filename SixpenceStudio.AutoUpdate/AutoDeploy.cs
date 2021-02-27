@@ -1,6 +1,7 @@
 ﻿using log4net;
 using log4net.Appender;
 using log4net.Core;
+using SixpenceStudio.Core;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
@@ -40,8 +41,7 @@ namespace SixpenceStudio.AutoUpdate
         private List<string> ignoreList = new List<string>()
         {
             "log",
-            currentDirectory.Name,
-            "Core.config"
+            currentDirectory.Name
         };
 
         /// <summary>
@@ -59,6 +59,27 @@ namespace SixpenceStudio.AutoUpdate
                 Output = msg => Invoke(new Action<string>(data => this.loggerTextBox.AppendText(data)), msg)
             });
             this.checkBox1.Checked = true;
+        }
+
+        /// <summary>
+        /// 获取配置文件
+        /// </summary>
+        private void GetCoreConfig()
+        {
+            var sourcePath = Path.Combine(webPath, "bin", "Core.config");
+            var destPath = Path.Combine(Application.StartupPath, "Core.config");
+            FileUtil.CopyFile(sourcePath, destPath);
+            log.Info("获取Core.config配置文件成功");
+        }
+
+        /// <summary>
+        /// 复制配置文件
+        /// </summary>
+        private void CopyCoreConfig()
+        {
+            var destPath = Path.Combine(webPath, "bin", "Core.config");
+            var sourcePath = Path.Combine(Application.StartupPath, "Core.config");
+            FileUtil.CopyFile(sourcePath, destPath);
         }
 
         /// <summary>
@@ -111,6 +132,7 @@ namespace SixpenceStudio.AutoUpdate
             try
             {
                 this.ProgressProcessBar.Maximum = 100;
+                GetCoreConfig();
                 var result = ChooseUpdateFile();
                 if (result)
                 {
@@ -120,6 +142,7 @@ namespace SixpenceStudio.AutoUpdate
                     this.ProgressProcessBar.Value = 60;
                     this.progressLabel.Text = "60%";
                     UncompressFile();
+                    CopyCoreConfig();
                     this.ProgressProcessBar.Value = 100;
                     this.progressLabel.Text = "已完成";
                 }
@@ -130,7 +153,7 @@ namespace SixpenceStudio.AutoUpdate
             }
             catch (Exception ex)
             {
-                log.Error("更新网站出现异常", ex);
+                log.Error(ex.Message, ex);
                 this.ProgressProcessBar.Value = 0;
             }
         }

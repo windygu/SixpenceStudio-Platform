@@ -145,6 +145,22 @@ namespace SixpenceStudio.Core.Utils
         }
 
         /// <summary>
+        /// 拷贝文件
+        /// </summary>
+        /// <param name="sourcePath"></param>
+        /// <param name="destPath"></param>
+        public static void CopyFile(string sourcePath, string destPath)
+        {
+            var fileInfo = new FileInfo(sourcePath);
+            AssertUtil.CheckBoolean<SpException>(fileInfo.Exists == false, $"未找到{fileInfo.Name}配置文件，请检查", "BAE7CF07-8F31-4122-9A94-3E5E247191A0");
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            fileInfo.CopyTo(destPath);
+        }
+
+        /// <summary>
         /// 压缩文件夹
         /// </summary>
         /// <param name="folderName">The folder to add</param>

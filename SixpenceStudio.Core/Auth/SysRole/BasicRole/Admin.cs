@@ -29,9 +29,9 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
             return GetRolePrivilege(Role);
         }
 
-        protected override IList<sys_role_privilege> CreateRolePrivilege()
+        protected override void CreateRolePrivilege()
         {
-            return broker.ExecuteTransaction(() =>
+            broker.ExecuteTransaction(() =>
             {
                 var entityList = GetNoPrivilegeEntityList(Role);
                 var dataList = entityList.Select(entity =>
@@ -40,7 +40,6 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
                     return GenerateRolePrivilege(entity, GetRole(), privilege);
                 }).ToList();
                 broker.BulkCreate(dataList);
-                return dataList;
             });
         }
     }
