@@ -8,6 +8,7 @@ using System.Web;
 namespace SixpenceStudio.Core.SysEntity
 {
     [EntityName("sys_entity")]
+    [KeyAttributes("实体不能重复创建", "code")]
     public partial class sys_entity : BaseEntity
     {
         /// <summary>
@@ -35,7 +36,7 @@ namespace SixpenceStudio.Core.SysEntity
         {
             get
             {
-                return _code;
+                return _code;   
             }
             set
             {

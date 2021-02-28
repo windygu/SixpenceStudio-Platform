@@ -82,8 +82,8 @@ WHERE
             var id = "";
             _cmd.Broker.ExecuteTransaction(() =>
             {
-                _cmd.Broker.Execute(DDLTemplate.CreateTable(t.code));
                 id = base.CreateData(t);
+                _cmd.Broker.Execute(DDLTemplate.CreateTable(t.code));
                 var sys_attr = new sys_attrs()
                 {
                     sys_attrsId = Guid.NewGuid().ToString(),

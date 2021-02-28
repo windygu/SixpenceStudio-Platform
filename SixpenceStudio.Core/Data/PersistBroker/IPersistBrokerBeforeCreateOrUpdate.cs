@@ -89,7 +89,7 @@ namespace SixpenceStudio.Core.Data
                    });
 
                    var sql = string.Format(@"SELECT {0}Id FROM {0} WHERE 1 = 1 ", entity.EntityName) + string.Join("", sqlParam);
-                   AssertUtil.CheckBoolean<SpException>(broker.Query<string>(sql, paramList)?.Count() > 0, "7293452C-AFCA-408D-9EBD-B1CECD206A7D", item.RepeatMessage);
+                   AssertUtil.CheckBoolean<SpException>(broker.Query<string>(sql, paramList)?.Count() > 0, item.RepeatMessage, "7293452C-AFCA-408D-9EBD-B1CECD206A7D");
                });
         }
 
