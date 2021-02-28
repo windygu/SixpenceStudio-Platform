@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Configs;
+using SixpenceStudio.Core.Data.DBClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,34 +19,18 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         /// <param name="dBType"></param>
         /// <returns></returns>
-        public static IPersistBroker GetPersistBroker(DBType dBType = DBType.MainDB)
+        public static IPersistBroker GetPersistBroker(DBType dBType = DBType.Main)
         {
-            switch (dBType)
-            {
-                case DBType.MainDB:
-                    return new PersistBroker(new DbConnectionConfig().GetValue());
-                case DBType.StandByDB:
-                    return new PersistBroker(new StandByDbConnectionConfig().GetValue());
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// 获取只读库
-        /// </summary>
-        /// <returns></returns>
-        public static IPersistBroker GetReadonlyPersistBroker()
-        {
-            return new PersistBroker(new StandByDbConnectionConfig().GetValue());
+            var config = ConfigFactory.GetConfig<DBSection>();
+            return new PersistBroker(config.ConfigCollection[dBType.ToString()].Value);
         }
     }
 
     public enum DBType
     {
         [Description("主库")]
-        MainDB,
+        Main,
         [Description("从库")]
-        StandByDB
+        StandBy
     }
 }
