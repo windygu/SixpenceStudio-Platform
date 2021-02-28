@@ -41,7 +41,6 @@ namespace SixpenceStudio.AutoUpdate
         private List<string> ignoreList = new List<string>()
         {
             "log",
-            "Web.config",
             currentDirectory.Name
         };
 
@@ -73,6 +72,14 @@ namespace SixpenceStudio.AutoUpdate
             log.Info("获取Core.config配置文件成功");
         }
 
+        private void GetWebConfig()
+        {
+            var sourcePath = Path.Combine(webPath, "Web.config");
+            var destPath = Path.Combine(Application.StartupPath, "Web.config");
+            FileUtil.CopyFile(sourcePath, destPath);
+            log.Info("获取Web.config配置文件成功");
+        }
+
         /// <summary>
         /// 复制配置文件
         /// </summary>
@@ -80,6 +87,13 @@ namespace SixpenceStudio.AutoUpdate
         {
             var destPath = Path.Combine(webPath, "bin", "Core.config");
             var sourcePath = Path.Combine(Application.StartupPath, "Core.config");
+            FileUtil.CopyFile(sourcePath, destPath);
+        }
+
+        private void CopyWebConfig()
+        {
+            var sourcePath = Path.Combine(Application.StartupPath, "Web.config");
+            var destPath = Path.Combine(webPath, "Web.config");
             FileUtil.CopyFile(sourcePath, destPath);
         }
 
@@ -134,6 +148,7 @@ namespace SixpenceStudio.AutoUpdate
             {
                 this.ProgressProcessBar.Maximum = 100;
                 GetCoreConfig();
+                GetWebConfig();
                 var result = ChooseUpdateFile();
                 if (result)
                 {
@@ -144,6 +159,7 @@ namespace SixpenceStudio.AutoUpdate
                     this.progressLabel.Text = "60%";
                     UncompressFile();
                     CopyCoreConfig();
+                    CopyWebConfig();
                     this.ProgressProcessBar.Value = 100;
                     this.progressLabel.Text = "已完成";
                 }
