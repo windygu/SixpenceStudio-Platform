@@ -41,6 +41,7 @@ namespace SixpenceStudio.AutoUpdate
         private List<string> ignoreList = new List<string>()
         {
             "log",
+            "Web.config",
             currentDirectory.Name
         };
 
