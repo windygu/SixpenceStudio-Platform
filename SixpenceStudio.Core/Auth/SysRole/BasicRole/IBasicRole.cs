@@ -34,5 +34,10 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// <param name="role"></param>
         /// <returns></returns>
         IEnumerable<sys_role_privilege> GetRolePrivilege();
+
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
+        void ClearCache();
     }
 }

@@ -12,7 +12,7 @@ namespace SixpenceStudio.Core.Data
     /// <summary>
     /// DbClient 代理（实现日志、本地化Sql转换）
     /// </summary>
-    public class DbClientProxy : IDbClient
+    public class DbClientProxy : IDbClient, IDisposable
     {
         #region 构造函数
         public DbClientProxy()
@@ -231,6 +231,11 @@ namespace SixpenceStudio.Core.Data
                 return sql;
             }
             return sql;
+        }
+
+        public void Dispose()
+        {
+            (dbClient as IDisposable).Dispose();
         }
     }
 }

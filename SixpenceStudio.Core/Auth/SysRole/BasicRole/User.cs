@@ -17,29 +17,18 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
     /// </summary>
     public class User : BasicRole, IBasicRole
     {
-        public SystemRole Role { get => SystemRole.User; }
-
-        public sys_role GetRole()
-        {
-            return GetRole(Role);
-        }
-
-        public IEnumerable<sys_role_privilege> GetRolePrivilege()
-        {
-            return GetRolePrivilege(Role);
-        }
-
+        public override SystemRole GetSystemRole() => SystemRole.User;
         protected override void CreateRolePrivilege()
         {
-            broker.ExecuteTransaction(() =>
+            Broker.ExecuteTransaction(() =>
             {
-                var entityList = GetNoPrivilegeEntityList(Role);
+                var entityList = GetNoPrivilegeEntityList();
                 var dataList = entityList.Select(entity =>
                 {
                     int privilege = (int)OperationType.Read + (int)OperationType.Write + (int)OperationType.Delete;
                     return GenerateRolePrivilege(entity, GetRole(), privilege);
                 }).ToList();
-                broker.BulkCreate(dataList);
+                Broker.BulkCreate(dataList);
             });
         }
     }

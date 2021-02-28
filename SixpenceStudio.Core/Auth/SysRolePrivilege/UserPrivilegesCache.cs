@@ -1,5 +1,8 @@
-﻿using SixpenceStudio.Core.Data;
+﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
+using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.UserInfo;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -33,9 +36,16 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// <summary>
         /// 清除用户权限信息缓存
         /// </summary>
-        public static void Clear()
+        public static void Clear(IPersistBroker broker)
         {
             UserPrivliege.Clear();
+            UnityContainerService.ResolveAll<IBasicRole>().Each(item =>
+            {
+                (item as BasicRole).Broker = broker;
+                item.ClearCache();
+                MemoryCacheUtil.RemoveCacheItem(item.GetRoleKey);
+                MemoryCacheUtil.Set(item.GetRoleKey, new RolePrivilegeModel() { Role = item.GetRole(), Privileges = item.GetRolePrivilege() }, 3600 * 12);
+            });
         }
     }
 }

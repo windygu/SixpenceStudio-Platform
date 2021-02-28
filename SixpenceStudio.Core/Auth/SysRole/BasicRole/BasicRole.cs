@@ -13,14 +13,18 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
 {
     public abstract class BasicRole
     {
-        protected IPersistBroker broker;
-        public const string ROLE_PREFIX = "BasicRole";
-        public const string PRIVILEGE_PREFIX = "RolePrivilege";
+        public IPersistBroker Broker;
+        protected const string ROLE_PREFIX = "BasicRole";
+        protected const string PRIVILEGE_PREFIX = "RolePrivilege";
         public string GetRoleKey => this.GetType().Name;
+
+        public abstract SystemRole GetSystemRole();
+        public SystemRole Role => GetSystemRole();
+        public string RoleName => GetSystemRole().ToString();
 
         public BasicRole()
         {
-            broker = PersistBrokerFactory.GetPersistBroker();
+            Broker = PersistBrokerFactory.GetPersistBroker();
         }
 
         /// <summary>
@@ -28,22 +32,21 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        protected virtual sys_role GetRole(SystemRole systemRole)
+        public sys_role GetRole()
         {
-            var roleName = systemRole.GetDescription();
-            var key = $"{ROLE_PREFIX}_{systemRole}";
+            var key = $"{ROLE_PREFIX}_{RoleName}";
             return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
-                var role = broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", roleName } });
+                var role = Broker.Retrieve<sys_role>("select * from sys_role where name = @name", new Dictionary<string, object>() { { "@name", Role.GetDescription() } });
                 if (role == null)
                 {
                     role = new sys_role()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        name = roleName,
+                        name = Role.GetDescription(),
                         is_basic = true
                     };
-                    broker.Create(role);
+                    Broker.Create(role);
                 }
                 return role;
             }, DateTime.Now.AddHours(12));
@@ -54,20 +57,28 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<sys_role_privilege> GetRolePrivilege(SystemRole systemRole)
+        public IEnumerable<sys_role_privilege> GetRolePrivilege()
         {
-            var roleName = systemRole.ToString();
-            var key = $"{PRIVILEGE_PREFIX}_{roleName}";
+            var key = $"{PRIVILEGE_PREFIX}_{RoleName}";
             return MemoryCacheUtil.GetOrAddCacheItem(key, () =>
             {
-                var entityList = GetNoPrivilegeEntityList(systemRole);
+                var entityList = GetNoPrivilegeEntityList();
                 if (!entityList.IsEmpty())
                 {
                     CreateRolePrivilege();
                 }
-                var dataList = broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", systemRole.GetDescription() } });
+                var dataList = Broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleidName = @name", new Dictionary<string, object>() { { "@name", Role.GetDescription() } });
                 return dataList;
             }, DateTime.Now.AddHours(12));
+        }
+
+        /// <summary>
+        /// 清除角色缓存
+        /// </summary>
+        public void ClearCache()
+        {
+            MemoryCacheUtil.RemoveCacheItem($"{PRIVILEGE_PREFIX}_{RoleName}");
+            MemoryCacheUtil.RemoveCacheItem($"{ROLE_PREFIX}_{RoleName}");
         }
 
         /// <summary>
@@ -109,7 +120,7 @@ namespace SixpenceStudio.Core.Auth.SysRole.BasicRole
         /// </summary>
         /// <param name="systemRole"></param>
         /// <returns></returns>
-        protected IEnumerable<sys_entity> GetNoPrivilegeEntityList(SystemRole systemRole)
+        protected IEnumerable<sys_entity> GetNoPrivilegeEntityList()
         {
             var sql = @"
 select *
@@ -120,7 +131,7 @@ where sys_entityid not in (
 	where sys_roleid  = @roleid
 )
 ";
-            return broker.RetrieveMultiple<sys_entity>(sql, new Dictionary<string, object>() { { "@roleid", GetRole(systemRole)?.Id } });
+            return Broker.RetrieveMultiple<sys_entity>(sql, new Dictionary<string, object>() { { "@roleid", GetRole()?.Id } });
         }
     }
 }

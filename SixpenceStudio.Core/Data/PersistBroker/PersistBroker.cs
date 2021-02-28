@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace SixpenceStudio.Core.Data
 {
-    internal class PersistBroker : IPersistBroker
+    internal class PersistBroker : IPersistBroker, IDisposable
     {
         /// <summary>
         /// Generate Broker
@@ -78,9 +78,15 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public int Delete(string entityName, string id)
         {
+            var entity = new SpEntity(entityName, id);
+            var plugin = UnityContainerService.Resolve<IPersistBrokerPlugin>(item => item.StartsWith(entityName.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
+            plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entityName, Action = EntityAction.PreDelete });
+
             var sql = "DELETE FROM {0} WHERE {1}id = @id";
             sql = string.Format(sql, entityName, entityName);
             int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", id } });
+
+            plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entityName, Action = EntityAction.PostDelete });
             return result;
         }
 
@@ -98,7 +104,7 @@ namespace SixpenceStudio.Core.Data
                 var sql = "DELETE FROM {0} WHERE {1}id = @id";
                 sql = string.Format(sql, entity.EntityName, entity.EntityName);
                 int result = this.Execute(sql, new Dictionary<string, object>() { { "@id", entity.Id } });
-                plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PreDelete });
+                plugin?.Execute(new PluginContext() { Broker = this, Entity = entity, EntityName = entity.EntityName, Action = EntityAction.PostDelete });
                 return result;
             });
         }
@@ -308,6 +314,11 @@ WHERE
             sql = sql.Replace("@ids", string.Join(",", parmas.Keys));
             var data = RetrieveMultiple<T>(sql, parmas);
             return data;
+        }
+
+        public void Dispose()
+        {
+            (this.DbClient as IDisposable).Dispose();
         }
     }
 }

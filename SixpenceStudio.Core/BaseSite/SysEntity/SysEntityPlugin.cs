@@ -17,17 +17,17 @@ namespace SixpenceStudio.Core.SysEntity
         {
             if (context.EntityName != "sys_entity") return;
 
-            var obj = context.Entity as sys_entity;
+            var broker = context.Broker;
             switch (context.Action)
             {
                 case EntityAction.PostCreate:
                     // 重新注册权限并清除缓存
-                    UnityContainerService.ResolveAll<IBasicRole>().Each(item =>
-                    {
-                        MemoryCacheUtil.RemoveCacheItem(item.GetRoleKey);
-                        MemoryCacheUtil.Set(item.GetRoleKey, new RolePrivilegeModel() { Role = item.GetRole(), Privileges = item.GetRolePrivilege() }, 3600 * 12);
-                        UserPrivilegesCache.Clear();
-                    });
+                    UserPrivilegesCache.Clear(broker);
+                    break;
+                case EntityAction.PostDelete:
+                    var privileges = new SysRolePrivilegeService(broker).GetPrivileges(context.Entity.Id).ToArray();
+                    broker.Delete(privileges);
+                    UserPrivilegesCache.Clear(broker);
                     break;
                 default:
                     break;

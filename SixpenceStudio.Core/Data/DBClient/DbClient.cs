@@ -11,7 +11,7 @@ namespace SixpenceStudio.Core.Data
     /// <summary>
     /// 数据库实例
     /// </summary>
-    internal sealed class DbClient : IDbClient
+    internal sealed class DbClient : IDbClient, IDisposable
     {
 
         /// <summary>
@@ -197,6 +197,11 @@ namespace SixpenceStudio.Core.Data
         {
             var sql = $"DROP TABLE IF EXISTS {tableName}";
             _conn.Execute(sql);
+        }
+
+        public void Dispose()
+        {
+            _conn.Dispose();
         }
     }
 }
