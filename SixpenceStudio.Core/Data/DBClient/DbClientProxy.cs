@@ -91,7 +91,7 @@ namespace SixpenceStudio.Core.Data
             }
             var sql = ConvertSqlToDialectSql(sqlText, paramListClone);
             LogUtils.Debug(sql + paramListClone.ToLogString());
-            return dbClient.Execute(sqlText, paramList);
+            return dbClient.Execute(sql, paramListClone);
         }
 
         /// <summary>
