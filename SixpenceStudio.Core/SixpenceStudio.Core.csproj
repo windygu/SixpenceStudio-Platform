@@ -301,7 +301,6 @@
     <Compile Include="Data\DBClient\DbClient.cs" />
     <Compile Include="Data\DBClient\DialectSql.cs" />
     <Compile Include="Data\DBClient\IDbClient.cs" />
-    <Compile Include="Data\DbConnectionConfig.cs" />
     <Compile Include="Data\PersistBroker\IPersistBroker.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerQueryExtension.cs" />
     <Compile Include="Data\PersistBroker\PersistBroker.cs" />
