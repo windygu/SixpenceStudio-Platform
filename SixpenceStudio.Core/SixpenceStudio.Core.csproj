@@ -221,6 +221,9 @@
     <Compile Include="BaseSite\Gallery\GalleryController.cs" />
     <Compile Include="BaseSite\Gallery\GalleryPlugin.cs" />
     <Compile Include="BaseSite\Gallery\GalleryService.cs" />
+    <Compile Include="BaseSite\MessageRemind\MessageRemindController.cs" />
+    <Compile Include="BaseSite\MessageRemind\MessageRemindService.cs" />
+    <Compile Include="BaseSite\MessageRemind\message_remind.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlController.cs" />
     <Compile Include="BaseSite\ShortUrl\ShortUrlSection.cs" />
     <Compile Include="Auth\SysRolePrivilege\sys_role_privilege.cs" />
