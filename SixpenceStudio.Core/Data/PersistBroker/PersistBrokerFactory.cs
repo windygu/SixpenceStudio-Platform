@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Configs;
 using SixpenceStudio.Core.Data.DBClient;
+using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,9 @@ namespace SixpenceStudio.Core.Data
     /// </summary>
     public static class PersistBrokerFactory
     {
+        private static readonly object lockObj = new object();
+        private static Dictionary<DBType, string> dbDic = new Dictionary<DBType, string>();
+
         /// <summary>
         /// 获取Broker
         /// </summary>
@@ -21,8 +25,22 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public static IPersistBroker GetPersistBroker(DBType dBType = DBType.Main)
         {
-            var config = ConfigFactory.GetConfig<DBSection>();
-            return new PersistBroker(config.ConfigCollection[dBType.ToString()].Value);
+            if (!dbDic.ContainsKey(dBType))
+            {
+                lock (lockObj)
+                {
+                    if (!dbDic.ContainsKey(dBType))
+                    {
+                        var config = ConfigFactory.GetConfig<DBSection>();
+                        var encryptionStr = config.ConfigCollection[DBType.Main.ToString()].Value;
+                        AssertUtil.CheckIsNullOrEmpty<SpException>(encryptionStr, "数据库连接字符串为空", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
+                        dbDic.Add(dBType, DecryptAndEncryptHelper.AESDecrypt(encryptionStr));
+                    }
+                }
+            }
+
+            var connectionString = dbDic[dBType];
+            return new PersistBroker(connectionString);
         }
     }
 
