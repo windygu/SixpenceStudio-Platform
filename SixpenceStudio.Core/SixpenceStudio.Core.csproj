@@ -326,6 +326,7 @@
     <Compile Include="Logging\WebApiMonitorLog.cs" />
     <Compile Include="Logging\WebApiTrackerArribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Socket\SocketController.cs" />
     <Compile Include="SpException.cs" />
     <Compile Include="Startup\CoreStartup.cs" />
     <Compile Include="Startup\IStartup.cs" />
