@@ -60,12 +60,76 @@ namespace SixpenceStudio.Core.Data
         }
 
         /// <summary>
+        /// 批量拷贝数据
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="tableName"></param>
+        public  static void BulkCopy(this IPersistBroker broker, DataTable dataTable, string tableName)
+        {
+            var client = broker.DbClient;
+            var commandFormat = string.Format(CultureInfo.InvariantCulture, "COPY {0} FROM STDIN BINARY", tableName);
+            using (var writer = (client.DbConnection as NpgsqlConnection).BeginBinaryImport(commandFormat))
+            {
+                foreach (DataRow item in dataTable.Rows)
+                    writer.WriteRow(item.ItemArray);
+            }
+        }
+
+        /// <summary>
+        /// 批量更新
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="broker"></param>
+        /// <param name="dataList"></param>
+        public static void BulkUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
+        {
+            var client = broker.DbClient;
+            if (dataList.IsEmpty())
+            {
+                return;
+            }
+
+            var dataType = new TEntity().EntityName;
+            var tableName = dataType + "Base";
+            var tempTableName = client.CreateTemporaryTable(tableName);
+
+            var dt = client.Query($"SELECT * FROM {tempTableName}");
+
+            // 拷贝数据到临时表
+            BulkCopy(broker, dataList.ToList().ToDataTable(dt.Columns), tempTableName);
+
+            // 获取更新字段
+            var updateFieldList = new List<string>();
+            foreach (DataColumn column in dt.Columns)
+            {
+                if (!column.ColumnName.Equals($"{dataType}id", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    updateFieldList.Add(column.ColumnName);
+                }
+            }
+            var updateFieldSql = updateFieldList.Select(item => string.Format(" {1} = {0}.{1} ", tempTableName, item)).Aggregate((a, b) => a + " , " + b);
+
+            // 更新
+            client.Execute($@"
+UPDATE {tableName}
+SET {updateFieldSql} FROM {tempTableName}
+WHERE {tableName}.{dataType}id = {tempTableName}.{dataType}id
+AND {tempTableName}.{dataType}id IS NOT NULL
+");
+
+            // 删除临时表数据
+            client.DropTable(tempTableName);
+        }
+
+        /// <summary>
         /// 批量创建或更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="broker"></param>
         /// <param name="dataList"></param>
-        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
+     
+        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList, IEnumerable<string> compareKeyList) where TEntity : BaseEntity, new()
         {
             broker.ExecuteTransaction(() =>
             {
