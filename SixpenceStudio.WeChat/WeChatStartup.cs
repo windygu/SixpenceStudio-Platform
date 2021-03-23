@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Owin;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Startup;
-using SixpenceStudio.Core.Utils;
 using SixpenceStudio.WeChat.RobotMessageTask;
 
 namespace SixpenceStudio.WeChat

@@ -1,5 +1,5 @@
 ﻿using SixpenceStudio.Core.Data;
-using SixpenceStudio.Core.Utils;
+using SixpenceStudio.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

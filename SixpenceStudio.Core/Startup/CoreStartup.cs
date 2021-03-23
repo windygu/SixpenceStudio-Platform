@@ -2,6 +2,7 @@
 using Quartz;
 using SixpenceStudio.Core.Auth.SysRole.BasicRole;
 using SixpenceStudio.Core.Auth.SysRolePrivilege;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Utils;

@@ -1,12 +1,13 @@
 ﻿using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.IoC;
-using SixpenceStudio.Core.Utils;
+using SixpenceStudio.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixpenceStudio.Core.Utils;
 
 namespace SixpenceStudio.Core.Data
 {

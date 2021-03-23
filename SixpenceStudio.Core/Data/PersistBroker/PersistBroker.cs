@@ -1,5 +1,5 @@
-﻿using SixpenceStudio.Core.Auth;
-using SixpenceStudio.Core.Entity;
+﻿using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System;

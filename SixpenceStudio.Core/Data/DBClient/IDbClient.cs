@@ -94,5 +94,12 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         /// <param name="tableName"></param>
         void DropTable(string tableName);
+
+        /// <summary>
+        /// 拷贝数据
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="tableName"></param>
+        void BulkCopy(DataTable dataTable, string tableName);
     }
 }

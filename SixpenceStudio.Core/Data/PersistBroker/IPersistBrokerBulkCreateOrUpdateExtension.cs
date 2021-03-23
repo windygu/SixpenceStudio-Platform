@@ -1,16 +1,15 @@
-﻿using Npgsql;
-using SixpenceStudio.Core.Entity;
-using SixpenceStudio.Core.Utils;
+﻿using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Data
 {
+    /// <summary>
+    /// PersistBroker 批量创建或更新扩展
+    /// </summary>
     public static class IPersistBrokerBulkCreateOrUpdateExtension
     {
         /// <summary>
@@ -38,42 +37,21 @@ namespace SixpenceStudio.Core.Data
         /// <param name="tableName"></param>
         public static void BulkCreate(this IPersistBroker broker, DataTable dataTable, string tableName)
         {
+            if (dataTable.IsEmpty()) return;
+
             var client = broker.DbClient;
 
-            if (dataTable == null || dataTable.Rows.Count == 0)
-            {
-                return;
-            }
+            // 1. 创建临时表
             var tempName = client.CreateTemporaryTable(tableName);
 
-            var commandFormat = string.Format(CultureInfo.InvariantCulture, "COPY {0} FROM STDIN BINARY", tempName);
-            using (var writer = (client.DbConnection as NpgsqlConnection).BeginBinaryImport(commandFormat))
-            {
-                foreach (DataRow item in dataTable.Rows)
-                    writer.WriteRow(item.ItemArray);
-            }
+            // 2. 拷贝数据到临时表
+            client.BulkCopy(dataTable, tempName);
 
-            var sql = string.Format("INSERT INTO {0} SELECT * FROM {1} WHERE NOT EXISTS(SELECT 1 FROM {0} WHERE {0}.{2}id = {1}.{2}id)", tableName, tempName, tableName);
-            client.Execute(sql);
+            // 3. 将临时表数据插入到目标表中
+            client.Execute(string.Format("INSERT INTO {0} SELECT * FROM {1} WHERE NOT EXISTS(SELECT 1 FROM {0} WHERE {0}.{2}id = {1}.{2}id)", tableName, tempName, tableName));
 
+            // 4. 删除临时表
             client.DropTable(tempName);
-        }
-
-        /// <summary>
-        /// 批量拷贝数据
-        /// </summary>
-        /// <param name="broker"></param>
-        /// <param name="dataTable"></param>
-        /// <param name="tableName"></param>
-        public  static void BulkCopy(this IPersistBroker broker, DataTable dataTable, string tableName)
-        {
-            var client = broker.DbClient;
-            var commandFormat = string.Format(CultureInfo.InvariantCulture, "COPY {0} FROM STDIN BINARY", tableName);
-            using (var writer = (client.DbConnection as NpgsqlConnection).BeginBinaryImport(commandFormat))
-            {
-                foreach (DataRow item in dataTable.Rows)
-                    writer.WriteRow(item.ItemArray);
-            }
         }
 
         /// <summary>
@@ -84,41 +62,44 @@ namespace SixpenceStudio.Core.Data
         /// <param name="dataList"></param>
         public static void BulkUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
         {
-            var client = broker.DbClient;
-            if (dataList.IsEmpty())
-            {
-                return;
-            }
+            if (dataList.IsEmpty()) return;
 
-            var dataType = new TEntity().EntityName;
-            var tableName = dataType + "Base";
+            var client = broker.DbClient;
+            var mainKeyName = new TEntity().MainKeyName; // 主键
+            var tableName = new TEntity().EntityName; // 表名
+
+            // 1. 创建临时表
             var tempTableName = client.CreateTemporaryTable(tableName);
 
+            // 2. 查询临时表结构
             var dt = client.Query($"SELECT * FROM {tempTableName}");
 
-            // 拷贝数据到临时表
-            BulkCopy(broker, dataList.ToList().ToDataTable(dt.Columns), tempTableName);
+            // 3. 拷贝数据到临时表
+            client.BulkCopy(dataList.ToList().ToDataTable(dt.Columns), tempTableName);
 
-            // 获取更新字段
+            // 4. 获取更新字段
             var updateFieldList = new List<string>();
             foreach (DataColumn column in dt.Columns)
             {
-                if (!column.ColumnName.Equals($"{dataType}id", StringComparison.InvariantCultureIgnoreCase))
+                // 主键去除
+                if (!column.ColumnName.Equals(mainKeyName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     updateFieldList.Add(column.ColumnName);
                 }
             }
+            
+            // 5. 拼接Set语句
             var updateFieldSql = updateFieldList.Select(item => string.Format(" {1} = {0}.{1} ", tempTableName, item)).Aggregate((a, b) => a + " , " + b);
 
-            // 更新
+            // 6. 更新
             client.Execute($@"
 UPDATE {tableName}
 SET {updateFieldSql} FROM {tempTableName}
-WHERE {tableName}.{dataType}id = {tempTableName}.{dataType}id
-AND {tempTableName}.{dataType}id IS NOT NULL
+WHERE {tableName}.{mainKeyName} = {tempTableName}.{mainKeyName}
+AND {tempTableName}.{mainKeyName} IS NOT NULL
 ");
 
-            // 删除临时表数据
+            // 7. 删除临时表
             client.DropTable(tempTableName);
         }
 
@@ -128,13 +109,54 @@ AND {tempTableName}.{dataType}id IS NOT NULL
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="broker"></param>
         /// <param name="dataList"></param>
-     
-        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList, IEnumerable<string> compareKeyList) where TEntity : BaseEntity, new()
+        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
         {
-            broker.ExecuteTransaction(() =>
+            if (dataList.IsEmpty()) return;
+
+            var client = broker.DbClient;
+            var mainKeyName = new TEntity().MainKeyName; // 主键
+            var tableName = new TEntity().EntityName; // 表名
+
+            // 1. 创建临时表
+            var tempTableName = client.CreateTemporaryTable(tableName);
+
+            // 2. 查询临时表结构
+            var dt = client.Query($"SELECT * FROM {tempTableName}");
+
+            // 3. 拷贝数据到临时表
+            client.BulkCopy(dataList.ToList().ToDataTable(dt.Columns), tempTableName);
+
+            // 4. 获取更新字段
+            var updateFieldList = new List<string>();
+            foreach (DataColumn column in dt.Columns)
             {
-                dataList.Each(item => broker.Save(item));
-            });
+                // 主键去除
+                if (!column.ColumnName.Equals(mainKeyName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    updateFieldList.Add(column.ColumnName);
+                }
+            }
+
+            // 5. 拼接Set语句
+            var updateFieldSql = updateFieldList.Select(item => string.Format(" {1} = {0}.{1} ", tempTableName, item)).Aggregate((a, b) => a + " , " + b);
+
+            // 6. 更新
+            client.Execute($@"
+UPDATE {tableName}
+SET {updateFieldSql} FROM {tempTableName}
+WHERE {tableName}.{mainKeyName} = {tempTableName}.{mainKeyName}
+AND {tempTableName}.{mainKeyName} IS NOT NULL
+");
+            // 7. 新增
+            client.Execute($@"
+INSERT INTO {tableName}
+SELECT * FROM {tempTableName}
+WHERE NOT EXISTS(SELECT 1 FROM {tableName} WHERE {tableName}.{mainKeyName} = {tempTableName}.{mainKeyName})
+AND {tempTableName}.{mainKeyName} IS NOT NULL
+");
+
+            // 8. 删除临时表
+            client.DropTable(tempTableName);
         }
     }
 }

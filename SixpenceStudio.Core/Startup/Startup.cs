@@ -4,6 +4,7 @@ using Microsoft.Owin.Cors;
 using Owin;
 using Quartz;
 using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;

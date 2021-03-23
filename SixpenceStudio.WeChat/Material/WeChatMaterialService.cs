@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.Extensions;
 
 namespace SixpenceStudio.WeChat.Material
 {

@@ -199,9 +199,27 @@ namespace SixpenceStudio.Core.Data
             _conn.Execute(sql);
         }
 
+        /// <summary>
+        /// 释放连接
+        /// </summary>
         public void Dispose()
         {
             _conn.Dispose();
+        }
+
+        /// <summary>
+        /// 拷贝数据
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="tableName"></param>
+        public void BulkCopy(DataTable dataTable, string tableName)
+        {
+            var commandFormat = string.Format(System.Globalization.CultureInfo.InvariantCulture, "COPY {0} FROM STDIN BINARY", tableName);
+            using (var writer = (_conn as NpgsqlConnection).BeginBinaryImport(commandFormat))
+            {
+                foreach (DataRow item in dataTable.Rows)
+                    writer.WriteRow(item.ItemArray);
+            }
         }
     }
 }

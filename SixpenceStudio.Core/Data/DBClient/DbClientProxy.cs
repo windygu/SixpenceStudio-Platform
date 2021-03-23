@@ -233,9 +233,22 @@ namespace SixpenceStudio.Core.Data
             return sql;
         }
 
+        /// <summary>
+        /// 释放资源
+        /// </summary>
         public void Dispose()
         {
             (dbClient as IDisposable).Dispose();
+        }
+
+        /// <summary>
+        /// 批量拷贝
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="tableName"></param>
+        public void BulkCopy(DataTable dataTable, string tableName)
+        {
+            dbClient.BulkCopy(dataTable, tableName);
         }
     }
 }

@@ -237,6 +237,7 @@
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\SelectOption.cs" />
     <Compile Include="Entity\SpEntity.cs" />
+    <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
     <Compile Include="Extensions\StreamExtension.cs" />

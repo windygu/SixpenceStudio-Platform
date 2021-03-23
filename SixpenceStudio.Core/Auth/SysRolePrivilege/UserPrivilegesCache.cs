@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
 using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.UserInfo;
 using SixpenceStudio.Core.Utils;

@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System.Collections.Generic;
