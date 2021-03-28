@@ -39,6 +39,11 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             return UnityContainerService.ResolveAll<IBasicRole>().FirstOrDefault(item => item.Role.GetDescription() == role.name).GetRolePrivilege();
         }
 
+        /// <summary>
+        /// 获取角色权限
+        /// </summary>
+        /// <param name="entityid"></param>
+        /// <returns></returns>
         public IEnumerable<sys_role_privilege> GetPrivileges(string entityid)
         {
             var sql = @"
@@ -47,7 +52,11 @@ WHERE sys_entityid = @id";
             return Broker.RetrieveMultiple<sys_role_privilege>(sql, new Dictionary<string, object>() { { "@id", entityid } });
         }
 
-        public void BulkSave(IEnumerable<sys_role_privilege> dataList)
+        /// <summary>
+        /// 批量更新或创建
+        /// </summary>
+        /// <param name="dataList"></param>
+        public void BulkSave(List<sys_role_privilege> dataList)
         {
             Broker.BulkCreateOrUpdate(dataList);
         }

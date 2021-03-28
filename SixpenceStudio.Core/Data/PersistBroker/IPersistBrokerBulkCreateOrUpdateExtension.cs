@@ -60,7 +60,7 @@ namespace SixpenceStudio.Core.Data
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="broker"></param>
         /// <param name="dataList"></param>
-        public static void BulkUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
+        public static void BulkUpdate<TEntity>(this IPersistBroker broker, List<TEntity> dataList) where TEntity : BaseEntity, new()
         {
             if (dataList.IsEmpty()) return;
 
@@ -75,7 +75,7 @@ namespace SixpenceStudio.Core.Data
             var dt = client.Query($"SELECT * FROM {tempTableName}");
 
             // 3. 拷贝数据到临时表
-            client.BulkCopy(dataList.ToList().ToDataTable(dt.Columns), tempTableName);
+            client.BulkCopy(dataList.ToDataTable(dt.Columns), tempTableName);
 
             // 4. 获取更新字段
             var updateFieldList = new List<string>();
@@ -109,7 +109,7 @@ AND {tempTableName}.{mainKeyName} IS NOT NULL
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="broker"></param>
         /// <param name="dataList"></param>
-        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, IEnumerable<TEntity> dataList) where TEntity : BaseEntity, new()
+        public static void BulkCreateOrUpdate<TEntity>(this IPersistBroker broker, List<TEntity> dataList) where TEntity : BaseEntity, new()
         {
             if (dataList.IsEmpty()) return;
 
@@ -124,7 +124,7 @@ AND {tempTableName}.{mainKeyName} IS NOT NULL
             var dt = client.Query($"SELECT * FROM {tempTableName}");
 
             // 3. 拷贝数据到临时表
-            client.BulkCopy(dataList.ToList().ToDataTable(dt.Columns), tempTableName);
+            client.BulkCopy(dataList.ToDataTable(dt.Columns), tempTableName);
 
             // 4. 获取更新字段
             var updateFieldList = new List<string>();

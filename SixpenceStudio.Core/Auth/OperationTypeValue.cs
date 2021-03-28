@@ -30,6 +30,9 @@ namespace SixpenceStudio.Core.Auth
         public static SelectOption Read => new SelectOption("读", "read");
     }
 
+    /// <summary>
+    /// 操作类型枚举
+    /// </summary>
     public enum OperationType
     {
         [Description("读")]

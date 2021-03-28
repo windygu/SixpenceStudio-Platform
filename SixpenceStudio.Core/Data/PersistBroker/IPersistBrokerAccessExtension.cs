@@ -100,6 +100,11 @@ namespace SixpenceStudio.Core.Data
             return broker.Delete(entityName, id);
         }
 
+        /// <summary>
+        /// 获取权限条件
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <returns></returns>
         public static string GetFilteredSql(this IPersistBroker broker)
         {
             var user = broker.Retrieve<user_info>(UserIdentityUtil.GetCurrentUserId());

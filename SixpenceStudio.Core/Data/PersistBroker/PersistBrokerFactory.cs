@@ -16,6 +16,9 @@ namespace SixpenceStudio.Core.Data
     public static class PersistBrokerFactory
     {
         private static readonly object lockObj = new object();
+        /// <summary>
+        /// 缓存数据库链接字符串，避免重复读取开销
+        /// </summary>
         private static Dictionary<DBType, string> dbDic = new Dictionary<DBType, string>();
 
         /// <summary>
@@ -44,10 +47,19 @@ namespace SixpenceStudio.Core.Data
         }
     }
 
+    /// <summary>
+    /// 数据库类型
+    /// </summary>
     public enum DBType
     {
+        /// <summary>
+        /// 主库（负责读和写）
+        /// </summary>
         [Description("主库")]
         Main,
+        /// <summary>
+        /// 从库（负责读）
+        /// </summary>
         [Description("从库")]
         StandBy
     }

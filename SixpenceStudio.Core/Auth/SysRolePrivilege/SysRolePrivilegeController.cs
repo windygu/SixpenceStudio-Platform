@@ -11,6 +11,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
 {
     public class SysRolePrivilegeController : EntityBaseController<sys_role_privilege, SysRolePrivilegeService>
     {
+        [HttpGet]
         public IEnumerable<sys_role_privilege> GetUserPrivileges(string roleid)
         {
             return new SysRolePrivilegeService().GetUserPrivileges(roleid);
@@ -19,7 +20,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         [HttpPost]
         public void BulkSave([FromBody]string dataList)
         {
-            var privileges = string.IsNullOrEmpty(dataList) ? null : JsonConvert.DeserializeObject<IEnumerable<sys_role_privilege>>(dataList);
+            var privileges = string.IsNullOrEmpty(dataList) ? null : JsonConvert.DeserializeObject<List<sys_role_privilege>>(dataList);
             new SysRolePrivilegeService().BulkSave(privileges);
         }
     }

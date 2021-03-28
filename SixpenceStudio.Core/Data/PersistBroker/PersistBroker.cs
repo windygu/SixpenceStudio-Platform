@@ -316,6 +316,9 @@ WHERE
             return data;
         }
 
+        /// <summary>
+        /// 释放资源
+        /// </summary>
         public void Dispose()
         {
             (this.DbClient as IDisposable).Dispose();

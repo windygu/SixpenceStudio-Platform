@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SixpenceStudio.Core.Data
 {
     /// <summary>
-    /// DbClient 代理（实现日志、本地化Sql转换）
+    /// DbClient 代理类（实现日志、本地化Sql转换）
     /// </summary>
     public class DbClientProxy : IDbClient, IDisposable
     {
@@ -28,8 +28,14 @@ namespace SixpenceStudio.Core.Data
 
         private IDbClient dbClient;
 
+        /// <summary>
+        /// 数据库连接对象
+        /// </summary>
         public IDbConnection DbConnection => dbClient.DbConnection;
 
+        /// <summary>
+        /// 数据库链接状态
+        /// </summary>
         public ConnectionState ConnectionState => dbClient.ConnectionState;
 
         /// <summary>

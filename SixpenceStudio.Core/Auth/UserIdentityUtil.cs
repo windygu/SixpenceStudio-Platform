@@ -8,8 +8,14 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Auth
 {
+    /// <summary>
+    /// 用户身份认证帮助类
+    /// </summary>
     public class UserIdentityUtil
     {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
         public static string UserId
         {
             get
@@ -18,6 +24,10 @@ namespace SixpenceStudio.Core.Auth
             }
         }
 
+        /// <summary>
+        /// 设置当前线程用户
+        /// </summary>
+        /// <param name="user"></param>
         public static void SetCurrentUser(CurrentUserModel user)
         {
             if (user != null)
@@ -26,17 +36,29 @@ namespace SixpenceStudio.Core.Auth
             }
         }
 
+        /// <summary>
+        /// 获取当前线程用户
+        /// </summary>
+        /// <returns></returns>
         public static CurrentUserModel GetCurrentUser()
         {
             return ApplicationContext.Current.User;
         }
-
+        
+        /// <summary>
+        /// 获取当前线程用户Id
+        /// </summary>
+        /// <returns></returns>
         public static string GetCurrentUserId()
         {
             return ApplicationContext.Current?.User?.Id;
         }
 
         private static readonly object lockAnonymousObject = new Object();
+        /// <summary>
+        /// 获取匿名用户对象
+        /// </summary>
+        /// <returns></returns>
         public static CurrentUserModel GetAnonymous()
         {
             var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_anonymous");
@@ -55,6 +77,10 @@ namespace SixpenceStudio.Core.Auth
         }
 
         private static readonly object lockAdminObject = new Object();
+        /// <summary>
+        /// 获取管理员对象
+        /// </summary>
+        /// <returns></returns>
         public static CurrentUserModel GetAdmin()
         {
             var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_admin");
