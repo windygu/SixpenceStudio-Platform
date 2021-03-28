@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Data
@@ -47,13 +48,32 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public static (string name, object value) GetSpecialValue(string name, object value)
         {
-            if (value !=null && value is JToken)
+            if (value == null)
             {
-                return (name + "::json", JsonConvert.SerializeObject(value));
+                return (name, null);
             }
-            else if (value != null && value is Boolean)
+
+            if (value is JToken)
+            {
+                var _value = value as JToken;
+                if (_value.Type == JTokenType.Null)
+                {
+                    return (name + "::json", null);
+                }
+                return (name + "::json", Regex.Replace(_value.ToString(), @"\s", "")); // 替换JArray的换行和空格
+            }
+            else if (value is bool)
             {
                 return (name, (bool)value ? 1 : 0);
+            }
+            else if(value is string)
+            {
+                var _value = value.ToString();
+                if (string.IsNullOrEmpty(_value))
+                {
+                    return (name, null);
+                }
+                return (name, _value);
             }
             return (name, value);
         }
