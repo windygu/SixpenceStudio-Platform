@@ -342,3 +342,4 @@ healthchecksdb
 
 # Build
 build/
+*.DS_Store
