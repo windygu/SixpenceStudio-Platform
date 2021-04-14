@@ -157,7 +157,7 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
         /// {item.name}
         /// </summary>
         private {item.attr_type.ToCSharpType()} _{item.code};
-        [DataMember]
+        [DataMember, Attr(""{item.code}"", AttrType.""{item.attr_type.ToAttrString()}"", {item.attr_length})]
         public {item.attr_type.ToCSharpType()} {item.code}
         {{
             get
@@ -189,7 +189,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 实体id
         /// </summary>
-        [DataMember]
+        [DataMember, Attr(""{entity.code}"", AttrType.""Varchar"", 100)]
         public string {entity.code}Id
         {{
             get

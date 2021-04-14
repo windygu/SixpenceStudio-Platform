@@ -83,7 +83,7 @@ namespace SixpenceStudio.Core.Entity
         /// 名称
         /// </summary>
         private string _name;
-        [DataMember]
+        [DataMember, Attr("name", AttrType.Varchar, 100)]
         public string name
         {
             get

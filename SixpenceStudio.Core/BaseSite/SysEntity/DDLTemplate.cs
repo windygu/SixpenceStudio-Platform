@@ -118,5 +118,29 @@ DROP TABLE {tableName};
                     return "";
             }
         }
+
+        /// <summary>
+        /// 字段类型转 AttrType 枚举
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string ToAttrString(this string value)
+        {
+            switch (value)
+            {
+                case "varchar":
+                case "text":
+                    return "Varchar";
+                case "timestamp":
+                    return "DateTime";
+                case "INT4":
+                case "INT8":
+                    return "Int";
+                case "json":
+                    return "JToken";
+                default:
+                    return "";
+            }
+        }
     }
 }
