@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.AutoDeploy",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{803C4018-B214-499B-B14F-4BC2482FB14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{66337FAC-60FB-4682-B264-66349464981D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66337FAC-60FB-4682-B264-66349464981D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66337FAC-60FB-4682-B264-66349464981D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{63B62369-8909-46DA-822D-E96FD2478808} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
 		{66337FAC-60FB-4682-B264-66349464981D} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
+		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5} = {803C4018-B214-499B-B14F-4BC2482FB14E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59B4B777-66D7-403A-93FA-8406A336E4B5}
