@@ -45,6 +45,22 @@ namespace SixpenceStudio.Core.Data
             var connectionString = dbDic[dBType];
             return new PersistBroker(connectionString);
         }
+
+        /// <summary>
+        /// 获取Broker新实例
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="isEncrypted">是否加密（仅支持AES）</param>
+        /// <returns></returns>
+        public static IPersistBroker GetPersistBroker(string connectionString, bool isEncrypted = false)
+        {
+            AssertUtil.CheckIsNullOrEmpty<SpException>(connectionString, "数据库连接字符串为空", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
+            if (isEncrypted)
+            {
+                return new PersistBroker(DecryptAndEncryptHelper.AESDecrypt(connectionString));
+            }
+            return new PersistBroker(connectionString);
+        }
     }
 
     /// <summary>
