@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Encryption",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.WeChat", "SixpenceStudio.WeChat\SixpenceStudio.WeChat.csproj", "{638FED7C-15F5-499E-A772-A78A4A884926}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Test", "SixpenceStudio.Test\SixpenceStudio.Test.csproj", "{153578E4-8536-4172-AA5B-FA977BD8F86D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Core", "SixpenceStudio.Core\SixpenceStudio.Core.csproj", "{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.AutoDeploy", "SixpenceStudio.AutoUpdate\SixpenceStudio.AutoDeploy.csproj", "{66337FAC-60FB-4682-B264-66349464981D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{803C4018-B214-499B-B14F-4BC2482FB14E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{638FED7C-15F5-499E-A772-A78A4A884926}.Release|Any CPU.Build.0 = Release|Any CPU
-		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{153578E4-8536-4172-AA5B-FA977BD8F86D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BE4A4EB-B842-4133-ADF9-A3581D47C8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,7 +43,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{63B62369-8909-46DA-822D-E96FD2478808} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
-		{153578E4-8536-4172-AA5B-FA977BD8F86D} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
 		{66337FAC-60FB-4682-B264-66349464981D} = {0D13F201-E039-4218-A7B5-C09ECF410C5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
