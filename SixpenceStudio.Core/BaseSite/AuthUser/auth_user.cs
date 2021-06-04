@@ -215,5 +215,41 @@ namespace SixpenceStudio.Core.AuthUser
                 SetAttributeValue("user_infoid", value);
             }
         }
+
+        /// <summary>
+        /// 锁定
+        /// </summary>
+        private bool _is_lock;
+        [DataMember]
+        public bool is_lock
+        {
+            get
+            {
+                return this._is_lock;
+            }
+            set
+            {
+                this._is_lock = value;
+                SetAttributeValue("is_lock", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否锁定
+        /// </summary>
+        private string _is_lockName;
+        [DataMember]
+        public string is_lockName
+        {
+            get
+            {
+                return this._is_lockName;
+            }
+            set
+            {
+                this._is_lockName = value;
+                SetAttributeValue("is_lockName", value);
+            }
+        }
     }
 }

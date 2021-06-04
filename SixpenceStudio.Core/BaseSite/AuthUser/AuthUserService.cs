@@ -40,24 +40,6 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
         }
 
         /// <summary>
-        /// 获取用户登录信息
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="pwd"></param>
-        /// <param name="publicKey">公钥</param>
-        /// <returns></returns>
-        public auth_user GetData(string code, string pwd, string publicKey)
-        {
-            var sql = @"
-SELECT * FROM auth_user WHERE code = @code AND password = @password;
-";
-            var encryptionPwd = RSAUtil.Decrypt(pwd, publicKey);
-            var paramList = new Dictionary<string, object>() { { "@code", code }, { "@password", encryptionPwd } };
-            var authUser = _cmd.Broker.Retrieve<auth_user>(sql, paramList);
-            return authUser;
-        }
-
-        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="code"></param>
@@ -65,11 +47,22 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
         /// <returns></returns>
         public LoginResponse Login(string code, string pwd, string publicKey)
         {
-            var authUser = GetData(code, pwd, publicKey);
-            if (authUser == null)
+            var authUser = _cmd.Broker.Retrieve<auth_user>("SELECT * FROM auth_user WHERE code = @code", new Dictionary<string, object>() { { "@code", code } });
+
+            if (authUser == null ||
+                string.IsNullOrEmpty(pwd) ||
+                string.IsNullOrEmpty(publicKey) ||
+                !string.Equals(authUser.password, RSAUtil.Decrypt(pwd, publicKey))
+                )
             {
-                return new LoginResponse() { result = false };
+                return new LoginResponse() { result = false, Message = "用户名或密码错误" };
             }
+
+            if (authUser.is_lock)
+            {
+                return new LoginResponse() { result = false, Message = "用户已被锁定，请联系管理员" };
+            }
+
             // 定义票据信息
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(0, code, DateTime.Now,
                             DateTime.Now.AddHours(12), true, string.Format("{0}&{1}", code, authUser.password),
@@ -84,7 +77,14 @@ SELECT * FROM auth_user WHERE code = @code AND password = @password;
             #endregion
 
             // 返回登录结果、用户信息、用户验证票据信息
-            var oUser = new LoginResponse { result = true, UserName = code, Ticket = FormsAuthentication.Encrypt(ticket), UserId = authUser.user_infoid };
+            var oUser = new LoginResponse
+            {
+                result = true,
+                UserName = code,
+                Ticket = FormsAuthentication.Encrypt(ticket),
+                UserId = authUser.user_infoid,
+                Message = "登录成功"
+            };
             return oUser;
         }
 
@@ -150,6 +150,36 @@ WHERE user_infoid = @id;
         public auth_user GetDataById(string id)
         {
             return Broker.Retrieve<auth_user>(id);
+        }
+
+        /// <summary>
+        /// 锁定用户
+        /// </summary>
+        /// <param name="id"></param>
+        public void LockUser(string id)
+        {
+            Broker.ExecuteTransaction(() =>
+            {
+                var userId = UserIdentityUtil.GetCurrentUserId();
+                AssertUtil.CheckBoolean<SpException>(userId == id, "请勿锁定自己", "4B1DD6F4-977B-43B4-BA48-C02668A661B3");
+                var data = Broker.Retrieve<auth_user>("select * from auth_user where user_infoid = @id", new Dictionary<string, object>() { { "@id", id } });
+                data.is_lock = true;
+                UpdateData(data);
+            });
+        }
+
+        /// <summary>
+        /// 解锁用户
+        /// </summary>
+        /// <param name="id"></param>
+        public void UnlockUser(string id)
+        {
+            Broker.ExecuteTransaction(() =>
+            {
+                var data = Broker.Retrieve<auth_user>("select * from auth_user where user_infoid = @id", new Dictionary<string, object>() { { "@id", id } });
+                data.is_lock = false;
+                UpdateData(data);
+            });
         }
     }
 }

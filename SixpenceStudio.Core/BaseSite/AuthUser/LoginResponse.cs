@@ -30,5 +30,10 @@ namespace SixpenceStudio.Core.AuthUser
         /// Token
         /// </summary>
         public string Ticket { get; set; }
+
+        /// <summary>
+        /// 信息
+        /// </summary>
+        public string Message { get; set; }
     }
 }

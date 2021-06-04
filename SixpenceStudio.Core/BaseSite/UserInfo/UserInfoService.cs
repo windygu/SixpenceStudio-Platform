@@ -22,9 +22,16 @@ namespace SixpenceStudio.Core.UserInfo
         {
             var sql = @"
 SELECT
-	*
+    is_lockName,
+	user_info.*
 FROM
 	user_info
+LEFT JOIN (
+    SELECT
+        user_infoid,
+        is_lockName
+    FROM auth_user
+) au ON user_info.user_infoid = au.user_infoid
 ";
             var customFilter = new List<string>() { "name" };
             return new List<EntityView>()

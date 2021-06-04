@@ -32,5 +32,25 @@ namespace SixpenceStudio.Core.AuthUser
         {
             new AuthUserService().EditPassword(password);
         }
+
+        /// <summary>
+        /// 锁定用户
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpGet]
+        public void LockUser(string id)
+        {
+            new AuthUserService().LockUser(id);
+        }
+
+        /// <summary>
+        /// 解锁用户
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpGet]
+        public void UnlockUser(string id)
+        {
+            new AuthUserService().UnlockUser(id);
+        }
     }
 }
