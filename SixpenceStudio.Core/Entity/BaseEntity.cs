@@ -1,5 +1,6 @@
 ﻿using Quartz.Impl.AdoJobStore;
 using Quartz.Util;
+using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,9 +12,18 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
+    [UnityRegister]
+    public interface IEntity
+    {
+        string GetEntityName();
+        object GetAttributeValue(string attributeLogicalName);
+        void SetAttributeValue(string attributeLogicalName, object value);
+        bool IsSystemEntity();
+    }
+
     [DataContract]
     [Serializable]
-    public abstract class BaseEntity
+    public abstract class BaseEntity : IEntity
     {
         private static readonly ConcurrentDictionary<string, string> _entityNameCache = new ConcurrentDictionary<string, string>();
         public BaseEntity() { }
@@ -46,6 +56,14 @@ namespace SixpenceStudio.Core.Entity
             {
                 _entityName = value;
             }
+        }
+
+        /// <summary>
+        /// 是否是系统实体
+        /// </summary>
+        public bool IsSystemEntity()
+        {
+            return Attribute.GetCustomAttribute(GetType(), typeof(SystemEntityAttribute)) as SystemEntityAttribute != null;
         }
 
         /// <summary>
@@ -150,6 +168,15 @@ namespace SixpenceStudio.Core.Entity
         public void SetAttributeValue(string attributeLogicalName, object value)
         {
             _attributes[attributeLogicalName] = value;
+        }
+
+        /// <summary>
+        /// 获取实体名
+        /// </summary>
+        /// <returns></returns>
+        public string GetEntityName()
+        {
+            return this.EntityName;
         }
         #endregion
 

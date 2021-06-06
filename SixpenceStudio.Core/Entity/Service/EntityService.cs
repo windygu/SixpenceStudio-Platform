@@ -51,6 +51,15 @@ namespace SixpenceStudio.Core.Entity
         }
 
         /// <summary>
+        /// 获取所有记录
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<T> GetAllData()
+        {
+            return _cmd.GetAllEntity();
+        }
+
+        /// <summary>
         /// 获取所有实体记录
         /// </summary>
         /// <returns></returns>
