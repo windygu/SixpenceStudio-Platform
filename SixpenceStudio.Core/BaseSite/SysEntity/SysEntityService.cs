@@ -83,32 +83,10 @@ WHERE
             _cmd.Broker.ExecuteTransaction(() =>
             {
                 id = base.CreateData(t);
-                _cmd.Broker.Execute(DDLTemplate.CreateTable(t.code));
-                var sys_attr = new sys_attrs()
-                {
-                    sys_attrsId = Guid.NewGuid().ToString(),
-                    name = "名称",
-                    attr_length = 100,
-                    attr_type = "varchar",
-                    code = "name",
-                    entityCode = t.code,
-                    entityid = t.Id,
-                    entityidname = t.name,
-                    isrequire = 0
-                };
-                new SysAttrsService(_cmd.Broker).CreateData(sys_attr);
+                Broker.Execute(DDLTemplate.CreateTable(t.code));
+                new SysAttrsService(Broker).AddSystemAttrs(id);
             });
             return id;
-        }
-
-        /// <summary>
-        /// 实体添加系统字段
-        /// </summary>
-        /// <param name="tableName"></param>
-        public void AddSystemAttrs(string tableName, List<Column> columns)
-        {
-            var sql = DDLTemplate.GetAddColumnSql(tableName, columns);
-            _cmd.Broker.Execute(sql);
         }
 
         /// <summary>
@@ -158,7 +136,7 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
         /// {item.name}
         /// </summary>
         private {item.attr_type.ToCSharpType()} _{item.code};
-        [DataMember, Attr(""{item.code}"", AttrType.""{item.attr_type.ToAttrString()}"", {item.attr_length})]
+        [DataMember, Attr(""{item.code}"", AttrType.{item.attr_type.ToAttrString()}, {item.attr_length})]
         public {item.attr_type.ToCSharpType()} {item.code}
         {{
             get
@@ -190,7 +168,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 实体id
         /// </summary>
-        [DataMember, Attr(""{entity.code}"", AttrType.""Varchar"", 100)]
+        [DataMember, Attr(""{entity.code}id"", AttrType.Varchar, 100)]
         public string {entity.code}Id
         {{
             get

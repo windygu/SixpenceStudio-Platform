@@ -123,9 +123,9 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// <summary>
         /// 是否必填
         /// </summary>
-        private int? _isrequire;
+        private bool _isrequire;
         [DataMember]
-        public int? isrequire
+        public bool isrequire
         {
             get
             {

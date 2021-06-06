@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SixpenceStudio.Core.Utils;
 
 namespace SixpenceStudio.Core.SysEntity.SysAttrs
 {
@@ -31,6 +32,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         {
             var columns = new List<Column>()
             {
+                { new Column() { Code = "name", Name = "名称", Type = "varchar", Length = 100, IsNotNull = false } },
                 { new Column() { Code = "createdBy", Name = "创建人", Type = "varchar", Length = 40, IsNotNull = true } },
                 { new Column() { Code = "createdByName", Name = "创建人", Type = "varchar", Length = 100, IsNotNull = true } },
                 { new Column() { Code = "createdOn", Name = "创建日期", Type = "timestamp", IsNotNull = true } },
@@ -40,7 +42,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
             };
             _cmd.Broker.ExecuteTransaction(() =>
             {
-                var entity = new SysEntityService(_cmd.Broker).GetData(id);
+                var entity = Broker.Retrieve<sys_entity>(id);
                 columns.ForEach(item =>
                 {
                     var sql = @"
@@ -48,10 +50,7 @@ SELECT * FROM sys_attrs
 WHERE entityid = @id AND code = @code;
 ";
                     var count = _cmd.Broker.Query<sys_attrs>(sql, new Dictionary<string, object>() { { "@id", entity.Id }, { "@code", item.Code } }).Count();
-                    if (count > 0)
-                    {
-                        throw new SpException("系统字段已存在", "");
-                    }
+                    AssertUtil.CheckBoolean<SpException>(count > 0, $"实体{entity.code}已存在{item.Code}字段，请勿重复添加", "E86150F7-52CC-4FB7-A6C4-B743BF382E92");
                     var attrModel = new sys_attrs()
                     {
                         Id = Guid.NewGuid().ToString(),
@@ -61,11 +60,11 @@ WHERE entityid = @id AND code = @code;
                         entityidname = entity.name,
                         attr_type = item.Type,
                         attr_length = item.Length,
-                        isrequire = item.IsNotNull ? 1 : 0
+                        isrequire = item.IsNotNull
                     };
                     _cmd.Create(attrModel);
                 });
-                new SysEntityService(_cmd.Broker).AddSystemAttrs(entity.code, columns);
+                Broker.Execute(DDLTemplate.GetAddColumnSql(entity.code, columns));
             });
         }
 
@@ -77,7 +76,7 @@ WHERE entityid = @id AND code = @code;
         public override string CreateData(sys_attrs t)
         {
             var id = default(string);
-            var columns = new List<Column>() { { new Column() { Code = t?.code, Name = t?.name, Type = t?.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire.Value == 1 } } };
+            var columns = new List<Column>() { { new Column() { Code = t?.code, Name = t?.name, Type = t?.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire } } };
             var sql = DDLTemplate.GetAddColumnSql(t.entityCode, columns);
 
             _cmd.Broker.ExecuteTransaction(() =>
