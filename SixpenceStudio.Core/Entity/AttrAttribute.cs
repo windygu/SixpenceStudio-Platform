@@ -36,6 +36,7 @@ namespace SixpenceStudio.Core.Entity
         Timestamp,
         Boolean,
         Int4,
+        Int8,
         Decimal,
         JToken
     }

@@ -132,10 +132,11 @@ DROP TABLE {tableName};
                 case "text":
                     return "Varchar";
                 case "timestamp":
-                    return "DateTime";
+                    return "Timestamp";
                 case "INT4":
+                    return "Int4";
                 case "INT8":
-                    return "Int";
+                    return "Int8";
                 case "json":
                     return "JToken";
                 default:

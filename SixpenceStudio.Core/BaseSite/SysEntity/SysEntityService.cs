@@ -147,10 +147,11 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
             StreamWriter writer = new StreamWriter(fs);
 
             var attributes = "";
+            var sysEntityAttrList = typeof(SpEntity).GetProperties().Select(item => item.Name).ToList();
             foreach (var item in attrs)
             {
                 // 实体id和实体name不需要产生
-                if (item.code != entity.code + "id" && item.code != "name")
+                if (item.code != entity.code + "id" && !sysEntityAttrList.Contains(item.code))
                 {
                     var attribute = $@"
         /// <summary>
