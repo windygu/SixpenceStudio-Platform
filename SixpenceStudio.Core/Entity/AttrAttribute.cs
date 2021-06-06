@@ -13,29 +13,18 @@ namespace SixpenceStudio.Core.Entity
         /// <param name="name">字段名</param>
         /// <param name="type">字段类型</param>
         /// <param name="length">字段长度</param>
-        public AttrAttribute(string name, AttrType type, int length)
+        public AttrAttribute(string name, AttrType type, int length, bool isRequire = false)
         {
-            this.Name = name;
-            this.Type = type;
-            this.Length = length;
+            this.Attr = new Attr()
+            {
+                Name = name,
+                Type = type,
+                Length = length,
+                IsRequire = isRequire
+            };
         }
 
-        /// <summary>
-        /// 字段名
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 字段类型
-        /// </summary>
-        public AttrType Type { get; set; }
-
-        /// <summary>
-        /// 字段长度
-        /// </summary>
-        public int Length { get; set; }
-
-      
+        public Attr Attr { get; set; }
     }
 
     /// <summary>
@@ -44,10 +33,21 @@ namespace SixpenceStudio.Core.Entity
     public enum AttrType
     {
         Varchar,
-        DateTime,
+        Timestamp,
         Boolean,
-        Int,
+        Int4,
         Decimal,
         JToken
+    }
+
+    /// <summary>
+    /// 字段
+    /// </summary>
+    public class Attr
+    {
+        public string Name { get; set; }
+        public AttrType Type { get; set; }
+        public int Length { get; set; }
+        public bool IsRequire { get; set; }
     }
 }

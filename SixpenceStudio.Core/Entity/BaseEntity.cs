@@ -19,6 +19,7 @@ namespace SixpenceStudio.Core.Entity
         object GetAttributeValue(string attributeLogicalName);
         void SetAttributeValue(string attributeLogicalName, object value);
         bool IsSystemEntity();
+        IEnumerable<Attr> GetAttrs();
     }
 
     [DataContract]
@@ -116,6 +117,114 @@ namespace SixpenceStudio.Core.Entity
         }
 
         /// <summary>
+        /// 创建人
+        /// </summary>
+        private string _createdby;
+        [DataMember, Attr("createdby", AttrType.Varchar, 100, true)]
+        public string createdBy
+        {
+            get
+            {
+                return this._createdby;
+            }
+            set
+            {
+                this._createdby = value;
+                SetAttributeValue("createdBy", value);
+            }
+        }
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        private string _createdbyname;
+        [DataMember, Attr("createdbyname", AttrType.Varchar, 100, true)]
+        public string createdByName
+        {
+            get
+            {
+                return this._createdbyname;
+            }
+            set
+            {
+                this._createdbyname = value;
+                SetAttributeValue("createdByName", value);
+            }
+        }
+
+        /// <summary>
+        /// 创建日期
+        /// </summary>
+        private DateTime? _createdon;
+        [DataMember, Attr("createdon", AttrType.Timestamp, 6, true)]
+        public DateTime? createdOn
+        {
+            get
+            {
+                return this._createdon;
+            }
+            set
+            {
+                this._createdon = value;
+                SetAttributeValue("createdOn", value);
+            }
+        }
+
+        /// <summary>
+        /// 修改人
+        /// </summary>
+        private string _modifiedby;
+        [DataMember, Attr("modifiedby", AttrType.Varchar, 100, true)]
+        public string modifiedBy
+        {
+            get
+            {
+                return this._modifiedby;
+            }
+            set
+            {
+                this._modifiedby = value;
+                SetAttributeValue("modifiedBy", value);
+            }
+        }
+
+        /// <summary>
+        /// 修改人
+        /// </summary>
+        private string _modifiedbyname;
+        [DataMember, Attr("modifiedbyname", AttrType.Varchar, 100, true)]
+        public string modifiedByName
+        {
+            get
+            {
+                return this._modifiedbyname;
+            }
+            set
+            {
+                this._modifiedbyname = value;
+                SetAttributeValue("modifiedByName", value);
+            }
+        }
+
+        /// <summary>
+        /// 创建日期
+        /// </summary>
+        private DateTime? _modifiedon;
+        [DataMember, Attr("modifiedon", AttrType.Timestamp, 4, true)]
+        public DateTime? modifiedOn
+        {
+            get
+            {
+                return this._modifiedon;
+            }
+            set
+            {
+                this._modifiedon = value;
+                SetAttributeValue("modifiedOn", value);
+            }
+        }
+
+        /// <summary>
         /// 实体属性
         /// </summary>
         private readonly Dictionary<string, object> _attributes = new Dictionary<string, object>();
@@ -177,6 +286,18 @@ namespace SixpenceStudio.Core.Entity
         public string GetEntityName()
         {
             return this.EntityName;
+        }
+
+        /// <summary>
+        /// 获取实体所有字段
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Attr> GetAttrs()
+        {
+            return this.GetType()
+                .GetProperties()
+                .Where(item => item.IsDefined(typeof(AttrAttribute), false))
+                ?.Select(item => (item.GetCustomAttributes(typeof(AttrAttribute), false).FirstOrDefault() as AttrAttribute).Attr);
         }
         #endregion
 

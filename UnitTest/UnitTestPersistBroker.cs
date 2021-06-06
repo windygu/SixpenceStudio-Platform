@@ -35,5 +35,6 @@ namespace UnitTest
             var entityList = UnityContainerService.ResolveAll<IEntity>();
             Assert.IsTrue(entityList != null && entityList.Count() > 0);
         }
+
     }
 }

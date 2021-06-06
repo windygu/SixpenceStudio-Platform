@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestPersistBroker.cs" />
+    <Compile Include="UnityTestBaseEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
