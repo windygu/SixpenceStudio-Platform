@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.MessageRemind
 {
+    [SystemEntity]
     [EntityName("message_remind")]
     public partial class message_remind : BaseEntity
     {

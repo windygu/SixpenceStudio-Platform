@@ -7,6 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.ShortUrl
 {
+    [SystemEntity]
     [EntityName("short_url")]
     public class short_url_log : BaseEntity
     {

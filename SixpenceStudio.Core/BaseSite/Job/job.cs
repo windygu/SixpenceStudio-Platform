@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.Job
 {
+    [SystemEntity]
     [EntityName("job")]
     public class job : BaseEntity
     {

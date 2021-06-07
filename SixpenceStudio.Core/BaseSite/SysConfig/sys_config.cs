@@ -7,6 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysConfig
 {
+    [SystemEntity]
     [EntityName("sys_config")]
     public partial class sys_config : BaseEntity
     {
@@ -14,6 +15,7 @@ namespace SixpenceStudio.Core.SysConfig
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("sys_configid", "实体id", AttrType.Varchar, 100)]
         public string sys_configId
         {
             get
@@ -31,6 +33,7 @@ namespace SixpenceStudio.Core.SysConfig
         /// </summary>
         private string _code;
         [DataMember]
+        [Attr("code", "编码", AttrType.Varchar, 100)]
         public string code
         {
             get
@@ -49,6 +52,7 @@ namespace SixpenceStudio.Core.SysConfig
         /// </summary>
         private string _description;
         [DataMember]
+        [Attr("description", "描述", AttrType.Varchar, 100)]
         public string description
         {
             get
@@ -67,6 +71,7 @@ namespace SixpenceStudio.Core.SysConfig
         /// </summary>
         private string _value;
         [DataMember]
+        [Attr("description", "描述", AttrType.Text)]
         public string value
         {
             get

@@ -29,6 +29,17 @@ namespace SixpenceStudio.Core.Entity
             };
         }
 
+        public AttrAttribute(string name, string logicalName, AttrType type, bool isRequire = false)
+        {
+            this.Attr = new Attr()
+            {
+                Name = name,
+                LogicalName = logicalName,
+                Type = type,
+                IsRequire = isRequire
+            };
+        }
+
         public Attr Attr { get; set; }
     }
 
@@ -48,7 +59,9 @@ namespace SixpenceStudio.Core.Entity
         [Description("numeric")]
         Decimal,
         [Description("jsonb")]
-        JToken
+        JToken,
+        [Description("text")]
+        Text
     }
 
     /// <summary>
@@ -59,7 +72,7 @@ namespace SixpenceStudio.Core.Entity
         public string Name { get; set; }
         public string LogicalName { get; set; }
         public AttrType Type { get; set; }
-        public int Length { get; set; }
+        public int? Length { get; set; }
         public bool IsRequire { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.Auth.SysRolePrivilege
 {
+    [SystemEntity]
     [EntityName("sys_role_privilege")]
     public partial class sys_role_privilege : BaseEntity
     {

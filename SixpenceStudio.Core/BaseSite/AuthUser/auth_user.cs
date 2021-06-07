@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.AuthUser
 {
+    [SystemEntity]
     [EntityName("auth_user")]
     [KeyAttributes("用户Id不能重复", "user_infoId")]
     public partial class auth_user : BaseEntity
@@ -12,6 +13,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("auth_userid", "实体id", AttrType.Varchar, 100)]
         public string auth_userId
         {
             get
@@ -26,6 +28,7 @@ namespace SixpenceStudio.Core.AuthUser
 
         private string _code;
         [DataMember]
+        [Attr("code", "编码", AttrType.Varchar, 100)]
         public string code
         {
             get
@@ -41,6 +44,7 @@ namespace SixpenceStudio.Core.AuthUser
 
         private string _password;
         [DataMember]
+        [Attr("password", "密码", AttrType.Varchar, 100)]
         public string password
         {
             get
@@ -59,6 +63,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private string _roleid;
         [DataMember]
+        [Attr("roleid", "角色权限id", AttrType.Varchar, 100)]
         public string roleid
         {
             get
@@ -77,6 +82,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private string _roleidName;
         [DataMember]
+        [Attr("roleidname", "角色权限名", AttrType.Varchar, 100)]
         public string roleidName
         {
             get
@@ -95,6 +101,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private string _user_infoid;
         [DataMember]
+        [Attr("user_infoid", "用户id", AttrType.Varchar, 100)]
         public string user_infoid
         {
             get
@@ -113,6 +120,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private bool _is_lock;
         [DataMember]
+        [Attr("is_lock", "锁定", AttrType.Int4, 32)]
         public bool is_lock
         {
             get
@@ -131,6 +139,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private string _is_lockName;
         [DataMember]
+        [Attr("is_lockname", "是否锁定", AttrType.Varchar, 100)]
         public string is_lockName
         {
             get
