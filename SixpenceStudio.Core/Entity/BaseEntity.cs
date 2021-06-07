@@ -102,7 +102,7 @@ namespace SixpenceStudio.Core.Entity
         /// 名称
         /// </summary>
         private string _name;
-        [DataMember, Attr("name", AttrType.Varchar, 100)]
+        [DataMember, Attr("name", "名称", AttrType.Varchar, 100)]
         public string name
         {
             get
@@ -120,7 +120,7 @@ namespace SixpenceStudio.Core.Entity
         /// 创建人
         /// </summary>
         private string _createdby;
-        [DataMember, Attr("createdby", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("createdby", "创建人id", AttrType.Varchar, 100, true)]
         public string createdBy
         {
             get
@@ -138,7 +138,7 @@ namespace SixpenceStudio.Core.Entity
         /// 创建人
         /// </summary>
         private string _createdbyname;
-        [DataMember, Attr("createdbyname", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("createdbyname", "创建人名称", AttrType.Varchar, 100, true)]
         public string createdByName
         {
             get
@@ -156,7 +156,7 @@ namespace SixpenceStudio.Core.Entity
         /// 创建日期
         /// </summary>
         private DateTime? _createdon;
-        [DataMember, Attr("createdon", AttrType.Timestamp, 6, true)]
+        [DataMember, Attr("createdon", "创建日期", AttrType.Timestamp, 6, true)]
         public DateTime? createdOn
         {
             get
@@ -174,7 +174,7 @@ namespace SixpenceStudio.Core.Entity
         /// 修改人
         /// </summary>
         private string _modifiedby;
-        [DataMember, Attr("modifiedby", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("modifiedby", "修改人id", AttrType.Varchar, 100, true)]
         public string modifiedBy
         {
             get
@@ -192,7 +192,7 @@ namespace SixpenceStudio.Core.Entity
         /// 修改人
         /// </summary>
         private string _modifiedbyname;
-        [DataMember, Attr("modifiedbyname", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("modifiedbyname", "修改人名称", AttrType.Varchar, 100, true)]
         public string modifiedByName
         {
             get
@@ -210,7 +210,7 @@ namespace SixpenceStudio.Core.Entity
         /// 创建日期
         /// </summary>
         private DateTime? _modifiedon;
-        [DataMember, Attr("modifiedon", AttrType.Timestamp, 4, true)]
+        [DataMember, Attr("modifiedon", "创建日期", AttrType.Timestamp, 4, true)]
         public DateTime? modifiedOn
         {
             get

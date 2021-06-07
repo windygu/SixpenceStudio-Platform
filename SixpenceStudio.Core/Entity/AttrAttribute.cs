@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace SixpenceStudio.Core.Entity
 {
 
@@ -11,13 +13,16 @@ namespace SixpenceStudio.Core.Entity
         /// 构造函数
         /// </summary>
         /// <param name="name">字段名</param>
+        /// <param name="logicalName">字段逻辑名</param>
         /// <param name="type">字段类型</param>
         /// <param name="length">字段长度</param>
-        public AttrAttribute(string name, AttrType type, int length, bool isRequire = false)
+        /// <param name="isRequire">是否必填</param>
+        public AttrAttribute(string name, string logicalName, AttrType type, int length, bool isRequire = false)
         {
             this.Attr = new Attr()
             {
                 Name = name,
+                LogicalName = logicalName,
                 Type = type,
                 Length = length,
                 IsRequire = isRequire
@@ -32,12 +37,17 @@ namespace SixpenceStudio.Core.Entity
     /// </summary>
     public enum AttrType
     {
+        [Description("varchar")]
         Varchar,
+        [Description("timestamp")]
         Timestamp,
-        Boolean,
+        [Description("INT4")]
         Int4,
+        [Description("INT8")]
         Int8,
+        [Description("numeric")]
         Decimal,
+        [Description("jsonb")]
         JToken
     }
 
@@ -47,6 +57,7 @@ namespace SixpenceStudio.Core.Entity
     public class Attr
     {
         public string Name { get; set; }
+        public string LogicalName { get; set; }
         public AttrType Type { get; set; }
         public int Length { get; set; }
         public bool IsRequire { get; set; }

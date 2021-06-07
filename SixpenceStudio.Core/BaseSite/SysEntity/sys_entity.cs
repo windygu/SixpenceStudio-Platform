@@ -15,7 +15,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// <summary>
         /// 实体id
         /// </summary>
-        [DataMember, Attr("sys_enittyid", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("sys_enittyid", "实体id", AttrType.Varchar, 100, true)]
         public string sys_entityId
         {
             get
@@ -32,7 +32,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// 编码
         /// </summary>
         private string _code;
-        [DataMember, Attr("code", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("code", "编码", AttrType.Varchar, 100, true)]
         public string code
         {
             get
@@ -50,7 +50,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// 是否系统实体
         /// </summary>
         private bool _is_sys;
-        [DataMember, Attr("is_sys", AttrType.Int4, 32, true)]
+        [DataMember, Attr("is_sys", "是否系统实体", AttrType.Int4, 32, true)]
         public bool is_sys
         {
             get
@@ -68,7 +68,7 @@ namespace SixpenceStudio.Core.SysEntity
         /// 是否系统实体
         /// </summary>
         private string _is_sysName;
-        [DataMember, Attr("is_sysname", AttrType.Varchar, 100, true)]
+        [DataMember, Attr("is_sysname", "是否系统实体", AttrType.Varchar, 100, true)]
         public string is_sysName
         {
             get

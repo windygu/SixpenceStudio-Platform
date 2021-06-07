@@ -1,10 +1,12 @@
 ﻿using Quartz;
+using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.SysEntity;
+using SixpenceStudio.Core.SysEntity.SysAttrs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,7 @@ namespace SixpenceStudio.Core.BaseSite.SysEntity
             var entityList = UnityContainerService.ResolveAll<IEntity>();
             var entityService = new SysEntityService(broker);
             var dataList = entityService.GetAllData();
-
+            var user = UserIdentityUtil.GetCurrentUser();
             broker.ExecuteTransaction(() =>
             {
                 entityList.Each(item =>
@@ -41,6 +43,29 @@ namespace SixpenceStudio.Core.BaseSite.SysEntity
                             is_sys = item.IsSystemEntity(),
                             is_sysName = item.IsSystemEntity() ? "是" : "否"
                         };
+                        var attrs = entity.GetAttrs()
+                            .Select(e =>
+                            {
+                                return new sys_attrs()
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    name = e.LogicalName,
+                                    entityCode = entity.code,
+                                    entityid = entity.Id,
+                                    entityidname = entity.name,
+                                    attr_length = e.Length,
+                                    attr_type = e.Type.GetDescription(),
+                                    isrequire = e.IsRequire,
+                                    createdBy = user.Id,
+                                    createdByName = user.Name,
+                                    createdOn = DateTime.Now,
+                                    modifiedBy = user.Id,
+                                    modifiedByName = user.Name,
+                                    modifiedOn = DateTime.Now
+                                };
+                            })
+                            .ToList();
+                        broker.BulkCreate(attrs);
                         broker.Create(entity);
                     }
                 });
