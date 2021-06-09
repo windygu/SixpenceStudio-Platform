@@ -5,7 +5,7 @@ namespace SixpenceStudio.Core.Entity
 {
 
     /// <summary>
-    /// 字段特性
+    /// 字段特性（映射数据库字段类型）
     /// </summary>
     public sealed class AttrAttribute : Attribute
     {

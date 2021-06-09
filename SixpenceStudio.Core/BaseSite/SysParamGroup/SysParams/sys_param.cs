@@ -7,6 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysParams
 {
+    [SystemEntity]
     [EntityName("sys_param")]
     public partial class sys_param : BaseEntity
     {
@@ -14,6 +15,7 @@ namespace SixpenceStudio.Core.SysParams
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("sys_paramid", "实体id", AttrType.Varchar, 100)]
         public string sys_paramId
         {
             get
@@ -31,6 +33,7 @@ namespace SixpenceStudio.Core.SysParams
         /// </summary>
         private string _code;
         [DataMember]
+        [Attr("code", "编码", AttrType.Varchar, 100)]
         public string code
         {
             get
@@ -46,6 +49,7 @@ namespace SixpenceStudio.Core.SysParams
 
         private string _sys_paramGroupId;
         [DataMember]
+        [Attr("sys_paramgroupid", "选项集id", AttrType.Varchar, 100)]
         public string sys_paramGroupId
         {
             get
@@ -61,6 +65,7 @@ namespace SixpenceStudio.Core.SysParams
 
         private string _sys_paramGroupIdName;
         [DataMember]
+        [Attr("sys_paramgroupidname", "选项集名", AttrType.Varchar, 100)]
         public string sys_paramGroupIdName
         {
             get

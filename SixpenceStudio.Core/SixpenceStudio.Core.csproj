@@ -246,9 +246,11 @@
     <Compile Include="Data\DBClient\DBSection.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
-    <Compile Include="Entity\SelectOption.cs" />
+    <Compile Include="Entity\Custom\SelectOptionExtension.cs" />
+    <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="Entity\Custom\SelectOption.cs" />
     <Compile Include="Entity\SpEntity.cs" />
-    <Compile Include="Entity\SystemEntityAttribute.cs" />
+    <Compile Include="Entity\Attribute\SystemEntityAttribute.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
@@ -322,9 +324,9 @@
     <Compile Include="Data\PersistBroker\PersistBroker.cs" />
     <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
-    <Compile Include="Entity\DataModel.cs" />
-    <Compile Include="Entity\EntityNameAttribute.cs" />
-    <Compile Include="Entity\KeyAttributesAttribute.cs" />
+    <Compile Include="Entity\Service\DataModel.cs" />
+    <Compile Include="Entity\Attribute\EntityNameAttribute.cs" />
+    <Compile Include="Entity\Attribute\KeyAttributesAttribute.cs" />
     <Compile Include="Entity\Service\BaseService.cs" />
     <Compile Include="Entity\Service\EntityService.cs" />
     <Compile Include="Entity\Service\EntityView.cs" />
@@ -366,7 +368,7 @@
     <Compile Include="WebApi\EntityBase2Controller.cs" />
     <Compile Include="WebApi\EntityBaseController.cs" />
     <Compile Include="WebApi\WebApiExceptionFilterAttribute.cs" />
-    <Compile Include="Entity\AttrAttribute.cs" />
+    <Compile Include="Entity\Attribute\AttrAttribute.cs" />
     <Compile Include="Elasticsearch\ESClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>

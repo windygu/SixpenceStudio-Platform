@@ -12,16 +12,6 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
-    [UnityRegister]
-    public interface IEntity
-    {
-        string GetEntityName();
-        object GetAttributeValue(string attributeLogicalName);
-        void SetAttributeValue(string attributeLogicalName, object value);
-        bool IsSystemEntity();
-        IEnumerable<Attr> GetAttrs();
-    }
-
     [DataContract]
     [Serializable]
     public abstract class BaseEntity : IEntity
@@ -46,7 +36,7 @@ namespace SixpenceStudio.Core.Entity
                         var attr = Attribute.GetCustomAttribute(type, typeof(EntityNameAttribute)) as EntityNameAttribute;
                         if (attr == null)
                         {
-                            throw new SixpenceStudio.Core.SpException("获取实体名失败，请检查是否定义实体名", "");
+                            throw new SpException("获取实体名失败，请检查是否定义实体名", "");
                         }
                         return attr.Name;
                     });
@@ -228,6 +218,11 @@ namespace SixpenceStudio.Core.Entity
         /// 实体属性
         /// </summary>
         private readonly Dictionary<string, object> _attributes = new Dictionary<string, object>();
+
+        /// <summary>
+        /// 属性变化
+        /// </summary>
+        public event PropertyChangedHandler OnPropertyChanged;
 
         public Dictionary<string, object> Attributes => _attributes;
 

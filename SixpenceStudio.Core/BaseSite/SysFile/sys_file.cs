@@ -7,10 +7,12 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysFile
 {
+    [SystemEntity]
     [EntityName("sys_file")]
     public partial class sys_file : BaseEntity
     {
         [DataMember]
+        [Attr("sys_fileid", "实体id", AttrType.Varchar, 100)]
         public string sys_fileId
         {
             get
@@ -24,10 +26,29 @@ namespace SixpenceStudio.Core.SysFile
         }
 
         /// <summary>
+        /// 名称
+        /// </summary>
+        private string _name;
+        [DataMember, Attr("name", "名称", AttrType.Varchar, 500)]
+        public new string name
+        {
+            get
+            {
+                return this._name;
+            }
+            set
+            {
+                this._name = value;
+                SetAttributeValue("name", value);
+            }
+        }
+
+        /// <summary>
         /// 文件对象
         /// </summary>
         private string _objectid;
         [DataMember]
+        [Attr("objectid", "文件对象", AttrType.Varchar, 100)]
         public string objectId
         {
             get
@@ -46,6 +67,7 @@ namespace SixpenceStudio.Core.SysFile
         /// </summary>
         private string _file_path;
         [DataMember]
+        [Attr("file_path", "文件路径", AttrType.Text)]
         public string file_path
         {
             get
@@ -59,8 +81,12 @@ namespace SixpenceStudio.Core.SysFile
             }
         }
 
+        /// <summary>
+        /// 哈希值
+        /// </summary>
         private string _hash_code;
         [DataMember]
+        [Attr("hash_code", "哈希值", AttrType.Varchar, 40)]
         public string hash_code
         {
             get
@@ -79,6 +105,7 @@ namespace SixpenceStudio.Core.SysFile
         /// </summary>
         private string _file_type;
         [DataMember]
+        [Attr("file_type", "文件类型", AttrType.Varchar, 100)]
         public string file_type
         {
             get
@@ -93,10 +120,11 @@ namespace SixpenceStudio.Core.SysFile
         }
 
         /// <summary>
-        /// 类型
+        /// 内容类型
         /// </summary>
         private string _content_type;
         [DataMember]
+        [Attr("content_type", "内容类型", AttrType.Varchar, 100)]
         public string content_type
         {
             get

@@ -12,6 +12,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// 用户id
         /// </summary>
         [DataMember]
+        [Attr("user_infoid", "用户id", AttrType.Varchar, 100)]
         public string user_infoId
         {
             get
@@ -29,6 +30,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _code;
         [DataMember]
+        [Attr("code", "编码", AttrType.Varchar, 100)]
         public string code
         {
             get
@@ -47,6 +49,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private int? _gender;
         [DataMember]
+        [Attr("gender", "性别", AttrType.Int4)]
         public int? gender
         {
             get
@@ -65,6 +68,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _genderName;
         [DataMember]
+        [Attr("gendername", "性别", AttrType.Varchar, 100)]
         public string genderName
         {
             get
@@ -83,6 +87,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _realname;
         [DataMember]
+        [Attr("realname", "真实姓名", AttrType.Varchar, 100)]
         public string realname
         {
             get
@@ -101,6 +106,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _mailbox;
         [DataMember]
+        [Attr("mailbox", "邮箱", AttrType.Varchar, 400)]
         public string mailbox
         {
             get
@@ -119,6 +125,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _introduction;
         [DataMember]
+        [Attr("introduction", "个人介绍", AttrType.Text)]
         public string introduction
         {
             get
@@ -137,6 +144,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _cellphone;
         [DataMember]
+        [Attr("cellphone", "手机号码", AttrType.Varchar, 100)]
         public string cellphone
         {
             get
@@ -155,6 +163,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _avatar;
         [DataMember]
+        [Attr("avatar", "头像", AttrType.Varchar, 40)]
         public string avatar
         {
             get
@@ -173,6 +182,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _roleid;
         [DataMember]
+        [Attr("roleid", "角色权限id", AttrType.Varchar, 100)]
         public string roleid
         {
             get
@@ -191,6 +201,7 @@ namespace SixpenceStudio.Core.UserInfo
         /// </summary>
         private string _roleidName;
         [DataMember]
+        [Attr("roleidname", "角色权限名", AttrType.Varchar, 100)]
         public string roleidName
         {
             get
@@ -206,6 +217,7 @@ namespace SixpenceStudio.Core.UserInfo
 
         private int? _stateCode;
         [DataMember]
+        [Attr("statecode", "状态", AttrType.Int4)]
         public int? stateCode
         {
             get
@@ -221,6 +233,7 @@ namespace SixpenceStudio.Core.UserInfo
 
         private string _stateCodeName;
         [DataMember]
+        [Attr("statecodename", "状态名", AttrType.Varchar, 100)]
         public string stateCodeName
         {
             get

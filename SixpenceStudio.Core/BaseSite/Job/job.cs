@@ -12,6 +12,7 @@ namespace SixpenceStudio.Core.Job
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("jobid", "实体id", AttrType.Varchar, 100)]
         public string jobId
         {
             get
@@ -29,6 +30,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         private string _runtime;
         [DataMember]
+        [Attr("runtime", "执行计划", AttrType.Varchar, 100)]
         public string runTime
         {
             get
@@ -47,6 +49,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         private DateTime? _lastRunTime;
         [DataMember]
+        [Attr("lastruntime", "上次运行时间", AttrType.Timestamp, 27)]
         public DateTime? lastRunTime
         {
             get
@@ -65,6 +68,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         private DateTime? _nextRunTime;
         [DataMember]
+        [Attr("nextruntime", "下次运行时间", AttrType.Timestamp, 27)]
         public DateTime? nextRunTime
         {
             get
@@ -83,6 +87,7 @@ namespace SixpenceStudio.Core.Job
         /// </summary>
         private string _description;
         [DataMember]
+        [Attr("description", "描述", AttrType.Varchar, 400)]
         public string description
         {
             get

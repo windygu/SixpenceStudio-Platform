@@ -14,6 +14,7 @@ namespace SixpenceStudio.Core.gallery
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("galleryid", "实体id", AttrType.Varchar, 100)]
         public string galleryId
         {
             get
@@ -32,6 +33,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _tags;
         [DataMember]
+        [Attr("galleryid", "实体id", AttrType.Varchar, 100)]
         public string tags
         {
             get
@@ -51,6 +53,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _preview_url;
         [DataMember]
+        [Attr("preview_url", "预览图", AttrType.Varchar, 200)]
         public string preview_url
         {
             get
@@ -70,6 +73,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _image_url;
         [DataMember]
+        [Attr("image_url", "大图", AttrType.Varchar, 200)]
         public string image_url
         {
             get
@@ -88,6 +92,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _previewid;
         [DataMember]
+        [Attr("previewid", "预览图片id", AttrType.Varchar, 100)]
         public string previewid
         {
             get
@@ -107,6 +112,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _imageid;
         [DataMember]
+        [Attr("imageid", "大图id", AttrType.Varchar, 100)]
         public string imageid
         {
             get
@@ -119,8 +125,6 @@ namespace SixpenceStudio.Core.gallery
                 SetAttributeValue("imageid", value);
             }
         }
-
-
     }
 }
 

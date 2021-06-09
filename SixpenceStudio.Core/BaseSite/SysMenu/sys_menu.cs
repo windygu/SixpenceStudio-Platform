@@ -7,6 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysMenu
 {
+    [SystemEntity]
     [EntityName("sys_menu")]
     public partial class sys_menu : BaseEntity
     {
@@ -14,6 +15,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("sys_menuid", "实体id", AttrType.Varchar, 100)]
         public string sys_menuId
         {
             get
@@ -31,6 +33,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// </summary>
         private string _parentid;
         [DataMember]
+        [Attr("parentid", "上级菜单id", AttrType.Varchar, 100)]
         public string parentid
         {
             get
@@ -49,6 +52,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// </summary>
         private string _parentidname;
         [DataMember]
+        [Attr("parentidname", "上级菜单名", AttrType.Varchar, 100)]
         public string parentIdName
         {
             get
@@ -67,6 +71,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// </summary>
         private string _router;
         [DataMember]
+        [Attr("router", "路由地址", AttrType.Varchar, 200)]
         public string router
         {
             get
@@ -80,8 +85,12 @@ namespace SixpenceStudio.Core.SysMenu
             }
         }
 
+        /// <summary>
+        /// 菜单索引
+        /// </summary>
         private int _menu_index;
         [DataMember]
+        [Attr("menu_index", "菜单索引", AttrType.Int4)]
         public int menu_Index
         {
             get
@@ -100,6 +109,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// </summary>
         private int? _statecode;
         [DataMember]
+        [Attr("statecode", "状态", AttrType.Int4)]
         public int? stateCode
         {
             get
@@ -115,6 +125,7 @@ namespace SixpenceStudio.Core.SysMenu
 
         private string _statecodename;
         [DataMember]
+        [Attr("statecodename", "状态", AttrType.Varchar, 100)]
         public string stateCodeName
         {
             get
@@ -133,6 +144,7 @@ namespace SixpenceStudio.Core.SysMenu
         /// </summary>
         private string _icon;
         [DataMember]
+        [Attr("icon", "图标", AttrType.Varchar, 100)]
         public string icon
         {
             get

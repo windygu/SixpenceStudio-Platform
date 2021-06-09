@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
+    /// <summary>
+    /// 数据模型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DataModel<T>
         where T : BaseEntity, new()
     {
@@ -24,6 +28,9 @@ namespace SixpenceStudio.Core.Entity
         public SearchType Type { get; set; }
     }
 
+    /// <summary>
+    /// 筛选字段逻辑类型
+    /// </summary>
     public enum SearchType
     {
         [Description("相等")]

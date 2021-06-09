@@ -11,11 +11,9 @@ namespace SixpenceStudio.Core.ShortUrl
     [EntityName("short_url")]
     public class short_url_log : BaseEntity
     {
-        /// <summary>
-        /// 短链接key
-        /// </summary>
         [DataMember]
-        public string short_key
+        [Attr("short_url_logid", "实体id",  AttrType.Varchar, 100)]
+        public string short_url_logId
         {
             get
             {
@@ -27,11 +25,31 @@ namespace SixpenceStudio.Core.ShortUrl
             }
         }
 
+        private string _short_key;
+        /// <summary>
+        /// 短链接key
+        /// </summary>
+        [DataMember]
+        [Attr("short_key", "短链接key", AttrType.Varchar, 100)]
+        public string short_key
+        {
+            get
+            {
+                return this._short_key;
+            }
+            set
+            {
+                this._short_key = value;
+                SetAttributeValue("short_key", value);
+            }
+        }
+
         /// <summary>
         /// 短链接
         /// </summary>
         private string _short_url;
         [DataMember]
+        [Attr("short_url", "短链接", AttrType.Varchar, 200)]
         public string short_url
         {
             get
@@ -50,6 +68,7 @@ namespace SixpenceStudio.Core.ShortUrl
         /// </summary>
         private string _long_url;
         [DataMember]
+        [Attr("long_url", "长链接", AttrType.Text)]
         public string long_url
         {
             get

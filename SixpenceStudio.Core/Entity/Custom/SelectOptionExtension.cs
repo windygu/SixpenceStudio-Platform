@@ -7,23 +7,6 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
-    /// <summary>
-    /// 选项集
-    /// </summary>
-    public class SelectOption
-    {
-        public SelectOption() { }
-
-        public SelectOption(string name, string value)
-        {
-            this.Name = name;
-            this.Value = value;
-        }
-
-        public string Name { get; set; }
-        public string Value { get; set; }
-    }
-
     public static class SelectOptionExtension
     {
         /// <summary>

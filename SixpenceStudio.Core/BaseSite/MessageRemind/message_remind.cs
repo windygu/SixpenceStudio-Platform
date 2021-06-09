@@ -13,6 +13,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("message_remindid", "实体id", AttrType.Varchar, 100)]
         public string message_remindId
         {
             get
@@ -31,6 +32,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _object_id;
         [DataMember]
+        [Attr("object_id", "关联实体id", AttrType.Varchar, 100)]
         public string object_id
         {
             get
@@ -50,6 +52,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _object_idName;
         [DataMember]
+        [Attr("object_idname", "关联实体名", AttrType.Varchar, 100)]
         public string object_idName
         {
             get
@@ -69,6 +72,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _object_type;
         [DataMember]
+        [Attr("object_type", "实体类型", AttrType.Varchar, 100)]
         public string object_type
         {
             get
@@ -88,6 +92,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _object_typeName;
         [DataMember]
+        [Attr("object_typename", "实体名", AttrType.Varchar, 100)]
         public string object_typeName
         {
             get
@@ -107,6 +112,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private bool _is_read;
         [DataMember]
+        [Attr("object_typename", "实体名", AttrType.Int4)]
         public bool is_read
         {
             get
@@ -126,6 +132,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _is_readName;
         [DataMember]
+        [Attr("object_typename", "实体名", AttrType.Varchar, 100)]
         public string is_readName
         {
             get
@@ -145,6 +152,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _content;
         [DataMember]
+        [Attr("content", "消息内容", AttrType.Varchar, 500)]
         public string content
         {
             get
