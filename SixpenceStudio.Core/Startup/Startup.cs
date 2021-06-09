@@ -32,13 +32,11 @@ namespace SixpenceStudio.Core.Startup
             XmlConfigurator.Configure(repository, file);
             XmlConfigurator.ConfigureAndWatch(file);
 
-            var config = new HttpConfiguration();
-
             app.UseCors(CorsOptions.AllowAll);
 
             var logger = LogFactory.GetLogger("startup");
 
-            WebApiConfig.Register(app, config);
+            WebApiConfig.Register(app);
             logger.Info("Api注册成功");
 
             var typeList = new List<Type>();

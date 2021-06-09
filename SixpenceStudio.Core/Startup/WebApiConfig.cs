@@ -15,13 +15,15 @@ namespace SixpenceStudio.Core.Startup
 {
     public static class WebApiConfig
     {
-        public static void Register(IAppBuilder app, HttpConfiguration config)
+        public static void Register(IAppBuilder app)
         {
             //config.MessageHandlers.Add(new ThrottlingHandler
             //{
             //    Policy = ThrottlePolicy.FromStore(new PolicyConfigurationProvider()),
             //    Repository = new CacheRepository()
             //});
+
+            HttpConfiguration config = new HttpConfiguration();
 
             // Web API 路由
             config.MapHttpAttributeRoutes();

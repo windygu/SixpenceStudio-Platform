@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{803C4018-B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Run", "SixpenceStudio.Run\SixpenceStudio.Run.csproj", "{3750567B-92A5-4799-A8E0-28AA4F08646D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixpenceStudio.Portal", "SixpenceStudio.Portal\SixpenceStudio.Portal.csproj", "{E44CACD4-318D-488F-870D-0C7584E214A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAA66A98-3FDA-4832-B4EE-7701E29F4AE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3750567B-92A5-4799-A8E0-28AA4F08646D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3750567B-92A5-4799-A8E0-28AA4F08646D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3750567B-92A5-4799-A8E0-28AA4F08646D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3750567B-92A5-4799-A8E0-28AA4F08646D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E44CACD4-318D-488F-870D-0C7584E214A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44CACD4-318D-488F-870D-0C7584E214A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44CACD4-318D-488F-870D-0C7584E214A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44CACD4-318D-488F-870D-0C7584E214A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
