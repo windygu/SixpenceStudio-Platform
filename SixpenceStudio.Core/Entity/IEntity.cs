@@ -17,7 +17,7 @@ namespace SixpenceStudio.Core.Entity
         void SetAttributeValue(string attributeLogicalName, object value);
         bool IsSystemEntity();
         IEnumerable<Attr> GetAttrs();
-
+        IEnumerable<BaseEntity> GetInitialData();
         event PropertyChangedHandler OnPropertyChanged;
     }
 }

@@ -200,7 +200,7 @@ namespace SixpenceStudio.Core.Entity
         /// 创建日期
         /// </summary>
         private DateTime? _modifiedon;
-        [DataMember, Attr("modifiedon", "创建日期", AttrType.Timestamp, 4, true)]
+        [DataMember, Attr("modifiedon", "创建日期", AttrType.Timestamp, 6, true)]
         public DateTime? modifiedOn
         {
             get
@@ -293,6 +293,15 @@ namespace SixpenceStudio.Core.Entity
                 .GetProperties()
                 .Where(item => item.IsDefined(typeof(AttrAttribute), false))
                 ?.Select(item => (item.GetCustomAttributes(typeof(AttrAttribute), false).FirstOrDefault() as AttrAttribute).Attr);
+        }
+
+        /// <summary>
+        /// 获取初始数据
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<BaseEntity> GetInitialData()
+        {
+            return new List<BaseEntity>();
         }
         #endregion
 

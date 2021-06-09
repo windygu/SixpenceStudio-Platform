@@ -33,7 +33,7 @@ namespace SixpenceStudio.Core.gallery
         /// </summary>
         private string _tags;
         [DataMember]
-        [Attr("galleryid", "实体id", AttrType.Varchar, 100)]
+        [Attr("tags", "实体id", AttrType.Varchar, 100)]
         public string tags
         {
             get

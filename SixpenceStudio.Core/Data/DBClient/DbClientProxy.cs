@@ -1,4 +1,5 @@
-﻿using SixpenceStudio.Core.Logging;
+﻿using SixpenceStudio.Core.Data.Dialect;
+using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace SixpenceStudio.Core.Data
         /// 数据库链接状态
         /// </summary>
         public ConnectionState ConnectionState => dbClient.ConnectionState;
+
+        public IDBDialect Dialect => dbClient.Dialect;
 
         /// <summary>
         /// 开启事务

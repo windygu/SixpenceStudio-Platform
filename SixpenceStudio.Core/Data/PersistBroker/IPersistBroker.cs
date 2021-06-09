@@ -11,6 +11,7 @@ namespace SixpenceStudio.Core.Data
     public interface IPersistBroker
     {
         IDbClient DbClient { get; }
+        
 
         #region Create Update Delete
 

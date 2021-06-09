@@ -14,6 +14,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// 实体id
         /// </summary>
         [DataMember]
+        [Attr("sys_role_privilegeid", "角色权限id", AttrType.Varchar, 100)]
         public string sys_role_privilegeId
         {
             get
@@ -32,6 +33,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// </summary>
         private string _sys_roleid;
         [DataMember]
+        [Attr("sys_roleid", "角色id", AttrType.Varchar, 100)]
         public string sys_roleid
         {
             get
@@ -51,6 +53,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// </summary>
         private string _sys_roleidName;
         [DataMember]
+        [Attr("sys_roleidname", "角色名", AttrType.Varchar, 100)]
         public string sys_roleidName
         {
             get
@@ -69,6 +72,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// </summary>
         private int _privilege;
         [DataMember]
+        [Attr("privilege", "权限值", AttrType.Int4)]
         public int privilege
         {
             get
@@ -87,6 +91,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// </summary>
         private string _sys_entityid;
         [DataMember]
+        [Attr("sys_entityid", "实体id", AttrType.Varchar, 100)]
         public string sys_entityid
         {
             get
@@ -106,6 +111,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
         /// </summary>
         private string _sys_entityidName;
         [DataMember]
+        [Attr("sys_entityidname", "实体名", AttrType.Varchar, 100)]
         public string sys_entityidName
         {
             get

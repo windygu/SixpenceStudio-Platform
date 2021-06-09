@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Npgsql;
+using SixpenceStudio.Core.Data.Dialect;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,8 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         private DbConnection _conn;
         public IDbConnection DbConnection => _conn;
+
+        public IDBDialect Dialect => new PostgresDialect();
 
         /// <summary>
         /// 初始化数据库连接

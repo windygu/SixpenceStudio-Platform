@@ -11,6 +11,7 @@ namespace SixpenceStudio.Core.Startup
     [UnityRegister]
     public interface IStartup
     {
+        int GetOrderIndex();
         void Configuration(IAppBuilder app);
     }
 }

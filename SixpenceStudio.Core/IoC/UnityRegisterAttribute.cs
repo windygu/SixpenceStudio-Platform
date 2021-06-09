@@ -21,4 +21,12 @@ namespace SixpenceStudio.Core.IoC
     public class UnityRegisterAttribute : Attribute
     {
     }
+
+    /// <summary>
+    /// 跳过注册
+    /// </summary>
+    public class IgnoreRegisterAttribute: Attribute
+    {
+
+    }
 }

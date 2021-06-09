@@ -55,7 +55,7 @@ namespace SixpenceStudio.Core.BaseSite.SysEntity
                                     entityidname = entity.name,
                                     attr_length = e.Length,
                                     attr_type = e.Type.GetDescription(),
-                                    isrequire = e.IsRequire,
+                                    isrequire = e.IsRequire.HasValue && e.IsRequire.Value,
                                     createdBy = user.Id,
                                     createdByName = user.Name,
                                     createdOn = DateTime.Now,

@@ -244,6 +244,9 @@
     <Compile Include="BaseSite\UserInfo\UserInfoPartial.cs" />
     <Compile Include="Data\DBClient\DbClientProxy.cs" />
     <Compile Include="Data\DBClient\DBSection.cs" />
+    <Compile Include="Data\DBStartup.cs" />
+    <Compile Include="Data\Dialect\IDBDialect.cs" />
+    <Compile Include="Data\Dialect\PostgresDialect.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\Custom\SelectOptionExtension.cs" />

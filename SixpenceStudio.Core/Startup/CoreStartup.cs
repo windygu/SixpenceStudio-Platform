@@ -26,5 +26,10 @@ namespace SixpenceStudio.Core.Startup
             // 注册基本角色和权限
             UnityContainerService.ResolveAll<IBasicRole>().Each(item => MemoryCacheUtil.Set(item.GetRoleKey, new RolePrivilegeModel() { Role = item.GetRole(), Privileges = item.GetRolePrivilege() }, 3600 * 12));
         }
+
+        public int GetOrderIndex()
+        {
+            return 100;
+        }
     }
 }

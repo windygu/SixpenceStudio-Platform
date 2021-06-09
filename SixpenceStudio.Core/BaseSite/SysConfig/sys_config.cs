@@ -71,7 +71,7 @@ namespace SixpenceStudio.Core.SysConfig
         /// </summary>
         private string _value;
         [DataMember]
-        [Attr("description", "描述", AttrType.Text)]
+        [Attr("value", "描述", AttrType.Text)]
         public string value
         {
             get

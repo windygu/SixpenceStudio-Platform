@@ -73,6 +73,6 @@ namespace SixpenceStudio.Core.Entity
         public string LogicalName { get; set; }
         public AttrType Type { get; set; }
         public int? Length { get; set; }
-        public bool IsRequire { get; set; }
+        public bool? IsRequire { get; set; }
     }
 }

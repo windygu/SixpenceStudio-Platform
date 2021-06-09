@@ -47,15 +47,16 @@ namespace SixpenceStudio.Core.Startup
             var interfaces = typeList.Where(item => item.IsInterface && item.IsDefined(typeof(UnityRegisterAttribute), false)).ToList();
             interfaces.ForEach(item =>
             {
-                var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item)).ToList();
+                var types = typeList.Where(type => !type.IsInterface && !type.IsAbstract && type.GetInterfaces().Contains(item) && !type.IsDefined(typeof(IgnoreRegisterAttribute), false)).ToList();
                 types.ForEach(type => UnityContainerService.Register(item, type, type.Name));
             });
             logger.Info("IoC注册成功");
             #endregion
 
             UserIdentityUtil.SetCurrentUser(UserIdentityUtil.GetAdmin());
+
             // 调用所有的启动类
-            UnityContainerService.ResolveAll<IStartup>().Each(item => item.Configuration(app));
+            UnityContainerService.ResolveAll<IStartup>().OrderBy(item => item.GetOrderIndex()).Each(item => item.Configuration(app));
         }
     }
 }

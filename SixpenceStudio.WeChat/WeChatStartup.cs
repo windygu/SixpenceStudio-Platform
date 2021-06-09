@@ -33,5 +33,10 @@ namespace SixpenceStudio.WeChat
                 throw e;
             }
         }
+
+        public int GetOrderIndex()
+        {
+            return 200;
+        }
     }
 }

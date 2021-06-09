@@ -120,7 +120,7 @@ namespace SixpenceStudio.Core.AuthUser
         /// </summary>
         private bool _is_lock;
         [DataMember]
-        [Attr("is_lock", "锁定", AttrType.Int4, 32)]
+        [Attr("is_lock", "锁定", AttrType.Int4)]
         public bool is_lock
         {
             get

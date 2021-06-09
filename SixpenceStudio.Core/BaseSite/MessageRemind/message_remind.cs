@@ -112,7 +112,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private bool _is_read;
         [DataMember]
-        [Attr("object_typename", "实体名", AttrType.Int4)]
+        [Attr("is_read", "实体名", AttrType.Int4)]
         public bool is_read
         {
             get
@@ -132,7 +132,7 @@ namespace SixpenceStudio.Core.MessageRemind
         /// </summary>
         private string _is_readName;
         [DataMember]
-        [Attr("object_typename", "实体名", AttrType.Varchar, 100)]
+        [Attr("is_readname", "实体名", AttrType.Varchar, 100)]
         public string is_readName
         {
             get

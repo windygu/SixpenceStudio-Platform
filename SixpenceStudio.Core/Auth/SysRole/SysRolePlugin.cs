@@ -16,11 +16,12 @@ namespace SixpenceStudio.Core.Auth.SysRole
             if (context.EntityName != "sys_role") return;
 
             var obj = context.Entity as sys_role;
+            var basicRoleList = obj.GetInitialData().Select(item => item.Id);
             switch (context.Action)
             {
                 case EntityAction.PostCreate:
                     {
-                        AssertUtil.CheckBoolean<SpException>(obj.is_basic, "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        AssertUtil.CheckBoolean<SpException>(obj.is_basic && !basicRoleList.Contains(obj.Id), "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
                     }
                     break;
                 case EntityAction.PostUpdate:

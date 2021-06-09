@@ -76,26 +76,18 @@ namespace SixpenceStudio.Core.Auth
             return data.ToCurrentUserModel();
         }
 
-        private static readonly object lockAdminObject = new Object();
         /// <summary>
         /// 获取管理员对象
         /// </summary>
         /// <returns></returns>
         public static CurrentUserModel GetAdmin()
         {
-            var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_admin");
-            if (data == null)
+            return new CurrentUserModel()
             {
-                lock (lockAdminObject)
-                {
-                    if (data == null)
-                    {
-                        data = new AuthUserService().GetDataByCode("admin");
-                        MemoryCacheUtil.Set("auth_user_admin", data, 3600 * 24);
-                    }
-                }
-            }
-            return data.ToCurrentUserModel();
+                Code = "admin",
+                Id = "00000000-0000-0000-0000-000000000000",
+                Name = "系统管理员"
+            };
         }
     }
 }

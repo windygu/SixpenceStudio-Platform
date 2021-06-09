@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SixpenceStudio.Core.Data.Dialect;
+using System.Collections.Generic;
 using System.Data;
 
 namespace SixpenceStudio.Core.Data
@@ -10,6 +11,11 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         /// <param name="connectinString">数据库的连接字符串</param>
         void Initialize(string connectinString);
+
+        /// <summary>
+        /// 数据库方言
+        /// </summary>
+        IDBDialect Dialect { get; }
 
         /// <summary>
         /// 获取数据库的连接
