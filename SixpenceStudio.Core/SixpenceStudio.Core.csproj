@@ -249,6 +249,8 @@
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\Attribute\EntityAttribute.cs" />
+    <Compile Include="Entity\Attr\Attr.cs" />
+    <Compile Include="Entity\Attr\AttrExtension.cs" />
     <Compile Include="Entity\Custom\SelectOptionExtension.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\Custom\SelectOption.cs" />
@@ -286,8 +288,6 @@
     <Compile Include="BaseSite\SysConfig\SysConfigFactory.cs" />
     <Compile Include="BaseSite\SysConfig\SysConfigService.cs" />
     <Compile Include="BaseSite\SysConfig\sys_config.cs" />
-    <Compile Include="BaseSite\SysEntity\DDLTemplate.cs" />
-    <Compile Include="BaseSite\SysEntity\Models\Column.cs" />
     <Compile Include="BaseSite\SysEntity\SysAttrs\SysAttrsController.cs" />
     <Compile Include="BaseSite\SysEntity\SysAttrs\SysAttrsPartial.cs" />
     <Compile Include="BaseSite\SysEntity\SysAttrs\SysAttrsService.cs" />

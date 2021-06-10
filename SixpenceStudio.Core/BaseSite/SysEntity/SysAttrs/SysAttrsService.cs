@@ -1,5 +1,4 @@
-﻿using SixpenceStudio.Core.SysEntity.Models;
-using SixpenceStudio.Core;
+﻿using SixpenceStudio.Core;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SixpenceStudio.Core.Utils;
+using SixpenceStudio.Core.Extensions;
 
 namespace SixpenceStudio.Core.SysEntity.SysAttrs
 {
@@ -30,15 +30,15 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// <param name="id"></param>
         public void AddSystemAttrs(string id)
         {
-            var columns = new List<Column>()
+            var columns = new List<Attr>()
             {
-                { new Column() { Code = "name", Name = "名称", Type = "varchar", Length = 100, IsNotNull = false } },
-                { new Column() { Code = "createdBy", Name = "创建人", Type = "varchar", Length = 40, IsNotNull = true } },
-                { new Column() { Code = "createdByName", Name = "创建人", Type = "varchar", Length = 100, IsNotNull = true } },
-                { new Column() { Code = "createdOn", Name = "创建日期", Type = "timestamp", IsNotNull = true } },
-                { new Column() { Code = "modifiedBy", Name = "修改人", Type = "varchar", Length = 40, IsNotNull = true } },
-                { new Column() { Code = "modifiedByName", Name = "修改人", Type = "varchar", Length = 100, IsNotNull = true } },
-                { new Column() { Code = "modifiedOn", Name = "修改日期", Type = "timestamp", IsNotNull = true } }
+                { new Attr() { Name = "name", LogicalName = "名称", Type = AttrType.Varchar, Length = 100, IsRequire = false } },
+                { new Attr() { Name = "createdBy", LogicalName = "创建人", Type = AttrType.Varchar, Length = 40, IsRequire = true } },
+                { new Attr() { Name = "createdByName", LogicalName = "创建人", Type = AttrType.Varchar, Length = 100, IsRequire = true } },
+                { new Attr() { Name= "createdOn", LogicalName = "创建日期", Type = AttrType.Timestamp, IsRequire = true } },
+                { new Attr() { Name = "modifiedBy", LogicalName = "修改人", Type = AttrType.Varchar, Length = 40, IsRequire = true } },
+                { new Attr() { Name = "modifiedByName", LogicalName = "修改人", Type = AttrType.Varchar, Length = 100, IsRequire = true } },
+                { new Attr() { Name = "modifiedOn", LogicalName = "修改日期", Type = AttrType.Timestamp, IsRequire = true } }
             };
             _cmd.Broker.ExecuteTransaction(() =>
             {
@@ -49,22 +49,22 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
 SELECT * FROM sys_attrs
 WHERE entityid = @id AND code = @code;
 ";
-                    var count = _cmd.Broker.Query<sys_attrs>(sql, new Dictionary<string, object>() { { "@id", entity.Id }, { "@code", item.Code } }).Count();
-                    AssertUtil.CheckBoolean<SpException>(count > 0, $"实体{entity.code}已存在{item.Code}字段，请勿重复添加", "E86150F7-52CC-4FB7-A6C4-B743BF382E92");
+                    var count = _cmd.Broker.Query<sys_attrs>(sql, new Dictionary<string, object>() { { "@id", entity.Id }, { "@code", item.Name } }).Count();
+                    AssertUtil.CheckBoolean<SpException>(count > 0, $"实体{entity.code}已存在{item.Name}字段，请勿重复添加", "E86150F7-52CC-4FB7-A6C4-B743BF382E92");
                     var attrModel = new sys_attrs()
                     {
                         Id = Guid.NewGuid().ToString(),
-                        code = item.Code,
-                        name = item.Name,
+                        code = item.Name,
+                        name = item.LogicalName,
                         entityid = entity.Id,
                         entityidname = entity.name,
-                        attr_type = item.Type,
+                        attr_type = item.Type.GetDescription(),
                         attr_length = item.Length,
-                        isrequire = item.IsNotNull
+                        isrequire = item.IsRequire == true
                     };
                     _cmd.Create(attrModel);
                 });
-                Broker.Execute(DDLTemplate.GetAddColumnSql(entity.code, columns));
+                Broker.Execute(Broker.DbClient.Dialect.GetAddColumnSql(entity.code, columns));
             });
         }
 
@@ -76,8 +76,8 @@ WHERE entityid = @id AND code = @code;
         public override string CreateData(sys_attrs t)
         {
             var id = default(string);
-            var columns = new List<Column>() { { new Column() { Code = t?.code, Name = t?.name, Type = t?.attr_type, Length = t.attr_length.Value, IsNotNull = t.isrequire } } };
-            var sql = DDLTemplate.GetAddColumnSql(t.entityCode, columns);
+            var columns = new List<Attr>() { { new Attr() {  Name = t?.code, LogicalName = t?.name, Type = t.attr_type.GetEnum<AttrType>(), Length = t.attr_length.Value, IsRequire = t.isrequire } } };
+            var sql = Broker.DbClient.Dialect.GetAddColumnSql(t.entityCode, columns);
 
             _cmd.Broker.ExecuteTransaction(() =>
             {
@@ -97,10 +97,10 @@ WHERE entityid = @id AND code = @code;
             _cmd.Broker.ExecuteTransaction(() =>
             {
                 var dataList = _cmd.Broker.RetrieveMultiple<sys_attrs>(ids).ToList();
-                var columns = new List<Column>();
+                var columns = new List<Attr>();
                 dataList.ForEach(item =>
                 {
-                    columns.Add(new Column() { Code = item.code });
+                    columns.Add(new Attr() { Name = item.code });
                 });
 
                 base.DeleteData(ids);
@@ -108,7 +108,7 @@ WHERE entityid = @id AND code = @code;
                 if (dataList.Count > 0)
                 {
                     var tableName = new SysEntityService(_cmd.Broker).GetData(dataList[0].entityid)?.code;
-                    var sql = DDLTemplate.GetDropColumnSql(tableName, columns);
+                    var sql = Broker.DbClient.Dialect.GetDropColumnSql(tableName, columns);
                     _cmd.Broker.Execute(sql);
                 }
             });

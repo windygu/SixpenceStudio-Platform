@@ -1,5 +1,4 @@
-﻿using SixpenceStudio.Core.SysEntity.Models;
-using SixpenceStudio.Core.SysEntity.SysAttrs;
+﻿using SixpenceStudio.Core.SysEntity.SysAttrs;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.Utils;
@@ -83,7 +82,8 @@ WHERE
             _cmd.Broker.ExecuteTransaction(() =>
             {
                 id = base.CreateData(t);
-                Broker.Execute(DDLTemplate.CreateTable(t.code));
+                var sql = Broker.DbClient.Dialect.CreateTable(t.code);
+                Broker.Execute(sql);
                 new SysAttrsService(Broker).AddSystemAttrs(id);
             });
             return id;
@@ -105,7 +105,7 @@ DELETE FROM sys_attrs WHERE entityid IN (in@ids);
                 _cmd.Broker.Execute(sql, new Dictionary<string, object>() { { "in@ids", string.Join(",", ids) } }); // 删除级联字段
                 dataList.ForEach(data =>
                 {
-                    _cmd.Broker.Execute(DDLTemplate.DropTable(data.code));
+                    _cmd.Broker.Execute($"DROP TABLE {data.code}");
                 });
             });
         }

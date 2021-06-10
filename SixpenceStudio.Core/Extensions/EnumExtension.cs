@@ -65,6 +65,27 @@ namespace SixpenceStudio.Core.Extensions
             ValueAttribute attribute = System.Attribute.GetCustomAttribute(field, typeof(ValueAttribute)) as ValueAttribute;
             return (T)attribute?.Value;
         }
+
+        /// <summary>
+        /// 根据描述找到枚举
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public static T GetEnum<T>(this string description)
+        {
+            Type type = typeof(T);
+            var fields = type.GetFields();
+            foreach (var item in fields)
+            {
+                var curDesc = item.GetCustomAttribute<DescriptionAttribute>();
+                if (curDesc != null && curDesc.Description == description)
+                {
+                    return (T)item.GetValue(null);
+                }
+            }
+            throw new ArgumentException(string.Format("{0} 未能找到对应的枚举.", description), "Description");
+        }
     }
 
     [AttributeUsage(AttributeTargets.Field)]
