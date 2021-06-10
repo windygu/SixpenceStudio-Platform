@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysEntity
 {
-    [EntityName("sys_entity")]
+    [EntityName("sys_entity", "实体")]
     [KeyAttributes("实体不能重复创建", "code")]
     [SystemEntity]
     public partial class sys_entity : BaseEntity

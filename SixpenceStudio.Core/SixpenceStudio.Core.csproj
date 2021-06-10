@@ -244,7 +244,6 @@
     <Compile Include="BaseSite\UserInfo\UserInfoPartial.cs" />
     <Compile Include="Data\DBClient\DbClientProxy.cs" />
     <Compile Include="Data\DBClient\DBSection.cs" />
-    <Compile Include="Data\DBStartup.cs" />
     <Compile Include="Data\Dialect\IDBDialect.cs" />
     <Compile Include="Data\Dialect\PostgresDialect.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
@@ -258,6 +257,7 @@
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
     <Compile Include="Extensions\StreamExtension.cs" />
+    <Compile Include="IStartup.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />
     <Compile Include="Job\DynamicJobBase.cs" />
     <Compile Include="Job\JobExtension.cs" />
@@ -346,10 +346,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Socket\SocketController.cs" />
     <Compile Include="SpException.cs" />
-    <Compile Include="Startup\CoreStartup.cs" />
-    <Compile Include="Startup\IStartup.cs" />
-    <Compile Include="Startup\Startup.cs" />
-    <Compile Include="Startup\WebApiConfig.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Store\IStoreStrategy.cs" />
     <Compile Include="Store\StoreSection.cs" />
     <Compile Include="Utils\AssemblyUtil.cs" />

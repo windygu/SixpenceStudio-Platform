@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.WeChat.Robot
 {
-    [EntityName("robot")]
+    [EntityName("robot", "机器人")]
     public partial class robot : BaseEntity
     {
         /// <summary>

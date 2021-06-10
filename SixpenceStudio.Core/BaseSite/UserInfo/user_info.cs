@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace SixpenceStudio.Core.UserInfo
 {
     [SystemEntity]
-    [EntityName("user_info")]
+    [EntityName("user_info", "用户")]
     public partial class user_info : BaseEntity
     {
         /// <summary>

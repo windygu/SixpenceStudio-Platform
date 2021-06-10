@@ -8,7 +8,7 @@ using System.Web;
 namespace SixpenceStudio.Core.SysConfig
 {
     [SystemEntity]
-    [EntityName("sys_config")]
+    [EntityName("sys_config", "系统配置")]
     public partial class sys_config : BaseEntity
     {
         /// <summary>

@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Owin;
+using SixpenceStudio.Core;
 using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;
-using SixpenceStudio.Core.Startup;
 using SixpenceStudio.WeChat.RobotMessageTask;
 
 namespace SixpenceStudio.WeChat
 {
     public class WeChatStartup : IStartup
     {
+        public int OrderIndex => 200;
+
         public void Configuration(IAppBuilder app)
         {
             var logger = LogFactory.GetLogger("startup");
@@ -32,11 +34,6 @@ namespace SixpenceStudio.WeChat
                 logger.Error("注册机器人失败", e);
                 throw e;
             }
-        }
-
-        public int GetOrderIndex()
-        {
-            return 200;
         }
     }
 }

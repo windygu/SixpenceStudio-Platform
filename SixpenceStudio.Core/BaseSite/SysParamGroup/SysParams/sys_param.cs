@@ -8,7 +8,7 @@ using System.Web;
 namespace SixpenceStudio.Core.SysParams
 {
     [SystemEntity]
-    [EntityName("sys_param")]
+    [EntityName("sys_param", "选项")]
     public partial class sys_param : BaseEntity
     {
         /// <summary>

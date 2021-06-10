@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.WeChat.WeChatReply.Focus
 {
-    [EntityName("wechat_focus_reply")]
+    [EntityName("wechat_focus_reply", "微信关注回复")]
     public partial class wechat_focus_reply : BaseEntity
     {
         /// <summary>

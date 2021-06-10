@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace SixpenceStudio.Core.AuthUser
 {
     [SystemEntity]
-    [EntityName("auth_user")]
+    [EntityName("auth_user", "用户授权")]
     [KeyAttributes("用户Id不能重复", "user_infoId")]
     public partial class auth_user : BaseEntity
     {

@@ -8,7 +8,7 @@ using System.Web;
 namespace SixpenceStudio.Core.SysEntity.SysAttrs
 {
     [KeyAttributes("该实体字段已存在", "entityid", "code")]
-    [EntityName("sys_attrs")]
+    [EntityName("sys_attrs", "实体字段")]
     public partial class sys_attrs : BaseEntity
     {
         /// <summary>

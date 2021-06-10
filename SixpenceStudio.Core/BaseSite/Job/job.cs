@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace SixpenceStudio.Core.Job
 {
     [SystemEntity]
-    [EntityName("job")]
+    [EntityName("job", "作业")]
     public class job : BaseEntity
     {
         /// <summary>

@@ -8,7 +8,7 @@ using System.Web;
 namespace SixpenceStudio.Core.SysFile
 {
     [SystemEntity]
-    [EntityName("sys_file")]
+    [EntityName("sys_file", "系统文件")]
     public partial class sys_file : BaseEntity
     {
         [DataMember]

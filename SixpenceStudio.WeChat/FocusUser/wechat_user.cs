@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.WeChat.FocusUser
 {
-    [EntityName("wechat_user")]
+    [EntityName("wechat_user", "微信用户")]
     public partial class wechat_user : BaseEntity
     {
         /// <summary>

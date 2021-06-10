@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.WeChat.RobotMessageTask
 {
-    [EntityName("robot_message_task")]
+    [EntityName("robot_message_task", "机器人消息任务")]
     public partial class robot_message_task : BaseEntity
     {
         /// <summary>
