@@ -12,10 +12,12 @@ namespace SixpenceStudio.Core.Entity
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class EntityNameAttribute : Attribute
     {
-        public EntityNameAttribute(string name)
+        public EntityNameAttribute(string name, string logicalName)
         {
             this.Name = name;
+            this.LogicalName = logicalName;
         }
         public string Name { get; set; }
+        public string LogicalName { get; set; }
     }
 }

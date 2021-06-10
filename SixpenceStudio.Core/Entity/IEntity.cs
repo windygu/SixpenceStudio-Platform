@@ -13,6 +13,7 @@ namespace SixpenceStudio.Core.Entity
     public interface IEntity
     {
         string GetEntityName();
+        string GetLogicalName();
         object GetAttributeValue(string attributeLogicalName);
         void SetAttributeValue(string attributeLogicalName, object value);
         bool IsSystemEntity();

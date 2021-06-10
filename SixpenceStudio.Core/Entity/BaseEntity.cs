@@ -303,6 +303,20 @@ namespace SixpenceStudio.Core.Entity
         {
             return new List<BaseEntity>();
         }
+
+        /// <summary>
+        /// 获取逻辑名
+        /// </summary>
+        /// <returns></returns>
+        public string GetLogicalName()
+        {
+            var attr = Attribute.GetCustomAttribute(GetType(), typeof(EntityNameAttribute)) as EntityNameAttribute;
+            if (attr == null)
+            {
+                return string.Empty;
+            }
+            return attr.LogicalName;
+        }
         #endregion
 
     }
