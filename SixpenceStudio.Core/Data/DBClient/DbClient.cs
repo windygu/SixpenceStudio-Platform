@@ -187,8 +187,7 @@ namespace SixpenceStudio.Core.Data
         /// <returns></returns>
         public string CreateTemporaryTable(string tableName)
         {
-            var newTableName = tableName + Guid.NewGuid().ToString().Replace("-", "");
-            _conn.Execute($@"CREATE TEMP TABLE {newTableName} ON COMMIT DROP AS SELECT * FROM {tableName} WHERE 1!=1;");
+            _conn.Execute(Dialect.CreateTemporaryTable(tableName, out var newTableName));
             return newTableName;
         }
 

@@ -26,6 +26,12 @@ CREATE TABLE {name}
             return sql;
         }
 
+        public string CreateTemporaryTable(string tableName, out string newTableName)
+        {
+            newTableName = tableName + Guid.NewGuid().ToString().Replace("-", "");
+            return $@"CREATE TEMP TABLE {newTableName} ON COMMIT DROP AS SELECT * FROM {tableName} WHERE 1!=1;";
+        }
+
         public string CreateUser(string name)
         {
             return $"CREATE USER {name}";

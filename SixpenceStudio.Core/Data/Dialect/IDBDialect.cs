@@ -19,5 +19,6 @@ namespace SixpenceStudio.Core.Data.Dialect
         string GetTable(string tableName);
         string GetAddColumnSql(string tableName, List<Attr> columns);
         string GetDropColumnSql(string tableName, List<Attr> columns);
+        string CreateTemporaryTable(string tableName, out string newTableName);
     }
 }
