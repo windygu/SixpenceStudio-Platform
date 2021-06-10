@@ -7,8 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.ShortUrl
 {
-    [SystemEntity]
-    [EntityName("short_url", "短链接")]
+    [Entity("short_url", "短链接", true)]
     public class short_url_log : BaseEntity
     {
         [DataMember]

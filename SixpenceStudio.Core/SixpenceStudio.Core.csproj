@@ -248,11 +248,11 @@
     <Compile Include="Data\Dialect\PostgresDialect.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
+    <Compile Include="Entity\Attribute\EntityAttribute.cs" />
     <Compile Include="Entity\Custom\SelectOptionExtension.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\Custom\SelectOption.cs" />
     <Compile Include="Entity\SpEntity.cs" />
-    <Compile Include="Entity\Attribute\SystemEntityAttribute.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
@@ -328,7 +328,6 @@
     <Compile Include="Data\PersistBroker\PersistBrokerFactory.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Service\DataModel.cs" />
-    <Compile Include="Entity\Attribute\EntityNameAttribute.cs" />
     <Compile Include="Entity\Attribute\KeyAttributesAttribute.cs" />
     <Compile Include="Entity\Service\BaseService.cs" />
     <Compile Include="Entity\Service\EntityService.cs" />

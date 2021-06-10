@@ -6,8 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.Auth.SysRole
 {
-    [SystemEntity]
-    [EntityName("sys_role", "角色")]
+    [Entity("sys_role", "角色", true)]
     public partial class sys_role : BaseEntity
     {
         /// <summary>

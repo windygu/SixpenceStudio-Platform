@@ -7,8 +7,7 @@ using System.Web;
 
 namespace SixpenceStudio.Core.SysMenu
 {
-    [SystemEntity]
-    [EntityName("sys_menu", "系统菜单")]
+    [Entity("sys_menu", "系统菜单",  true)]
     public partial class sys_menu : BaseEntity
     {
         /// <summary>

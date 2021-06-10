@@ -33,7 +33,7 @@ namespace SixpenceStudio.Core.Entity
                     var type = GetType();
                     _entityName = _entityNameCache.GetOrAdd(type.FullName, (key) =>
                     {
-                        var attr = Attribute.GetCustomAttribute(type, typeof(EntityNameAttribute)) as EntityNameAttribute;
+                        var attr = Attribute.GetCustomAttribute(type, typeof(EntityAttribute)) as EntityAttribute;
                         if (attr == null)
                         {
                             throw new SpException("获取实体名失败，请检查是否定义实体名", "");
@@ -54,7 +54,8 @@ namespace SixpenceStudio.Core.Entity
         /// </summary>
         public bool IsSystemEntity()
         {
-            return Attribute.GetCustomAttribute(GetType(), typeof(SystemEntityAttribute)) as SystemEntityAttribute != null;
+            var attribute = Attribute.GetCustomAttribute(GetType(), typeof(EntityAttribute)) as EntityAttribute;
+            return attribute != null && attribute.IsSystemEntity;
         }
 
         /// <summary>
@@ -310,7 +311,7 @@ namespace SixpenceStudio.Core.Entity
         /// <returns></returns>
         public string GetLogicalName()
         {
-            var attr = Attribute.GetCustomAttribute(GetType(), typeof(EntityNameAttribute)) as EntityNameAttribute;
+            var attr = Attribute.GetCustomAttribute(GetType(), typeof(EntityAttribute)) as EntityAttribute;
             if (attr == null)
             {
                 return string.Empty;

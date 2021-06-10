@@ -162,8 +162,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.SysEntity
 {{
-    {(entity.is_sys ? "[SystemEntity]" : "")}
-    [EntityName(""{entity.code}"")]
+    [Entity(""{entity.code}"",""{entity.GetLogicalName()}"", {entity.is_sys})]
     public partial class {entity.code} : BaseEntity
     {{
         /// <summary>

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.WeChat.Material
 {
-    [EntityName("wechat_material", "微信素材")]
+    [Entity("wechat_material", "微信素材")]
     public partial class wechat_material : BaseEntity
     {
         /// <summary>

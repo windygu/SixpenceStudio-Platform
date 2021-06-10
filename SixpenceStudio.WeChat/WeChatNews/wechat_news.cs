@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.WeChat.WeChatNews
 {
-    [EntityName("wechat_news", "微信图文素材")]
+    [Entity("wechat_news", "微信图文素材")]
     public partial class wechat_news : BaseEntity
     {
         /// <summary>

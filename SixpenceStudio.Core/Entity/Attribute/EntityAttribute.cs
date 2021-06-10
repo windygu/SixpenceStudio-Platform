@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Entity
 {
-    /// <summary>
-    /// 实体名（数据库表名）
-    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class EntityNameAttribute : Attribute
+    public sealed class EntityAttribute : Attribute
     {
-        public EntityNameAttribute(string name, string logicalName)
+        public EntityAttribute(string name, string logicalName, bool isSystemEntity = false)
         {
             this.Name = name;
             this.LogicalName = logicalName;
+            this.IsSystemEntity = isSystemEntity;
         }
+
         public string Name { get; set; }
         public string LogicalName { get; set; }
+        public bool IsSystemEntity { get; set; }
     }
 }

@@ -6,8 +6,7 @@ using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.gallery
 {
-    [SystemEntity]
-    [EntityName("gallery", "图库")]
+    [Entity("gallery", "图库", true)]
     public partial class gallery : BaseEntity
     {
         /// <summary>
