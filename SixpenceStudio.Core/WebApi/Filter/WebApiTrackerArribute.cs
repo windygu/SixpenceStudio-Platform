@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SixpenceStudio.Core.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace SixpenceStudio.Core.Logging
+namespace SixpenceStudio.Core.WebApi.Filter
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class WebApiTrackerAttribute : ActionFilterAttribute

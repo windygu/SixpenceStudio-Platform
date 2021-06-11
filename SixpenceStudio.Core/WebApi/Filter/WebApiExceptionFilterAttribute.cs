@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 
-namespace SixpenceStudio.Core.WebApi
+namespace SixpenceStudio.Core.WebApi.Filter
 {
     public class WebApiExceptionFilterAttribute : ExceptionFilterAttribute
     {

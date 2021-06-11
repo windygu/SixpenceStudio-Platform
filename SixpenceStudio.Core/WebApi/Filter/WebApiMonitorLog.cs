@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Core.Logging
+namespace SixpenceStudio.Core.WebApi.Filter
 {
     public class WebApiMonitorLog
     {

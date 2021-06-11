@@ -9,7 +9,6 @@ using System.Web.Http;
 namespace SixpenceStudio.Core.WebApi
 {
     [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter, WebApiTracker]
     public class BaseController : ApiController
     {
 

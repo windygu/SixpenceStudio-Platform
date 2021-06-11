@@ -340,8 +340,8 @@
     <Compile Include="IoC\UnityRegisterAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\LogUtils.cs" />
-    <Compile Include="Logging\WebApiMonitorLog.cs" />
-    <Compile Include="Logging\WebApiTrackerArribute.cs" />
+    <Compile Include="WebApi\Filter\WebApiMonitorLog.cs" />
+    <Compile Include="WebApi\Filter\WebApiTrackerArribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Socket\SocketController.cs" />
     <Compile Include="SpException.cs" />
@@ -366,7 +366,7 @@
     <Compile Include="WebApi\BaseController.cs" />
     <Compile Include="WebApi\EntityBase2Controller.cs" />
     <Compile Include="WebApi\EntityBaseController.cs" />
-    <Compile Include="WebApi\WebApiExceptionFilterAttribute.cs" />
+    <Compile Include="WebApi\Filter\WebApiExceptionFilterAttribute.cs" />
     <Compile Include="Entity\Attribute\AttrAttribute.cs" />
     <Compile Include="Elasticsearch\ESClientFactory.cs" />
   </ItemGroup>

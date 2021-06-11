@@ -9,9 +9,7 @@ using System.Web.Http;
 
 namespace SixpenceStudio.Core.DataService
 {
-    [Route("api/[controller]/[action]")]
-    [WebApiExceptionFilter]
-    public class DataServiceController : ApiController
+    public class DataServiceController : BaseController
     {
         /// <summary>
         /// 获取公钥

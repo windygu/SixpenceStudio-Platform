@@ -16,6 +16,7 @@ using SixpenceStudio.Core.Logging;
 using SixpenceStudio.Core.SysEntity;
 using SixpenceStudio.Core.SysEntity.SysAttrs;
 using SixpenceStudio.Core.Utils;
+using SixpenceStudio.Core.WebApi.Filter;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,7 +52,8 @@ namespace SixpenceStudio.Core
 
             // Web API 路由
             config.MapHttpAttributeRoutes();
-
+            config.Filters.Add(new WebApiTrackerAttribute());
+            config.Filters.Add(new WebApiExceptionFilterAttribute());
             RouteTable.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
