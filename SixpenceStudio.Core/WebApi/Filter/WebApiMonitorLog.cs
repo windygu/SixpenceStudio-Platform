@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http.Controllers;
 
 namespace SixpenceStudio.Core.WebApi.Filter
 {
     public class WebApiMonitorLog
     {
+        private HttpActionContext context;
+        public WebApiMonitorLog(HttpActionContext context)
+        {
+            this.context = context;
+        }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
 
@@ -31,11 +38,11 @@ namespace SixpenceStudio.Core.WebApi.Filter
         { 
             get 
             {
-                return System.Web.HttpContext.Current.Request.Url.ToString();
+                return context.Request.RequestUri.ToString();
             }
         }
 
-        public string HttpAction => System.Web.HttpContext.Current.Request.HttpMethod.ToString();
+        public string HttpAction => context.Request.Method.ToString();
 
         /// <summary>
         /// 获取监控指标日志

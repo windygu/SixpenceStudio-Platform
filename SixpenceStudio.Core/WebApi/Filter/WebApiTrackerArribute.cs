@@ -17,14 +17,13 @@ namespace SixpenceStudio.Core.WebApi.Filter
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             base.OnActionExecuting(actionContext);
-            WebApiMonitorLog MonLog = new WebApiMonitorLog();
+            WebApiMonitorLog MonLog = new WebApiMonitorLog(actionContext);
             MonLog.ExecuteStartTime = DateTime.Now;
             //获取Action 参数
             MonLog.ActionParams = actionContext.ActionArguments;
             MonLog.HttpRequestHeaders = actionContext.Request.Headers.ToString();
 
             actionContext.Request.Properties[Key] = MonLog;
-            var form = System.Web.HttpContext.Current.Request.Form;
             #region 如果参数是实体对象，获取序列化后的数据
             Stream stream = actionContext.Request.Content.ReadAsStreamAsync().Result;
             Encoding encoding = Encoding.UTF8;

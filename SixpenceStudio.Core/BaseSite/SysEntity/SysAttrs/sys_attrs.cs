@@ -16,6 +16,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private string _sys_attrsid;
         [DataMember]
+        [Attr("sys_attrsid", "实体字段id", AttrType.Varchar, 100)]
         public string sys_attrsId
         {
             get
@@ -35,6 +36,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private string _code;
         [DataMember]
+        [Attr("code", "编码", AttrType.Varchar, 100)]
         public string code
         {
             get
@@ -53,6 +55,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private string _entityid;
         [DataMember]
+        [Attr("entityid", "实体id", AttrType.Varchar, 100)]
         public string entityid
         {
             get
@@ -71,6 +74,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private string _entityidname;
         [DataMember]
+        [Attr("entityidname", "实体名", AttrType.Varchar, 100)]
         public string entityidname
         {
             get
@@ -89,6 +93,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private string _attr_type;
         [DataMember]
+        [Attr("attr_type", "字段类型", AttrType.Varchar, 100)]
         public string attr_type
         {
             get
@@ -107,6 +112,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private int? _attr_length;
         [DataMember]
+        [Attr("attr_length", "字段长度", AttrType.Int4)]
         public int? attr_length
         {
             get
@@ -125,6 +131,7 @@ namespace SixpenceStudio.Core.SysEntity.SysAttrs
         /// </summary>
         private bool _isrequire;
         [DataMember]
+        [Attr("isrequire", "是否必填", AttrType.Int4)]
         public bool isrequire
         {
             get

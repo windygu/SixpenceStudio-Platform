@@ -112,33 +112,42 @@ WHERE user_infoid = @id;
         /// <returns></returns>
         public int ValidateTicket(string encryptTicket, out string userId)
         {
-            // 解密Ticket
-            var strTicket = FormsAuthentication.Decrypt(encryptTicket);
-
-            var user = strTicket.UserData;
-            var expireation = strTicket.Expiration;
-            var expired = strTicket.Expired;
-            var issueDate = strTicket.IssueDate;
-
-            // 从Ticket里面获取用户名和密码
-            var index = user.IndexOf("&");
-            string userStr = user.Substring(0, index);
-            string pwdStr = user.Substring(index + 1);
-
-            var data = GetData(userStr, pwdStr);
-            userId = data.Id;
-            if (expired)
+            try
             {
-                return 403;
+                // 解密Ticket
+                var strTicket = FormsAuthentication.Decrypt(encryptTicket);
+
+                var user = strTicket.UserData;
+                var expireation = strTicket.Expiration;
+                var expired = strTicket.Expired;
+                var issueDate = strTicket.IssueDate;
+
+                // 从Ticket里面获取用户名和密码
+                var index = user.IndexOf("&");
+                string userStr = user.Substring(0, index);
+                string pwdStr = user.Substring(index + 1);
+
+                var data = GetData(userStr, pwdStr);
+                userId = data.Id;
+                if (expired)
+                {
+                    return 403;
+                }
+                else if (data == null)
+                {
+                    return 401;
+                }
+                else
+                {
+                    return 200;
+                }
             }
-            else if (data == null)
+            catch
             {
+                userId = null;
                 return 401;
             }
-            else
-            {
-                return 200;
-            }
+
         }
 
         public auth_user GetDataByCode(string code)

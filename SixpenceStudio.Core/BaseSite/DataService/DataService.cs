@@ -73,33 +73,5 @@ namespace SixpenceStudio.Core.DataService
             var result = HttpUtil.Get("https://api.ixiaowai.cn/api/api.php?return=json");
             return result;
         }
-
-        /// <summary>
-        /// 测试是否是合法用户
-        /// </summary>
-        /// <returns></returns>
-        public bool Test()
-        {
-            var authorization = HttpContext.Current.Request.Headers["Authorization"];
-            if (authorization != null)
-            {
-                authorization = authorization.Replace("BasicAuth ", "");
-                if (string.IsNullOrEmpty(authorization))
-                {
-                    return false;
-                }
-
-                try
-                {
-                    return new AuthUserService().ValidateTicket(authorization, out var userId) == 200;
-                }
-                catch (Exception ex)
-                {
-                    LogUtils.Error("验证身份失败", ex);
-                    return false;
-                }
-            }
-            return false;
-        }
     }
 }

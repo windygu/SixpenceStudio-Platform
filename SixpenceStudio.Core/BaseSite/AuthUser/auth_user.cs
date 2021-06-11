@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Entity;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace SixpenceStudio.Core.AuthUser
@@ -150,6 +151,17 @@ namespace SixpenceStudio.Core.AuthUser
                 this._is_lockName = value;
                 SetAttributeValue("is_lockName", value);
             }
+        }
+
+        public override IEnumerable<BaseEntity> GetInitialData()
+        {
+            var adminCode = "00000000-0000-0000-0000-000000000000";
+            var Anonymous = "111111111-11111-1111-1111-111111111111";
+            return new List<auth_user>()
+            {
+                new auth_user() { Id = adminCode, code = "admin", name = "系统管理员", is_lock = false, roleid = adminCode, roleidName = "系统管理员", password = "4297f44b13955235245b2497399d7a93", user_infoid = adminCode },
+                new auth_user() { Id = Anonymous, code = "anonymous", name = "访客", is_lock = false, roleid = Anonymous, roleidName = "访客", password = "4297f44b13955235245b2497399d7a93", user_infoid = Anonymous },
+            };
         }
     }
 }

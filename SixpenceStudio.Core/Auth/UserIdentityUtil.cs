@@ -55,26 +55,6 @@ namespace SixpenceStudio.Core.Auth
         }
 
         private static readonly object lockAnonymousObject = new Object();
-        /// <summary>
-        /// 获取匿名用户对象
-        /// </summary>
-        /// <returns></returns>
-        public static CurrentUserModel GetAnonymous()
-        {
-            var data = MemoryCacheUtil.GetCacheItem<auth_user>("auth_user_anonymous");
-            if (data == null)
-            {
-                lock (lockAnonymousObject)
-                {
-                    if (data == null)
-                    {
-                        data = new AuthUserService().GetDataByCode("Anonymous");
-                        MemoryCacheUtil.Set("auth_user_anonymous", data, 3600 * 24);
-                    }
-                }
-            }
-            return data.ToCurrentUserModel();
-        }
 
         /// <summary>
         /// 获取管理员对象
@@ -87,6 +67,20 @@ namespace SixpenceStudio.Core.Auth
                 Code = "admin",
                 Id = "00000000-0000-0000-0000-000000000000",
                 Name = "系统管理员"
+            };
+        }
+
+        /// <summary>
+        /// 获取匿名用户对象
+        /// </summary>
+        /// <returns></returns>
+        public static CurrentUserModel GetAnonymous()
+        {
+            return new CurrentUserModel()
+            {
+                Code = "anonymous",
+                Id = "111111111-11111-1111-1111-111111111111",
+                Name = "访客"
             };
         }
     }

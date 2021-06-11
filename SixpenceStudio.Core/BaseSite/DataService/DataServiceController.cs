@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Auth;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.DataService.Models;
 using SixpenceStudio.Core.WebApi;
 using System;
@@ -41,7 +42,15 @@ namespace SixpenceStudio.Core.DataService
         [HttpGet, AllowAnonymous]
         public bool Test()
         {
-            return new DataService().Test();
+            var token = ControllerContext.Request.Headers.Authorization;
+            if (string.IsNullOrEmpty(token.Parameter))
+            {
+                return false;
+            }
+            else
+            {
+                return new AuthUserService().ValidateTicket(token.Parameter, out var userId) == 200;
+            }
         }
 
         /// <summary>
