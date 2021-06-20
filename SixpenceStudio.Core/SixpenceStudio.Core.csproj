@@ -259,7 +259,9 @@
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FolderTypeExtension.cs" />
     <Compile Include="Extensions\StreamExtension.cs" />
-    <Compile Include="IStartup.cs" />
+    <Compile Include="Startup\EntityStartup.cs" />
+    <Compile Include="Startup\IoCStartup.cs" />
+    <Compile Include="Startup\IStartup.cs" />
     <Compile Include="Job\DynamicJobAttribute.cs" />
     <Compile Include="Job\DynamicJobBase.cs" />
     <Compile Include="Job\JobExtension.cs" />
@@ -340,12 +342,15 @@
     <Compile Include="IoC\UnityRegisterAttribute.cs" />
     <Compile Include="Logging\LogFactory.cs" />
     <Compile Include="Logging\LogUtils.cs" />
+    <Compile Include="Startup\JobStartup.cs" />
+    <Compile Include="Startup\RoleStartup.cs" />
+    <Compile Include="Startup\WebApiStartup.cs" />
     <Compile Include="WebApi\Filter\WebApiMonitorLog.cs" />
     <Compile Include="WebApi\Filter\WebApiTrackerArribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Socket\SocketController.cs" />
     <Compile Include="SpException.cs" />
-    <Compile Include="Startup.cs" />
+    <Compile Include="Startup\Startup.cs" />
     <Compile Include="Store\IStoreStrategy.cs" />
     <Compile Include="Store\StoreSection.cs" />
     <Compile Include="Utils\AssemblyUtil.cs" />

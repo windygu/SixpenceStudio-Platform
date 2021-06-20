@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixpenceStudio.Core
+namespace SixpenceStudio.Core.Startup
 {
     /// <summary>
     /// 启动类（项目可以根据需求实现启动类）

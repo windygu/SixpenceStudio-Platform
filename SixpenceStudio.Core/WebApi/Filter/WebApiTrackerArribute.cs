@@ -27,7 +27,10 @@ namespace SixpenceStudio.Core.WebApi.Filter
             #region 如果参数是实体对象，获取序列化后的数据
             Stream stream = actionContext.Request.Content.ReadAsStreamAsync().Result;
             Encoding encoding = Encoding.UTF8;
-            stream.Position = 0;
+            if (stream.CanSeek)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
             string responseData = "";
             using (StreamReader reader = new StreamReader(stream, encoding))
             {
