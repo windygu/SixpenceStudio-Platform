@@ -1,5 +1,5 @@
 ﻿using Microsoft.Owin.Hosting;
-using SixpenceStudio.Core;
+using SixpenceStudio.Core.Startup;
 using System;
 
 namespace SixpenceStudio.Portal
