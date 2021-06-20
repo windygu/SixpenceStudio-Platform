@@ -8,6 +8,7 @@ using SixpenceStudio.Core;
 using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Job;
 using SixpenceStudio.Core.Logging;
+using SixpenceStudio.Core.Startup;
 using SixpenceStudio.WeChat.RobotMessageTask;
 
 namespace SixpenceStudio.WeChat
