@@ -243,9 +243,11 @@
     <Compile Include="BaseSite\SysEntity\SysEntityPlugin.cs" />
     <Compile Include="BaseSite\UserInfo\UserInfoPartial.cs" />
     <Compile Include="Data\DBClient\DbClientProxy.cs" />
+    <Compile Include="Data\DBClient\DbConnectionFactory.cs" />
     <Compile Include="Data\DBClient\DBSection.cs" />
     <Compile Include="Data\Dialect\IDBDialect.cs" />
-    <Compile Include="Data\Dialect\PostgresDialect.cs" />
+    <Compile Include="Data\Dialect\MySqlDialect.cs" />
+    <Compile Include="Data\Dialect\PostgresqlDialect.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerBeforeCreateOrUpdate.cs" />
     <Compile Include="Data\PersistBroker\IPersistBrokerAccessExtension.cs" />
     <Compile Include="Entity\Attribute\EntityAttribute.cs" />

@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Data.Dialect
 {
+    [UnityRegister]
     public interface IDBDialect
     {
         string CreateTable(string name);

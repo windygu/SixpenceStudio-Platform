@@ -14,10 +14,10 @@ namespace SixpenceStudio.Core.Data
         /// Generate Broker
         /// </summary>
         /// <param name="readonly">只读</param>
-        internal PersistBroker(string connectionString)
+        internal PersistBroker(string connectionString, DriverType driverType = DriverType.Postgresql)
         {
             _dbClient = new DbClientProxy();
-            _dbClient.Initialize(connectionString);
+            _dbClient.Initialize(connectionString, driverType);
         }
 
         /// <summary>

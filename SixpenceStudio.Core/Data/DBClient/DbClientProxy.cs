@@ -125,9 +125,9 @@ namespace SixpenceStudio.Core.Data
         /// 初始化
         /// </summary>
         /// <param name="connectinString"></param>
-        public void Initialize(string connectinString)
+        public void Initialize(string connectinString, DriverType driverType)
         {
-            dbClient.Initialize(connectinString);
+            dbClient.Initialize(connectinString, driverType);
         }
 
         /// <summary>

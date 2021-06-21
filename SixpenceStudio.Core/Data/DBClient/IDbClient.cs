@@ -9,8 +9,9 @@ namespace SixpenceStudio.Core.Data
         /// <summary>
         /// 初始化数据库的连接
         /// </summary>
-        /// <param name="connectinString">数据库的连接字符串</param>
-        void Initialize(string connectinString);
+        /// <param name="connectionString">数据库的连接字符串</param>
+        /// <param name="driverType">数据库驱动类型</param>
+        void Initialize(string connectionString, DriverType driverType);
 
         /// <summary>
         /// 数据库方言

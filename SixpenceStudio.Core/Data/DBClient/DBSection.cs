@@ -70,6 +70,16 @@ namespace SixpenceStudio.Core.Data.DBClient
         }
 
         /// <summary>
+        /// 驱动类型
+        /// </summary>
+        [ConfigurationProperty("driverType", DefaultValue = "Postgresql")]
+        public string DriverType
+        {
+            get { return (string)this["driverType"]; }
+            set { this["driverType"] = value; }
+        }
+
+        /// <summary>
         /// 值
         /// </summary>
         [ConfigurationProperty("value")]

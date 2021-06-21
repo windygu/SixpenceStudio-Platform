@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Configs;
 using SixpenceStudio.Core.Data.DBClient;
+using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,11 @@ namespace SixpenceStudio.Core.Data
     public static class PersistBrokerFactory
     {
         private static readonly object lockObj = new object();
+
         /// <summary>
         /// 缓存数据库链接字符串，避免重复读取开销
         /// </summary>
-        private static Dictionary<DBType, string> dbDic = new Dictionary<DBType, string>();
+        private static Dictionary<DBType, DBModel> dbDic = new Dictionary<DBType, DBModel>();
 
         /// <summary>
         /// 获取Broker
@@ -35,15 +37,17 @@ namespace SixpenceStudio.Core.Data
                     if (!dbDic.ContainsKey(dBType))
                     {
                         var config = ConfigFactory.GetConfig<DBSection>();
-                        var encryptionStr = config.ConfigCollection[DBType.Main.ToString()].Value;
-                        AssertUtil.CheckIsNullOrEmpty<SpException>(encryptionStr, "数据库连接字符串为空", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
-                        dbDic.Add(dBType, DecryptAndEncryptHelper.AESDecrypt(encryptionStr));
+                        AssertUtil.CheckBoolean<SpException>(config == null || !config.ConfigCollection.AllKeys.Contains(DBType.Main.ToString()), "未找到数据库配置", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
+                        var dbConfig = config.ConfigCollection[DBType.Main.ToString()];
+                        AssertUtil.CheckIsNullOrEmpty<SpException>(dbConfig.Value, "数据库连接字符串为空", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
+                        AssertUtil.CheckBoolean<SpException>(!Enum.TryParse<DriverType>(dbConfig.DriverType, out var driverType), "数据库类型错误", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
+                        dbDic.Add(dBType, new DBModel(DecryptAndEncryptHelper.AESDecrypt(dbConfig.Value), driverType));
                     }
                 }
             }
 
-            var connectionString = dbDic[dBType];
-            return new PersistBroker(connectionString);
+            var section = dbDic[dBType];
+            return new PersistBroker(section.ConnectionString, section.DriverType);
         }
 
         /// <summary>
@@ -52,14 +56,29 @@ namespace SixpenceStudio.Core.Data
         /// <param name="connectionString">连接字符串</param>
         /// <param name="isEncrypted">是否加密（仅支持AES）</param>
         /// <returns></returns>
-        public static IPersistBroker GetPersistBroker(string connectionString, bool isEncrypted = false)
+        public static IPersistBroker GetPersistBroker(string connectionString, bool isEncrypted = false, DriverType driverType = DriverType.Postgresql)
         {
             AssertUtil.CheckIsNullOrEmpty<SpException>(connectionString, "数据库连接字符串为空", "AD4BC4F2-CF8D-4A4E-ACE8-F68EBD89DE42");
             if (isEncrypted)
             {
-                return new PersistBroker(DecryptAndEncryptHelper.AESDecrypt(connectionString));
+                return new PersistBroker(DecryptAndEncryptHelper.AESDecrypt(connectionString), driverType);
             }
-            return new PersistBroker(connectionString);
+            return new PersistBroker(connectionString, driverType);
+        }
+
+        /// <summary>
+        /// 数据库节点
+        /// </summary>
+        class DBModel
+        {
+            public DBModel(string connectionString, DriverType driverType)
+            {
+                this.ConnectionString = connectionString;
+                this.DriverType = driverType;
+            }
+
+            public string ConnectionString { get; set; }
+            public DriverType DriverType { get; set; }
         }
     }
 
@@ -78,5 +97,11 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         [Description("从库")]
         StandBy
+    }
+
+    public enum DriverType
+    {
+        Postgresql,
+        Mysql
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixpenceStudio.Core.Data.Dialect
 {
-    public class PostgresDialect : IDBDialect
+    public class PostgresqlDialect : IDBDialect
     {
         public string CreateRole(string name)
         {

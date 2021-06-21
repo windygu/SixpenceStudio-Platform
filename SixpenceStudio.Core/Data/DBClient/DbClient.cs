@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Npgsql;
 using SixpenceStudio.Core.Data.Dialect;
+using SixpenceStudio.Core.Extensions;
+using SixpenceStudio.Core.IoC;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,15 +23,17 @@ namespace SixpenceStudio.Core.Data
         private DbConnection _conn;
         public IDbConnection DbConnection => _conn;
 
-        public IDBDialect Dialect => new PostgresDialect();
+        private IDBDialect dialect;
+        public IDBDialect Dialect => dialect;
 
         /// <summary>
         /// 初始化数据库连接
         /// </summary>
-        /// <param name="connectinString"></param>
-        public void Initialize(string connectinString)
+        /// <param name="connectionString"></param>
+        public void Initialize(string connectionString, DriverType driverType)
         {
-            _conn = new NpgsqlConnection(connectinString);
+            dialect = UnityContainerService.Resolve<IDBDialect>(name => name.ToLower().Contains(driverType.ToString().ToLower()));
+            _conn = DbConnectionFactory.GetDbConnection(driverType, connectionString);
         }
 
         /// <summary>
