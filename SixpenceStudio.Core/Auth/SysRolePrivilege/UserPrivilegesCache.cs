@@ -1,4 +1,5 @@
 ﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Data;
 using SixpenceStudio.Core.Extensions;
 using SixpenceStudio.Core.IoC;
@@ -29,7 +30,7 @@ namespace SixpenceStudio.Core.Auth.SysRolePrivilege
             return UserPrivliege.GetOrAdd(UserPrivilegesPrefix + userId, (key) =>
             {
                 var broker = PersistBrokerFactory.GetPersistBroker();
-                var user = broker.Retrieve<user_info>(userId);
+                var user = broker.Retrieve<auth_user>(userId);
                 return broker.RetrieveMultiple<sys_role_privilege>("select * from sys_role_privilege where sys_roleid = @id", new Dictionary<string, object>() { { "@id", user.roleid } }).ToList();
             });
         }

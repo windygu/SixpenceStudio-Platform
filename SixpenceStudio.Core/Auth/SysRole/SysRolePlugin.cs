@@ -1,5 +1,8 @@
 ﻿using SixpenceStudio.Core.Auth.SysRole.BasicRole;
 using SixpenceStudio.Core.Data;
+using SixpenceStudio.Core.Entity;
+using SixpenceStudio.Core.Extensions;
+using SixpenceStudio.Core.IoC;
 using SixpenceStudio.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -16,12 +19,18 @@ namespace SixpenceStudio.Core.Auth.SysRole
             if (context.EntityName != "sys_role") return;
 
             var obj = context.Entity as sys_role;
-            var basicRoleList = obj.GetInitialData().Select(item => item.Id);
+
             switch (context.Action)
             {
                 case EntityAction.PostCreate:
                     {
-                        AssertUtil.CheckBoolean<SpException>(obj.is_basic && !basicRoleList.Contains(obj.Id), "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        var providers = UnityContainerService.ResolveAll<IEntityInitialDataProvider>(e => e.Replace("InitialDataProvider", "").ToLower().Equals(obj.GetEntityName().Replace("_", "").ToLower()));
+                        if (!providers.IsEmpty())
+                        {
+                            var basicRoleList = new List<string>();
+                            providers.Each(item => basicRoleList.AddRange(item.GetInitialData().Select(e => e.Id)));
+                            AssertUtil.CheckBoolean<SpException>(obj.is_basic && !basicRoleList.Contains(obj.Id), "禁止添加基础角色", "D283AEBF-60CA-4DFF-B08D-6D3DD10AFBBA");
+                        }
                     }
                     break;
                 case EntityAction.PostUpdate:

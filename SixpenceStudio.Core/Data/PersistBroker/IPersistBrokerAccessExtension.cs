@@ -1,5 +1,6 @@
 ﻿using SixpenceStudio.Core.Auth;
 using SixpenceStudio.Core.Auth.SysRolePrivilege;
+using SixpenceStudio.Core.AuthUser;
 using SixpenceStudio.Core.Entity;
 using SixpenceStudio.Core.SysEntity;
 using SixpenceStudio.Core.UserInfo;
@@ -105,11 +106,10 @@ namespace SixpenceStudio.Core.Data
         /// </summary>
         /// <param name="broker"></param>
         /// <returns></returns>
-        public static string GetFilteredSql(this IPersistBroker broker)
+        public static string GetFilteredSql(this IPersistBroker broker, string ownerName = "createdBy")
         {
-            var user = broker.Retrieve<user_info>(UserIdentityUtil.GetCurrentUserId());
-            AssertUtil.CheckNull<SpException>(user, "无法获取当前用户", "11F1C19C-D69E-4A46-BAB6-BAE84E32F7B2");
-            return " AND {0}.createdByName = " + $"'{user.Id}'";
+            AssertUtil.CheckIsNullOrEmpty<SpException>(UserIdentityUtil.GetCurrentUserId(), "无法获取当前用户", "11F1C19C-D69E-4A46-BAB6-BAE84E32F7B2");
+            return " AND {0}." + ownerName + $" = '{UserIdentityUtil.GetCurrentUserId()}'";
         }
     }
 }

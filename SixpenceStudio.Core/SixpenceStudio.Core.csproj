@@ -216,9 +216,11 @@
     <Compile Include="Auth\SysRole\SysRoleExtension.cs" />
     <Compile Include="Auth\SysRole\BasicRole\User.cs" />
     <Compile Include="Auth\SysRole\SysRoleController.cs" />
+    <Compile Include="Auth\SysRole\SysRoleInitialDataProvider.cs" />
     <Compile Include="Auth\SysRole\SysRolePlugin.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserController.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserExtension.cs" />
+    <Compile Include="BaseSite\AuthUser\AuthUserInitialDataProvider.cs" />
     <Compile Include="BaseSite\AuthUser\AuthUserService.cs" />
     <Compile Include="BaseSite\AuthUser\auth_user.cs" />
     <Compile Include="BaseSite\AuthUser\LoginResponse.cs" />
@@ -241,6 +243,9 @@
     <Compile Include="BaseSite\SysEntity\EntityCache.cs" />
     <Compile Include="BaseSite\SysEntity\EntityRegisterJob.cs" />
     <Compile Include="BaseSite\SysEntity\SysEntityPlugin.cs" />
+    <Compile Include="BaseSite\SysMenu\SysMenuInitialDataProvider.cs" />
+    <Compile Include="BaseSite\SysParamGroup\SysParamGroupInitialDataProvider.cs" />
+    <Compile Include="BaseSite\SysParamGroup\SysParams\SysParamInitialDataProvider.cs" />
     <Compile Include="BaseSite\UserInfo\UserInfoPartial.cs" />
     <Compile Include="Data\DBClient\DbClientProxy.cs" />
     <Compile Include="Data\DBClient\DbConnectionFactory.cs" />
@@ -256,6 +261,7 @@
     <Compile Include="Entity\Custom\SelectOptionExtension.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\Custom\SelectOption.cs" />
+    <Compile Include="Entity\IEntityInitialDataProvider.cs" />
     <Compile Include="Entity\SpEntity.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />

@@ -297,15 +297,6 @@ namespace SixpenceStudio.Core.Entity
         }
 
         /// <summary>
-        /// 获取初始数据
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<BaseEntity> GetInitialData()
-        {
-            return new List<BaseEntity>();
-        }
-
-        /// <summary>
         /// 获取逻辑名
         /// </summary>
         /// <returns></returns>

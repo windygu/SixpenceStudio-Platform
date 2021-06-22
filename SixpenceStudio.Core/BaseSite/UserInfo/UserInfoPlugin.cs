@@ -39,7 +39,7 @@ namespace SixpenceStudio.Core.UserInfo
         {
             var authInfo = new auth_user()
             {
-                auth_userId = Guid.NewGuid().ToString(),
+                auth_userId = entity["user_infoId"]?.ToString(),
                 name = entity["name"]?.ToString(),
                 code = entity["code"]?.ToString(),
                 password = "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e", // TODO 取配置文件参数

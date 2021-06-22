@@ -52,10 +52,14 @@ CREATE TABLE public.{item.GetEntityName()} (
 #endif
 
                         // 初始化表数据
-                        var initialData = item.GetInitialData().ToList();
-                        if (initialData != null && initialData.Count() > 0)
+                        var providers = UnityContainerService.ResolveAll<IEntityInitialDataProvider>(e => e.Replace("InitialDataProvider", "").ToLower().Equals(item.GetEntityName().Replace("_", "").ToLower()));
+                        if (providers != null && providers.Count() > 0)
                         {
-                            initialData.ForEach(e => broker.Create(e));
+                            providers.Each(provider =>
+                            {
+                                var initialData = provider.GetInitialData();
+                                initialData.Each(e => broker.Create(e));
+                            });
 #if DEBUG
                             logger.Info($"实体{item.GetLogicalName()}（{item.GetEntityName()}）初始化数据成功");
 #endif
