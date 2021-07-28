@@ -1,4 +1,4 @@
-# SixpenceStudio+Platform
+# ~~SixpenceStudio Platform（弃用）~~
 
 ## Description
 
